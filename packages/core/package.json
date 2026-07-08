@@ -1,0 +1,44 @@
+{
+  "name": "@lit-material/core",
+  "version": "0.0.1",
+  "description": "Shared reactive controllers and helpers (ripple, focus-ring) for lit-material components.",
+  "license": "MIT",
+  "author": {
+    "name": "bohdaq",
+    "email": "bohdaq@gmail.com",
+    "url": "https://github.com/bohdaq"
+  },
+  "homepage": "https://github.com/bohdaq/lit-material#readme",
+  "bugs": "https://github.com/bohdaq/lit-material/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bohdaq/lit-material.git",
+    "directory": "packages/core"
+  },
+  "keywords": ["lit", "web-components", "lit-material", "reactive-controller", "ripple", "focus-ring"],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "lit": "^3.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

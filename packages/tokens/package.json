@@ -1,0 +1,43 @@
+{
+  "name": "@lit-material/tokens",
+  "version": "0.0.1",
+  "description": "Material Design 3 design tokens (color, type, shape, elevation, motion) for lit-material components.",
+  "license": "MIT",
+  "author": {
+    "name": "bohdaq",
+    "email": "bohdaq@gmail.com",
+    "url": "https://github.com/bohdaq"
+  },
+  "homepage": "https://github.com/bohdaq/lit-material#readme",
+  "bugs": "https://github.com/bohdaq/lit-material/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bohdaq/lit-material.git",
+    "directory": "packages/tokens"
+  },
+  "keywords": ["lit", "web-components", "lit-material", "material-design", "material-design-3", "design-tokens", "css-custom-properties"],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./css/*": "./src/css/*"
+  },
+  "files": [
+    "dist",
+    "src/css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

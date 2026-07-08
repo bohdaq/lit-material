@@ -1,0 +1,11 @@
+/*
+ * Material Design 3 baseline tokens for lit-material.
+ * Import this once at the document root — CSS custom properties inherit
+ * through shadow boundaries, so every lit-material component picks it up.
+ */
+@import "./color.css";
+@import "./shape.css";
+@import "./typescale.css";
+@import "./elevation.css";
+@import "./state.css";
+@import "./motion.css";

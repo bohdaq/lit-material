@@ -1,0 +1,11 @@
+/*
+ * Material Design 3 motion — easing and duration tokens (subset).
+ * https://m3.material.io/styles/motion/easing-and-duration/tokens-specs
+ */
+:host,
+:root {
+  --md-sys-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --md-sys-motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --md-sys-motion-duration-short2: 100ms;
+  --md-sys-motion-duration-medium1: 250ms;
+}

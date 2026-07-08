@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>lit-material — Button</title>
+    <style>
+      body {
+        font-family: Roboto, system-ui, sans-serif;
+        background: var(--md-sys-color-background);
+        color: var(--md-sys-color-on-background);
+        padding: 2rem;
+      }
+
+      section {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      h2 {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>lit-material · Button</h1>
+
+    <section>
+      <h2>Variants</h2>
+      <lit-material-button variant="filled">Filled</lit-material-button>
+      <lit-material-button variant="tonal">Tonal</lit-material-button>
+      <lit-material-button variant="elevated">Elevated</lit-material-button>
+      <lit-material-button variant="outlined">Outlined</lit-material-button>
+      <lit-material-button variant="text">Text</lit-material-button>
+    </section>
+
+    <section>
+      <h2>Disabled</h2>
+      <lit-material-button variant="filled" disabled>Filled</lit-material-button>
+      <lit-material-button variant="tonal" disabled>Tonal</lit-material-button>
+      <lit-material-button variant="elevated" disabled>Elevated</lit-material-button>
+      <lit-material-button variant="outlined" disabled>Outlined</lit-material-button>
+      <lit-material-button variant="text" disabled>Text</lit-material-button>
+    </section>
+
+    <section>
+      <h2>With icon</h2>
+      <lit-material-button variant="filled">
+        <span slot="icon" aria-hidden="true">★</span>
+        Favorite
+      </lit-material-button>
+    </section>
+
+    <section>
+      <h2>Link button</h2>
+      <lit-material-button variant="filled" href="https://lit.dev" target="_blank">
+        Open lit.dev
+      </lit-material-button>
+    </section>
+
+    <section>
+      <h2>Form participation</h2>
+      <form id="demo-form">
+        <input name="example" value="hello" />
+        <lit-material-button type="submit" variant="filled">Submit</lit-material-button>
+        <lit-material-button type="reset" variant="text">Reset</lit-material-button>
+      </form>
+      <pre id="submit-log"></pre>
+    </section>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
