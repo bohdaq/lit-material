@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button</title>
+    <title>lit-material — Button & Icon Button</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -69,6 +69,39 @@
         <lit-material-button type="reset" variant="text">Reset</lit-material-button>
       </form>
       <pre id="submit-log"></pre>
+    </section>
+
+    <section>
+      <h2>Icon button — variants</h2>
+      <lit-material-icon-button variant="standard" aria-label="Search">🔍</lit-material-icon-button>
+      <lit-material-icon-button variant="filled" aria-label="Add">＋</lit-material-icon-button>
+      <lit-material-icon-button variant="tonal" aria-label="Filter">▽</lit-material-icon-button>
+      <lit-material-icon-button variant="outlined" aria-label="Edit">✎</lit-material-icon-button>
+    </section>
+
+    <section>
+      <h2>Icon button — disabled</h2>
+      <lit-material-icon-button variant="standard" aria-label="Search" disabled>🔍</lit-material-icon-button>
+      <lit-material-icon-button variant="filled" aria-label="Add" disabled>＋</lit-material-icon-button>
+      <lit-material-icon-button variant="tonal" aria-label="Filter" disabled>▽</lit-material-icon-button>
+      <lit-material-icon-button variant="outlined" aria-label="Edit" disabled>✎</lit-material-icon-button>
+    </section>
+
+    <section>
+      <h2>Icon button — toggle (click to flip state)</h2>
+      <lit-material-icon-button toggle aria-label="Mute">
+        <span slot="icon">🔇</span>
+        <span slot="selected-icon">🔊</span>
+      </lit-material-icon-button>
+      <lit-material-icon-button toggle variant="filled" aria-label="Favorite">
+        <span slot="icon">♡</span>
+        <span slot="selected-icon">♥</span>
+      </lit-material-icon-button>
+    </section>
+
+    <section>
+      <h2>Icon button — link</h2>
+      <lit-material-icon-button aria-label="Open lit.dev" href="https://lit.dev" target="_blank">↗</lit-material-icon-button>
     </section>
 
     <script type="module" src="/src/main.ts"></script>
