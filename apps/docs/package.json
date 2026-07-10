@@ -11,6 +11,7 @@
   "dependencies": {
     "@lit-material/button": "workspace:*",
     "@lit-material/icon-button": "workspace:*",
+    "@lit-material/text-field": "workspace:*",
     "@lit-material/tokens": "workspace:*"
   },
   "devDependencies": {

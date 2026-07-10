@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button</title>
+    <title>lit-material — Button & Icon Button & Text Field</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -102,6 +102,34 @@
     <section>
       <h2>Icon button — link</h2>
       <lit-material-icon-button aria-label="Open lit.dev" href="https://lit.dev" target="_blank">↗</lit-material-icon-button>
+    </section>
+
+    <section>
+      <h2>Text field — filled</h2>
+      <lit-material-text-field variant="filled" label="Email" type="email" supporting-text="We'll never share your email"></lit-material-text-field>
+    </section>
+
+    <section>
+      <h2>Text field — outlined</h2>
+      <lit-material-text-field variant="outlined" label="Name" required error-text="Required"></lit-material-text-field>
+    </section>
+
+    <section>
+      <h2>Text field — with counter & icons</h2>
+      <lit-material-text-field variant="outlined" label="Bio" maxlength="40">
+        <span slot="leading-icon" aria-hidden="true">✏️</span>
+        <span slot="trailing-icon" aria-hidden="true">😀</span>
+      </lit-material-text-field>
+    </section>
+
+    <section>
+      <h2>Text field — prefix / suffix</h2>
+      <lit-material-text-field variant="filled" label="Price" prefix="$" suffix=".00" type="number"></lit-material-text-field>
+    </section>
+
+    <section>
+      <h2>Text field — disabled</h2>
+      <lit-material-text-field variant="filled" label="Locked" value="read-only" disabled></lit-material-text-field>
     </section>
 
     <script type="module" src="/src/main.ts"></script>
