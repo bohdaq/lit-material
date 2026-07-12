@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -198,6 +198,70 @@
       <h2>Switch — disabled</h2>
       <lit-material-switch aria-label="Disabled unchecked" disabled></lit-material-switch>
       <lit-material-switch aria-label="Disabled checked" disabled checked></lit-material-switch>
+    </section>
+
+    <section>
+      <h2>Chip — assist / suggestion / elevated / link</h2>
+      <lit-material-chip>Assist</lit-material-chip>
+      <lit-material-chip variant="suggestion">Suggestion</lit-material-chip>
+      <lit-material-chip elevated>Elevated</lit-material-chip>
+      <lit-material-chip href="https://lit.dev" target="_blank">Open lit.dev</lit-material-chip>
+    </section>
+
+    <section>
+      <h2>Chip — filter (click to toggle selection)</h2>
+      <lit-material-chip variant="filter">Spicy</lit-material-chip>
+      <lit-material-chip variant="filter" selected>Vegetarian</lit-material-chip>
+      <lit-material-chip variant="filter">
+        <span slot="leading-icon" aria-hidden="true">🌱</span>
+        Vegan
+      </lit-material-chip>
+    </section>
+
+    <section>
+      <h2>Chip — input (removable; click × to remove)</h2>
+      <lit-material-chip variant="input" removable>Tag one</lit-material-chip>
+      <lit-material-chip variant="input" removable>Tag two</lit-material-chip>
+      <lit-material-chip variant="input" removable>Tag three</lit-material-chip>
+    </section>
+
+    <section>
+      <h2>Chip — disabled</h2>
+      <lit-material-chip disabled>Assist</lit-material-chip>
+      <lit-material-chip variant="filter" selected disabled>Selected</lit-material-chip>
+      <lit-material-chip variant="input" removable disabled>Tag</lit-material-chip>
+    </section>
+
+    <section>
+      <h2>Card — elevated / filled / outlined (static containers)</h2>
+      <lit-material-card variant="elevated" style="width: 200px;">
+        <strong>Elevated</strong>
+        <p>Holds its own content and buttons; the card itself isn't clickable.</p>
+      </lit-material-card>
+      <lit-material-card variant="filled" style="width: 200px;">
+        <strong>Filled</strong>
+        <p>Solid surface container, no border or shadow.</p>
+      </lit-material-card>
+      <lit-material-card variant="outlined" style="width: 200px;">
+        <strong>Outlined</strong>
+        <p>Transparent surface with a visible border.</p>
+      </lit-material-card>
+    </section>
+
+    <section>
+      <h2>Card — interactive (whole card is clickable) / link / disabled</h2>
+      <lit-material-card interactive variant="elevated" style="width: 200px;">
+        <strong>Select plan</strong>
+        <p>Click anywhere on this card.</p>
+      </lit-material-card>
+      <lit-material-card href="https://lit.dev" target="_blank" variant="outlined" style="width: 200px;">
+        <strong>Open lit.dev</strong>
+        <p>Renders as a link.</p>
+      </lit-material-card>
+      <lit-material-card interactive disabled variant="elevated" style="width: 200px;">
+        <strong>Disabled</strong>
+        <p>Not clickable.</p>
+      </lit-material-card>
     </section>
 
     <script type="module" src="/src/main.ts"></script>

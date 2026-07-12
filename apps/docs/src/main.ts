@@ -5,6 +5,8 @@ import "@lit-material/text-field";
 import "@lit-material/checkbox";
 import "@lit-material/radio";
 import "@lit-material/switch";
+import "@lit-material/chip";
+import "@lit-material/card";
 
 const form = document.querySelector<HTMLFormElement>("#demo-form");
 const log = document.querySelector<HTMLPreElement>("#submit-log");

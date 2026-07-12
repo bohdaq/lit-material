@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@lit-material/button": "workspace:*",
+    "@lit-material/card": "workspace:*",
     "@lit-material/checkbox": "workspace:*",
+    "@lit-material/chip": "workspace:*",
     "@lit-material/icon-button": "workspace:*",
     "@lit-material/radio": "workspace:*",
     "@lit-material/switch": "workspace:*",
