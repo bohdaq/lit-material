@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -150,6 +150,25 @@
       <lit-material-checkbox aria-label="Disabled unchecked" disabled></lit-material-checkbox>
       <lit-material-checkbox aria-label="Disabled checked" disabled checked></lit-material-checkbox>
       <lit-material-checkbox aria-label="Disabled indeterminate" disabled indeterminate></lit-material-checkbox>
+    </section>
+
+    <section>
+      <h2>Radio — group (click or arrow keys to change selection)</h2>
+      <lit-material-radio name="size-demo" value="s" aria-label="Small"></lit-material-radio>
+      <lit-material-radio name="size-demo" value="m" aria-label="Medium" checked></lit-material-radio>
+      <lit-material-radio name="size-demo" value="l" aria-label="Large"></lit-material-radio>
+    </section>
+
+    <section>
+      <h2>Radio — error</h2>
+      <lit-material-radio name="plan-demo" value="a" error aria-label="Plan A"></lit-material-radio>
+      <lit-material-radio name="plan-demo" value="b" error checked aria-label="Plan B"></lit-material-radio>
+    </section>
+
+    <section>
+      <h2>Radio — disabled</h2>
+      <lit-material-radio name="tier-demo" value="a" disabled aria-label="Disabled unchecked"></lit-material-radio>
+      <lit-material-radio name="tier-demo" value="b" disabled checked aria-label="Disabled checked"></lit-material-radio>
     </section>
 
     <script type="module" src="/src/main.ts"></script>

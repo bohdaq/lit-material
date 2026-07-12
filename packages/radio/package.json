@@ -1,0 +1,54 @@
+{
+  "name": "@lit-material/radio",
+  "version": "0.0.1",
+  "description": "Material Design 3 radio button web component (grouped selection, error, and form participation).",
+  "license": "MIT",
+  "author": {
+    "name": "bohdaq",
+    "email": "bohdaq@gmail.com",
+    "url": "https://github.com/bohdaq"
+  },
+  "homepage": "https://github.com/bohdaq/lit-material#readme",
+  "bugs": "https://github.com/bohdaq/lit-material/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bohdaq/lit-material.git",
+    "directory": "packages/radio"
+  },
+  "keywords": ["lit", "web-components", "lit-material", "material-design", "material-design-3", "radio", "form"],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "web-test-runner && node --import tsx --test src/radio.ssr.test.ts"
+  },
+  "dependencies": {
+    "@lit-material/core": "workspace:*",
+    "@lit-material/tokens": "workspace:*",
+    "lit": "^3.2.0"
+  },
+  "devDependencies": {
+    "@lit-labs/ssr": "^3.3.1",
+    "@open-wc/testing": "^4.0.0",
+    "@web/dev-server-esbuild": "^1.0.0",
+    "@web/test-runner": "^0.19.0",
+    "@web/test-runner-commands": "^0.9.0",
+    "@web/test-runner-playwright": "^0.11.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
