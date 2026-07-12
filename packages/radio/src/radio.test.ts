@@ -196,4 +196,21 @@ describe("lit-material-radio", () => {
     );
     await expect(el).to.be.accessible();
   });
+
+  it("marks the state layer as pressed on pointerdown", async () => {
+    const el = await fixture<LitMaterialRadio>(html`<lit-material-radio aria-label="Small"></lit-material-radio>`);
+    const input = el.shadowRoot!.querySelector("input")!;
+    const rect = input.getBoundingClientRect();
+    input.dispatchEvent(
+      new PointerEvent("pointerdown", {
+        button: 0,
+        clientX: rect.x + 1,
+        clientY: rect.y + 1,
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    const stateLayer = el.shadowRoot!.querySelector(".state-layer")!;
+    expect(stateLayer.hasAttribute("data-pressed")).to.be.true;
+  });
 });

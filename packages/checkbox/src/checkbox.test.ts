@@ -149,4 +149,23 @@ describe("lit-material-checkbox", () => {
     );
     await expect(el).to.be.accessible();
   });
+
+  it("marks the state layer as pressed on pointerdown", async () => {
+    const el = await fixture<LitMaterialCheckbox>(
+      html`<lit-material-checkbox aria-label="Accept"></lit-material-checkbox>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    const rect = input.getBoundingClientRect();
+    input.dispatchEvent(
+      new PointerEvent("pointerdown", {
+        button: 0,
+        clientX: rect.x + 1,
+        clientY: rect.y + 1,
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    const stateLayer = el.shadowRoot!.querySelector(".state-layer")!;
+    expect(stateLayer.hasAttribute("data-pressed")).to.be.true;
+  });
 });

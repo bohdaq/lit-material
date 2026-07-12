@@ -148,4 +148,21 @@ describe("lit-material-chip", () => {
     const el = await fixture<LitMaterialChip>(html`<lit-material-chip removable>Tag</lit-material-chip>`);
     await expect(el).to.be.accessible();
   });
+
+  it("marks the state layer as pressed on pointerdown", async () => {
+    const el = await fixture<LitMaterialChip>(html`<lit-material-chip>Filter</lit-material-chip>`);
+    const button = el.shadowRoot!.querySelector("button.action")!;
+    const rect = button.getBoundingClientRect();
+    button.dispatchEvent(
+      new PointerEvent("pointerdown", {
+        button: 0,
+        clientX: rect.x + 1,
+        clientY: rect.y + 1,
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    const stateLayer = el.shadowRoot!.querySelector(".state-layer")!;
+    expect(stateLayer.hasAttribute("data-pressed")).to.be.true;
+  });
 });

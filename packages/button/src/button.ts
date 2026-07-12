@@ -43,7 +43,7 @@ export class LitMaterialButton extends LitElement {
   @property() href = "";
   @property() target = "";
 
-  @query(".button") private readonly buttonElement?: HTMLButtonElement | HTMLAnchorElement;
+  @query(".state-layer") private readonly stateLayerElement?: HTMLElement;
 
   private readonly internals: ElementInternals;
   private readonly ripple = new RippleController(this);
@@ -56,8 +56,8 @@ export class LitMaterialButton extends LitElement {
   }
 
   protected override firstUpdated(): void {
-    if (this.buttonElement) {
-      this.ripple.attach(this.buttonElement);
+    if (this.stateLayerElement) {
+      this.ripple.attach(this.stateLayerElement);
     }
   }
 

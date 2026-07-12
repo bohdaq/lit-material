@@ -48,6 +48,7 @@ export class LitMaterialRadio extends LitElement {
   @property({ attribute: "aria-labelledby" }) ariaLabelledBy: string | null = null;
 
   @query(".native-control") private readonly inputElement?: HTMLInputElement;
+  @query(".state-layer") private readonly stateLayerElement?: HTMLElement;
 
   private readonly internals: ElementInternals;
   private readonly ripple = new RippleController(this);
@@ -64,8 +65,8 @@ export class LitMaterialRadio extends LitElement {
   }
 
   protected override firstUpdated(): void {
-    if (this.inputElement) {
-      this.ripple.attach(this.inputElement);
+    if (this.stateLayerElement) {
+      this.ripple.attach(this.stateLayerElement);
     }
     this.syncInternals();
   }

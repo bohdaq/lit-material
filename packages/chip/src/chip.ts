@@ -43,13 +43,13 @@ export class LitMaterialChip extends LitElement {
   @property() href = "";
   @property() target = "";
 
-  @query(".action") private readonly actionElement?: HTMLButtonElement | HTMLAnchorElement;
+  @query(".state-layer") private readonly stateLayerElement?: HTMLElement;
 
   private readonly ripple = new RippleController(this);
 
   protected override firstUpdated(): void {
-    if (this.actionElement) {
-      this.ripple.attach(this.actionElement);
+    if (this.stateLayerElement) {
+      this.ripple.attach(this.stateLayerElement);
     }
   }
 

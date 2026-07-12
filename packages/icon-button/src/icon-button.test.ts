@@ -170,4 +170,23 @@ describe("lit-material-icon-button", () => {
     );
     await expect(el).to.be.accessible();
   });
+
+  it("marks the state layer as pressed on pointerdown", async () => {
+    const el = await fixture<LitMaterialIconButton>(
+      html`<lit-material-icon-button aria-label="Search"><span slot="icon" aria-hidden="true">🔍</span></lit-material-icon-button>`,
+    );
+    const button = el.shadowRoot!.querySelector("button")!;
+    const rect = button.getBoundingClientRect();
+    button.dispatchEvent(
+      new PointerEvent("pointerdown", {
+        button: 0,
+        clientX: rect.x + 1,
+        clientY: rect.y + 1,
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    const stateLayer = el.shadowRoot!.querySelector(".state-layer")!;
+    expect(stateLayer.hasAttribute("data-pressed")).to.be.true;
+  });
 });

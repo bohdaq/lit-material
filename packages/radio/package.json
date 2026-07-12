@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/radio",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Material Design 3 radio button web component (grouped selection, error, and form participation).",
   "license": "MIT",
   "author": {

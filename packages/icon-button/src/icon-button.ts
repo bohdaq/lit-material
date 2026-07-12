@@ -47,7 +47,7 @@ export class LitMaterialIconButton extends LitElement {
   @property({ attribute: "aria-label" }) ariaLabel: string | null = null;
   @property({ attribute: "aria-labelledby" }) ariaLabelledBy: string | null = null;
 
-  @query(".button") private readonly buttonElement?: HTMLButtonElement | HTMLAnchorElement;
+  @query(".state-layer") private readonly stateLayerElement?: HTMLElement;
 
   private readonly internals: ElementInternals;
   private readonly ripple = new RippleController(this);
@@ -59,8 +59,8 @@ export class LitMaterialIconButton extends LitElement {
   }
 
   protected override firstUpdated(): void {
-    if (this.buttonElement) {
-      this.ripple.attach(this.buttonElement);
+    if (this.stateLayerElement) {
+      this.ripple.attach(this.stateLayerElement);
     }
   }
 
