@@ -4,6 +4,7 @@ import "@lit-material/icon-button";
 import "@lit-material/text-field";
 import "@lit-material/checkbox";
 import "@lit-material/radio";
+import "@lit-material/switch";
 
 const form = document.querySelector<HTMLFormElement>("#demo-form");
 const log = document.querySelector<HTMLPreElement>("#submit-log");

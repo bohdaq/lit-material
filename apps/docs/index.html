@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -169,6 +169,35 @@
       <h2>Radio — disabled</h2>
       <lit-material-radio name="tier-demo" value="a" disabled aria-label="Disabled unchecked"></lit-material-radio>
       <lit-material-radio name="tier-demo" value="b" disabled checked aria-label="Disabled checked"></lit-material-radio>
+    </section>
+
+    <section>
+      <h2>Switch — unchecked / checked</h2>
+      <lit-material-switch aria-label="Wi-Fi"></lit-material-switch>
+      <lit-material-switch aria-label="Bluetooth" checked></lit-material-switch>
+    </section>
+
+    <section>
+      <h2>Switch — with thumb icons</h2>
+      <lit-material-switch aria-label="Notifications off">
+        <span slot="icon" aria-hidden="true">✕</span>
+      </lit-material-switch>
+      <lit-material-switch aria-label="Notifications on" checked>
+        <span slot="icon" aria-hidden="true">✕</span>
+        <span slot="selected-icon" aria-hidden="true">✓</span>
+      </lit-material-switch>
+    </section>
+
+    <section>
+      <h2>Switch — error</h2>
+      <lit-material-switch aria-label="Error unchecked" error></lit-material-switch>
+      <lit-material-switch aria-label="Error checked" error checked></lit-material-switch>
+    </section>
+
+    <section>
+      <h2>Switch — disabled</h2>
+      <lit-material-switch aria-label="Disabled unchecked" disabled></lit-material-switch>
+      <lit-material-switch aria-label="Disabled checked" disabled checked></lit-material-switch>
     </section>
 
     <script type="module" src="/src/main.ts"></script>

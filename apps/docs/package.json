@@ -13,6 +13,7 @@
     "@lit-material/checkbox": "workspace:*",
     "@lit-material/icon-button": "workspace:*",
     "@lit-material/radio": "workspace:*",
+    "@lit-material/switch": "workspace:*",
     "@lit-material/text-field": "workspace:*",
     "@lit-material/tokens": "workspace:*"
   },
