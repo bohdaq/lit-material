@@ -2,6 +2,7 @@ import "@lit-material/tokens/css/index.css";
 import "@lit-material/button";
 import "@lit-material/icon-button";
 import "@lit-material/text-field";
+import "@lit-material/checkbox";
 
 const form = document.querySelector<HTMLFormElement>("#demo-form");
 const log = document.querySelector<HTMLPreElement>("#submit-log");

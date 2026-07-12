@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -130,6 +130,26 @@
     <section>
       <h2>Text field — disabled</h2>
       <lit-material-text-field variant="filled" label="Locked" value="read-only" disabled></lit-material-text-field>
+    </section>
+
+    <section>
+      <h2>Checkbox — unchecked / checked / indeterminate</h2>
+      <lit-material-checkbox aria-label="Unchecked"></lit-material-checkbox>
+      <lit-material-checkbox aria-label="Checked" checked></lit-material-checkbox>
+      <lit-material-checkbox aria-label="Indeterminate" indeterminate></lit-material-checkbox>
+    </section>
+
+    <section>
+      <h2>Checkbox — error</h2>
+      <lit-material-checkbox aria-label="Error unchecked" error></lit-material-checkbox>
+      <lit-material-checkbox aria-label="Error checked" error checked></lit-material-checkbox>
+    </section>
+
+    <section>
+      <h2>Checkbox — disabled</h2>
+      <lit-material-checkbox aria-label="Disabled unchecked" disabled></lit-material-checkbox>
+      <lit-material-checkbox aria-label="Disabled checked" disabled checked></lit-material-checkbox>
+      <lit-material-checkbox aria-label="Disabled indeterminate" disabled indeterminate></lit-material-checkbox>
     </section>
 
     <script type="module" src="/src/main.ts"></script>
