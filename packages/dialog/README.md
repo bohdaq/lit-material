@@ -67,6 +67,12 @@ Escape-to-close all come from the browser. Clicking the backdrop closes the dial
 `disable-backdrop-close` is set. `cancel` (fired on Escape, before `close`) is cancelable — call
 `event.preventDefault()` on it to keep the dialog open.
 
+By default, opening the dialog focuses the dialog itself rather than the first action button —
+without this, the browser's own auto-focus behavior would land on (and show a focus ring around)
+whichever slotted action happens to come first, on every open, regardless of which one you'd
+actually want focused. To focus a specific action instead, call `.focus()` on it after opening the
+dialog.
+
 ## Events
 
 | Event    | Cancelable | Fires                                                          |

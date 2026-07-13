@@ -11,6 +11,17 @@ import { styles } from "./dialog-styles.js";
  * shadow boundary (per spec they're `bubbles: false`, and not composed), so
  * this re-dispatches its own bubbling, composed `close`/`cancel` events.
  *
+ * `showModal()` auto-focuses the first focusable descendant when nothing has
+ * `autofocus` — which, with no autofocus of your own, would otherwise land on
+ * the first slotted action button and show its focus ring on every open,
+ * looking like a stray highlight the user never asked for. `container` is
+ * given `tabindex="-1" autofocus` (with its own focus ring suppressed) so
+ * that's the default focus target instead. Because `container` is an
+ * ancestor of the slotted content, its `autofocus` always wins over one on a
+ * slotted element (tree order), so it can't be opted out of that way — to
+ * focus a specific action instead, call `.focus()` on it yourself after
+ * opening the dialog.
+ *
  * @element lit-material-dialog
  *
  * @slot icon - An optional small icon shown centered above the headline.
@@ -77,7 +88,7 @@ export class LitMaterialDialog extends LitElement {
         @cancel=${this.handleCancel}
         @click=${this.handleBackdropClick}
       >
-        <div class="container" part="container">
+        <div class="container" part="container" tabindex="-1" autofocus>
           <slot name="icon" class="icon"></slot>
           <slot name="headline" class="headline" id="headline"></slot>
           <div class="content"><slot></slot></div>

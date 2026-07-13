@@ -20,6 +20,24 @@ describe("lit-material-dialog", () => {
     dialog.close();
   });
 
+  it("focuses its own container on open, not the first slotted action button", async () => {
+    const el = await fixture<LitMaterialDialog>(html`
+      <lit-material-dialog>
+        <span slot="headline">Delete file?</span>
+        Content
+        <div slot="actions">
+          <button id="cancel">Cancel</button>
+          <button id="ok">OK</button>
+        </div>
+      </lit-material-dialog>
+    `);
+    el.show();
+    await el.updateComplete;
+    expect(document.activeElement).to.equal(el);
+    expect(el.shadowRoot!.activeElement).to.equal(el.shadowRoot!.querySelector(".container"));
+    el.shadowRoot!.querySelector("dialog")!.close();
+  });
+
   it("closes the native dialog when `open` is unset (or close() is called)", async () => {
     const el = await fixture<LitMaterialDialog>(html`<lit-material-dialog open>Content</lit-material-dialog>`);
     await el.updateComplete;

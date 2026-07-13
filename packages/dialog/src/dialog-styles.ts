@@ -38,6 +38,9 @@ export const styles = css`
     align-items: stretch;
     gap: 16px;
     box-sizing: border-box;
+    /* Not part of the tab order (see the component for why it's the default
+       focus target) — no visible focus indicator of its own. */
+    outline: none;
     width: min(560px, calc(100vw - 48px));
     max-height: calc(100vh - 48px);
     padding: 24px;
