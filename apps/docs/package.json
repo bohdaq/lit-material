@@ -13,6 +13,7 @@
     "@lit-material/card": "workspace:*",
     "@lit-material/checkbox": "workspace:*",
     "@lit-material/chip": "workspace:*",
+    "@lit-material/dialog": "workspace:*",
     "@lit-material/icon-button": "workspace:*",
     "@lit-material/list": "workspace:*",
     "@lit-material/radio": "workspace:*",

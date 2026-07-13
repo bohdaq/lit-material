@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -303,6 +303,21 @@
           Open lit.dev
         </lit-material-list-item>
       </lit-material-list>
+    </section>
+
+    <section>
+      <h2>Dialog</h2>
+      <lit-material-button id="open-dialog-btn" variant="filled">Open dialog</lit-material-button>
+
+      <lit-material-dialog id="demo-dialog">
+        <span slot="icon" aria-hidden="true">⚠️</span>
+        <span slot="headline">Delete file?</span>
+        This action cannot be undone. The file will be permanently removed from your account.
+        <div slot="actions">
+          <lit-material-button id="dialog-cancel" variant="text">Cancel</lit-material-button>
+          <lit-material-button id="dialog-delete" variant="filled">Delete</lit-material-button>
+        </div>
+      </lit-material-dialog>
     </section>
 
     <script type="module" src="/src/main.ts"></script>
