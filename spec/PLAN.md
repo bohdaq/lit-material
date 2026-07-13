@@ -3,6 +3,48 @@
 A Material Design 3 web component collection built with [Lit](https://lit.dev/), published as independently
 installable, framework-agnostic packages.
 
+## 0. Status (as of 2026-07-13)
+
+**All 12 Phase 1 components are implemented, tested, screenshot-documented, and merged to `main`** —
+Button, Icon Button, Text Field, Checkbox, Radio, Switch, Chip, Card, List/List Item, Dialog, Menu, Snackbar
+— plus the `core` (ripple/focus-ring controllers) and `tokens` (MD3 CSS custom properties) packages they
+depend on. Every component has unit + SSR tests and at least one axe-core accessibility test; the docs app
+(`apps/docs`) demos every variant/state of every component and is the source of each package's README
+screenshot. See section 2 for per-component detail and section "Deviations from the original plan" below for
+where the actual build diverged from what this document originally proposed.
+
+**Not yet done, in priority order:**
+1. **Publish the pending versions.** `button`, `icon-button`, `checkbox`, `radio`, `switch`, `chip` have an
+   unpublished `0.0.2` on `main` (fixes a ripple press-feedback bug — see their CHANGELOG-equivalent commit
+   `219814d`) but npm still serves `0.0.1` for all six. `snackbar` has never been published at all. `card`,
+   `list`, `dialog`, `menu` are published and current.
+2. **Tooling gaps**: no CI (`.github/workflows` doesn't exist), no ESLint config, no Changesets, no
+   custom-elements-manifest generation. The plan called for all four; none exist yet, so releases and
+   contributions are still fully manual.
+3. **Unverified quality-bar items**: RTL (`dir="rtl"`) has not been explicitly tested on any component;
+   `prefers-reduced-motion` is handled per-component (each has a media query) but not tested; dark mode relies
+   entirely on the token layer's `prefers-color-scheme` values and hasn't been visually verified end-to-end.
+4. **Docs site is a single static catalog page**, not the "live playground + theme builder" section 3.1/
+   milestone 6 envisioned — no per-component pages, no interactive prop editing, no seed-color theme
+   generator.
+5. **Phase 2 backlog untouched**: Select, Slider, Tabs, Top App Bar, Navigation Drawer/Rail, Progress
+   Indicators, FAB, Badge, Divider, Tooltip, Data Table, Date Picker.
+
+### Deviations from the original plan
+
+- **Menu positioning uses the native Popover API + hand-rolled viewport-flip math, not Floating UI** (section
+  3.2 named Floating UI as the choice). Popover API alone was sufficient for anchor positioning once
+  `showPopover()`/`:popover-open` were verified to work correctly on a custom-element host with a shadow root;
+  pulling in Floating UI as a dependency was never actually necessary. Dialog and Snackbar also build on the
+  Popover API (`auto` and `manual` modes respectively) rather than custom overlay logic.
+- **Not every component is form-associated.** Chip, Card, List Item, Menu, and Snackbar deliberately have no
+  `ElementInternals`/`formAssociated` — they're auxiliary UI (filters, action triggers, floating overlays,
+  notifications), not form values, matching how Material Design itself treats them. Button, Icon Button, Text
+  Field, Checkbox, Radio, and Switch are form-associated. Card and List Item's *interactive* mode still
+  participates in ancestor forms via `type="submit"/"reset"`, reusing Button's exact ElementInternals pattern.
+- **List and List Item ship as one package** (`@lit-material/list`), not two, since a list item is meaningless
+  outside a list and vice versa — matching how `@material/web` itself bundles its list module.
+
 ## 1. Positioning
 
 Google's own Lit-based MD3 implementation, `@material/web`, is effectively stalled: per the maintainers'
@@ -32,20 +74,20 @@ trying to out-feature a library at full velocity. Proposed differentiators:
 Ship these components first, to production quality (a11y, RTL, dark mode, keyboard nav, tests, docs) before
 expanding:
 
-| Component | Notes |
-|---|---|
-| Button | filled, outlined, text, elevated, tonal variants |
-| Icon Button | toggle + standard |
-| Text Field | filled + outlined, validation states |
-| Checkbox | indeterminate state |
-| Radio | radio group behavior |
-| Switch | |
-| Chip | assist, filter, input, suggestion |
-| Card | elevated, filled, outlined |
-| List / List Item | single/multi-select, leading/trailing slots |
-| Dialog | modal, focus trap |
-| Menu | positioning via Floating UI or Popover API |
-| Snackbar | queueing, auto-dismiss |
+| Component | Notes | Status | npm |
+|---|---|---|---|
+| Button | filled, outlined, text, elevated, tonal variants | ✅ Done | 0.0.1 published; 0.0.2 (ripple fix) pending |
+| Icon Button | toggle + standard | ✅ Done | 0.0.1 published; 0.0.2 (ripple fix) pending |
+| Text Field | filled + outlined, validation states | ✅ Done | 0.0.1 published |
+| Checkbox | indeterminate state | ✅ Done | 0.0.1 published; 0.0.2 (ripple fix) pending |
+| Radio | radio group behavior (mutual exclusion + roving tabindex implemented in JS; native radios don't group across shadow roots) | ✅ Done | 0.0.1 published; 0.0.2 (ripple fix) pending |
+| Switch | | ✅ Done | 0.0.1 published; 0.0.2 (ripple fix) pending |
+| Chip | assist, filter, input, suggestion; not form-associated | ✅ Done | 0.0.1 published; 0.0.2 (ripple fix) pending |
+| Card | elevated, filled, outlined; optionally interactive (button/link) | ✅ Done | 0.0.1 published |
+| List / List Item | one package; leading/trailing slots, optionally interactive | ✅ Done | 0.0.1 published |
+| Dialog | native `<dialog>`-based, modal, focus trap via the browser | ✅ Done | 0.0.1 published |
+| Menu | native Popover API (`auto`) + hand-rolled positioning; items are List Item, reused | ✅ Done | 0.0.1 published |
+| Snackbar | native Popover API (`manual`); auto-dismiss, hover/focus pause, queueing left to the caller (reuse one instance) | ✅ Done | not yet published |
 
 Later phases (not detailed yet, tracked as backlog): Select, Slider, Tabs, Top App Bar, Navigation Drawer/Rail,
 Progress Indicators, FAB, Badge, Divider, Tooltip, Data Table, Date Picker.
@@ -120,6 +162,16 @@ Each component package:
 - Shared a11y utilities: roving tabindex controller, aria-activedescendant helpers, id generation.
 - Reactive controllers over inheritance where it composes better (Lit's recommended pattern).
 
+**As built**, `core` only ships `RippleController` and `FocusRingController` as reactive controllers (the
+inheritance-vs-controllers call was made in favor of controllers, per the plan). Form-association
+(`attachInternals()`/`formAssociated`) is *not* centralized — each form-associated component implements it
+directly, since the actual `setFormValue`/validity logic differs enough per component (a single input's
+validity vs. Radio's group-aware `required`) that a shared base class didn't pull its weight. Likewise, no
+shared roving-tabindex controller exists yet: Radio's group navigation and Menu's item navigation each
+implement their own (similar but not identical) version. If a fourth component needs the same pattern,
+extracting a shared controller at that point would be the right call — revisit rather than doing it
+speculatively.
+
 ## 4. Quality bar (applies to every component before it ships)
 
 - Keyboard interaction matches the [WAI-ARIA APG](https://www.w3.org/WAI/ARIA/apg/) pattern for that widget.
@@ -131,20 +183,35 @@ Each component package:
 
 ## 5. Milestones
 
-1. **Bootstrap** — pnpm/turborepo scaffold, tsconfig/eslint/prettier shared configs, empty `core` and `tokens`
-   packages, CI skeleton (install/lint/typecheck), Changesets configured, repo published to GitHub.
-2. **Tokens v0** — MD3 color/type/shape/elevation/motion tokens generated via Style Dictionary; dark mode +
-   seed-color theme generator CLI.
-3. **Core primitives** — ripple, focus-ring, roving-tabindex controller, form-association mixin, RTL helpers,
-   with their own unit tests.
-4. **First vertical slice: Button** — full quality bar end-to-end (implementation, tests, docs entry) to prove
-   out the whole pipeline before parallelizing across components.
-5. **Remaining Phase 1 components** — Icon Button, Checkbox, Radio, Switch, Text Field, Chip, Card, List,
-   Dialog, Menu, Snackbar (can parallelize once the Button slice validates the pattern).
-6. **Docs site v1** — component catalog, live playground, theme builder page, installation guide.
-7. **v0.1.0 public release** — publish all Phase 1 packages to npm under `@lit-material/*`, announce.
-8. **Phase 2 planning** — revisit backlog (Select, Slider, Tabs, Navigation, Data Table, Date Picker, etc.)
-   based on adoption feedback.
+1. ~~**Bootstrap**~~ — done: pnpm workspace, shared tsconfig, Turborepo (`turbo.json`, wired to `build`/`test`/
+   `typecheck`) all in place. Missing: Changesets, CI (no `.github/workflows`), ESLint config.
+2. ~~**Tokens v0**~~ — done for color/type/shape/elevation/motion CSS custom properties. No Style Dictionary
+   build step and no seed-color theme generator CLI — tokens are hand-authored CSS, not generated.
+3. **Core primitives** — done for ripple + focus-ring (see 3.4 for why form-association and roving-tabindex
+   weren't centralized as originally scoped).
+4. ~~**First vertical slice: Button**~~ — done, and the pattern it validated (variant prop, ripple/focus-ring
+   via core, `ElementInternals` for submit/reset, README screenshot from a live docs demo) held up across all
+   11 components that followed it.
+5. ~~**Remaining Phase 1 components**~~ — done. All 12 components listed in section 2 are implemented, tested,
+   and documented.
+6. **Docs site v1** — partially done. The catalog exists (every component, every variant/state, on one page)
+   and *is* the screenshot source for each README, but there's no live playground (editable props), no theme
+   builder, and no installation guide beyond each package's own README.
+7. **v0.1.0 public release** — not done. 11 of 12 packages are on npm, but at inconsistent versions relative to
+   `main` (see section 0) and there's been no formal `v0.1.0` tag/announcement across the set.
+8. **Phase 2 planning** — not started.
+
+### Immediate next steps (concrete, in order)
+
+1. Publish `@lit-material/snackbar` (never published) and republish `button`, `icon-button`, `checkbox`,
+   `radio`, `switch`, `chip` at their already-bumped `0.0.2` (ripple fix on `main`, not yet on npm).
+2. Add the still-missing tooling section 3.2 calls for: CI (GitHub Actions running `turbo run lint typecheck
+   test build`), Changesets (for coordinated per-package versioning — would have caught the six-package
+   version drift in item 1 automatically), and an ESLint config. Turborepo itself is already in place.
+3. Pick one component and verify the unverified quality-bar items (RTL, `prefers-reduced-motion`, dark mode)
+   end-to-end, to find out whether they already work by virtue of using system tokens/logical CSS properties,
+   or need real fixes — then decide whether to roll that fix/verification pass across all 12 components.
+4. Only after 1–3: start Phase 2 component selection.
 
 ## 6. Open questions (revisit as the project matures)
 
