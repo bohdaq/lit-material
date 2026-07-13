@@ -16,6 +16,7 @@
     "@lit-material/dialog": "workspace:*",
     "@lit-material/icon-button": "workspace:*",
     "@lit-material/list": "workspace:*",
+    "@lit-material/menu": "workspace:*",
     "@lit-material/radio": "workspace:*",
     "@lit-material/switch": "workspace:*",
     "@lit-material/text-field": "workspace:*",

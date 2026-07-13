@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -318,6 +318,30 @@
           <lit-material-button id="dialog-delete" variant="filled">Delete</lit-material-button>
         </div>
       </lit-material-dialog>
+    </section>
+
+    <section>
+      <h2>Menu</h2>
+      <lit-material-button id="open-menu-btn" variant="outlined">Options ▾</lit-material-button>
+
+      <lit-material-menu id="demo-menu" anchor="open-menu-btn">
+        <lit-material-list-item interactive>
+          <span slot="leading" aria-hidden="true">🔗</span>
+          Share
+        </lit-material-list-item>
+        <lit-material-list-item interactive divider>
+          <span slot="leading" aria-hidden="true">📋</span>
+          Duplicate
+        </lit-material-list-item>
+        <lit-material-list-item interactive disabled>
+          <span slot="leading" aria-hidden="true">📦</span>
+          Archive
+        </lit-material-list-item>
+        <lit-material-list-item interactive>
+          <span slot="leading" aria-hidden="true">🗑️</span>
+          Delete
+        </lit-material-list-item>
+      </lit-material-menu>
     </section>
 
     <script type="module" src="/src/main.ts"></script>

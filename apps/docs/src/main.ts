@@ -10,6 +10,8 @@ import "@lit-material/card";
 import "@lit-material/list";
 import "@lit-material/dialog";
 import type { LitMaterialDialog } from "@lit-material/dialog";
+import "@lit-material/menu";
+import type { LitMaterialMenu } from "@lit-material/menu";
 
 const form = document.querySelector<HTMLFormElement>("#demo-form");
 const log = document.querySelector<HTMLPreElement>("#submit-log");
@@ -24,3 +26,6 @@ const dialog = document.querySelector<LitMaterialDialog>("#demo-dialog");
 document.querySelector("#open-dialog-btn")?.addEventListener("click", () => dialog?.show());
 document.querySelector("#dialog-cancel")?.addEventListener("click", () => dialog?.close("cancel"));
 document.querySelector("#dialog-delete")?.addEventListener("click", () => dialog?.close("delete"));
+
+const menu = document.querySelector<LitMaterialMenu>("#demo-menu");
+document.querySelector("#open-menu-btn")?.addEventListener("click", () => menu?.show());
