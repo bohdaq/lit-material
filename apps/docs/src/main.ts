@@ -7,6 +7,7 @@ import "@lit-material/radio";
 import "@lit-material/switch";
 import "@lit-material/chip";
 import "@lit-material/card";
+import "@lit-material/list";
 
 const form = document.querySelector<HTMLFormElement>("#demo-form");
 const log = document.querySelector<HTMLPreElement>("#submit-log");
