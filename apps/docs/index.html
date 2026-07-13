@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -357,6 +357,32 @@
         Conversation archived
         <lit-material-button slot="action" variant="text" id="snackbar-undo-btn">Undo</lit-material-button>
       </lit-material-snackbar>
+    </section>
+
+    <section>
+      <h2>Select — filled / outlined</h2>
+      <lit-material-select label="Size" value="m" style="max-width: 220px;">
+        <lit-material-select-option value="s">Small</lit-material-select-option>
+        <lit-material-select-option value="m">Medium</lit-material-select-option>
+        <lit-material-select-option value="l" disabled>Large (out of stock)</lit-material-select-option>
+        <lit-material-select-option value="xl">Extra large</lit-material-select-option>
+      </lit-material-select>
+      <lit-material-select variant="outlined" label="Country" style="max-width: 220px;">
+        <lit-material-select-option value="us">United States</lit-material-select-option>
+        <lit-material-select-option value="ca">Canada</lit-material-select-option>
+        <lit-material-select-option value="mx">Mexico</lit-material-select-option>
+      </lit-material-select>
+    </section>
+
+    <section>
+      <h2>Select — required, error, disabled</h2>
+      <lit-material-select label="Plan" required error error-text="Please choose a plan" style="max-width: 220px;">
+        <lit-material-select-option value="free">Free</lit-material-select-option>
+        <lit-material-select-option value="pro">Pro</lit-material-select-option>
+      </lit-material-select>
+      <lit-material-select label="Region" value="us" disabled style="max-width: 220px;">
+        <lit-material-select-option value="us">United States</lit-material-select-option>
+      </lit-material-select>
     </section>
 
     <script type="module" src="/src/main.ts"></script>
