@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -342,6 +342,21 @@
           Delete
         </lit-material-list-item>
       </lit-material-menu>
+    </section>
+
+    <section>
+      <h2>Snackbar</h2>
+      <lit-material-button id="show-snackbar-btn" variant="filled">Show snackbar</lit-material-button>
+      <lit-material-button id="show-snackbar-undo-btn" variant="outlined">Show with action</lit-material-button>
+
+      <lit-material-snackbar id="demo-snackbar" duration="0">
+        Message sent
+      </lit-material-snackbar>
+
+      <lit-material-snackbar id="demo-snackbar-undo" closable duration="0">
+        Conversation archived
+        <lit-material-button slot="action" variant="text" id="snackbar-undo-btn">Undo</lit-material-button>
+      </lit-material-snackbar>
     </section>
 
     <script type="module" src="/src/main.ts"></script>

@@ -12,6 +12,8 @@ import "@lit-material/dialog";
 import type { LitMaterialDialog } from "@lit-material/dialog";
 import "@lit-material/menu";
 import type { LitMaterialMenu } from "@lit-material/menu";
+import "@lit-material/snackbar";
+import type { LitMaterialSnackbar } from "@lit-material/snackbar";
 
 const form = document.querySelector<HTMLFormElement>("#demo-form");
 const log = document.querySelector<HTMLPreElement>("#submit-log");
@@ -29,3 +31,9 @@ document.querySelector("#dialog-delete")?.addEventListener("click", () => dialog
 
 const menu = document.querySelector<LitMaterialMenu>("#demo-menu");
 document.querySelector("#open-menu-btn")?.addEventListener("click", () => menu?.show());
+
+const snackbar = document.querySelector<LitMaterialSnackbar>("#demo-snackbar");
+const snackbarUndo = document.querySelector<LitMaterialSnackbar>("#demo-snackbar-undo");
+document.querySelector("#show-snackbar-btn")?.addEventListener("click", () => snackbar?.show());
+document.querySelector("#show-snackbar-undo-btn")?.addEventListener("click", () => snackbarUndo?.show());
+document.querySelector("#snackbar-undo-btn")?.addEventListener("click", () => console.log("undo clicked"));
