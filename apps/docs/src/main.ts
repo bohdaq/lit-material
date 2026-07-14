@@ -26,6 +26,8 @@ import type { LitMaterialLinearProgress, LitMaterialCircularProgress } from "@li
 import "@lit-material/fab";
 import type { LitMaterialFab } from "@lit-material/fab";
 import "@lit-material/badge";
+import "@lit-material/date-picker";
+import type { LitMaterialDatePicker } from "@lit-material/date-picker";
 
 const form = document.querySelector<HTMLFormElement>("#demo-form");
 const log = document.querySelector<HTMLPreElement>("#submit-log");
@@ -79,4 +81,11 @@ document.querySelector("#animate-progress-btn")?.addEventListener("click", () =>
 const extendedFab = document.querySelector<LitMaterialFab>("#demo-extended-fab");
 document.querySelector("#toggle-extended-fab-btn")?.addEventListener("click", () => {
   if (extendedFab) extendedFab.extended = !extendedFab.extended;
+});
+
+const datePicker = document.querySelector<LitMaterialDatePicker>("#demo-date-picker");
+const datePickerLog = document.querySelector<HTMLSpanElement>("#date-picker-value-log");
+document.querySelector("#open-date-picker-btn")?.addEventListener("click", () => datePicker?.show());
+datePicker?.addEventListener("change", () => {
+  if (datePickerLog) datePickerLog.textContent = `Selected: ${datePicker.value}`;
 });

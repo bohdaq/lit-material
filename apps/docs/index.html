@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar & Navigation Drawer & Navigation Rail & Progress Indicators & FAB & Badge</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar & Navigation Drawer & Navigation Rail & Progress Indicators & FAB & Badge & Date Picker</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -533,6 +533,18 @@
           <lit-material-badge value="5" style="position: absolute; top: -2px; right: -2px;"></lit-material-badge>
         </span>
       </div>
+    </section>
+
+    <section>
+      <h2>Date Picker</h2>
+      <lit-material-button id="open-date-picker-btn" variant="outlined">Choose date</lit-material-button>
+      <span id="date-picker-value-log" style="margin-inline-start: 12px;"></span>
+      <lit-material-date-picker
+        id="demo-date-picker"
+        value="2026-06-15"
+        min="2020-01-01"
+        max="2030-12-31"
+      ></lit-material-date-picker>
     </section>
 
     <script type="module" src="/src/main.ts"></script>
