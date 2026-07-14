@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar & Navigation Drawer & Navigation Rail</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -440,6 +440,44 @@
         <lit-material-icon-button slot="leading" aria-label="Menu">☰</lit-material-icon-button>
         <lit-material-icon-button slot="trailing" aria-label="More options">⋮</lit-material-icon-button>
       </lit-material-top-app-bar>
+    </section>
+
+    <section>
+      <h2>Navigation Drawer</h2>
+      <div style="display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;">
+        <lit-material-navigation-drawer
+          selected="0"
+          style="height: 320px; border: 1px solid var(--md-sys-color-outline-variant, #cac4d0); border-radius: 12px;"
+        >
+          <span slot="header" style="font-weight: 500;">Mail</span>
+          <lit-material-navigation-drawer-item><span slot="icon">📥</span>Inbox</lit-material-navigation-drawer-item>
+          <lit-material-navigation-drawer-item><span slot="icon">📤</span>Sent</lit-material-navigation-drawer-item>
+          <lit-material-navigation-drawer-item disabled
+            ><span slot="icon">🗑️</span>Trash (disabled)</lit-material-navigation-drawer-item
+          >
+        </lit-material-navigation-drawer>
+
+        <div>
+          <lit-material-button id="open-nav-drawer-btn" variant="outlined">Open modal drawer</lit-material-button>
+          <lit-material-navigation-drawer id="demo-nav-drawer" variant="modal" selected="1">
+            <span slot="header" style="font-weight: 500;">Mail</span>
+            <lit-material-navigation-drawer-item><span slot="icon">📥</span>Inbox</lit-material-navigation-drawer-item>
+            <lit-material-navigation-drawer-item><span slot="icon">📤</span>Sent</lit-material-navigation-drawer-item>
+          </lit-material-navigation-drawer>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Navigation Rail</h2>
+      <lit-material-navigation-rail
+        selected="0"
+        style="height: 280px; border: 1px solid var(--md-sys-color-outline-variant, #cac4d0); border-radius: 12px;"
+      >
+        <lit-material-navigation-rail-item><span slot="icon">🎵</span>Music</lit-material-navigation-rail-item>
+        <lit-material-navigation-rail-item><span slot="icon">🎬</span>Videos</lit-material-navigation-rail-item>
+        <lit-material-navigation-rail-item disabled><span slot="icon">🖼️</span>Photos</lit-material-navigation-rail-item>
+      </lit-material-navigation-rail>
     </section>
 
     <script type="module" src="/src/main.ts"></script>

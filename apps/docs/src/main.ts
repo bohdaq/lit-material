@@ -19,6 +19,8 @@ import "@lit-material/slider";
 import "@lit-material/tabs";
 import "@lit-material/top-app-bar";
 import type { LitMaterialTopAppBar } from "@lit-material/top-app-bar";
+import "@lit-material/navigation";
+import type { LitMaterialNavigationDrawer } from "@lit-material/navigation";
 
 const form = document.querySelector<HTMLFormElement>("#demo-form");
 const log = document.querySelector<HTMLPreElement>("#submit-log");
@@ -48,3 +50,6 @@ const topAppBarInScrollDemo = topAppBarScrollDemo?.querySelector<LitMaterialTopA
 if (topAppBarScrollDemo && topAppBarInScrollDemo) {
   topAppBarInScrollDemo.scrollTarget = topAppBarScrollDemo;
 }
+
+const navDrawer = document.querySelector<LitMaterialNavigationDrawer>("#demo-nav-drawer");
+document.querySelector("#open-nav-drawer-btn")?.addEventListener("click", () => navDrawer?.show());
