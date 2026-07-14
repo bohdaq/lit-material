@@ -5,31 +5,32 @@ installable, framework-agnostic packages.
 
 ## 0. Status (as of 2026-07-14)
 
-**All 12 Phase 1 components, plus Select, Slider, and Tabs pulled forward from the Phase 2 backlog, are
-implemented, tested, screenshot-documented, and merged to `main`** — Button, Icon Button, Text Field,
-Checkbox, Radio, Switch, Chip, Card, List/List Item, Dialog, Menu, Snackbar, Select, Slider, Tabs — plus the
-`core` (ripple/focus-ring controllers) and `tokens` (MD3 CSS custom properties) packages they depend on.
-Every component has unit + SSR tests and at least one axe-core accessibility test; the docs app
+**All 12 Phase 1 components, plus Select, Slider, Tabs, Top App Bar, Navigation Drawer/Rail, Progress
+Indicators, and FAB pulled forward from the Phase 2 backlog, are implemented, tested, screenshot-documented,
+and merged to `main`** — Button, Icon Button, Text Field, Checkbox, Radio, Switch, Chip, Card, List/List Item,
+Dialog, Menu, Snackbar, Select, Slider, Tabs, Top App Bar, Navigation Drawer/Rail, Progress Indicators, FAB —
+plus the `core` (ripple/focus-ring controllers) and `tokens` (MD3 CSS custom properties) packages they depend
+on. Every component has unit + SSR tests and at least one axe-core accessibility test; the docs app
 (`apps/docs`) demos every variant/state of every component and is the source of each package's README
-screenshot. See section 2 for per-component detail and section "Deviations from the original plan" below for
-where the actual build diverged from what this document originally proposed.
+screenshot. **All 18 packages are published to npm with correctly resolved dependencies** (no `workspace:*`
+protocol strings leaking into published manifests). See section 2 for per-component detail and section
+"Deviations from the original plan" below for where the actual build diverged from what this document
+originally proposed.
+
+**In progress:** `@lit-material/badge` — package scaffolding and `src/badge.ts` / `src/badge-styles.ts` exist,
+uncommitted; still missing tests, README, screenshot, and a build (no `dist/`), so it isn't ready to publish.
 
 **Not yet done, in priority order:**
-1. **Publish the pending versions.** `button`, `icon-button`, `checkbox`, `radio`, `switch`, `chip` have an
-   unpublished `0.0.2` on `main` (fixes a ripple press-feedback bug — see their CHANGELOG-equivalent commit
-   `219814d`) but npm still serves `0.0.1` for all six. `snackbar` and `tabs` have never been published at
-   all. `card`, `list`, `dialog`, `menu`, `select`, `slider` are published and current.
-2. **Tooling gaps**: no CI (`.github/workflows` doesn't exist), no ESLint config, no Changesets, no
+1. **Tooling gaps**: no CI (`.github/workflows` doesn't exist), no ESLint config, no Changesets, no
    custom-elements-manifest generation. The plan called for all four; none exist yet, so releases and
    contributions are still fully manual.
-3. **Unverified quality-bar items**: RTL (`dir="rtl"`) has not been explicitly tested on any component;
+2. **Unverified quality-bar items**: RTL (`dir="rtl"`) has not been explicitly tested on any component;
    `prefers-reduced-motion` is handled per-component (each has a media query) but not tested; dark mode relies
    entirely on the token layer's `prefers-color-scheme` values and hasn't been visually verified end-to-end.
-4. **Docs site is a single static catalog page**, not the "live playground + theme builder" section 3.1/
+3. **Docs site is a single static catalog page**, not the "live playground + theme builder" section 3.1/
    milestone 6 envisioned — no per-component pages, no interactive prop editing, no seed-color theme
    generator.
-5. **Remaining Phase 2 backlog**: Top App Bar, Navigation Drawer/Rail, Progress Indicators, FAB, Badge,
-   Divider, Tooltip, Data Table, Date Picker.
+4. **Finish Badge**, then pick off the remaining Phase 2 backlog: Divider, Tooltip, Data Table, Date Picker.
 
 ### Deviations from the original plan
 
@@ -84,29 +85,45 @@ expanding:
 
 | Component | Notes | Status | npm |
 |---|---|---|---|
-| Button | filled, outlined, text, elevated, tonal variants | ✅ Done | 0.0.1 published; 0.0.2 (ripple fix) pending |
-| Icon Button | toggle + standard | ✅ Done | 0.0.1 published; 0.0.2 (ripple fix) pending |
-| Text Field | filled + outlined, validation states | ✅ Done | 0.0.1 published |
-| Checkbox | indeterminate state | ✅ Done | 0.0.1 published; 0.0.2 (ripple fix) pending |
-| Radio | radio group behavior (mutual exclusion + roving tabindex implemented in JS; native radios don't group across shadow roots) | ✅ Done | 0.0.1 published; 0.0.2 (ripple fix) pending |
-| Switch | | ✅ Done | 0.0.1 published; 0.0.2 (ripple fix) pending |
-| Chip | assist, filter, input, suggestion; not form-associated | ✅ Done | 0.0.1 published; 0.0.2 (ripple fix) pending |
-| Card | elevated, filled, outlined; optionally interactive (button/link) | ✅ Done | 0.0.1 published |
-| List / List Item | one package; leading/trailing slots, optionally interactive | ✅ Done | 0.0.1 published |
-| Dialog | native `<dialog>`-based, modal, focus trap via the browser | ✅ Done | 0.0.1 published |
-| Menu | native Popover API (`auto`) + hand-rolled positioning; items are List Item, reused | ✅ Done | 0.0.1 published |
-| Snackbar | native Popover API (`manual`); auto-dismiss, hover/focus pause, queueing left to the caller (reuse one instance) | ✅ Done | not yet published |
+| Button | filled, outlined, text, elevated, tonal variants | ✅ Done | 0.0.1 published |
+| Icon Button | toggle + standard | ✅ Done | 0.0.2 published |
+| Text Field | filled + outlined, validation states | ✅ Done | 0.0.2 published |
+| Checkbox | indeterminate state | ✅ Done | 0.0.2 published |
+| Radio | radio group behavior (mutual exclusion + roving tabindex implemented in JS; native radios don't group across shadow roots) | ✅ Done | 0.0.2 published |
+| Switch | | ✅ Done | 0.0.2 published |
+| Chip | assist, filter, input, suggestion; not form-associated | ✅ Done | 0.0.2 published |
+| Card | elevated, filled, outlined; optionally interactive (button/link) | ✅ Done | 0.0.2 published |
+| List / List Item | one package; leading/trailing slots, optionally interactive | ✅ Done | 0.0.2 published |
+| Dialog | native `<dialog>`-based, modal, focus trap via the browser | ✅ Done | 0.0.2 published |
+| Menu | native Popover API (`auto`) + hand-rolled positioning; items are List Item, reused | ✅ Done | 0.0.2 published |
+| Snackbar | native Popover API (`manual`); auto-dismiss, hover/focus pause, queueing left to the caller (reuse one instance) | ✅ Done | 0.0.2 published |
 
 Pulled forward from Phase 2 backlog:
 
 | Component | Notes | Status | npm |
 |---|---|---|---|
-| Select | listbox-pattern combobox (select-only), native Popover API, same foundation as Menu | ✅ Done | 0.0.1 published |
-| Slider | wraps a native `<input type="range">`, custom track/thumb visuals, value bubble | ✅ Done | 0.0.1 published |
-| Tabs | WAI-ARIA tabs pattern, automatic activation, sliding indicator; no tabpanel management (scope cut) | ✅ Done | not yet published |
+| Select | listbox-pattern combobox (select-only), native Popover API, same foundation as Menu | ✅ Done | 0.0.2 published |
+| Slider | wraps a native `<input type="range">`, custom track/thumb visuals, value bubble | ✅ Done | 0.0.2 published |
+| Tabs | WAI-ARIA tabs pattern, automatic activation, sliding indicator; no tabpanel management (scope cut) | ✅ Done | 0.0.2 published |
+| Top App Bar | center-aligned, small, medium, large variants | ✅ Done | 0.0.2 published |
+| Navigation Drawer / Rail | one package (`@lit-material/navigation`), matching the List/List Item precedent | ✅ Done | 0.0.1 published |
+| Progress Indicators | linear + circular, one package (`@lit-material/progress`) | ✅ Done | 0.0.1 published |
+| FAB | floating action button | ✅ Done | 0.0.1 published |
 
-Later phases (not detailed yet, tracked as backlog): Top App Bar, Navigation Drawer/Rail, Progress
-Indicators, FAB, Badge, Divider, Tooltip, Data Table, Date Picker.
+In progress:
+
+| Component | Notes | Status | npm |
+|---|---|---|---|
+| Badge | small dot or large numeric/text badge | 🚧 In progress — `src/` exists, uncommitted; no tests/README/screenshot/build yet | not yet published |
+
+Remaining backlog, in likely build order (simplest/lowest-risk first):
+
+| Component | Notes | Complexity |
+|---|---|---|
+| Divider | Full-bleed + inset variants, horizontal (and vertical for use inside Navigation Rail/List). Mostly styling — a single element with `role="separator"` when semantically dividing content, no interactive/keyboard behavior, no form association. Smallest remaining component; a natural next pick after Badge. | Low |
+| Tooltip | Plain + rich (multi-line, with optional action) variants, per WAI-ARIA tooltip pattern. Likely built on the native Popover API (`manual` mode, like Snackbar) for anchor positioning, shown on hover-with-delay and keyboard focus, dismissed on blur/Escape. Needs the same viewport-flip positioning math Menu/Select already have — can probably factor that out of Menu into a shared helper here rather than re-deriving it. | Medium |
+| Data Table | Sortable column headers, row selection (single/multi-select checkboxes), dense/comfortable density. No single native element maps to MD3's visual/interaction spec, so this is closer to a small compound component (table + header-cell + row) than the others. Largest scope of the four; worth a short design pass (column API shape, sorting/selection event contract) before starting implementation, unlike the others which can follow the established single-file pattern directly. | High |
+| Date Picker | Calendar-grid dialog (docked or modal) plus text-field entry, per MD3 spec. Native `<input type="date">` doesn't match MD3's calendar UI or keyboard grid navigation, so this is built from scratch on top of Dialog (for the modal variant) — arrow-key grid navigation, month/year selection, single-date scope only (no range selection, cut for v1). Most complex remaining component; do last so the patterns from Data Table's compound-component work and Tooltip's positioning helper are both available to reuse. | High |
 
 ## 3. Architecture
 
@@ -127,6 +144,14 @@ lit-material/
 │  ├─ dialog/
 │  ├─ menu/
 │  ├─ snackbar/
+│  ├─ select/
+│  ├─ slider/
+│  ├─ tabs/
+│  ├─ top-app-bar/
+│  ├─ navigation/            # drawer + rail, one package
+│  ├─ progress/               # linear + circular, one package
+│  ├─ fab/
+│  ├─ badge/                  # in progress, not yet published
 │  ├─ core/                  # @lit-material/core — shared base classes, mixins, a11y helpers, ripple, focus-ring
 │  └─ tokens/                 # @lit-material/tokens — design tokens (style-dictionary source + generated CSS/JS)
 ├─ apps/
@@ -213,26 +238,27 @@ speculatively.
 6. **Docs site v1** — partially done. The catalog exists (every component, every variant/state, on one page)
    and *is* the screenshot source for each README, but there's no live playground (editable props), no theme
    builder, and no installation guide beyond each package's own README.
-7. **v0.1.0 public release** — not done. 13 of 15 packages are on npm, but at inconsistent versions relative to
-   `main` (see section 0) and there's been no formal `v0.1.0` tag/announcement across the set.
-8. **Phase 2 planning** — partially overtaken by events: Select, Slider, and Tabs already shipped (see section
-   2) ahead of any formal Phase 2 scoping, chosen by direct request rather than a prioritization exercise.
-   Remaining backlog (Top App Bar, Navigation Drawer/Rail, Progress Indicators, FAB, Badge, Divider, Tooltip,
-   Data Table, Date Picker) is still unplanned.
+7. ~~**v0.1.0 public release (package publishing)**~~ — done as far as publishing goes: all 18 built packages
+   are live on npm with correctly resolved dependencies (no `workspace:*` leaking into published manifests).
+   No formal `v0.1.0` git tag/announcement has been made across the set yet.
+8. **Phase 2 planning** — overtaken by events: Select, Slider, Tabs, Top App Bar, Navigation Drawer/Rail,
+   Progress Indicators, and FAB already shipped (see section 2), chosen by direct request rather than a
+   prioritization exercise. Badge is in progress. Remaining backlog (Divider, Tooltip, Data Table, Date
+   Picker) now has per-item notes and a suggested build order (see section 2), but hasn't been scoped into
+   milestones of its own.
 
 ### Immediate next steps (concrete, in order)
 
-1. Publish `@lit-material/snackbar` and `@lit-material/tabs` (never published) and republish `button`,
-   `icon-button`, `checkbox`, `radio`, `switch`, `chip` at their already-bumped `0.0.2` (ripple fix on `main`,
-   not yet on npm).
+1. Finish and publish `@lit-material/badge` (tests, README + docs-app demo, screenshot, build) — the one
+   component currently mid-implementation.
 2. Add the still-missing tooling section 3.2 calls for: CI (GitHub Actions running `turbo run lint typecheck
-   test build`), Changesets (for coordinated per-package versioning — would have caught the six-package
-   version drift in item 1 automatically), and an ESLint config. Turborepo itself is already in place.
+   test build`), Changesets (for coordinated per-package versioning), and an ESLint config. Turborepo itself
+   is already in place.
 3. Pick one component and verify the unverified quality-bar items (RTL, `prefers-reduced-motion`, dark mode)
    end-to-end, to find out whether they already work by virtue of using system tokens/logical CSS properties,
-   or need real fixes — then decide whether to roll that fix/verification pass across all 15 components.
-4. Continue picking off the remaining Phase 2 backlog (Top App Bar, Navigation Drawer/Rail, Progress
-   Indicators, FAB, Badge, Divider, Tooltip, Data Table, Date Picker) by request.
+   or need real fixes — then decide whether to roll that fix/verification pass across all 18 components.
+4. Continue picking off the remaining Phase 2 backlog in the order noted in section 2 (Divider, then Tooltip,
+   then Data Table, then Date Picker) unless the user requests a different order.
 
 ## 6. Open questions (revisit as the project matures)
 

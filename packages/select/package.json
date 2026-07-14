@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/select",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Material Design 3 select web components (lit-material-select, lit-material-select-option).",
   "license": "MIT",
   "author": {

@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/tabs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Material Design 3 tabs web components (lit-material-tabs, lit-material-tab).",
   "license": "MIT",
   "author": {

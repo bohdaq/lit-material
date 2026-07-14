@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/text-field",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Material Design 3 text field web component (filled + outlined, validation states).",
   "license": "MIT",
   "author": {

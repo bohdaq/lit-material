@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/top-app-bar",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Material Design 3 top app bar web component (center-aligned, small, medium, large).",
   "license": "MIT",
   "author": {

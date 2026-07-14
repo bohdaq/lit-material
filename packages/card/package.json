@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/card",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Material Design 3 card web component (elevated, filled, outlined; optionally interactive).",
   "license": "MIT",
   "author": {
