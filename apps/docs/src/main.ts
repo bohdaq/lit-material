@@ -25,6 +25,7 @@ import "@lit-material/progress";
 import type { LitMaterialLinearProgress, LitMaterialCircularProgress } from "@lit-material/progress";
 import "@lit-material/fab";
 import type { LitMaterialFab } from "@lit-material/fab";
+import "@lit-material/badge";
 
 const form = document.querySelector<HTMLFormElement>("#demo-form");
 const log = document.querySelector<HTMLPreElement>("#submit-log");

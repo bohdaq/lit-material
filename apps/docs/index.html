@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar & Navigation Drawer & Navigation Rail & Progress Indicators & FAB</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar & Navigation Drawer & Navigation Rail & Progress Indicators & FAB & Badge</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -516,6 +516,22 @@
           <span slot="icon">✏️</span>Compose
         </lit-material-fab>
         <lit-material-button id="toggle-extended-fab-btn" variant="outlined">Toggle extended</lit-material-button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Badge</h2>
+      <div style="display: flex; gap: 32px; align-items: center;">
+        <lit-material-badge></lit-material-badge>
+        <lit-material-badge value="NEW"></lit-material-badge>
+        <lit-material-badge value="5"></lit-material-badge>
+        <lit-material-badge value="150" max="99"></lit-material-badge>
+        <lit-material-badge value="3" label="3 unread messages"></lit-material-badge>
+
+        <span style="position: relative; display: inline-flex;">
+          <lit-material-icon-button aria-label="Notifications, 5 unread">🔔</lit-material-icon-button>
+          <lit-material-badge value="5" style="position: absolute; top: -2px; right: -2px;"></lit-material-badge>
+        </span>
       </div>
     </section>
 
