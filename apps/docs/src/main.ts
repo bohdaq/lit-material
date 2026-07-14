@@ -21,6 +21,8 @@ import "@lit-material/top-app-bar";
 import type { LitMaterialTopAppBar } from "@lit-material/top-app-bar";
 import "@lit-material/navigation";
 import type { LitMaterialNavigationDrawer } from "@lit-material/navigation";
+import "@lit-material/progress";
+import type { LitMaterialLinearProgress, LitMaterialCircularProgress } from "@lit-material/progress";
 
 const form = document.querySelector<HTMLFormElement>("#demo-form");
 const log = document.querySelector<HTMLPreElement>("#submit-log");
@@ -53,3 +55,20 @@ if (topAppBarScrollDemo && topAppBarInScrollDemo) {
 
 const navDrawer = document.querySelector<LitMaterialNavigationDrawer>("#demo-nav-drawer");
 document.querySelector("#open-nav-drawer-btn")?.addEventListener("click", () => navDrawer?.show());
+
+const linearProgress = document.querySelector<LitMaterialLinearProgress>("#demo-linear-progress");
+const circularProgress = document.querySelector<LitMaterialCircularProgress>("#demo-circular-progress");
+document.querySelector("#animate-progress-btn")?.addEventListener("click", () => {
+  if (!linearProgress || !circularProgress) return;
+  const start = performance.now();
+  const duration = 1500;
+  linearProgress.value = 0;
+  circularProgress.value = 0;
+  const tick = (now: number) => {
+    const elapsed = Math.min(1, (now - start) / duration);
+    linearProgress.value = elapsed;
+    circularProgress.value = elapsed;
+    if (elapsed < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+});

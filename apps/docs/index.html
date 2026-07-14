@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar & Navigation Drawer & Navigation Rail</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar & Navigation Drawer & Navigation Rail & Progress Indicators</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -478,6 +478,25 @@
         <lit-material-navigation-rail-item><span slot="icon">🎬</span>Videos</lit-material-navigation-rail-item>
         <lit-material-navigation-rail-item disabled><span slot="icon">🖼️</span>Photos</lit-material-navigation-rail-item>
       </lit-material-navigation-rail>
+    </section>
+
+    <section>
+      <h2>Progress Indicators</h2>
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+        <lit-material-linear-progress
+          id="demo-linear-progress"
+          aria-label="Upload progress"
+          value="0.3"
+        ></lit-material-linear-progress>
+        <lit-material-linear-progress aria-label="Loading, unknown duration" indeterminate></lit-material-linear-progress>
+        <lit-material-button id="animate-progress-btn" variant="outlined">Animate to 100%</lit-material-button>
+      </div>
+
+      <div style="display: flex; gap: 32px; align-items: center; margin-top: 20px;">
+        <lit-material-circular-progress id="demo-circular-progress" aria-label="Upload progress" value="0.3">
+        </lit-material-circular-progress>
+        <lit-material-circular-progress aria-label="Loading, unknown duration" indeterminate></lit-material-circular-progress>
+      </div>
     </section>
 
     <script type="module" src="/src/main.ts"></script>

@@ -18,6 +18,7 @@
     "@lit-material/list": "workspace:*",
     "@lit-material/menu": "workspace:*",
     "@lit-material/navigation": "workspace:*",
+    "@lit-material/progress": "workspace:*",
     "@lit-material/radio": "workspace:*",
     "@lit-material/select": "workspace:*",
     "@lit-material/slider": "workspace:*",
