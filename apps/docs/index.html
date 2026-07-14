@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar & Navigation Drawer & Navigation Rail & Progress Indicators & FAB & Badge & Date Picker & Data Table</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar & Navigation Drawer & Navigation Rail & Progress Indicators & FAB & Badge & Date Picker & Data Table & Tooltip</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -580,6 +580,17 @@
         </lit-material-data-table-row>
       </lit-material-data-table>
       <p id="data-table-log" style="color: var(--md-sys-color-on-surface-variant, #49454f);"></p>
+    </section>
+
+    <section>
+      <h2>Tooltip</h2>
+      <div style="display: flex; gap: 24px; align-items: center; padding-top: 40px;">
+        <lit-material-icon-button id="tooltip-anchor-1" aria-label="Info">ℹ️</lit-material-icon-button>
+        <lit-material-tooltip anchor="tooltip-anchor-1">Shows account details</lit-material-tooltip>
+
+        <lit-material-icon-button id="tooltip-anchor-2" aria-label="Delete" variant="outlined">🗑️</lit-material-icon-button>
+        <lit-material-tooltip anchor="tooltip-anchor-2" show-delay="0">Delete permanently</lit-material-tooltip>
+      </div>
     </section>
 
     <script type="module" src="/src/main.ts"></script>

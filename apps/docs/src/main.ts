@@ -29,6 +29,7 @@ import "@lit-material/badge";
 import "@lit-material/date-picker";
 import type { LitMaterialDatePicker } from "@lit-material/date-picker";
 import "@lit-material/data-table";
+import "@lit-material/tooltip";
 
 const form = document.querySelector<HTMLFormElement>("#demo-form");
 const log = document.querySelector<HTMLPreElement>("#submit-log");
