@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -383,6 +383,13 @@
       <lit-material-select label="Region" value="us" disabled style="max-width: 220px;">
         <lit-material-select-option value="us">United States</lit-material-select-option>
       </lit-material-select>
+    </section>
+
+    <section>
+      <h2>Slider</h2>
+      <lit-material-slider aria-label="Volume" value="30"></lit-material-slider>
+      <lit-material-slider aria-label="Brightness" min="0" max="10" step="1" value="7"></lit-material-slider>
+      <lit-material-slider aria-label="Disabled" value="60" disabled></lit-material-slider>
     </section>
 
     <script type="module" src="/src/main.ts"></script>

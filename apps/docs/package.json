@@ -19,6 +19,7 @@
     "@lit-material/menu": "workspace:*",
     "@lit-material/radio": "workspace:*",
     "@lit-material/select": "workspace:*",
+    "@lit-material/slider": "workspace:*",
     "@lit-material/snackbar": "workspace:*",
     "@lit-material/switch": "workspace:*",
     "@lit-material/text-field": "workspace:*",

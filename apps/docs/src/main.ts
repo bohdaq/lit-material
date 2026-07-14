@@ -15,6 +15,7 @@ import type { LitMaterialMenu } from "@lit-material/menu";
 import "@lit-material/snackbar";
 import type { LitMaterialSnackbar } from "@lit-material/snackbar";
 import "@lit-material/select";
+import "@lit-material/slider";
 
 const form = document.querySelector<HTMLFormElement>("#demo-form");
 const log = document.querySelector<HTMLPreElement>("#submit-log");
