@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar & Navigation Drawer & Navigation Rail & Progress Indicators</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar & Navigation Drawer & Navigation Rail & Progress Indicators & FAB</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -496,6 +496,26 @@
         <lit-material-circular-progress id="demo-circular-progress" aria-label="Upload progress" value="0.3">
         </lit-material-circular-progress>
         <lit-material-circular-progress aria-label="Loading, unknown duration" indeterminate></lit-material-circular-progress>
+      </div>
+    </section>
+
+    <section>
+      <h2>FAB</h2>
+      <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
+        <lit-material-fab size="small" aria-label="Add"><span slot="icon">➕</span></lit-material-fab>
+        <lit-material-fab aria-label="Add"><span slot="icon">➕</span></lit-material-fab>
+        <lit-material-fab size="large" aria-label="Add"><span slot="icon">➕</span></lit-material-fab>
+        <lit-material-fab color="secondary" aria-label="Add"><span slot="icon">➕</span></lit-material-fab>
+        <lit-material-fab color="tertiary" aria-label="Add"><span slot="icon">➕</span></lit-material-fab>
+        <lit-material-fab color="surface" aria-label="Add"><span slot="icon">➕</span></lit-material-fab>
+        <lit-material-fab disabled aria-label="Add"><span slot="icon">➕</span></lit-material-fab>
+      </div>
+
+      <div style="display: flex; gap: 16px; align-items: center; margin-top: 20px;">
+        <lit-material-fab id="demo-extended-fab" extended aria-label="Compose">
+          <span slot="icon">✏️</span>Compose
+        </lit-material-fab>
+        <lit-material-button id="toggle-extended-fab-btn" variant="outlined">Toggle extended</lit-material-button>
       </div>
     </section>
 

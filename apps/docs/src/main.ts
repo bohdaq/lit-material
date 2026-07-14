@@ -23,6 +23,8 @@ import "@lit-material/navigation";
 import type { LitMaterialNavigationDrawer } from "@lit-material/navigation";
 import "@lit-material/progress";
 import type { LitMaterialLinearProgress, LitMaterialCircularProgress } from "@lit-material/progress";
+import "@lit-material/fab";
+import type { LitMaterialFab } from "@lit-material/fab";
 
 const form = document.querySelector<HTMLFormElement>("#demo-form");
 const log = document.querySelector<HTMLPreElement>("#submit-log");
@@ -71,4 +73,9 @@ document.querySelector("#animate-progress-btn")?.addEventListener("click", () =>
     if (elapsed < 1) requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
+});
+
+const extendedFab = document.querySelector<LitMaterialFab>("#demo-extended-fab");
+document.querySelector("#toggle-extended-fab-btn")?.addEventListener("click", () => {
+  if (extendedFab) extendedFab.extended = !extendedFab.extended;
 });
