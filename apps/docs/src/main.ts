@@ -17,6 +17,8 @@ import type { LitMaterialSnackbar } from "@lit-material/snackbar";
 import "@lit-material/select";
 import "@lit-material/slider";
 import "@lit-material/tabs";
+import "@lit-material/top-app-bar";
+import type { LitMaterialTopAppBar } from "@lit-material/top-app-bar";
 
 const form = document.querySelector<HTMLFormElement>("#demo-form");
 const log = document.querySelector<HTMLPreElement>("#submit-log");
@@ -40,3 +42,9 @@ const snackbarUndo = document.querySelector<LitMaterialSnackbar>("#demo-snackbar
 document.querySelector("#show-snackbar-btn")?.addEventListener("click", () => snackbar?.show());
 document.querySelector("#show-snackbar-undo-btn")?.addEventListener("click", () => snackbarUndo?.show());
 document.querySelector("#snackbar-undo-btn")?.addEventListener("click", () => console.log("undo clicked"));
+
+const topAppBarScrollDemo = document.querySelector<HTMLDivElement>("#top-app-bar-scroll-demo");
+const topAppBarInScrollDemo = topAppBarScrollDemo?.querySelector<LitMaterialTopAppBar>("lit-material-top-app-bar");
+if (topAppBarScrollDemo && topAppBarInScrollDemo) {
+  topAppBarInScrollDemo.scrollTarget = topAppBarScrollDemo;
+}

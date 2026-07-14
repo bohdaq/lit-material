@@ -24,7 +24,8 @@
     "@lit-material/switch": "workspace:*",
     "@lit-material/tabs": "workspace:*",
     "@lit-material/text-field": "workspace:*",
-    "@lit-material/tokens": "workspace:*"
+    "@lit-material/tokens": "workspace:*",
+    "@lit-material/top-app-bar": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.7.0",

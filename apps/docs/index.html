@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -400,6 +400,46 @@
         <lit-material-tab disabled>Photos (disabled)</lit-material-tab>
         <lit-material-tab>Podcasts</lit-material-tab>
       </lit-material-tabs>
+    </section>
+
+    <section>
+      <h2>Top App Bar</h2>
+      <lit-material-top-app-bar variant="center-aligned">Center-aligned</lit-material-top-app-bar>
+
+      <div
+        id="top-app-bar-scroll-demo"
+        style="
+          max-width: 480px;
+          height: 180px;
+          overflow-y: auto;
+          border: 1px solid var(--md-sys-color-outline-variant, #cac4d0);
+          border-radius: 12px;
+        "
+      >
+        <lit-material-top-app-bar style="position: sticky; top: 0; z-index: 1;">
+          Inbox
+          <lit-material-icon-button slot="leading" aria-label="Menu">☰</lit-material-icon-button>
+          <lit-material-icon-button slot="trailing" aria-label="Search">🔍</lit-material-icon-button>
+          <lit-material-icon-button slot="trailing" aria-label="More options">⋮</lit-material-icon-button>
+        </lit-material-top-app-bar>
+        <p style="padding: 16px; margin: 0;">
+          Scroll this panel — the bar picks up elevation once its own <code>scrollTarget</code> passes the
+          threshold, not the page's scroll.
+        </p>
+        <p style="padding: 0 16px 200px; margin: 0;">Keep scrolling…</p>
+      </div>
+
+      <lit-material-top-app-bar variant="medium">
+        Medium
+        <lit-material-icon-button slot="leading" aria-label="Menu">☰</lit-material-icon-button>
+        <lit-material-icon-button slot="trailing" aria-label="More options">⋮</lit-material-icon-button>
+      </lit-material-top-app-bar>
+
+      <lit-material-top-app-bar variant="large">
+        Large
+        <lit-material-icon-button slot="leading" aria-label="Menu">☰</lit-material-icon-button>
+        <lit-material-icon-button slot="trailing" aria-label="More options">⋮</lit-material-icon-button>
+      </lit-material-top-app-bar>
     </section>
 
     <script type="module" src="/src/main.ts"></script>
