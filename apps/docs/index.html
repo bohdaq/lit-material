@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar & Navigation Drawer & Navigation Rail & Progress Indicators & FAB & Badge & Date Picker</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar & Navigation Drawer & Navigation Rail & Progress Indicators & FAB & Badge & Date Picker & Data Table</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -545,6 +545,41 @@
         min="2020-01-01"
         max="2030-12-31"
       ></lit-material-date-picker>
+    </section>
+
+    <section>
+      <h2>Data Table</h2>
+      <lit-material-data-table id="demo-data-table" style="max-width: 480px;">
+        <lit-material-data-table-row header>
+          <lit-material-data-table-cell header>
+            <input type="checkbox" data-select-all aria-label="Select all rows" />
+          </lit-material-data-table-cell>
+          <lit-material-data-table-cell header sort-key="name">Name</lit-material-data-table-cell>
+          <lit-material-data-table-cell header sort-key="age" numeric>Age</lit-material-data-table-cell>
+        </lit-material-data-table-row>
+        <lit-material-data-table-row data-row-id="1">
+          <lit-material-data-table-cell>
+            <input type="checkbox" data-row-select aria-label="Select row: Ada Lovelace" />
+          </lit-material-data-table-cell>
+          <lit-material-data-table-cell>Ada Lovelace</lit-material-data-table-cell>
+          <lit-material-data-table-cell numeric>36</lit-material-data-table-cell>
+        </lit-material-data-table-row>
+        <lit-material-data-table-row data-row-id="2">
+          <lit-material-data-table-cell>
+            <input type="checkbox" data-row-select aria-label="Select row: Grace Hopper" />
+          </lit-material-data-table-cell>
+          <lit-material-data-table-cell>Grace Hopper</lit-material-data-table-cell>
+          <lit-material-data-table-cell numeric>85</lit-material-data-table-cell>
+        </lit-material-data-table-row>
+        <lit-material-data-table-row data-row-id="3">
+          <lit-material-data-table-cell>
+            <input type="checkbox" data-row-select aria-label="Select row: Alan Turing" />
+          </lit-material-data-table-cell>
+          <lit-material-data-table-cell>Alan Turing</lit-material-data-table-cell>
+          <lit-material-data-table-cell numeric>41</lit-material-data-table-cell>
+        </lit-material-data-table-row>
+      </lit-material-data-table>
+      <p id="data-table-log" style="color: var(--md-sys-color-on-surface-variant, #49454f);"></p>
     </section>
 
     <script type="module" src="/src/main.ts"></script>

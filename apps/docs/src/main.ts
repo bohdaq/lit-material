@@ -28,6 +28,7 @@ import type { LitMaterialFab } from "@lit-material/fab";
 import "@lit-material/badge";
 import "@lit-material/date-picker";
 import type { LitMaterialDatePicker } from "@lit-material/date-picker";
+import "@lit-material/data-table";
 
 const form = document.querySelector<HTMLFormElement>("#demo-form");
 const log = document.querySelector<HTMLPreElement>("#submit-log");
@@ -88,4 +89,15 @@ const datePickerLog = document.querySelector<HTMLSpanElement>("#date-picker-valu
 document.querySelector("#open-date-picker-btn")?.addEventListener("click", () => datePicker?.show());
 datePicker?.addEventListener("change", () => {
   if (datePickerLog) datePickerLog.textContent = `Selected: ${datePicker.value}`;
+});
+
+const dataTable = document.querySelector<HTMLElement>("#demo-data-table");
+const dataTableLog = document.querySelector<HTMLParagraphElement>("#data-table-log");
+dataTable?.addEventListener("sort-change", (event) => {
+  const { sortKey, sortDirection } = (event as CustomEvent<{ sortKey: string; sortDirection: string }>).detail;
+  if (dataTableLog) dataTableLog.textContent = `Sorted by ${sortKey} (${sortDirection})`;
+});
+dataTable?.addEventListener("selection-change", (event) => {
+  const { selected } = (event as CustomEvent<{ selected: string[] }>).detail;
+  if (dataTableLog) dataTableLog.textContent = `Selected rows: ${selected.length ? selected.join(", ") : "none"}`;
 });

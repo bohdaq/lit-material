@@ -14,6 +14,7 @@
     "@lit-material/card": "workspace:*",
     "@lit-material/checkbox": "workspace:*",
     "@lit-material/chip": "workspace:*",
+    "@lit-material/data-table": "workspace:*",
     "@lit-material/date-picker": "workspace:*",
     "@lit-material/dialog": "workspace:*",
     "@lit-material/fab": "workspace:*",
