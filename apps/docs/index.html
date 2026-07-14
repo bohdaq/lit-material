@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -390,6 +390,16 @@
       <lit-material-slider aria-label="Volume" value="30"></lit-material-slider>
       <lit-material-slider aria-label="Brightness" min="0" max="10" step="1" value="7"></lit-material-slider>
       <lit-material-slider aria-label="Disabled" value="60" disabled></lit-material-slider>
+    </section>
+
+    <section>
+      <h2>Tabs</h2>
+      <lit-material-tabs>
+        <lit-material-tab>Music</lit-material-tab>
+        <lit-material-tab>Videos</lit-material-tab>
+        <lit-material-tab disabled>Photos (disabled)</lit-material-tab>
+        <lit-material-tab>Podcasts</lit-material-tab>
+      </lit-material-tabs>
     </section>
 
     <script type="module" src="/src/main.ts"></script>
