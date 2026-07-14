@@ -3,7 +3,16 @@
 A Material Design 3 web component collection built with [Lit](https://lit.dev/), published as independently
 installable, framework-agnostic packages.
 
-## 0. Status (as of 2026-07-14)
+## 0. Status (as of 2026-07-15)
+
+**App-shell primitives added**: `@lit-material/store` (a dependency-free, Redux-shaped state store plus a
+`StoreController` reactive controller) and `@lit-material/router` (dependency-free path matching, an SPA
+`<lit-material-router-outlet>` that intercepts same-origin link clicks, and a `RouteController` for reading
+the current route without owning an outlet) are new, published-ready packages. `@lit-material/core` gained a
+`themeContext` (built on the standard `@lit/context` protocol) rather than a new `@lit-material/context`
+package — see section 3.5 for why, and `spec/BUILDING_APPS.md` for all three wired together in one example.
+This closes the gap between "a component library" and "something you can build a whole app with" — the
+`lit-material` equivalents of the router/context/Redux trio a React app typically reaches for.
 
 **All 12 Phase 1 components, plus Select, Slider, Tabs, Top App Bar, Navigation Drawer/Rail, Progress
 Indicators, and FAB pulled forward from the Phase 2 backlog, are implemented, tested, screenshot-documented,
@@ -31,6 +40,11 @@ uncommitted; still missing tests, README, screenshot, and a build (no `dist/`), 
    milestone 6 envisioned — no per-component pages, no interactive prop editing, no seed-color theme
    generator.
 4. **Finish Badge**, then pick off the remaining Phase 2 backlog: Divider, Tooltip, Data Table, Date Picker.
+5. **App-shell follow-ups** (deliberately out of scope for the router/store/context work in 3.5): a
+   data-fetching/async-task controller, forms/validation helpers beyond individual form-associated components,
+   `@lit/localize` i18n integration, a `create-lit-material-app` CLI/starter, and — the most natural
+   near-term one — migrating `apps/docs` itself to use `@lit-material/router` for real per-component pages,
+   which item 3 above already flags as a known gap.
 
 ### Deviations from the original plan
 
@@ -152,8 +166,10 @@ lit-material/
 │  ├─ progress/               # linear + circular, one package
 │  ├─ fab/
 │  ├─ badge/                  # in progress, not yet published
-│  ├─ core/                  # @lit-material/core — shared base classes, mixins, a11y helpers, ripple, focus-ring
-│  └─ tokens/                 # @lit-material/tokens — design tokens (style-dictionary source + generated CSS/JS)
+│  ├─ core/                  # @lit-material/core — shared base classes, mixins, a11y helpers, ripple, focus-ring, theme context
+│  ├─ tokens/                 # @lit-material/tokens — design tokens (style-dictionary source + generated CSS/JS)
+│  ├─ store/                  # @lit-material/store — Redux-shaped state store + StoreController
+│  └─ router/                 # @lit-material/router — path matching, route outlet, RouteController
 ├─ apps/
 │  └─ docs/                   # documentation + live playground site (Vite + lit-material itself)
 ├─ tools/
@@ -212,6 +228,39 @@ shared roving-tabindex controller exists yet: Radio's group navigation and Menu'
 implement their own (similar but not identical) version. If a fourth component needs the same pattern,
 extracting a shared controller at that point would be the right call — revisit rather than doing it
 speculatively.
+
+### 3.5 App-shell primitives (router / store / context)
+
+Added so `lit-material` can be used to build whole applications, not just individual components — the
+`lit-material` equivalents of the router/context/Redux trio a React app typically reaches for. Three
+decisions, recorded here so they aren't re-litigated:
+
+- **Separate packages (`@lit-material/router`, `@lit-material/store`), not one bundled `@lit-material/app`.**
+  Matches the "one package per concern, no required adapter layer" precedent this repo already follows for
+  components (section 1).
+- **No `@lit-material/context` package.** `@lit/context` (the Lit team's own, stable, non-`labs`
+  implementation of the W3C Community Context Protocol) is already the right dependency-free choice — wrapping
+  it in a `@lit-material/context` package that just re-exports `createContext`/`ContextProvider`/`consume`
+  would be exactly the "required adapter layer" this repo avoids, for no added value. Instead
+  `@lit-material/core` depends on `@lit/context` directly and ships one real, opinionated context —
+  `themeContext` (dark/light + seed color) — since that's the one cross-cutting value nearly every MD3 app
+  needs threaded through a tree. Anything app-specific: install `@lit/context` yourself and call
+  `createContext` directly, same as you would in any other Lit app.
+- **`@lit-material/router` is hand-rolled, not `@lit-labs/router`.** `@lit-labs/router` is genuinely `labs`
+  (unstable API) and needs a `urlpattern-polyfill` dependency for full `URLPattern` matching. Same reasoning
+  that dropped Floating UI once the Popover API alone proved sufficient (see "Deviations" above): a router
+  only needs simple `/users/:id`-style segment matching, not full `URLPattern` semantics, so
+  `@lit-material/router`'s `matchRoute` is ~50 lines of dependency-free string-segment matching instead.
+  `@lit-material/router` is also the one package that isn't SSR-safe (routing needs `window.history`/
+  `location`) — don't import it from an SSR entry point.
+- **`@lit-material/store`'s `createStore` mirrors Redux's exact shape** (`getState`/`dispatch`/`subscribe`,
+  driven by a pure reducer) without depending on `redux` itself — ~30 lines without it. `StoreController`
+  follows the same reactive-controller pattern as `RippleController`/`FocusRingController` (constructor takes
+  `host`, `hostConnected`/`hostDisconnected` manage the subscription, `requestUpdate()` only when the
+  *selected* slice of state changes).
+
+See `spec/BUILDING_APPS.md` for all three wired together in one example, and each package's own README for
+full API detail.
 
 ## 4. Quality bar (applies to every component before it ships)
 

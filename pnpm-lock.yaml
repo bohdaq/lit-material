@@ -15,6 +15,40 @@ importers:
         specifier: ^5.7.0
         version: 5.9.3
 
+  apps/app-shell-demo:
+    dependencies:
+      '@lit-material/button':
+        specifier: workspace:*
+        version: link:../../packages/button
+      '@lit-material/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@lit-material/router':
+        specifier: workspace:*
+        version: link:../../packages/router
+      '@lit-material/store':
+        specifier: workspace:*
+        version: link:../../packages/store
+      '@lit-material/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
+      '@lit-material/top-app-bar':
+        specifier: workspace:*
+        version: link:../../packages/top-app-bar
+      '@lit/context':
+        specifier: ^1.1.0
+        version: 1.1.6
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
+    devDependencies:
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+      vite:
+        specifier: ^6.0.0
+        version: 6.4.3(@types/node@26.1.0)(tsx@4.23.0)
+
   apps/docs:
     dependencies:
       '@lit-material/badge':
@@ -281,6 +315,9 @@ importers:
 
   packages/core:
     dependencies:
+      '@lit/context':
+        specifier: ^1.1.0
+        version: 1.1.6
       lit:
         specifier: ^3.2.0
         version: 3.3.3
@@ -647,6 +684,37 @@ importers:
         specifier: ^5.7.0
         version: 5.9.3
 
+  packages/router:
+    dependencies:
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
+    devDependencies:
+      '@lit-labs/ssr':
+        specifier: ^3.3.1
+        version: 3.3.1
+      '@open-wc/testing':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@web/dev-server-esbuild':
+        specifier: ^1.0.0
+        version: 1.0.5
+      '@web/test-runner':
+        specifier: ^0.19.0
+        version: 0.19.0
+      '@web/test-runner-commands':
+        specifier: ^0.9.0
+        version: 0.9.0
+      '@web/test-runner-playwright':
+        specifier: ^0.11.0
+        version: 0.11.1
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.0
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
   packages/select:
     dependencies:
       '@lit-material/core':
@@ -726,6 +794,37 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
+    devDependencies:
+      '@lit-labs/ssr':
+        specifier: ^3.3.1
+        version: 3.3.1
+      '@open-wc/testing':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@web/dev-server-esbuild':
+        specifier: ^1.0.0
+        version: 1.0.5
+      '@web/test-runner':
+        specifier: ^0.19.0
+        version: 0.19.0
+      '@web/test-runner-commands':
+        specifier: ^0.9.0
+        version: 0.9.0
+      '@web/test-runner-playwright':
+        specifier: ^0.11.0
+        version: 0.11.1
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.0
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
+  packages/store:
+    dependencies:
       lit:
         specifier: ^3.2.0
         version: 3.3.3
@@ -1446,6 +1545,9 @@ packages:
   '@lit-labs/ssr@3.3.1':
     resolution: {integrity: sha512-JlF1PempxvzrGEpRFrF+Ki0MHzR3HA51SK8Zv0cFpW9p0bPW4k0FeCwrElCu371UEpXF7RcaE2wgYaE1az0XKg==}
     engines: {node: '>=13.9.0'}
+
+  '@lit/context@1.1.6':
+    resolution: {integrity: sha512-M26qDE6UkQbZA2mQ3RjJ3Gzd8TxP+/0obMgE5HfkfLhEEyYE3Bui4A5XHiGPjy0MUGAyxB3QgVuw2ciS0kHn6A==}
 
   '@lit/reactive-element@2.1.2':
     resolution: {integrity: sha512-pbCDiVMnne1lYUIaYNN5wrwQXDtHaYtg7YEFPeW+hws6U47WeFvISGUWekPGKWOP1ygrs0ef0o1VJMk1exos5A==}
@@ -3424,6 +3526,10 @@ snapshots:
       lit-html: 3.3.3
       node-fetch: 3.3.2
       parse5: 7.3.0
+
+  '@lit/context@1.1.6':
+    dependencies:
+      '@lit/reactive-element': 2.1.2
 
   '@lit/reactive-element@2.1.2':
     dependencies:
