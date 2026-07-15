@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar & Navigation Drawer & Navigation Rail & Progress Indicators & FAB & Badge & Date Picker & Data Table & Tooltip</title>
+    <title>lit-material — Button & Icon Button & Text Field & Checkbox & Radio & Switch & Chip & Card & List & Dialog & Menu & Snackbar & Select & Slider & Tabs & Top App Bar & Navigation Drawer & Navigation Rail & Progress Indicators & FAB & Badge & Date Picker & Data Table & Tooltip & Divider</title>
     <style>
       body {
         font-family: Roboto, system-ui, sans-serif;
@@ -590,6 +590,25 @@
 
         <lit-material-icon-button id="tooltip-anchor-2" aria-label="Delete" variant="outlined">🗑️</lit-material-icon-button>
         <lit-material-tooltip anchor="tooltip-anchor-2" show-delay="0">Delete permanently</lit-material-tooltip>
+      </div>
+    </section>
+
+    <section>
+      <h2>Divider</h2>
+      <div style="max-width: 320px;">
+        <p style="margin: 8px 0;">Full-bleed</p>
+        <lit-material-divider></lit-material-divider>
+        <p style="margin: 8px 0;">Inset (start)</p>
+        <lit-material-divider inset-start></lit-material-divider>
+        <p style="margin: 8px 0;">Middle inset</p>
+        <lit-material-divider inset-start inset-end></lit-material-divider>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; margin-top: 24px; height: 32px;">
+        <lit-material-button variant="text">Cut</lit-material-button>
+        <lit-material-divider orientation="vertical"></lit-material-divider>
+        <lit-material-button variant="text">Copy</lit-material-button>
+        <lit-material-divider orientation="vertical"></lit-material-divider>
+        <lit-material-button variant="text">Paste</lit-material-button>
       </div>
     </section>
 

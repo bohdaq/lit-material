@@ -16,6 +16,7 @@
     "@lit-material/chip": "workspace:*",
     "@lit-material/data-table": "workspace:*",
     "@lit-material/date-picker": "workspace:*",
+    "@lit-material/divider": "workspace:*",
     "@lit-material/dialog": "workspace:*",
     "@lit-material/fab": "workspace:*",
     "@lit-material/icon-button": "workspace:*",
