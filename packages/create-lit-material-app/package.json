@@ -1,0 +1,41 @@
+{
+  "name": "create-lit-material-app",
+  "version": "0.0.1",
+  "description": "Scaffold a new app with lit-material, @lit-material/router, and @lit-material/store already wired together.",
+  "license": "MIT",
+  "author": {
+    "name": "bohdaq",
+    "email": "bohdaq@gmail.com",
+    "url": "https://github.com/bohdaq"
+  },
+  "homepage": "https://github.com/bohdaq/lit-material#readme",
+  "bugs": "https://github.com/bohdaq/lit-material/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bohdaq/lit-material.git",
+    "directory": "packages/create-lit-material-app"
+  },
+  "keywords": ["lit", "lit-material", "create-app", "scaffold", "cli", "starter"],
+  "type": "module",
+  "bin": {
+    "create-lit-material-app": "./bin/create-lit-material-app.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "template"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --import tsx --test src/*.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

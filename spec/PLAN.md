@@ -14,8 +14,25 @@ the current route without owning an outlet) are new packages, both published to 
 together in one example, plus `apps/app-shell-demo` (private, unpublished) for a runnable version. This closes
 the gap between "a component library" and "something you can build a whole app with" — the `lit-material`
 equivalents of the router/context/Redux trio a React app typically reaches for.
-**`@lit-material/core`'s local version (`0.0.2`, with the new `themeContext`) has not been published yet** —
-npm still serves `0.0.1` without it; see "Not yet done" #3 below.
+
+**All four app-shell follow-ups from the previous pass are now done, closing that gap out entirely**:
+`@lit-material/task` (a dependency-free `TaskController` for async work/data fetching, hand-rolled instead of
+depending on `@lit-labs/task` — same reasoning as the router), `@lit-material/form` (a `FormController`
+reactive controller making a native `<form>`'s aggregate validity — already correctly computed by every
+form-associated component's own `ElementInternals` — actually *reactive*), a `localeContext` addition to
+`@lit-material/core` (same shape as `themeContext`, for i18n — see section 3.5 and `spec/BUILDING_APPS.md`'s
+new "Internationalization" section), and `create-lit-material-app` (a dependency-free scaffolding CLI —
+`npm create lit-material-app`), which have all been end-to-end verified: `create-lit-material-app`'s scaffold
+was actually run, `npm install`ed against the real published packages, typechecked, built, and click-tested in
+a browser (router navigation + store-backed counter both confirmed working), not just unit-tested.
+**A real, hang-causing infinite-loop bug was found and fixed during `@lit-material/form`'s own testing**:
+`form.checkValidity()`/`reportValidity()` themselves dispatch a per-invalid-field `invalid` event, so an
+`invalid` handler that called either of those again (the original, wrong design) recurses forever for as long
+as any field stays invalid — fixed by having the `invalid` handler record the (already-known) result directly
+instead of re-checking.
+**`@lit-material/core`'s local version (`0.0.2`, with `themeContext` and now `localeContext`) has not been
+published yet** — npm still serves `0.0.1` with neither; see "Not yet done" #3 below. `@lit-material/task`,
+`@lit-material/form`, and `create-lit-material-app` are new local packages, not yet published at all.
 
 **Docs site v1 done**: `apps/docs` is now a real multi-page site on `@lit-material/router` instead of one
 static HTML page — a persistent sidebar (`apps/docs/src/app-shell.ts`, `route-manifest.ts`), an install guide
@@ -30,26 +47,30 @@ published to npm** — the 12 Phase 1 components, Select, Slider, Tabs, Top App 
 Progress Indicators, FAB, Badge, Tooltip, Data Table, Date Picker, and Divider (Divider was the last of these;
 committed and published to npm `0.0.1` since the last pass over this document). All have unit + SSR tests and
 at least one axe-core accessibility test; the docs app (`apps/docs`) demos every variant/state and is the
-source of each package's README screenshot. Of the 28 packages in `packages/`, all are published to npm with
-correctly resolved dependencies (no `workspace:*` protocol strings leaking into published manifests) — two are
-stale: local `@lit-material/core` is `0.0.2` (adds `themeContext`) and local `@lit-material/button` is `0.0.2`,
-but npm still serves `0.0.1` for both (see "Not yet done" #3). See section 2 for per-component detail and
-section "Deviations from the original plan" below for where the actual build diverged from what this document
+source of each package's README screenshot. Of the 31 packages in `packages/` (28 components/`core`/`tokens`/
+`router`/`store`, plus the three new `task`/`form`/`create-lit-material-app`), 28 are published to npm with
+correctly resolved dependencies (no `workspace:*` protocol strings leaking into published manifests) — the
+three new ones aren't published yet, and two already-published ones are stale: local `@lit-material/core` is
+`0.0.2` (adds `themeContext`, now also `localeContext`) and local `@lit-material/button` is `0.0.2`, but npm
+still serves `0.0.1` for both (see "Not yet done" #3). See section 2 for per-component detail and section
+"Deviations from the original plan" below for where the actual build diverged from what this document
 originally proposed.
 
 **Not yet done, in priority order:**
 1. **Tooling gaps**: no CI (`.github/workflows` doesn't exist), no ESLint config, no Changesets, no
    custom-elements-manifest generation. The plan called for all four; none exist yet, so releases and
    contributions are still fully manual.
-2. **Unverified quality-bar items**: RTL (`dir="rtl"`) has not been explicitly tested on any component;
-   `prefers-reduced-motion` is handled per-component (each has a media query) but not tested; dark mode relies
-   entirely on the token layer's `prefers-color-scheme` values and hasn't been visually verified end-to-end.
-3. **Publish outstanding versions**: `@lit-material/core` (`0.0.2`, adds `themeContext` — currently invisible
-   to anyone installing from npm) and `@lit-material/button` (`0.0.2`, version bumped but never republished,
-   pre-dating this session's work) both need a republish.
-4. **App-shell follow-ups** (deliberately out of scope for the router/store/context work in 3.5): a
-   data-fetching/async-task controller, forms/validation helpers beyond individual form-associated components,
-   `@lit/localize` i18n integration, and a `create-lit-material-app` CLI/starter.
+2. **Unverified quality-bar items**: RTL (`dir="rtl"`) has not been explicitly, comprehensively tested — and
+   isn't uniformly correct: a repo-wide grep while writing this pass's i18n docs found several components
+   positioning elements with physical `left`/`right` rather than logical properties (Switch's thumb is one
+   confirmed example that won't mirror correctly under `dir="rtl"`), alongside others that do use logical
+   properties throughout. `prefers-reduced-motion` is handled per-component (each has a media query) but not
+   tested; dark mode relies entirely on the token layer's `prefers-color-scheme` values and hasn't been
+   visually verified end-to-end.
+3. **Publish outstanding packages/versions**: `@lit-material/core` (`0.0.2`, adds `themeContext` and now
+   `localeContext`) and `@lit-material/button` (`0.0.2`, version bumped but never republished) both need a
+   republish; `@lit-material/task`, `@lit-material/form`, and `create-lit-material-app` need their first
+   publish.
 
 ### Deviations from the original plan
 
@@ -172,10 +193,13 @@ lit-material/
 │  ├─ data-table/
 │  ├─ date-picker/
 │  ├─ divider/
-│  ├─ core/                  # @lit-material/core — shared base classes, mixins, a11y helpers, ripple, focus-ring, theme context
+│  ├─ core/                  # @lit-material/core — shared base classes, mixins, a11y helpers, ripple, focus-ring, theme + locale context
 │  ├─ tokens/                 # @lit-material/tokens — design tokens (style-dictionary source + generated CSS/JS)
 │  ├─ store/                  # @lit-material/store — Redux-shaped state store + StoreController
-│  └─ router/                 # @lit-material/router — path matching, route outlet, RouteController
+│  ├─ router/                 # @lit-material/router — path matching, route outlet, RouteController
+│  ├─ task/                   # @lit-material/task — TaskController for async work (data fetching)
+│  ├─ form/                   # @lit-material/form — FormController tracking a <form>'s aggregate validity
+│  └─ create-lit-material-app/ # `npm create lit-material-app` — scaffolding CLI, not a runtime dependency
 ├─ apps/
 │  ├─ docs/                   # documentation site — router, per-component pages, playground, theme builder
 │  └─ app-shell-demo/         # private, unpublished — router+store+theme context wired together, runnable
@@ -236,10 +260,11 @@ implement their own (similar but not identical) version. If a fourth component n
 extracting a shared controller at that point would be the right call — revisit rather than doing it
 speculatively.
 
-### 3.5 App-shell primitives (router / store / context)
+### 3.5 App-shell primitives (router / store / context / task / form / CLI)
 
 Added so `lit-material` can be used to build whole applications, not just individual components — the
-`lit-material` equivalents of the router/context/Redux trio a React app typically reaches for. Three
+`lit-material` equivalents of the router/context/Redux trio a React app typically reaches for, plus the
+follow-ups that trio alone doesn't cover (data fetching, form validation, i18n, project scaffolding). Six
 decisions, recorded here so they aren't re-litigated:
 
 - **Separate packages (`@lit-material/router`, `@lit-material/store`), not one bundled `@lit-material/app`.**
@@ -265,8 +290,32 @@ decisions, recorded here so they aren't re-litigated:
   follows the same reactive-controller pattern as `RippleController`/`FocusRingController` (constructor takes
   `host`, `hostConnected`/`hostDisconnected` manage the subscription, `requestUpdate()` only when the
   *selected* slice of state changes).
+- **`@lit-material/task`'s `TaskController` is hand-rolled, not `@lit-labs/task`** — same reasoning as the
+  router: re-running an async function when its arguments change, tracking pending/complete/error, and
+  cancelling a superseded run doesn't need most of what a full `labs` task-queue implementation ships.
+  Notably, it **never runs during `@lit-labs/ssr`**: SSR drives `willUpdate()`/`update()`/`render()` directly
+  but never invokes reactive controllers' `hostUpdate()` (the hook `autoRun` relies on), so a server-rendered
+  host is always frozen in `"initial"` status — there's no way around this either way, since SSR is a single
+  synchronous pass that can't await an in-flight promise.
+- **`@lit-material/form`'s `FormController` doesn't re-implement validity aggregation** —
+  `form.checkValidity()`/`reportValidity()` already aggregate across native inputs and any form-associated
+  custom element via `ElementInternals`; the controller only adds *reactivity* (calling `requestUpdate()` when
+  the aggregate result changes) that native form validity doesn't otherwise have. Its `invalid`-event handler
+  deliberately never calls `checkValidity()`/`reportValidity()` again, since those two methods are themselves
+  what dispatch `invalid` — doing so is circular and was a real bug found during testing (see section 0).
+- **No `@lit-material/context` package, extended to i18n too.** `@lit-material/core`'s new `localeContext`
+  follows the exact precedent `themeContext` already set (see the no-`@lit-material/context` bullet above):
+  just the shared key/value shape, not a wrapper around `@lit/localize` itself. None of `lit-material`'s own
+  components have hardcoded translatable strings (every visible label is slotted content or a consumer
+  property), so there was never anything for `lit-material` itself to translate — `localeContext` is purely
+  the connective tissue for an app's own `@lit/localize` setup.
+- **`create-lit-material-app` is a plain Node CLI, no scaffolding framework.** Same reasoning again: copying a
+  template directory and substituting one placeholder doesn't need `commander`/`inquirer`/a templating engine
+  — `src/cli.ts` is `fs`/`path`/`url` only. Its `template/` uses real published version ranges (not
+  `workspace:*`), since a scaffolded project is standalone, not part of this monorepo.
 
-See `spec/BUILDING_APPS.md` for all three wired together in one example, and each package's own README for
+See `spec/BUILDING_APPS.md` for all of these wired together in one example (including data fetching and form
+validation extensions to the original router/store/context trio example), and each package's own README for
 full API detail.
 
 ## 4. Quality bar (applies to every component before it ships)
@@ -306,21 +355,24 @@ full API detail.
    Indicators, FAB, Badge, Tooltip, Data Table, Date Picker, and Divider all built (see section 2), chosen by
    direct request rather than a prioritization exercise — every component from the original Phase 1/2 scope
    now exists.
-9. ~~**App-shell primitives**~~ — done: `@lit-material/router` and `@lit-material/store`, plus a `themeContext`
-   addition to `@lit-material/core` (see section 3.5 and `spec/BUILDING_APPS.md`).
+9. ~~**App-shell primitives**~~ — done: `@lit-material/router` and `@lit-material/store`, a `themeContext`/
+   `localeContext` addition to `@lit-material/core`, `@lit-material/task`, `@lit-material/form`, and
+   `create-lit-material-app` — every follow-up originally scoped for this milestone (see section 3.5 and
+   `spec/BUILDING_APPS.md`).
 
 ### Immediate next steps (concrete, in order)
 
-1. Publish `@lit-material/core@0.0.2` (adds `themeContext`) and `@lit-material/button@0.0.2` — both have a
-   local version ahead of npm.
+1. Publish `@lit-material/core@0.0.2` (adds `themeContext`/`localeContext`) and `@lit-material/button@0.0.2`
+   (both have a local version ahead of npm), and the first publish of `@lit-material/task`,
+   `@lit-material/form`, and `create-lit-material-app`.
 2. Add the still-missing tooling section 3.2 calls for: CI (GitHub Actions running `turbo run lint typecheck
    test build`), Changesets (for coordinated per-package versioning), and an ESLint config. Turborepo itself
    is already in place.
-3. Pick one component and verify the unverified quality-bar items (RTL, `prefers-reduced-motion`, dark mode)
-   end-to-end, to find out whether they already work by virtue of using system tokens/logical CSS properties,
-   or need real fixes — then decide whether to roll that fix/verification pass across all components.
-4. Pick off an app-shell follow-up (section 0 item 4): a data-fetching/async-task controller, forms/
-   validation helpers, `@lit/localize` i18n integration, or a `create-lit-material-app` CLI/starter.
+3. RTL: the repo-wide grep in "Not yet done" #2 found confirmed physical-`left`/`right` gaps (Switch's thumb)
+   alongside components that already do this correctly — worth a real audit + fix pass across every component,
+   now that there's a concrete finding to start from rather than an unverified checkbox.
+4. `prefers-reduced-motion`/dark-mode: still open, same as RTL — pick one component, verify end-to-end, decide
+   whether to roll the pass across all of them.
 
 ## 6. Open questions (revisit as the project matures)
 
