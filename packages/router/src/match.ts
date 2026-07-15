@@ -2,17 +2,20 @@ export interface MatchedRoute {
   params: Record<string, string>;
 }
 
+export interface RoutePrefixMatch {
+  params: Record<string, string>;
+  /** Unmatched remainder of the pathname (e.g. `/settings`), or `""` if `pattern` consumed the whole path. */
+  remaining: string;
+}
+
 /**
- * Matches `pathname` against a route `pattern` like `/users/:id` or
- * `/files/*`. Supports static segments, `:name` named params, and a single
- * trailing `*` wildcard (captured as `params.wildcard`).
- *
- * Deliberately simple string-segment matching, not a full regex/`URLPattern`
- * engine — `/users/:id`-style matching is all a client router actually
- * needs, and this keeps the package dependency-free (no `urlpattern-polyfill`
- * for browsers that lack native `URLPattern`).
+ * Like `matchRoute`, but `pattern` only has to match a *prefix* of
+ * `pathname` — whatever's left over is returned as `remaining`, for matching
+ * against child routes. This is what powers nested-route support in
+ * `matchRouteTree` (see `route-tree.ts`); `matchRoute` itself is just a
+ * prefix match that happens to leave nothing remaining.
  */
-export function matchRoute(pattern: string, pathname: string): MatchedRoute | null {
+export function matchRoutePrefix(pattern: string, pathname: string): RoutePrefixMatch | null {
   const patternSegments = splitPath(pattern);
   const pathSegments = splitPath(pathname);
   const params: Record<string, string> = {};
@@ -22,7 +25,7 @@ export function matchRoute(pattern: string, pathname: string): MatchedRoute | nu
 
     if (patternSegment === "*") {
       params.wildcard = pathSegments.slice(i).join("/");
-      return { params };
+      return { params, remaining: "" };
     }
 
     const pathSegment = pathSegments[i];
@@ -36,8 +39,24 @@ export function matchRoute(pattern: string, pathname: string): MatchedRoute | nu
     if (patternSegment !== pathSegment) return null;
   }
 
-  if (pathSegments.length !== patternSegments.length) return null;
-  return { params };
+  const remainingSegments = pathSegments.slice(patternSegments.length);
+  return { params, remaining: remainingSegments.length > 0 ? `/${remainingSegments.join("/")}` : "" };
+}
+
+/**
+ * Matches `pathname` against a route `pattern` like `/users/:id` or
+ * `/files/*`. Supports static segments, `:name` named params, and a single
+ * trailing `*` wildcard (captured as `params.wildcard`).
+ *
+ * Deliberately simple string-segment matching, not a full regex/`URLPattern`
+ * engine — `/users/:id`-style matching is all a client router actually
+ * needs, and this keeps the package dependency-free (no `urlpattern-polyfill`
+ * for browsers that lack native `URLPattern`).
+ */
+export function matchRoute(pattern: string, pathname: string): MatchedRoute | null {
+  const prefixMatch = matchRoutePrefix(pattern, pathname);
+  if (!prefixMatch || prefixMatch.remaining !== "") return null;
+  return { params: prefixMatch.params };
 }
 
 function splitPath(path: string): string[] {

@@ -1,10 +1,19 @@
 import type { ReactiveController, ReactiveControllerHost } from "lit";
-import { matchRoute } from "./match.js";
+import { matchRouteTree } from "./route-tree.js";
 import { ROUTE_CHANGE_EVENT } from "./navigate.js";
 
 export interface RouteConfig<T> {
   path: string;
-  render: (params: Record<string, string>) => T;
+  /**
+   * `outlet()` returns the matched child route's content (from `children`),
+   * or `null` if this route has no children, or none matched — call it
+   * wherever the nested content should appear in this route's own template.
+   * Existing zero/one-argument `render` functions still work unchanged;
+   * `outlet` only matters for routes that declare `children`.
+   */
+  render: (params: Record<string, string>, outlet: () => T | null) => T;
+  /** Nested routes, matched against whatever's left of the path after this route's own `path` is consumed. */
+  children?: RouteConfig<T>[];
 }
 
 export interface CurrentRoute<T> {
@@ -48,11 +57,9 @@ export class RouteController<T = unknown> implements ReactiveController {
 
   private match(): CurrentRoute<T> {
     const path = window.location.pathname;
-    for (const route of this.getRoutes()) {
-      const matched = matchRoute(route.path, path);
-      if (matched) {
-        return { path, params: matched.params, content: route.render(matched.params) };
-      }
+    const matched = matchRouteTree(this.getRoutes(), path);
+    if (matched) {
+      return { path, params: matched.params, content: matched.content };
     }
     return { path, params: {}, content: null };
   }

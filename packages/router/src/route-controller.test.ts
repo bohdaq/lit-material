@@ -1,4 +1,5 @@
 import { expect, fixture, html } from "@open-wc/testing";
+import type { TemplateResult } from "lit";
 import { LitElement } from "lit";
 import { RouteController, type RouteConfig } from "./route-controller.js";
 import { navigate } from "./navigate.js";
@@ -73,5 +74,87 @@ describe("RouteController", () => {
     el.remove();
 
     expect(() => navigate("/users/1")).to.not.throw();
+  });
+});
+
+const nestedRoutes: RouteConfig<TemplateResult>[] = [
+  {
+    path: "/dashboard",
+    render: (_params, outlet) => html`<div class="shell">shell:${outlet()}</div>`,
+    children: [
+      { path: "", render: () => html`<span class="index">index</span>` },
+      { path: "settings", render: () => html`<span class="settings">settings</span>` },
+    ],
+  },
+];
+
+class NestedRouteTestHost extends LitElement {
+  readonly route = new RouteController(this, () => nestedRoutes);
+
+  override render() {
+    return this.route.current.content;
+  }
+}
+customElements.define("lit-material-nested-route-test-host", NestedRouteTestHost);
+
+describe("RouteController nested routes", () => {
+  afterEach(() => {
+    history.replaceState(null, "", "/");
+  });
+
+  it("renders the parent shell wrapping the matched child, via outlet()", async () => {
+    history.replaceState(null, "", "/dashboard/settings");
+    const el = await fixture<NestedRouteTestHost>(
+      html`<lit-material-nested-route-test-host></lit-material-nested-route-test-host>`,
+    );
+    expect(el.shadowRoot!.querySelector(".shell")).to.exist;
+    expect(el.shadowRoot!.querySelector(".settings")).to.exist;
+    expect(el.shadowRoot!.textContent).to.include("shell:");
+  });
+
+  it("renders the index child when the parent path matches exactly", async () => {
+    history.replaceState(null, "", "/dashboard");
+    const el = await fixture<NestedRouteTestHost>(
+      html`<lit-material-nested-route-test-host></lit-material-nested-route-test-host>`,
+    );
+    expect(el.shadowRoot!.querySelector(".index")).to.exist;
+    expect(el.shadowRoot!.querySelector(".settings")).to.not.exist;
+  });
+
+  it("re-renders just the nested child on navigate(), keeping the shell mounted", async () => {
+    history.replaceState(null, "", "/dashboard");
+    const el = await fixture<NestedRouteTestHost>(
+      html`<lit-material-nested-route-test-host></lit-material-nested-route-test-host>`,
+    );
+    expect(el.shadowRoot!.querySelector(".index")).to.exist;
+
+    navigate("/dashboard/settings");
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelector(".shell")).to.exist;
+    expect(el.shadowRoot!.querySelector(".settings")).to.exist;
+    expect(el.shadowRoot!.querySelector(".index")).to.not.exist;
+  });
+
+  it("falls through to a sibling route when no child matches the nested path", async () => {
+    const withFallback: RouteConfig<TemplateResult>[] = [
+      ...nestedRoutes,
+      { path: "*", render: () => html`<span class="not-found">not found</span>` },
+    ];
+
+    class HostWithFallback extends LitElement {
+      readonly route = new RouteController(this, () => withFallback);
+      override render() {
+        return this.route.current.content;
+      }
+    }
+    customElements.define("lit-material-nested-route-fallback-host", HostWithFallback);
+
+    history.replaceState(null, "", "/dashboard/nope");
+    const el = await fixture<HostWithFallback>(
+      html`<lit-material-nested-route-fallback-host></lit-material-nested-route-fallback-host>`,
+    );
+    expect(el.shadowRoot!.querySelector(".not-found")).to.exist;
+    expect(el.shadowRoot!.querySelector(".shell")).to.not.exist;
   });
 });
