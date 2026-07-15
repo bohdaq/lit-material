@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
 import { pageStyles } from "../styles/page-styles.js";
+import { guidePageStyles } from "../styles/guide-page-styles.js";
 
 const installCode =
   "npm install @lit-material/router @lit-material/store @lit-material/core @lit-material/task @lit-material/form @lit/context lit";
@@ -159,35 +160,8 @@ const i18nCode = [
 export class DocsBuildingAppsPage extends LitElement {
   static override styles = [
     pageStyles,
+    guidePageStyles,
     css`
-      :host {
-        max-width: 760px;
-      }
-
-      .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--md-sys-color-primary);
-        margin-bottom: 1rem;
-      }
-      .eyebrow::before {
-        content: "";
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--md-sys-color-primary);
-      }
-
-      .lede {
-        font-size: 1.1rem;
-        max-width: 62ch;
-      }
-
       ul.packages {
         padding: 0;
         margin: 0 0 2rem;
@@ -199,20 +173,6 @@ export class DocsBuildingAppsPage extends LitElement {
       ul.packages li {
         font-size: 0.9rem;
         color: var(--md-sys-color-on-surface-variant);
-      }
-
-      .doc-section {
-        display: block;
-        padding: 1.75rem;
-        margin: 0 0 1.25rem;
-      }
-      .doc-section h2 {
-        text-transform: none;
-        font-size: 1.3rem;
-        font-weight: 800;
-        letter-spacing: -0.01em;
-        color: var(--md-sys-color-on-background);
-        margin-bottom: 0.75rem;
       }
     `,
   ];
@@ -305,9 +265,11 @@ export class DocsBuildingAppsPage extends LitElement {
         <p>
           RTL (<code>dir="rtl"</code>): most components use logical CSS properties (<code>margin-inline-start</code>,
           <code>padding-inline</code>, etc.), which flip automatically with <code>dir</code> — but this hasn't
-          been comprehensively audited, and a handful of components position elements with physical
-          <code>left</code>/<code>right</code> in ways that won't mirror correctly (Switch's thumb position is
-          one confirmed example). Full RTL verification across every component remains open — see
+          been comprehensively audited, and a handful of components still position elements with physical
+          <code>left</code>/<code>right</code> in ways that won't mirror correctly (Switch's thumb was one
+          confirmed example, now fixed; Navigation Rail's badge corner, Slider's filled track, and Linear
+          Progress's fill are the next known candidates). Full RTL verification across every component remains
+          open — see
           <a
             href="https://github.com/bohdaq/lit-material/blob/main/spec/PLAN.md"
             target="_blank"

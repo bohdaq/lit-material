@@ -5,7 +5,7 @@ import { LitElement, html, css } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { navEntries, groupLabels, type NavGroup } from "./route-manifest.js";
 
-const groupOrder: NavGroup[] = ["guide", "theme", "components"];
+const groupOrder: NavGroup[] = ["guide", "theme", "packages", "components"];
 
 @customElement("docs-app-shell")
 export class DocsAppShell extends LitElement {

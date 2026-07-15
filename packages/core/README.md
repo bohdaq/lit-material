@@ -45,6 +45,32 @@ class ThemedWidget extends LitElement {
 The `@provide`/`@consume` decorators from `@lit/context` work the same way, if you prefer decorators
 over explicit controllers.
 
+## Locale context
+
+`localeContext` is the same pattern as `themeContext`, applied to i18n: a shared context key for threading
+the active locale (and an optional explicit text-direction override) down a component tree, so components
+that need to format a date or render a `dir`-aware layout can read it without prop drilling.
+
+```ts
+import { localeContext, type LocaleState } from "@lit-material/core";
+import { ContextProvider } from "@lit/context";
+
+class AppShell extends LitElement {
+  private readonly locale = new ContextProvider(this, {
+    context: localeContext,
+    initialValue: { locale: "en" } satisfies LocaleState,
+  });
+}
+```
+
+`@lit-material/core` only defines the key and the `LocaleState` shape (`{ locale: string; direction?: "ltr" |
+"rtl" }`) here too — none of `lit-material`'s own components have hardcoded, translatable strings (every
+visible label is slotted content or a consumer-supplied property), so the actual translation runtime is your
+app's own concern. Combine `localeContext` with
+[`@lit/localize`](https://www.npmjs.com/package/@lit/localize) (the Lit team's own message-extraction/
+translation tool) for the translated strings themselves — see the docs app's "Building apps" guide
+(`apps/docs`, `/guide/building-apps`) for a worked example wiring both together.
+
 ## License
 
 MIT

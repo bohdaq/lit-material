@@ -1,40 +1,14 @@
 import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
 import { pageStyles } from "../styles/page-styles.js";
+import { guidePageStyles } from "../styles/guide-page-styles.js";
 
 @customElement("docs-home-page")
 export class DocsHomePage extends LitElement {
   static override styles = [
     pageStyles,
+    guidePageStyles,
     css`
-      :host {
-        max-width: 760px;
-      }
-
-      .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--md-sys-color-primary);
-        margin-bottom: 1rem;
-      }
-      .eyebrow::before {
-        content: "";
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--md-sys-color-primary);
-      }
-
-      .lede {
-        font-size: 1.1rem;
-        max-width: 56ch;
-      }
-
       .stats {
         display: flex;
         gap: 2rem;

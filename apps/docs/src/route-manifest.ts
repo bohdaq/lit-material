@@ -2,6 +2,12 @@ import { html } from "lit";
 import "./pages/home-page.js";
 import "./pages/building-apps-page.js";
 import "./pages/theme-page.js";
+import "./pages/packages/router-page.js";
+import "./pages/packages/store-page.js";
+import "./pages/packages/core-page.js";
+import "./pages/packages/task-page.js";
+import "./pages/packages/form-page.js";
+import "./pages/packages/cli-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -27,7 +33,7 @@ import "./pages/components/progress-page.js";
 import "./pages/components/date-picker-page.js";
 import "./pages/components/data-table-page.js";
 
-export type NavGroup = "guide" | "theme" | "components";
+export type NavGroup = "guide" | "theme" | "packages" | "components";
 
 export interface NavEntry {
   path: string;
@@ -39,6 +45,7 @@ export interface NavEntry {
 export const groupLabels: Record<NavGroup, string> = {
   guide: "Guide",
   theme: "Theme",
+  packages: "App shell",
   components: "Components",
 };
 
@@ -56,6 +63,42 @@ export const navEntries: NavEntry[] = [
     render: () => html`<docs-building-apps-page></docs-building-apps-page>`,
   },
   { path: "/theme", label: "Theme builder", group: "theme", render: () => html`<docs-theme-page></docs-theme-page>` },
+  {
+    path: "/packages/router",
+    label: "Router",
+    group: "packages",
+    render: () => html`<docs-router-page></docs-router-page>`,
+  },
+  {
+    path: "/packages/store",
+    label: "Store",
+    group: "packages",
+    render: () => html`<docs-store-page></docs-store-page>`,
+  },
+  {
+    path: "/packages/core",
+    label: "Core",
+    group: "packages",
+    render: () => html`<docs-core-page></docs-core-page>`,
+  },
+  {
+    path: "/packages/task",
+    label: "Task",
+    group: "packages",
+    render: () => html`<docs-task-page></docs-task-page>`,
+  },
+  {
+    path: "/packages/form",
+    label: "Form",
+    group: "packages",
+    render: () => html`<docs-form-page></docs-form-page>`,
+  },
+  {
+    path: "/packages/cli",
+    label: "CLI starter",
+    group: "packages",
+    render: () => html`<docs-cli-page></docs-cli-page>`,
+  },
   {
     path: "/components/button",
     label: "Button",
