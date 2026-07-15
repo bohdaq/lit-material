@@ -6,9 +6,8 @@ import fs from "node:fs";
  * The scaffolder itself: Node built-ins only (`fs`/`path`/`url`), no
  * `commander`/`inquirer`/`chalk` — the same reasoning `@lit-material/router`
  * gives for hand-rolling its own path matching instead of depending on
- * `@lit-labs/router` (see `spec/PLAN.md`): the actual need — copy a
- * template directory, substitute one placeholder, print next steps —
- * doesn't need a dependency for it.
+ * `@lit-labs/router`: the actual need — copy a template directory, substitute
+ * one placeholder, print next steps — doesn't need a dependency for it.
  *
  * Lives in its own file (not inlined in `bin/create-lit-material-app.js`)
  * so it's testable without actually invoking a subprocess.

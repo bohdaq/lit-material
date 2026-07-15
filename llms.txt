@@ -1,0 +1,59 @@
+# lit-material
+
+> A Material Design 3 web component collection built with Lit — one package per component, no shared
+> mega-bundle, no required adapter layer, SSR-ready.
+
+lit-material is a pnpm + Turborepo monorepo published as independently installable `@lit-material/*` npm
+packages (one per component), plus a handful of app-shell primitives (router, state store, context, data
+fetching, form validation) and a scaffolding CLI. Every component reads its visual design from
+`@lit-material/tokens`'s CSS custom properties, is tested against both a real browser and `@lit-labs/ssr`, and
+is documented with a live demo in `apps/docs`. Each package's own README is the source of truth for its API and
+scope cuts — read it before assuming something is missing or unimplemented.
+
+## Components
+
+- [Button](https://github.com/bohdaq/lit-material/tree/main/packages/button): Filled, outlined, text, elevated, tonal.
+- [Icon Button](https://github.com/bohdaq/lit-material/tree/main/packages/icon-button): Standard + toggle variants.
+- [FAB](https://github.com/bohdaq/lit-material/tree/main/packages/fab): Floating action button.
+- [Text Field](https://github.com/bohdaq/lit-material/tree/main/packages/text-field): Filled + outlined, validation states.
+- [Checkbox](https://github.com/bohdaq/lit-material/tree/main/packages/checkbox): Checked, indeterminate, error, form participation.
+- [Radio](https://github.com/bohdaq/lit-material/tree/main/packages/radio): Grouped selection, error, form participation.
+- [Switch](https://github.com/bohdaq/lit-material/tree/main/packages/switch): On/off toggle, optional thumb icons, form participation.
+- [Slider](https://github.com/bohdaq/lit-material/tree/main/packages/slider): Single value, native `<input type="range">`-based.
+- [Select](https://github.com/bohdaq/lit-material/tree/main/packages/select): `lit-material-select` + `lit-material-select-option`.
+- [Chip](https://github.com/bohdaq/lit-material/tree/main/packages/chip): Assist, filter, input, suggestion variants.
+- [Card](https://github.com/bohdaq/lit-material/tree/main/packages/card): Elevated, filled, outlined; optionally interactive.
+- [List](https://github.com/bohdaq/lit-material/tree/main/packages/list): `lit-material-list` + `lit-material-list-item`.
+- [Data Table](https://github.com/bohdaq/lit-material/tree/main/packages/data-table): Sortable, selectable, paginated, resizable, virtualized.
+- [Badge](https://github.com/bohdaq/lit-material/tree/main/packages/badge): Small dot or large numeric/text badge.
+- [Divider](https://github.com/bohdaq/lit-material/tree/main/packages/divider): Horizontal or vertical, optionally inset.
+- [Tooltip](https://github.com/bohdaq/lit-material/tree/main/packages/tooltip): Plain tooltip, built on the native Popover API.
+- [Dialog](https://github.com/bohdaq/lit-material/tree/main/packages/dialog): Built on the native `<dialog>` element.
+- [Menu](https://github.com/bohdaq/lit-material/tree/main/packages/menu): Built on the native Popover API.
+- [Snackbar](https://github.com/bohdaq/lit-material/tree/main/packages/snackbar): Built on the native Popover API.
+- [Tabs](https://github.com/bohdaq/lit-material/tree/main/packages/tabs): `lit-material-tabs` + `lit-material-tab`.
+- [Top App Bar](https://github.com/bohdaq/lit-material/tree/main/packages/top-app-bar): Center-aligned, small, medium, large.
+- [Navigation](https://github.com/bohdaq/lit-material/tree/main/packages/navigation): Navigation drawer and navigation rail.
+- [Progress](https://github.com/bohdaq/lit-material/tree/main/packages/progress): Linear and circular progress indicators.
+- [Date Picker](https://github.com/bohdaq/lit-material/tree/main/packages/date-picker): Modal date picker.
+
+## App shell
+
+- [Router](https://github.com/bohdaq/lit-material/tree/main/packages/router): Path matching, an SPA route outlet, a route-reading controller.
+- [Store](https://github.com/bohdaq/lit-material/tree/main/packages/store): A dependency-free, Redux-shaped state store.
+- [Core](https://github.com/bohdaq/lit-material/tree/main/packages/core): Ripple/focus-ring controllers, `themeContext`, `localeContext`.
+- [Task](https://github.com/bohdaq/lit-material/tree/main/packages/task): A reactive controller for async work (data fetching).
+- [Form](https://github.com/bohdaq/lit-material/tree/main/packages/form): A reactive controller tracking a `<form>`'s aggregate validity.
+- [create-lit-material-app](https://github.com/bohdaq/lit-material/tree/main/packages/create-lit-material-app): `npm create lit-material-app` — a scaffolded starting point with the above wired together.
+- [Tokens](https://github.com/bohdaq/lit-material/tree/main/packages/tokens): Color, type, shape, elevation, and motion design tokens every component reads from.
+
+## Guides
+
+- [README](https://github.com/bohdaq/lit-material/blob/main/README.md): Why Lit/lit-material, install instructions, the full package list, and development commands.
+- [Building apps guide source](https://github.com/bohdaq/lit-material/blob/main/apps/docs/src/pages/building-apps-page.ts): Router + store + context + task + form wired together in one example; not deployed publicly yet, so this is the source rather than a live page — run the docs app locally and visit `/guide/building-apps` to read it rendered.
+
+## Optional
+
+- [Docs app source](https://github.com/bohdaq/lit-material/tree/main/apps/docs): Every component's live playground and API table; run `pnpm --filter @lit-material/docs dev` (not deployed publicly yet).
+- [App-shell demo](https://github.com/bohdaq/lit-material/tree/main/apps/app-shell-demo): A small runnable app showing router/store/context together (private, unpublished).
+- [License](https://github.com/bohdaq/lit-material/blob/main/LICENSE): MIT.

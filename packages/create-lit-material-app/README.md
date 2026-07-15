@@ -46,9 +46,9 @@ A real, buildable Vite project depending on the actual published `@lit-material/
 ## Why hand-rolled instead of a scaffolding framework?
 
 The same reasoning `@lit-material/router` gives for hand-rolling its own path matching instead of depending
-on `@lit-labs/router` (see `spec/PLAN.md`): the actual need here — copy a template directory, substitute one
-placeholder, print next steps — doesn't need `commander`/`inquirer`/a templating engine. `src/cli.ts` is
-Node built-ins only (`fs`/`path`/`url`).
+on `@lit-labs/router`: the actual need here — copy a template directory, substitute one placeholder, print
+next steps — doesn't need `commander`/`inquirer`/a templating engine. `src/cli.ts` is Node built-ins only
+(`fs`/`path`/`url`).
 
 ## License
 

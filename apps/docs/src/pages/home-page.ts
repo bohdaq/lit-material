@@ -114,6 +114,18 @@ import "@lit-material/text-field";</code></pre>
           </p>
           <pre><code>npm create lit-material-app my-app</code></pre>
         </section>
+
+        <section class="step">
+          <div class="index">04</div>
+          <h3>Using this with AI</h3>
+          <p>
+            This repo ships an <a href="/llms.txt" target="_blank">llms.txt</a> at its root — the emerging
+            <a href="https://llmstxt.org/" target="_blank">llmstxt.org</a> convention for giving an AI
+            assistant or coding agent a curated, one-line-per-package map of the project instead of making it
+            crawl the whole tree. Point your assistant at it (or paste its contents in) before asking it to add
+            a component, wire up an app-shell primitive, or explain how something here works.
+          </p>
+        </section>
       </div>
     `;
   }

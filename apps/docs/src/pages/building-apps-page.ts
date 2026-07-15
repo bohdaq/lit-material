@@ -263,18 +263,13 @@ export class DocsBuildingAppsPage extends LitElement {
           <code>themeContext</code>.
         </p>
         <p>
-          RTL (<code>dir="rtl"</code>): most components use logical CSS properties (<code>margin-inline-start</code>,
-          <code>padding-inline</code>, etc.), which flip automatically with <code>dir</code> — but this hasn't
-          been comprehensively audited, and a handful of components still position elements with physical
-          <code>left</code>/<code>right</code> in ways that won't mirror correctly (Switch's thumb was one
-          confirmed example, now fixed; Navigation Rail's badge corner, Slider's filled track, and Linear
-          Progress's fill are the next known candidates). Full RTL verification across every component remains
-          open — see
-          <a
-            href="https://github.com/bohdaq/lit-material/blob/main/spec/PLAN.md"
-            target="_blank"
-            >spec/PLAN.md</a
-          >'s "Unverified quality-bar items."
+          RTL (<code>dir="rtl"</code>): every component uses logical CSS properties
+          (<code>margin-inline-start</code>, <code>padding-inline</code>, etc.), which flip automatically with
+          <code>dir</code> — confirmed via a repo-wide fix pass (Switch's thumb, Navigation Rail's badge corner,
+          Slider's filled track, and Linear Progress's fill/keyframes were all converted from physical
+          <code>left</code>/<code>right</code>, each backed by a real-DOM test asserting the geometry actually
+          mirrors under <code>dir="rtl"</code>) plus a read-through of Tabs' JS-computed indicator confirming it
+          was already correct.
         </p>
       </section>
 
@@ -283,13 +278,7 @@ export class DocsBuildingAppsPage extends LitElement {
         <p>
           <code>@lit/localize</code>'s own message extraction workflow (its CLI, not something
           <code>lit-material</code> wraps), and anything listed as a scope cut in an individual component's own
-          README are still out of scope — see
-          <a
-            href="https://github.com/bohdaq/lit-material/blob/main/spec/PLAN.md"
-            target="_blank"
-            >spec/PLAN.md</a
-          >
-          for the full current-status picture and open questions.
+          README, are still out of scope.
         </p>
       </section>
     `;
