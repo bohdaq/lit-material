@@ -92,7 +92,7 @@ export class DocsHomePage extends LitElement {
 
       <div class="stats">
         <div class="stat"><b>24</b><span>components</span></div>
-        <div class="stat"><b>28</b><span>packages</span></div>
+        <div class="stat"><b>31</b><span>packages</span></div>
         <div class="stat"><b>0</b><span>runtime deps beyond Lit</span></div>
       </div>
 
@@ -131,13 +131,16 @@ import "@lit-material/text-field";</code></pre>
           <h3>Building a whole app?</h3>
           <p>
             <code>@lit-material/router</code> and <code>@lit-material/store</code> give you a router and a
-            Redux-shaped state store, and <code>@lit-material/core</code>'s <code>themeContext</code> threads
-            theme state through a component tree without prop drilling — the
+            Redux-shaped state store; <code>@lit-material/core</code>'s <code>themeContext</code> and
+            <code>localeContext</code> thread theme and locale state through a component tree without prop
+            drilling; <code>@lit-material/task</code> and <code>@lit-material/form</code> add data-fetching
+            and form-validation controllers with the same headless, bring-your-own-rendering shape. The
             <a href="https://github.com/bohdaq/lit-material/blob/main/spec/BUILDING_APPS.md" target="_blank"
               >BUILDING_APPS.md guide</a
             >
-            walks through all three wired together.
+            walks through all of them wired together, or skip straight to a running starting point:
           </p>
+          <pre><code>npm create lit-material-app my-app</code></pre>
         </section>
       </div>
     `;
