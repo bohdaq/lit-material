@@ -135,9 +135,7 @@ import "@lit-material/text-field";</code></pre>
             <code>localeContext</code> thread theme and locale state through a component tree without prop
             drilling; <code>@lit-material/task</code> and <code>@lit-material/form</code> add data-fetching
             and form-validation controllers with the same headless, bring-your-own-rendering shape. The
-            <a href="https://github.com/bohdaq/lit-material/blob/main/spec/BUILDING_APPS.md" target="_blank"
-              >BUILDING_APPS.md guide</a
-            >
+            <a href="/guide/building-apps">Building apps guide</a>
             walks through all of them wired together, or skip straight to a running starting point:
           </p>
           <pre><code>npm create lit-material-app my-app</code></pre>

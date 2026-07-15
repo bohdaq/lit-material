@@ -10,8 +10,9 @@ installable, framework-agnostic packages.
 `<lit-material-router-outlet>` that intercepts same-origin link clicks, and a `RouteController` for reading
 the current route without owning an outlet) are new packages, both published to npm at `0.0.1`.
 `@lit-material/core` gained a `themeContext` (built on the standard `@lit/context` protocol) rather than a new
-`@lit-material/context` package — see section 3.5 for why, and `spec/BUILDING_APPS.md` for all three wired
-together in one example, plus `apps/app-shell-demo` (private, unpublished) for a runnable version. This closes
+`@lit-material/context` package — see section 3.5 for why, and the docs app's "Building apps" guide
+(`apps/docs`, `/guide/building-apps`) for all three wired together in one example, plus `apps/app-shell-demo`
+(private, unpublished) for a runnable version. This closes
 the gap between "a component library" and "something you can build a whole app with" — the `lit-material`
 equivalents of the router/context/Redux trio a React app typically reaches for.
 
@@ -20,8 +21,8 @@ equivalents of the router/context/Redux trio a React app typically reaches for.
 depending on `@lit-labs/task` — same reasoning as the router), `@lit-material/form` (a `FormController`
 reactive controller making a native `<form>`'s aggregate validity — already correctly computed by every
 form-associated component's own `ElementInternals` — actually *reactive*), a `localeContext` addition to
-`@lit-material/core` (same shape as `themeContext`, for i18n — see section 3.5 and `spec/BUILDING_APPS.md`'s
-new "Internationalization" section), and `create-lit-material-app` (a dependency-free scaffolding CLI —
+`@lit-material/core` (same shape as `themeContext`, for i18n — see section 3.5 and the docs app's "Building
+apps" guide's "Internationalization" section), and `create-lit-material-app` (a dependency-free scaffolding CLI —
 `npm create lit-material-app`), which have all been end-to-end verified: `create-lit-material-app`'s scaffold
 was actually run, `npm install`ed against the real published packages, typechecked, built, and click-tested in
 a browser (router navigation + store-backed counter both confirmed working), not just unit-tested.
@@ -314,9 +315,11 @@ decisions, recorded here so they aren't re-litigated:
   — `src/cli.ts` is `fs`/`path`/`url` only. Its `template/` uses real published version ranges (not
   `workspace:*`), since a scaffolded project is standalone, not part of this monorepo.
 
-See `spec/BUILDING_APPS.md` for all of these wired together in one example (including data fetching and form
+See the docs app's "Building apps" guide (`apps/docs/src/pages/building-apps-page.ts`, served at
+`/guide/building-apps`) for all of these wired together in one example (including data fetching and form
 validation extensions to the original router/store/context trio example), and each package's own README for
-full API detail.
+full API detail. This guide lives in the docs app itself, not a standalone markdown file, so it stays part of
+the live, browsable documentation site rather than a repo file most users never open.
 
 ## 4. Quality bar (applies to every component before it ships)
 
@@ -357,8 +360,8 @@ full API detail.
    now exists.
 9. ~~**App-shell primitives**~~ — done: `@lit-material/router` and `@lit-material/store`, a `themeContext`/
    `localeContext` addition to `@lit-material/core`, `@lit-material/task`, `@lit-material/form`, and
-   `create-lit-material-app` — every follow-up originally scoped for this milestone (see section 3.5 and
-   `spec/BUILDING_APPS.md`).
+   `create-lit-material-app` — every follow-up originally scoped for this milestone (see section 3.5 and the
+   docs app's "Building apps" guide).
 
 ### Immediate next steps (concrete, in order)
 

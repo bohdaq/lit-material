@@ -1,5 +1,6 @@
 import { html } from "lit";
 import "./pages/home-page.js";
+import "./pages/building-apps-page.js";
 import "./pages/theme-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
@@ -48,6 +49,12 @@ export const groupLabels: Record<NavGroup, string> = {
  */
 export const navEntries: NavEntry[] = [
   { path: "/", label: "Install guide", group: "guide", render: () => html`<docs-home-page></docs-home-page>` },
+  {
+    path: "/guide/building-apps",
+    label: "Building apps",
+    group: "guide",
+    render: () => html`<docs-building-apps-page></docs-building-apps-page>`,
+  },
   { path: "/theme", label: "Theme builder", group: "theme", render: () => html`<docs-theme-page></docs-theme-page>` },
   {
     path: "/components/button",

@@ -27,4 +27,4 @@ npm run dev
 - Data fetching: [`@lit-material/task`](https://github.com/bohdaq/lit-material/tree/main/packages/task).
 - Form validation: [`@lit-material/form`](https://github.com/bohdaq/lit-material/tree/main/packages/form).
 - i18n: `@lit-material/core`'s `localeContext` + [`@lit/localize`](https://www.npmjs.com/package/@lit/localize)
-  — see [`spec/BUILDING_APPS.md`](https://github.com/bohdaq/lit-material/blob/main/spec/BUILDING_APPS.md).
+  — see the `lit-material` repo's docs app ("Building apps" guide, `/guide/building-apps`).

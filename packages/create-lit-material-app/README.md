@@ -39,10 +39,9 @@ my-app/
 A real, buildable Vite project depending on the actual published `@lit-material/*` packages (not
 `workspace:*` — this isn't part of the `lit-material` monorepo, it's a standalone app). Add more routes to
 `app-shell.ts`'s `routes` array, more reducer cases to `store.ts`, and more components with
-`npm install @lit-material/<component>` as you grow it. See
-[`spec/BUILDING_APPS.md`](https://github.com/bohdaq/lit-material/blob/main/spec/BUILDING_APPS.md) for
-`@lit-material/task` (data fetching) and `@lit-material/form` (validation) wired into the same shape once you
-need them.
+`npm install @lit-material/<component>` as you grow it. Run the docs site locally
+(`pnpm --filter @lit-material/docs dev`, then visit `/guide/building-apps`) for `@lit-material/task`
+(data fetching) and `@lit-material/form` (validation) wired into the same shape once you need them.
 
 ## Why hand-rolled instead of a scaffolding framework?
 

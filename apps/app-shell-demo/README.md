@@ -1,8 +1,9 @@
 # @lit-material/app-shell-demo
 
 A small demo app showing `@lit-material/router`, `@lit-material/store`, and `@lit-material/core`'s
-`themeContext` working together — the router/context/store trio from `spec/BUILDING_APPS.md`, as a running
-app instead of just a code sample. **Not published to npm** — a `private` workspace app, same as `apps/docs`.
+`themeContext` working together — the router/context/store trio from the docs app's "Building apps" guide
+(`apps/docs`, `/guide/building-apps`), as a running app instead of just a code sample. **Not published to
+npm** — a `private` workspace app, same as `apps/docs`.
 
 ## Run
 

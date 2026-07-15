@@ -32,7 +32,7 @@ export class DemoAboutPage extends LitElement {
           consumed here via <code>@lit/context</code>. Current scheme:
           <strong>${this.theme.value?.colorScheme}</strong>.</li>
       </ul>
-      <p>See <code>spec/BUILDING_APPS.md</code> in the repo for the full write-up.</p>
+      <p>See the docs app's "Building apps" guide (<code>apps/docs</code>, <code>/guide/building-apps</code>) for the full write-up.</p>
     `;
   }
 }

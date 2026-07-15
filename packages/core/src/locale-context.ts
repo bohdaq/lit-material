@@ -24,6 +24,7 @@ export interface LocaleState {
  * strings, not `lit-material`'s. `localeContext` is the connective tissue
  * for that app-level `@lit/localize` setup: provide it once with the
  * active locale, combine it with `configureLocalization()`/`msg()`
- * yourself. See `spec/BUILDING_APPS.md` for a worked example.
+ * yourself. See the docs app's "Building apps" guide (`apps/docs`, `/guide/building-apps`) for a worked
+ * example.
  */
 export const localeContext = createContext<LocaleState>(Symbol("lit-material-locale"));
