@@ -9,12 +9,12 @@
       "dependsOn": ["build"],
       "outputs": []
     },
-    "lint": {
-      "outputs": []
-    },
     "typecheck": {
       "dependsOn": ["^build"],
       "outputs": []
+    },
+    "analyze": {
+      "outputs": ["custom-elements.json"]
     },
     "dev": {
       "cache": false,

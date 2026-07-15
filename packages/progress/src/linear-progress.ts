@@ -30,17 +30,14 @@ export class LitMaterialLinearProgress extends LitElement {
   @property({ type: Number }) max = 1;
   @property({ type: Boolean, reflect: true }) indeterminate = false;
 
-  constructor() {
-    super();
-    this.setAttribute("role", "progressbar");
-  }
-
-  // `willUpdate` (not `connectedCallback`/`updated`) because it runs inside
-  // the same synchronous reactive-update pass that produces SSR's output —
-  // attribute mutations made in `connectedCallback` land too late to appear
-  // in the server-rendered host tag, since by then its attributes have
-  // already been serialized.
+  // `willUpdate` (not the constructor or `connectedCallback`/`updated`): a custom element constructor must not
+  // gain attributes per the spec's conformance requirements, and attribute mutations made in `connectedCallback`
+  // land too late to appear in the server-rendered host tag, since by then its attributes have already been
+  // serialized — `willUpdate` runs inside the same synchronous reactive-update pass that produces SSR's output.
   protected override willUpdate(changed: Map<string, unknown>): void {
+    if (!this.hasAttribute("role")) {
+      this.setAttribute("role", "progressbar");
+    }
     if (!changed.has("value") && !changed.has("max") && !changed.has("indeterminate")) return;
     this.syncAria();
   }

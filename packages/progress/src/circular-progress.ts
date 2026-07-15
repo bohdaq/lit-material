@@ -32,15 +32,14 @@ export class LitMaterialCircularProgress extends LitElement {
   @property({ type: Number }) size = 48;
   @property({ type: Number, attribute: "stroke-width" }) strokeWidth = 4;
 
-  constructor() {
-    super();
-    this.setAttribute("role", "progressbar");
-  }
-
-  // `willUpdate` (not `connectedCallback`/`updated`) because it runs inside
-  // the same synchronous reactive-update pass that produces SSR's output —
-  // see lit-material-linear-progress for the full explanation.
+  // `willUpdate` (not the constructor or `connectedCallback`/`updated`): a custom element constructor must not
+  // gain attributes per the spec's conformance requirements, and `connectedCallback`-set attributes land too
+  // late to appear in `@lit-labs/ssr`'s serialized host tag — `willUpdate` runs inside the same synchronous
+  // reactive-update pass that produces SSR's output, so it's the one place both concerns are satisfied.
   protected override willUpdate(changed: Map<string, unknown>): void {
+    if (!this.hasAttribute("role")) {
+      this.setAttribute("role", "progressbar");
+    }
     if (!changed.has("value") && !changed.has("max") && !changed.has("indeterminate")) return;
     this.syncAria();
   }

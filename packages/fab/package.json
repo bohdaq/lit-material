@@ -15,7 +15,15 @@
     "url": "git+ssh://git@github.com/bohdaq/lit-material.git",
     "directory": "packages/fab"
   },
-  "keywords": ["lit", "web-components", "lit-material", "material-design", "material-design-3", "fab", "floating-action-button"],
+  "keywords": [
+    "lit",
+    "web-components",
+    "lit-material",
+    "material-design",
+    "material-design-3",
+    "fab",
+    "floating-action-button"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -26,7 +34,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "custom-elements.json"
   ],
   "publishConfig": {
     "access": "public"
@@ -34,7 +43,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "web-test-runner && node --import tsx --test src/*.ssr.test.ts"
+    "test": "web-test-runner && node --import tsx --test src/*.ssr.test.ts",
+    "analyze": "custom-elements-manifest analyze --litelement --globs \"src/**/*.ts\" --exclude \"src/**/*.test.ts\" --exclude \"src/**/*.ssr.test.ts\""
   },
   "dependencies": {
     "@lit-material/core": "workspace:*",
@@ -50,5 +60,6 @@
     "@web/test-runner-playwright": "^0.11.0",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0"
-  }
+  },
+  "customElements": "custom-elements.json"
 }

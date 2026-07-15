@@ -57,6 +57,12 @@ export class LitMaterialTooltip extends LitElement {
 
   constructor() {
     super();
+    // Reading (not setting) an attribute here, and only for parser-created elements: per the custom element
+    // upgrade reaction spec, an element already parsed with a static `id="..."` before `customElements.define()`
+    // runs has that attribute in place by the time its (now-upgraded) constructor executes — this line only ever
+    // sees a real, author-set id in exactly that case. A `document.createElement()`-created element has no
+    // attributes yet regardless, so `getAttribute` correctly returns `null` and falls through to generating one.
+    // eslint-disable-next-line wc/no-constructor-attributes
     this.tooltipId = this.getAttribute("id") || `lit-material-tooltip-${++nextId}`;
   }
 

@@ -39,9 +39,17 @@ export class LitMaterialTabs extends LitElement {
 
   constructor() {
     super();
-    this.setAttribute("role", "tablist");
     this.addEventListener("click", this.handleClick);
     this.addEventListener("keydown", this.handleKeydown);
+  }
+
+  // Not the constructor: a custom element constructor must not gain attributes per the spec's conformance
+  // requirements. `willUpdate` (not `connectedCallback`) keeps this consistent with every other component here
+  // that sets a role — see e.g. lit-material-linear-progress for the SSR-timing reason why.
+  protected override willUpdate(): void {
+    if (!this.hasAttribute("role")) {
+      this.setAttribute("role", "tablist");
+    }
   }
 
   override connectedCallback(): void {

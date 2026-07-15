@@ -62,19 +62,39 @@ published to npm** — the 12 Phase 1 components, Select, Slider, Tabs, Top App 
 Progress Indicators, FAB, Badge, Tooltip, Data Table, Date Picker, and Divider (Divider was the last of these;
 committed and published to npm `0.0.1` since the last pass over this document). All have unit + SSR tests and
 at least one axe-core accessibility test; the docs app (`apps/docs`) demos every variant/state and is the
-source of each package's README screenshot. Of the 31 packages in `packages/` (28 components/`core`/`tokens`/
-`router`/`store`, plus the three new `task`/`form`/`create-lit-material-app`), 28 are published to npm with
-correctly resolved dependencies (no `workspace:*` protocol strings leaking into published manifests) — the
-three new ones aren't published yet, and two already-published ones are stale: local `@lit-material/core` is
-`0.0.2` (adds `themeContext`, now also `localeContext`) and local `@lit-material/button` is `0.0.2`, but npm
-still serves `0.0.1` for both (see "Not yet done" #3). See section 2 for per-component detail and section
-"Deviations from the original plan" below for where the actual build diverged from what this document
-originally proposed.
+source of each package's README screenshot. **All 31 packages in `packages/` are now published to npm and in
+sync with their local version** (confirmed against the registry directly, not just this document): `core` and
+`button` at `0.0.2`, `data-table` at `0.0.2` (pagination/column resizing/row virtualization), and `task`/`form`/
+`create-lit-material-app` at their first publish, `0.0.1` — no correctly-resolved-dependency or stale-version
+gaps remain (see "Not yet done" #3, previously the top item, now closed out). See section 2 for per-component
+detail and section "Deviations from the original plan" below for where the actual build diverged from what
+this document originally proposed.
 
 **Not yet done, in priority order:**
-1. **Tooling gaps**: no CI (`.github/workflows` doesn't exist), no ESLint config, no Changesets, no
-   custom-elements-manifest generation. The plan called for all four; none exist yet, so releases and
-   contributions are still fully manual.
+1. **Tooling gaps — three of four now closed**: ESLint, Changesets, and custom-elements-manifest generation are
+   all wired up; CI (`.github/workflows`) is the one still missing, so releases and contributions still need a
+   human to run the right commands, but at least those commands now exist. Detail:
+   - **ESLint**: one root-level flat config (`eslint.config.js`), not a per-package `lint` script — `typescript-eslint`'s
+     recommended rules (not type-checked; `turbo run typecheck` already does that with full strictness, so a
+     second, parserOptions.project-wired type-aware pass across 31 tsconfigs would just be duplicated signal) plus
+     `eslint-plugin-lit` and `eslint-plugin-wc`'s recommended configs for Lit-template and web-component-specific
+     correctness. `eslint-plugin-chai-friendly` overrides `no-unused-expressions` for `*.test.ts` files, since
+     `@open-wc/testing`'s chai assertions (`expect(x).to.be.true`) are — syntactically — property-access
+     expression statements the base rule can't tell apart from a real bug. Found and fixed two real
+     `wc/no-constructor-attributes` violations (Circular/Linear Progress and Tabs all set `role` in the
+     constructor — moved to `willUpdate`, consistent with the pattern every other component already uses, and
+     re-verified against SSR output); left one in Tooltip with an inline disable + comment, since it reads
+     (never sets) `id` in the constructor specifically to catch a parser-upgraded element's already-present
+     attribute, a deliberate, already-documented, tested design. `pnpm lint`/`npm run lint` → `eslint .`.
+   - **Changesets**: `.changeset/config.json` (`access: public`, `baseBranch: main`, ignoring the two private
+     apps). `pnpm changeset` to add one, `pnpm version` to apply them, `pnpm release` (`build` → `analyze` →
+     `changeset publish`).
+   - **custom-elements-manifest**: the 25 packages with a real custom element (24 components + `router`, whose
+     `lit-material-router-outlet` is one) each get a `custom-elements.json` (gitignored, generated, shipped via
+     `files`) and a `customElements` package.json field, via `pnpm analyze` (`custom-elements-manifest analyze
+     --litelement`, excluding `*.test.ts`/`*.ssr.test.ts`). `core`/`tokens`/`store`/`task`/`form`/
+     `create-lit-material-app` are deliberately excluded — none of them define a real, public custom element
+     (`task`/`form`'s only `@customElement`-decorated classes are test-only fixtures, never exported).
 2. **Unverified quality-bar items**: RTL (`dir="rtl"`) has not been explicitly, comprehensively tested — and
    isn't uniformly correct. **Switch's thumb is now fixed** (`left`/`transition: left` → `inset-inline-start`/
    `transition: inset-inline-start` in `switch-styles.ts`; a real-DOM test asserting the thumb slides the
@@ -95,11 +115,9 @@ originally proposed.
 
    `prefers-reduced-motion` is handled per-component (each has a media query) but not tested; dark mode relies
    entirely on the token layer's `prefers-color-scheme` values and hasn't been visually verified end-to-end.
-3. **Publish outstanding packages/versions**: `@lit-material/core` (`0.0.2`, adds `themeContext` and now
-   `localeContext`), `@lit-material/button` (`0.0.2`, version bumped but never republished), and
-   `@lit-material/data-table` (`0.0.2`, adds pagination/column resizing/row virtualization) all need a
-   republish; `@lit-material/task`, `@lit-material/form`, and `create-lit-material-app` need their first
-   publish.
+3. ~~**Publish outstanding packages/versions**~~ — done: `@lit-material/core`/`button`/`data-table` republished
+   at their local `0.0.2`, and `@lit-material/task`/`form`/`create-lit-material-app` had their first publish,
+   all confirmed live on the registry at the versions in this repo.
 
 ### Deviations from the original plan
 
@@ -361,7 +379,7 @@ the live, browsable documentation site rather than a repo file most users never 
 ## 5. Milestones
 
 1. ~~**Bootstrap**~~ — done: pnpm workspace, shared tsconfig, Turborepo (`turbo.json`, wired to `build`/`test`/
-   `typecheck`) all in place. Missing: Changesets, CI (no `.github/workflows`), ESLint config.
+   `typecheck`/`analyze`), ESLint, and Changesets all in place. Missing: CI (no `.github/workflows`).
 2. ~~**Tokens v0**~~ — done for color/type/shape/elevation/motion CSS custom properties. No Style Dictionary
    build step and no seed-color theme generator CLI — tokens are hand-authored CSS, not generated.
 3. **Core primitives** — done for ripple + focus-ring (see 3.4 for why form-association and roving-tabindex
@@ -393,12 +411,12 @@ the live, browsable documentation site rather than a repo file most users never 
 
 ### Immediate next steps (concrete, in order)
 
-1. Publish `@lit-material/core@0.0.2` (adds `themeContext`/`localeContext`) and `@lit-material/button@0.0.2`
-   (both have a local version ahead of npm), and the first publish of `@lit-material/task`,
-   `@lit-material/form`, and `create-lit-material-app`.
-2. Add the still-missing tooling section 3.2 calls for: CI (GitHub Actions running `turbo run lint typecheck
-   test build`), Changesets (for coordinated per-package versioning), and an ESLint config. Turborepo itself
-   is already in place.
+1. ~~Publish `@lit-material/core@0.0.2`, `@lit-material/button@0.0.2`, `@lit-material/data-table@0.0.2`, and
+   the first publish of `@lit-material/task`, `@lit-material/form`, and `create-lit-material-app`~~ — done, all
+   six confirmed live on the registry.
+2. ~~ESLint, Changesets, and custom-elements-manifest generation~~ — done (see "Not yet done" #1). The one
+   tooling gap section 3.2 called for that's still open: CI (GitHub Actions running `pnpm lint typecheck test
+   build`).
 3. RTL: Switch's thumb is fixed (see "Not yet done" #2); `navigation-rail-item`'s badge corner, `slider`'s
    filled track, and `linear-progress`'s determinate fill/indeterminate keyframes are the next confirmed-likely
    fixes, then `tabs`' JS-computed indicator position needs reading before it's even confirmed as a bug.
