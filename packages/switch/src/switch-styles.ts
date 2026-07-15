@@ -26,7 +26,7 @@ export const styles = css`
   .track {
     position: absolute;
     top: 50%;
-    left: 0;
+    inset-inline-start: 0;
     width: 52px;
     height: 32px;
     box-sizing: border-box;
@@ -48,7 +48,7 @@ export const styles = css`
   .thumb-wrap {
     position: absolute;
     top: 50%;
-    left: 0;
+    inset-inline-start: 0;
     width: 40px;
     height: 40px;
     transform: translateY(-50%);
@@ -56,11 +56,11 @@ export const styles = css`
     align-items: center;
     justify-content: center;
     pointer-events: none;
-    transition: left 150ms var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+    transition: inset-inline-start 150ms var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   }
 
   .switch.checked .thumb-wrap {
-    left: 12px;
+    inset-inline-start: 12px;
   }
 
   .state-layer {

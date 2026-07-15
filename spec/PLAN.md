@@ -76,12 +76,25 @@ originally proposed.
    custom-elements-manifest generation. The plan called for all four; none exist yet, so releases and
    contributions are still fully manual.
 2. **Unverified quality-bar items**: RTL (`dir="rtl"`) has not been explicitly, comprehensively tested — and
-   isn't uniformly correct: a repo-wide grep while writing this pass's i18n docs found several components
-   positioning elements with physical `left`/`right` rather than logical properties (Switch's thumb is one
-   confirmed example that won't mirror correctly under `dir="rtl"`), alongside others that do use logical
-   properties throughout. `prefers-reduced-motion` is handled per-component (each has a media query) but not
-   tested; dark mode relies entirely on the token layer's `prefers-color-scheme` values and hasn't been
-   visually verified end-to-end.
+   isn't uniformly correct. **Switch's thumb is now fixed** (`left`/`transition: left` → `inset-inline-start`/
+   `transition: inset-inline-start` in `switch-styles.ts`; a real-DOM test asserting the thumb slides the
+   mirrored direction under `dir="rtl"` was added to `switch.test.ts`). A follow-up grep across every
+   `*-styles.ts` for physical `left:`/`right:` turned up more candidates, not yet fixed — sorted by how
+   confident this pass is that each is a real bug, not just an untested one:
+   - **Confirmed likely bugs** (positioning that represents a start/end concept, should flip under RTL but is
+     hardcoded to a physical side): `navigation-rail-item`'s badge corner (`right: 8px` — should be
+     `inset-inline-end`), `slider`'s filled track (`.track-active { left: 0 }` — the filled portion should grow
+     from the opposite edge in RTL), and `linear-progress`'s determinate fill (`left: 0`) plus its indeterminate
+     `@keyframes` (which hardcode both `left`/`right` per frame — same fix, convert to
+     `inset-inline-start`/`inset-inline-end`).
+   - **Needs code-reading, not yet confirmed either way**: `tabs`' sliding indicator sets `left` via JS
+     (`tabs.ts`, not just CSS) — whether that's already computing an RTL-correct offset or not depends on how
+     the position is derived, not visible from the stylesheet alone.
+   - **Not bugs**: `slider`'s value-label and `snackbar`'s host both use `left: 50%` purely for centering
+     (paired with a `translateX(-50%)`), which is direction-agnostic — no change needed.
+
+   `prefers-reduced-motion` is handled per-component (each has a media query) but not tested; dark mode relies
+   entirely on the token layer's `prefers-color-scheme` values and hasn't been visually verified end-to-end.
 3. **Publish outstanding packages/versions**: `@lit-material/core` (`0.0.2`, adds `themeContext` and now
    `localeContext`), `@lit-material/button` (`0.0.2`, version bumped but never republished), and
    `@lit-material/data-table` (`0.0.2`, adds pagination/column resizing/row virtualization) all need a
@@ -386,9 +399,9 @@ the live, browsable documentation site rather than a repo file most users never 
 2. Add the still-missing tooling section 3.2 calls for: CI (GitHub Actions running `turbo run lint typecheck
    test build`), Changesets (for coordinated per-package versioning), and an ESLint config. Turborepo itself
    is already in place.
-3. RTL: the repo-wide grep in "Not yet done" #2 found confirmed physical-`left`/`right` gaps (Switch's thumb)
-   alongside components that already do this correctly — worth a real audit + fix pass across every component,
-   now that there's a concrete finding to start from rather than an unverified checkbox.
+3. RTL: Switch's thumb is fixed (see "Not yet done" #2); `navigation-rail-item`'s badge corner, `slider`'s
+   filled track, and `linear-progress`'s determinate fill/indeterminate keyframes are the next confirmed-likely
+   fixes, then `tabs`' JS-computed indicator position needs reading before it's even confirmed as a bug.
 4. `prefers-reduced-motion`/dark-mode: still open, same as RTL — pick one component, verify end-to-end, decide
    whether to roll the pass across all of them.
 

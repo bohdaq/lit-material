@@ -147,6 +147,34 @@ describe("lit-material-switch", () => {
     await expect(el).to.be.accessible();
   });
 
+  it("mirrors the thumb position under dir=\"rtl\" instead of sliding physically left/right", async () => {
+    // The thumb's position transitions over 150ms (see switch-styles.ts); wait it out so
+    // getBoundingClientRect() reflects the settled position, not mid-animation.
+    const settle = () => new Promise((resolve) => setTimeout(resolve, 200));
+
+    const ltr = await fixture<LitMaterialSwitch>(
+      html`<lit-material-switch aria-label="Wi-Fi" dir="ltr"></lit-material-switch>`,
+    );
+    const ltrThumb = ltr.shadowRoot!.querySelector(".thumb-wrap")!;
+    const ltrUncheckedX = ltrThumb.getBoundingClientRect().x;
+    ltr.checked = true;
+    await ltr.updateComplete;
+    await settle();
+    const ltrCheckedX = ltrThumb.getBoundingClientRect().x;
+    expect(ltrCheckedX).to.be.greaterThan(ltrUncheckedX); // slides right when checked, in LTR
+
+    const rtl = await fixture<LitMaterialSwitch>(
+      html`<lit-material-switch aria-label="Wi-Fi" dir="rtl"></lit-material-switch>`,
+    );
+    const rtlThumb = rtl.shadowRoot!.querySelector(".thumb-wrap")!;
+    const rtlUncheckedX = rtlThumb.getBoundingClientRect().x;
+    rtl.checked = true;
+    await rtl.updateComplete;
+    await settle();
+    const rtlCheckedX = rtlThumb.getBoundingClientRect().x;
+    expect(rtlCheckedX).to.be.lessThan(rtlUncheckedX); // mirrored: slides left when checked, in RTL
+  });
+
   it("marks the state layer as pressed on pointerdown", async () => {
     const el = await fixture<LitMaterialSwitch>(
       html`<lit-material-switch aria-label="Wi-Fi"></lit-material-switch>`,
