@@ -25,6 +25,7 @@
     "@lit-material/navigation": "workspace:*",
     "@lit-material/progress": "workspace:*",
     "@lit-material/radio": "workspace:*",
+    "@lit-material/router": "workspace:*",
     "@lit-material/select": "workspace:*",
     "@lit-material/slider": "workspace:*",
     "@lit-material/snackbar": "workspace:*",
@@ -33,7 +34,9 @@
     "@lit-material/text-field": "workspace:*",
     "@lit-material/tokens": "workspace:*",
     "@lit-material/tooltip": "workspace:*",
-    "@lit-material/top-app-bar": "workspace:*"
+    "@lit-material/top-app-bar": "workspace:*",
+    "@material/material-color-utilities": "^0.4.0",
+    "lit": "^3.2.0"
   },
   "devDependencies": {
     "typescript": "^5.7.0",

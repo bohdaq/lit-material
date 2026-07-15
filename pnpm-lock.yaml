@@ -99,6 +99,9 @@ importers:
       '@lit-material/radio':
         specifier: workspace:*
         version: link:../../packages/radio
+      '@lit-material/router':
+        specifier: workspace:*
+        version: link:../../packages/router
       '@lit-material/select':
         specifier: workspace:*
         version: link:../../packages/select
@@ -126,6 +129,12 @@ importers:
       '@lit-material/top-app-bar':
         specifier: workspace:*
         version: link:../../packages/top-app-bar
+      '@material/material-color-utilities':
+        specifier: ^0.4.0
+        version: 0.4.0
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
     devDependencies:
       typescript:
         specifier: ^5.7.0
@@ -1588,6 +1597,9 @@ packages:
 
   '@lit/reactive-element@2.1.2':
     resolution: {integrity: sha512-pbCDiVMnne1lYUIaYNN5wrwQXDtHaYtg7YEFPeW+hws6U47WeFvISGUWekPGKWOP1ygrs0ef0o1VJMk1exos5A==}
+
+  '@material/material-color-utilities@0.4.0':
+    resolution: {integrity: sha512-dlq6VExJReb8dhjj3a/yTigr3ncNwoFmL5Iy2ENtbDX03EmNeOEdZ+vsaGrj7RTuO+mB7L58II4LCsl4NpM8uw==}
 
   '@mdn/browser-compat-data@4.2.1':
     resolution: {integrity: sha512-EWUguj2kd7ldmrF9F+vI5hUOralPd+sdsUnYbRy33vZTuZkduC1shE9TtEMEjAQwyfyMb4ole5KtjF8MsnQOlA==}
@@ -3571,6 +3583,8 @@ snapshots:
   '@lit/reactive-element@2.1.2':
     dependencies:
       '@lit-labs/ssr-dom-shim': 1.6.0
+
+  '@material/material-color-utilities@0.4.0': {}
 
   '@mdn/browser-compat-data@4.2.1': {}
 

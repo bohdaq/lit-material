@@ -8,26 +8,34 @@ installable, framework-agnostic packages.
 **App-shell primitives added**: `@lit-material/store` (a dependency-free, Redux-shaped state store plus a
 `StoreController` reactive controller) and `@lit-material/router` (dependency-free path matching, an SPA
 `<lit-material-router-outlet>` that intercepts same-origin link clicks, and a `RouteController` for reading
-the current route without owning an outlet) are new, published-ready packages. `@lit-material/core` gained a
-`themeContext` (built on the standard `@lit/context` protocol) rather than a new `@lit-material/context`
-package — see section 3.5 for why, and `spec/BUILDING_APPS.md` for all three wired together in one example.
-This closes the gap between "a component library" and "something you can build a whole app with" — the
-`lit-material` equivalents of the router/context/Redux trio a React app typically reaches for.
+the current route without owning an outlet) are new packages, both published to npm at `0.0.1`.
+`@lit-material/core` gained a `themeContext` (built on the standard `@lit/context` protocol) rather than a new
+`@lit-material/context` package — see section 3.5 for why, and `spec/BUILDING_APPS.md` for all three wired
+together in one example, plus `apps/app-shell-demo` (private, unpublished) for a runnable version. This closes
+the gap between "a component library" and "something you can build a whole app with" — the `lit-material`
+equivalents of the router/context/Redux trio a React app typically reaches for.
+**`@lit-material/core`'s local version (`0.0.2`, with the new `themeContext`) has not been published yet** —
+npm still serves `0.0.1` without it; see "Not yet done" #3 below.
 
-**All 12 Phase 1 components, plus Select, Slider, Tabs, Top App Bar, Navigation Drawer/Rail, Progress
-Indicators, and FAB pulled forward from the Phase 2 backlog, are implemented, tested, screenshot-documented,
-and merged to `main`** — Button, Icon Button, Text Field, Checkbox, Radio, Switch, Chip, Card, List/List Item,
-Dialog, Menu, Snackbar, Select, Slider, Tabs, Top App Bar, Navigation Drawer/Rail, Progress Indicators, FAB —
-plus the `core` (ripple/focus-ring controllers) and `tokens` (MD3 CSS custom properties) packages they depend
-on. Every component has unit + SSR tests and at least one axe-core accessibility test; the docs app
-(`apps/docs`) demos every variant/state of every component and is the source of each package's README
-screenshot. **All 18 packages are published to npm with correctly resolved dependencies** (no `workspace:*`
-protocol strings leaking into published manifests). See section 2 for per-component detail and section
-"Deviations from the original plan" below for where the actual build diverged from what this document
+**Docs site v1 done**: `apps/docs` is now a real multi-page site on `@lit-material/router` instead of one
+static HTML page — a persistent sidebar (`apps/docs/src/app-shell.ts`, `route-manifest.ts`), an install guide
+at `/`, one routed page per component at `/components/:slug` (all 24, migrated from the old single page with
+no loss of demo coverage), a live playground (`<docs-playground>`, editable props + generated-markup preview)
+on the 16 attribute/variant-driven pages, and a theme builder at `/theme` (seed color → full MD3 scheme via
+`@material/material-color-utilities`, live component preview, "Copy CSS"). This closes milestone 6 and the
+"Not yet done" docs-site gap this document tracked for a while — see milestone 6 below for detail.
+
+**Every component originally scoped for Phase 1 and Phase 2 is implemented, tested, merged to `main`, and
+published to npm** — the 12 Phase 1 components, Select, Slider, Tabs, Top App Bar, Navigation Drawer/Rail,
+Progress Indicators, FAB, Badge, Tooltip, Data Table, Date Picker, and Divider (Divider was the last of these;
+committed and published to npm `0.0.1` since the last pass over this document). All have unit + SSR tests and
+at least one axe-core accessibility test; the docs app (`apps/docs`) demos every variant/state and is the
+source of each package's README screenshot. Of the 28 packages in `packages/`, all are published to npm with
+correctly resolved dependencies (no `workspace:*` protocol strings leaking into published manifests) — two are
+stale: local `@lit-material/core` is `0.0.2` (adds `themeContext`) and local `@lit-material/button` is `0.0.2`,
+but npm still serves `0.0.1` for both (see "Not yet done" #3). See section 2 for per-component detail and
+section "Deviations from the original plan" below for where the actual build diverged from what this document
 originally proposed.
-
-**In progress:** `@lit-material/badge` — package scaffolding and `src/badge.ts` / `src/badge-styles.ts` exist,
-uncommitted; still missing tests, README, screenshot, and a build (no `dist/`), so it isn't ready to publish.
 
 **Not yet done, in priority order:**
 1. **Tooling gaps**: no CI (`.github/workflows` doesn't exist), no ESLint config, no Changesets, no
@@ -36,15 +44,12 @@ uncommitted; still missing tests, README, screenshot, and a build (no `dist/`), 
 2. **Unverified quality-bar items**: RTL (`dir="rtl"`) has not been explicitly tested on any component;
    `prefers-reduced-motion` is handled per-component (each has a media query) but not tested; dark mode relies
    entirely on the token layer's `prefers-color-scheme` values and hasn't been visually verified end-to-end.
-3. **Docs site is a single static catalog page**, not the "live playground + theme builder" section 3.1/
-   milestone 6 envisioned — no per-component pages, no interactive prop editing, no seed-color theme
-   generator.
-4. **Finish Badge**, then pick off the remaining Phase 2 backlog: Divider, Tooltip, Data Table, Date Picker.
-5. **App-shell follow-ups** (deliberately out of scope for the router/store/context work in 3.5): a
+3. **Publish outstanding versions**: `@lit-material/core` (`0.0.2`, adds `themeContext` — currently invisible
+   to anyone installing from npm) and `@lit-material/button` (`0.0.2`, version bumped but never republished,
+   pre-dating this session's work) both need a republish.
+4. **App-shell follow-ups** (deliberately out of scope for the router/store/context work in 3.5): a
    data-fetching/async-task controller, forms/validation helpers beyond individual form-associated components,
-   `@lit/localize` i18n integration, a `create-lit-material-app` CLI/starter, and — the most natural
-   near-term one — migrating `apps/docs` itself to use `@lit-material/router` for real per-component pages,
-   which item 3 above already flags as a known gap.
+   `@lit/localize` i18n integration, and a `create-lit-material-app` CLI/starter.
 
 ### Deviations from the original plan
 
@@ -124,20 +129,17 @@ Pulled forward from Phase 2 backlog:
 | Progress Indicators | linear + circular, one package (`@lit-material/progress`) | ✅ Done | 0.0.1 published |
 | FAB | floating action button | ✅ Done | 0.0.1 published |
 
-In progress:
+Also done, picked off the Phase 2 backlog in the order this document originally suggested:
 
 | Component | Notes | Status | npm |
 |---|---|---|---|
-| Badge | small dot or large numeric/text badge | 🚧 In progress — `src/` exists, uncommitted; no tests/README/screenshot/build yet | not yet published |
+| Badge | small dot or large numeric/text badge | ✅ Done | 0.0.1 published |
+| Tooltip | plain, hover/focus-driven, native Popover API (`manual` mode) | ✅ Done | 0.0.1 published |
+| Data Table | sortable columns, single/multi-select rows, dense/comfortable density | ✅ Done | 0.0.1 published |
+| Date Picker | calendar-grid dialog (modal), single-date scope | ✅ Done | 0.0.1 published |
+| Divider | Full-bleed + inset variants, horizontal (and vertical for use inside Navigation Rail/List). Styling only — `role="separator"`, no interactive/keyboard behavior, no form association. | ✅ Done | 0.0.1 published |
 
-Remaining backlog, in likely build order (simplest/lowest-risk first):
-
-| Component | Notes | Complexity |
-|---|---|---|
-| Divider | Full-bleed + inset variants, horizontal (and vertical for use inside Navigation Rail/List). Mostly styling — a single element with `role="separator"` when semantically dividing content, no interactive/keyboard behavior, no form association. Smallest remaining component; a natural next pick after Badge. | Low |
-| Tooltip | Plain + rich (multi-line, with optional action) variants, per WAI-ARIA tooltip pattern. Likely built on the native Popover API (`manual` mode, like Snackbar) for anchor positioning, shown on hover-with-delay and keyboard focus, dismissed on blur/Escape. Needs the same viewport-flip positioning math Menu/Select already have — can probably factor that out of Menu into a shared helper here rather than re-deriving it. | Medium |
-| Data Table | Sortable column headers, row selection (single/multi-select checkboxes), dense/comfortable density. No single native element maps to MD3's visual/interaction spec, so this is closer to a small compound component (table + header-cell + row) than the others. Largest scope of the four; worth a short design pass (column API shape, sorting/selection event contract) before starting implementation, unlike the others which can follow the established single-file pattern directly. | High |
-| Date Picker | Calendar-grid dialog (docked or modal) plus text-field entry, per MD3 spec. Native `<input type="date">` doesn't match MD3's calendar UI or keyboard grid navigation, so this is built from scratch on top of Dialog (for the modal variant) — arrow-key grid navigation, month/year selection, single-date scope only (no range selection, cut for v1). Most complex remaining component; do last so the patterns from Data Table's compound-component work and Tooltip's positioning helper are both available to reuse. | High |
+No remaining backlog — every component originally scoped for Phase 1 and Phase 2 is now built.
 
 ## 3. Architecture
 
@@ -165,13 +167,18 @@ lit-material/
 │  ├─ navigation/            # drawer + rail, one package
 │  ├─ progress/               # linear + circular, one package
 │  ├─ fab/
-│  ├─ badge/                  # in progress, not yet published
+│  ├─ badge/
+│  ├─ tooltip/
+│  ├─ data-table/
+│  ├─ date-picker/
+│  ├─ divider/
 │  ├─ core/                  # @lit-material/core — shared base classes, mixins, a11y helpers, ripple, focus-ring, theme context
 │  ├─ tokens/                 # @lit-material/tokens — design tokens (style-dictionary source + generated CSS/JS)
 │  ├─ store/                  # @lit-material/store — Redux-shaped state store + StoreController
 │  └─ router/                 # @lit-material/router — path matching, route outlet, RouteController
 ├─ apps/
-│  └─ docs/                   # documentation + live playground site (Vite + lit-material itself)
+│  ├─ docs/                   # documentation site — router, per-component pages, playground, theme builder
+│  └─ app-shell-demo/         # private, unpublished — router+store+theme context wired together, runnable
 ├─ tools/
 │  └─ eslint-config, tsconfig-base, cem-config (custom-elements-manifest)
 ├─ .changeset/
@@ -284,30 +291,36 @@ full API detail.
    11 components that followed it.
 5. ~~**Remaining Phase 1 components**~~ — done. All 12 components listed in section 2 are implemented, tested,
    and documented.
-6. **Docs site v1** — partially done. The catalog exists (every component, every variant/state, on one page)
-   and *is* the screenshot source for each README, but there's no live playground (editable props), no theme
-   builder, and no installation guide beyond each package's own README.
-7. ~~**v0.1.0 public release (package publishing)**~~ — done as far as publishing goes: all 18 built packages
-   are live on npm with correctly resolved dependencies (no `workspace:*` leaking into published manifests).
-   No formal `v0.1.0` git tag/announcement has been made across the set yet.
-8. **Phase 2 planning** — overtaken by events: Select, Slider, Tabs, Top App Bar, Navigation Drawer/Rail,
-   Progress Indicators, and FAB already shipped (see section 2), chosen by direct request rather than a
-   prioritization exercise. Badge is in progress. Remaining backlog (Divider, Tooltip, Data Table, Date
-   Picker) now has per-item notes and a suggested build order (see section 2), but hasn't been scoped into
-   milestones of its own.
+6. ~~**Docs site v1**~~ — done: `apps/docs` is a real multi-page site (`@lit-material/router`, one page per
+   component at `/components/:slug`, all 24 migrated from the old single-page catalog with no coverage lost),
+   a live playground (`<docs-playground>`) on the 16 attribute/variant-driven pages, a theme builder at
+   `/theme` (`@material/material-color-utilities` seed-color → full MD3 scheme, live preview, "Copy CSS"), and
+   an install guide at `/`. Each package's README `screenshot.png` is still sourced from the docs app, just
+   from that component's own focused page now instead of a shared page's section.
+7. ~~**v0.1.0 public release (package publishing)**~~ — done: all 28 packages (all components plus
+   `core`/`tokens`, plus the two new `router`/`store` app-shell packages) are live on npm with correctly
+   resolved dependencies (no `workspace:*` leaking into published manifests). `core` and `button` are
+   published but each have a local version ahead of what's published (see "Not yet done" #3 in section 0). No
+   formal `v0.1.0` git tag/announcement has been made across the set yet.
+8. ~~**Phase 2 planning**~~ — done: Select, Slider, Tabs, Top App Bar, Navigation Drawer/Rail, Progress
+   Indicators, FAB, Badge, Tooltip, Data Table, Date Picker, and Divider all built (see section 2), chosen by
+   direct request rather than a prioritization exercise — every component from the original Phase 1/2 scope
+   now exists.
+9. ~~**App-shell primitives**~~ — done: `@lit-material/router` and `@lit-material/store`, plus a `themeContext`
+   addition to `@lit-material/core` (see section 3.5 and `spec/BUILDING_APPS.md`).
 
 ### Immediate next steps (concrete, in order)
 
-1. Finish and publish `@lit-material/badge` (tests, README + docs-app demo, screenshot, build) — the one
-   component currently mid-implementation.
+1. Publish `@lit-material/core@0.0.2` (adds `themeContext`) and `@lit-material/button@0.0.2` — both have a
+   local version ahead of npm.
 2. Add the still-missing tooling section 3.2 calls for: CI (GitHub Actions running `turbo run lint typecheck
    test build`), Changesets (for coordinated per-package versioning), and an ESLint config. Turborepo itself
    is already in place.
 3. Pick one component and verify the unverified quality-bar items (RTL, `prefers-reduced-motion`, dark mode)
    end-to-end, to find out whether they already work by virtue of using system tokens/logical CSS properties,
-   or need real fixes — then decide whether to roll that fix/verification pass across all 18 components.
-4. Continue picking off the remaining Phase 2 backlog in the order noted in section 2 (Divider, then Tooltip,
-   then Data Table, then Date Picker) unless the user requests a different order.
+   or need real fixes — then decide whether to roll that fix/verification pass across all components.
+4. Pick off an app-shell follow-up (section 0 item 4): a data-fetching/async-task controller, forms/
+   validation helpers, `@lit/localize` i18n integration, or a `create-lit-material-app` CLI/starter.
 
 ## 6. Open questions (revisit as the project matures)
 
