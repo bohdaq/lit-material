@@ -1,16 +1,13 @@
 import "@lit-material/progress";
 import "@lit-material/button";
 import type { LitMaterialLinearProgress, LitMaterialCircularProgress } from "@lit-material/progress";
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
+import { pageStyles } from "../../styles/page-styles.js";
 import { customElement, query } from "lit/decorators.js";
 
 @customElement("docs-progress-page")
 export class DocsProgressPage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-    }
-  `;
+  static override styles = [pageStyles];
 
   @query("#linear")
   private linear?: LitMaterialLinearProgress;

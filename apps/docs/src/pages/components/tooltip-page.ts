@@ -4,6 +4,7 @@ import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
 import "../../playground/docs-playground.js";
 import type { PlaygroundControl, PlaygroundState } from "../../playground/controls.js";
+import { pageStyles } from "../../styles/page-styles.js";
 
 const controls: PlaygroundControl[] = [
   { kind: "select", key: "showDelay", label: "Show delay (ms)", options: ["0", "500", "1000"], default: "500" },
@@ -32,14 +33,14 @@ function markup(state: PlaygroundState): string {
 
 @customElement("docs-tooltip-page")
 export class DocsTooltipPage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-    }
-    docs-playground {
-      margin-top: 1rem;
-    }
-  `;
+  static override styles = [
+    pageStyles,
+    css`
+      docs-playground {
+        margin-top: 1rem;
+      }
+    `,
+  ];
 
   override render() {
     return html`

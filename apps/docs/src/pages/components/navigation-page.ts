@@ -1,19 +1,13 @@
 import "@lit-material/navigation";
 import "@lit-material/button";
 import type { LitMaterialNavigationDrawer } from "@lit-material/navigation";
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
 import { customElement, query } from "lit/decorators.js";
+import { pageStyles } from "../../styles/page-styles.js";
 
 @customElement("docs-navigation-page")
 export class DocsNavigationPage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-    }
-    section {
-      margin-bottom: 2rem;
-    }
-  `;
+  static override styles = [pageStyles];
 
   @query("#demo-nav-drawer")
   private navDrawer?: LitMaterialNavigationDrawer;

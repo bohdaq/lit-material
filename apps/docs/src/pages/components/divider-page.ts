@@ -1,7 +1,8 @@
 import "@lit-material/divider";
 import "@lit-material/button";
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
+import { pageStyles } from "../../styles/page-styles.js";
 import "../../playground/docs-playground.js";
 import type { PlaygroundControl, PlaygroundState } from "../../playground/controls.js";
 
@@ -37,21 +38,7 @@ function markup(state: PlaygroundState): string {
 
 @customElement("docs-divider-page")
 export class DocsDividerPage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-    }
-    section {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 2rem;
-      height: 32px;
-    }
-    h2 {
-      width: 100%;
-    }
-  `;
+  static override styles = [pageStyles];
 
   override render() {
     return html`

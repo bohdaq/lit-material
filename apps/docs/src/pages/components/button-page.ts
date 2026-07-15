@@ -1,5 +1,6 @@
 import "@lit-material/button";
-import { LitElement, html, css, nothing } from "lit";
+import { LitElement, html, nothing } from "lit";
+import { pageStyles } from "../../styles/page-styles.js";
 import { customElement, state } from "lit/decorators.js";
 import "../../playground/docs-playground.js";
 import type { PlaygroundControl, PlaygroundState } from "../../playground/controls.js";
@@ -32,21 +33,7 @@ function markup(state: PlaygroundState): string {
 
 @customElement("docs-button-page")
 export class DocsButtonPage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-    }
-    section {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    h2 {
-      width: 100%;
-    }
-  `;
+  static override styles = [pageStyles];
 
   @state()
   private submitLog = "";

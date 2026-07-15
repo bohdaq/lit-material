@@ -1,22 +1,13 @@
 import "@lit-material/button";
 import "@lit-material/snackbar";
 import type { LitMaterialSnackbar } from "@lit-material/snackbar";
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
 import { customElement, query, state } from "lit/decorators.js";
+import { pageStyles } from "../../styles/page-styles.js";
 
 @customElement("docs-snackbar-page")
 export class DocsSnackbarPage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-    }
-    section {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 1rem;
-    }
-  `;
+  static override styles = [pageStyles];
 
   @query("#demo-snackbar")
   private snackbar?: LitMaterialSnackbar;

@@ -1,5 +1,6 @@
 import "@lit-material/radio";
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
+import { pageStyles } from "../../styles/page-styles.js";
 import { customElement } from "lit/decorators.js";
 import "../../playground/docs-playground.js";
 import type { PlaygroundControl, PlaygroundState } from "../../playground/controls.js";
@@ -31,21 +32,7 @@ function markup(state: PlaygroundState): string {
 
 @customElement("docs-radio-page")
 export class DocsRadioPage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-    }
-    section {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    h2 {
-      width: 100%;
-    }
-  `;
+  static override styles = [pageStyles];
 
   override render() {
     return html`

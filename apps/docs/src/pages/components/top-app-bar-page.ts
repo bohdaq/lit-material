@@ -1,19 +1,13 @@
 import "@lit-material/top-app-bar";
 import "@lit-material/icon-button";
 import type { LitMaterialTopAppBar } from "@lit-material/top-app-bar";
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
 import { customElement, query } from "lit/decorators.js";
+import { pageStyles } from "../../styles/page-styles.js";
 
 @customElement("docs-top-app-bar-page")
 export class DocsTopAppBarPage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-    }
-    section {
-      margin-bottom: 2rem;
-    }
-  `;
+  static override styles = [pageStyles];
 
   @query("#scroll-demo lit-material-top-app-bar")
   private barInScrollDemo?: LitMaterialTopAppBar;

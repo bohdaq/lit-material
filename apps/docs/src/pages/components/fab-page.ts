@@ -1,6 +1,7 @@
 import "@lit-material/fab";
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
+import { pageStyles } from "../../styles/page-styles.js";
 import "../../playground/docs-playground.js";
 import type { PlaygroundControl, PlaygroundState } from "../../playground/controls.js";
 
@@ -46,21 +47,7 @@ function markup(state: PlaygroundState): string {
 
 @customElement("docs-fab-page")
 export class DocsFabPage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-    }
-    section {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    h2 {
-      width: 100%;
-    }
-  `;
+  static override styles = [pageStyles];
 
   override render() {
     return html`

@@ -1,16 +1,13 @@
 import "@lit-material/date-picker";
 import "@lit-material/button";
 import type { LitMaterialDatePicker } from "@lit-material/date-picker";
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
+import { pageStyles } from "../../styles/page-styles.js";
 import { customElement, query, state } from "lit/decorators.js";
 
 @customElement("docs-date-picker-page")
 export class DocsDatePickerPage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-    }
-  `;
+  static override styles = [pageStyles];
 
   @query("#demo-date-picker")
   private datePicker?: LitMaterialDatePicker;

@@ -1,7 +1,8 @@
 import "@lit-material/badge";
 import "@lit-material/icon-button";
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
+import { pageStyles } from "../../styles/page-styles.js";
 import "../../playground/docs-playground.js";
 import type { PlaygroundControl, PlaygroundState } from "../../playground/controls.js";
 
@@ -35,21 +36,7 @@ function markup(state: PlaygroundState): string {
 
 @customElement("docs-badge-page")
 export class DocsBadgePage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-    }
-    section {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-    h2 {
-      width: 100%;
-    }
-  `;
+  static override styles = [pageStyles];
 
   override render() {
     return html`

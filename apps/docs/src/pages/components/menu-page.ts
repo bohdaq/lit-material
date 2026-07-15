@@ -2,16 +2,13 @@ import "@lit-material/button";
 import "@lit-material/menu";
 import "@lit-material/list";
 import type { LitMaterialMenu } from "@lit-material/menu";
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
+import { pageStyles } from "../../styles/page-styles.js";
 import { customElement, query } from "lit/decorators.js";
 
 @customElement("docs-menu-page")
 export class DocsMenuPage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-    }
-  `;
+  static override styles = [pageStyles];
 
   @query("#demo-menu")
   private menu?: LitMaterialMenu;

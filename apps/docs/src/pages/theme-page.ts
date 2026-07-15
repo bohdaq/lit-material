@@ -4,6 +4,7 @@ import "@lit-material/chip";
 import "@lit-material/switch";
 import { LitElement, html, css } from "lit";
 import { customElement, state } from "lit/decorators.js";
+import { pageStyles } from "../styles/page-styles.js";
 import { ALL_TOKENS, colorSchemeFromSeed, type ColorScheme } from "../theme/color-scheme.js";
 import { copyCss } from "../theme/copy-css.js";
 
@@ -13,68 +14,95 @@ type Mode = (typeof MODES)[number];
 
 @customElement("docs-theme-page")
 export class DocsThemePage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-      max-width: 900px;
-    }
-    .controls {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    .controls label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .panels {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
-    .panel {
-      flex: 1;
-      min-width: 320px;
-      border-radius: 12px;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      background: var(--panel-surface);
-      color: var(--panel-on-surface);
-      border: 1px solid var(--panel-outline-variant);
-    }
-    .panel h3 {
-      margin: 0;
-    }
-    .row {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .swatches {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-    .swatch {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      border: 1px solid rgba(128, 128, 128, 0.3);
-    }
-    pre {
-      background: var(--md-sys-color-surface-container-highest);
-      color: var(--md-sys-color-on-surface);
-      padding: 1rem;
-      border-radius: 8px;
-      overflow-x: auto;
-    }
-  `;
+  static override styles = [
+    pageStyles,
+    css`
+      :host {
+        max-width: 900px;
+      }
+
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        margin-bottom: 2rem;
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: 14px;
+        background: color-mix(in srgb, var(--md-sys-color-surface-container-lowest) 60%, transparent);
+      }
+      .swatch-input {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .swatch-input span {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--md-sys-color-on-surface-variant);
+      }
+      input[type="color"] {
+        appearance: none;
+        width: 34px;
+        height: 34px;
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: 10px;
+        padding: 3px;
+        background: none;
+        cursor: pointer;
+      }
+      input[type="color"]::-webkit-color-swatch {
+        border-radius: 7px;
+        border: none;
+      }
+
+      .panels {
+        display: flex;
+        gap: 1.25rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+      }
+      .panel {
+        flex: 1;
+        min-width: 320px;
+        border-radius: 14px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        background: var(--panel-surface);
+        color: var(--panel-on-surface);
+        border: 1px solid var(--panel-outline-variant);
+      }
+      .panel .mode-label {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        opacity: 0.6;
+      }
+      .row {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .swatches {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      .swatch {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+        border: 1px solid rgba(128, 128, 128, 0.3);
+      }
+    `,
+  ];
 
   @state()
   private seed = DEFAULT_SEED;
@@ -110,11 +138,11 @@ export class DocsThemePage extends LitElement {
         property names.
       </p>
 
-      <div class="controls">
-        <label>
-          Seed color
+      <div class="toolbar">
+        <div class="swatch-input">
+          <span>Seed</span>
           <input type="color" .value=${this.seed} @input=${this.handleSeedChange} />
-        </label>
+        </div>
         <lit-material-button variant="filled" @click=${this.handleCopy}>
           ${this.copied ? "Copied!" : "Copy CSS"}
         </lit-material-button>
@@ -124,7 +152,7 @@ export class DocsThemePage extends LitElement {
         ${MODES.map(
           (mode) => html`
             <div class="panel" style=${this.panelStyle(scheme, mode)}>
-              <h3>${mode === "light" ? "Light" : "Dark"}</h3>
+              <div class="mode-label">${mode}</div>
               <div class="row">
                 <lit-material-button variant="filled">Filled</lit-material-button>
                 <lit-material-button variant="outlined">Outlined</lit-material-button>

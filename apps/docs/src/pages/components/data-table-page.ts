@@ -1,5 +1,6 @@
 import "@lit-material/data-table";
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
+import { pageStyles } from "../../styles/page-styles.js";
 import { customElement, state } from "lit/decorators.js";
 
 interface SortChangeDetail {
@@ -13,11 +14,7 @@ interface SelectionChangeDetail {
 
 @customElement("docs-data-table-page")
 export class DocsDataTablePage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-    }
-  `;
+  static override styles = [pageStyles];
 
   @state()
   private log = "";

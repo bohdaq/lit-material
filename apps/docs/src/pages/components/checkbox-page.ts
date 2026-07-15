@@ -1,5 +1,6 @@
 import "@lit-material/checkbox";
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
+import { pageStyles } from "../../styles/page-styles.js";
 import { customElement } from "lit/decorators.js";
 import "../../playground/docs-playground.js";
 import type { PlaygroundControl, PlaygroundState } from "../../playground/controls.js";
@@ -37,11 +38,7 @@ function markup(state: PlaygroundState): string {
 
 @customElement("docs-checkbox-page")
 export class DocsCheckboxPage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-    }
-  `;
+  static override styles = [pageStyles];
 
   override render() {
     return html`

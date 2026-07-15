@@ -1,16 +1,13 @@
 import "@lit-material/button";
 import "@lit-material/dialog";
 import type { LitMaterialDialog } from "@lit-material/dialog";
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
+import { pageStyles } from "../../styles/page-styles.js";
 import { customElement, query } from "lit/decorators.js";
 
 @customElement("docs-dialog-page")
 export class DocsDialogPage extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-    }
-  `;
+  static override styles = [pageStyles];
 
   @query("#demo-dialog")
   private dialog?: LitMaterialDialog;
