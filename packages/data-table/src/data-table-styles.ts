@@ -15,4 +15,23 @@ export const styles = css`
     width: 100%;
     border-collapse: collapse;
   }
+
+  .viewport {
+    display: block;
+    width: 100%;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .spacer {
+    position: relative;
+    width: 100%;
+  }
+
+  .virtual-row {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    top: 0;
+  }
 `;

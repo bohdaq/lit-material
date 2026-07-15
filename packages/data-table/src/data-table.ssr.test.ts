@@ -32,4 +32,21 @@ describe("lit-material-data-table (SSR)", () => {
     assert.match(out, /<lit-material-data-table[^>]*role="table"/);
     assert.match(out, /<slot/);
   });
+
+  it("renders a virtualized viewport's first window without throwing, from a fixed viewport-height", async () => {
+    const items = [{ name: "Ada" }, { name: "Grace" }, { name: "Alan" }];
+    const rowRenderer = (item: unknown) =>
+      html`<lit-material-data-table-row flex
+        ><lit-material-data-table-cell flex width="100px">${(item as { name: string }).name}</lit-material-data-table-cell
+        ></lit-material-data-table-row>`;
+    const out = await renderToString(html`
+      <lit-material-data-table row-height="40" viewport-height="200" .items=${items} .rowRenderer=${rowRenderer}>
+        <lit-material-data-table-row header flex>
+          <lit-material-data-table-cell header flex width="100px">Name</lit-material-data-table-cell>
+        </lit-material-data-table-row>
+      </lit-material-data-table>
+    `);
+    assert.match(out, /class="viewport"/);
+    assert.match(out, /Ada/);
+  });
 });

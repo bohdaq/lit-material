@@ -35,6 +35,20 @@ instead of re-checking.
 published yet** — npm still serves `0.0.1` with neither; see "Not yet done" #3 below. `@lit-material/task`,
 `@lit-material/form`, and `create-lit-material-app` are new local packages, not yet published at all.
 
+**`@lit-material/data-table` closed out its three scope cuts from the previous pass**: pagination (a new,
+standalone `lit-material-data-table-pagination` footer component — deliberately not something the table renders
+itself, since paging is exactly as data-shaped a concern as sorting/selection, which the table already keeps
+its hands off of), column resizing (a `resizable` header cell reports its own dragged width via a
+`column-resize` event; the table applies it across the whole column, since with `display: table-cell` and no
+real `<colgroup>`, "column" only exists as a same-index relationship across sibling rows that only the table
+can see), and row virtualization (opt-in `.items`/`.rowRenderer` properties switch the table to fixed-height
+windowing — the one piece of this component that isn't purely headless, since true virtualization needs the
+full item count up front). Virtualized rows can't use the table's `display: table-cell` column-alignment trick
+(they're positioned with `transform`, outside normal flow), so virtualized mode adds a parallel `flex` layout
+opt-in to both `lit-material-data-table-row` and `-cell`, sized by an explicit `width` property instead of
+native table layout — the default (non-virtualized) mode is completely unchanged. Local version bumped to
+`0.0.2`, not yet published (see "Not yet done" #3).
+
 **Docs site v1 done**: `apps/docs` is now a real multi-page site on `@lit-material/router` instead of one
 static HTML page — a persistent sidebar (`apps/docs/src/app-shell.ts`, `route-manifest.ts`), an install guide
 at `/`, one routed page per component at `/components/:slug` (all 24, migrated from the old single page with
@@ -69,7 +83,8 @@ originally proposed.
    tested; dark mode relies entirely on the token layer's `prefers-color-scheme` values and hasn't been
    visually verified end-to-end.
 3. **Publish outstanding packages/versions**: `@lit-material/core` (`0.0.2`, adds `themeContext` and now
-   `localeContext`) and `@lit-material/button` (`0.0.2`, version bumped but never republished) both need a
+   `localeContext`), `@lit-material/button` (`0.0.2`, version bumped but never republished), and
+   `@lit-material/data-table` (`0.0.2`, adds pagination/column resizing/row virtualization) all need a
    republish; `@lit-material/task`, `@lit-material/form`, and `create-lit-material-app` need their first
    publish.
 
@@ -157,7 +172,7 @@ Also done, picked off the Phase 2 backlog in the order this document originally 
 |---|---|---|---|
 | Badge | small dot or large numeric/text badge | ✅ Done | 0.0.1 published |
 | Tooltip | plain, hover/focus-driven, native Popover API (`manual` mode) | ✅ Done | 0.0.1 published |
-| Data Table | sortable columns, single/multi-select rows, dense/comfortable density | ✅ Done | 0.0.1 published |
+| Data Table | sortable columns, single/multi-select rows, dense/comfortable density, pagination, column resizing, row virtualization | ✅ Done | 0.0.1 published, local ahead (see below) |
 | Date Picker | calendar-grid dialog (modal), single-date scope | ✅ Done | 0.0.1 published |
 | Divider | Full-bleed + inset variants, horizontal (and vertical for use inside Navigation Rail/List). Styling only — `role="separator"`, no interactive/keyboard behavior, no form association. | ✅ Done | 0.0.1 published |
 

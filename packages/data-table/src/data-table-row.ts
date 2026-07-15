@@ -11,6 +11,14 @@ import { styles } from "./data-table-row-styles.js";
  * uses `display: table-cell` — native table column alignment without an
  * actual `<table>` element.
  *
+ * Set `flex` instead when this row is used with `lit-material-data-table`'s
+ * virtualized (`items`/`.rowRenderer`) mode: rows rendered inside an
+ * absolutely-positioned, transformed viewport can't participate in the
+ * browser's table layout algorithm (that requires normal in-flow siblings),
+ * so virtualized rows lay themselves out with flexbox instead — give each
+ * `lit-material-data-table-cell` inside a matching `flex` and a `width` so
+ * columns still line up with the (still table-laid-out) header row.
+ *
  * @element lit-material-data-table-row
  *
  * @slot - `lit-material-data-table-cell` elements.
@@ -22,6 +30,8 @@ export class LitMaterialDataTableRow extends LitElement {
   @property({ type: Boolean, reflect: true }) header = false;
   /** Highlights the row — set by the table from a row-select checkbox's checked state, not directly. */
   @property({ type: Boolean, reflect: true }) selected = false;
+  /** Lays the row out with flexbox instead of `display: table-row` — see the class docs. */
+  @property({ type: Boolean, reflect: true }) flex = false;
 
   protected override willUpdate(changed: Map<string, unknown>): void {
     if (changed.has("header") || !this.hasAttribute("role")) {

@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/data-table",
-  "version": "0.0.1",
-  "description": "Material Design 3 data table web components (sortable, selectable).",
+  "version": "0.0.2",
+  "description": "Material Design 3 data table web components (sortable, selectable, paginated, resizable, virtualized).",
   "license": "MIT",
   "author": {
     "name": "bohdaq",

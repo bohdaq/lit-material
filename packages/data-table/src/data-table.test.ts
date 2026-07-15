@@ -140,4 +140,21 @@ describe("lit-material-data-table", () => {
     const { el } = await tableFixture();
     await expect(el).to.be.accessible();
   });
+
+  it("applies a column-resize width to every cell in that column, not just the dragged header", async () => {
+    const { el, rows, headerCells } = await tableFixture();
+    // headerCells[0] is the "Name" column (index 1: index 0 is the select-all checkbox cell).
+    headerCells[0]!.dispatchEvent(
+      new CustomEvent("column-resize", { bubbles: true, composed: true, detail: { width: 220 } }),
+    );
+
+    const headerRow = el.querySelector("lit-material-data-table-row[header]")!;
+    const resizedHeaderCell = headerRow.children[1] as HTMLElement;
+    expect(resizedHeaderCell).to.equal(headerCells[0]);
+    expect(resizedHeaderCell.style.width).to.equal("220px");
+    expect((rows[1]!.children[1] as HTMLElement).style.width).to.equal("220px");
+    expect((rows[2]!.children[1] as HTMLElement).style.width).to.equal("220px");
+    // Untouched column (index 0, the checkbox column) is left alone.
+    expect((rows[1]!.children[0] as HTMLElement).style.width).to.equal("");
+  });
 });

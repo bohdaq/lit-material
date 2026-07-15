@@ -319,7 +319,6 @@ export class DocsBuildingAppsPage extends LitElement {
       <section class="doc-section">
         <h2>What this doesn't cover</h2>
         <p>
-          Pagination/column-resizing/row-virtualization for <code>@lit-material/data-table</code>,
           <code>@lit/localize</code>'s own message extraction workflow (its CLI, not something
           <code>lit-material</code> wraps), and anything listed as a scope cut in an individual component's own
           README are still out of scope — see

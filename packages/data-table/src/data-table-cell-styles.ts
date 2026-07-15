@@ -3,6 +3,7 @@ import { css } from "lit";
 export const styles = css`
   :host {
     display: table-cell;
+    position: relative;
     box-sizing: border-box;
     padding: 12px 16px;
     vertical-align: middle;
@@ -17,6 +18,12 @@ export const styles = css`
     font-variant-numeric: tabular-nums;
   }
 
+  :host([flex]) {
+    display: block;
+    flex: 0 0 auto;
+    min-width: 0;
+  }
+
   :host([header]) {
     color: var(--md-sys-color-on-surface-variant, #49454f);
     font-family: var(--md-sys-typescale-label-large-font, Roboto, system-ui, sans-serif);
@@ -29,6 +36,11 @@ export const styles = css`
     display: inline-flex;
     align-items: center;
     gap: 4px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
   }
 
   :host([numeric]) .content {
@@ -69,5 +81,39 @@ export const styles = css`
   :host([sort-direction="ascending"]) .sort-icon,
   :host([sort-direction="descending"]) .sort-icon {
     opacity: 1;
+  }
+
+  .resize-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    inset-inline-end: -4px;
+    width: 8px;
+    cursor: col-resize;
+    touch-action: none;
+    z-index: 1;
+  }
+
+  .resize-handle::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    inset-inline-start: 3px;
+    width: 2px;
+    background-color: var(--md-sys-color-outline-variant, #cac4d0);
+    opacity: 0;
+    transition: opacity 100ms var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  }
+
+  .resize-handle:hover::after {
+    opacity: 1;
+    background-color: var(--md-sys-color-primary, #6750a4);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .resize-handle::after {
+      transition: none;
+    }
   }
 `;

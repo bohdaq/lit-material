@@ -1,5 +1,6 @@
 import { html, LitElement } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
+import { repeat } from "lit/directives/repeat.js";
 import type { LitMaterialDataTableCell, SortDirection } from "./data-table-cell.js";
 import type { LitMaterialDataTableRow } from "./data-table-row.js";
 import { styles } from "./data-table-styles.js";
@@ -28,11 +29,35 @@ import { styles } from "./data-table-styles.js";
  * closest-`<tr>`-equivalent (`lit-material-data-table-row`) `data-row-id`
  * attribute.
  *
+ * A `resizable` header cell's drag handle reports its own width via a
+ * `column-resize` event — this table is the one that actually applies it,
+ * setting an explicit `width`/`min-width`/`max-width` on every cell that
+ * shares that column index (header and body alike), not just the header
+ * cell that was dragged. That has to happen up here rather than in the cell
+ * itself: with `display: table-cell` and no real `<colgroup>`, the browser's
+ * table layout algorithm treats "same child index across sibling rows" as
+ * the column, so keeping a whole column in sync means reaching into every
+ * row, which only the table can see.
+ *
+ * Set `.items`/`.rowRenderer` for large datasets to switch on fixed-height
+ * row virtualization: only the rows within (or near) the visible scroll
+ * window are ever rendered, however many thousand `items` there are. This
+ * is the one thing here that isn't purely headless — the table owns
+ * scroll position and which slice of `items` is currently mounted — because
+ * true virtualization requires knowing the full item count up front, which
+ * "you slot real rows" (this table's normal mode) can't provide. Slot only
+ * the header row in this mode; body rows come from `rowRenderer` instead,
+ * and both the header row and every `rowRenderer`-returned row need `flex`
+ * set (see `lit-material-data-table-row`'s docs) since virtualized rows are
+ * positioned with `transform`, which native table layout can't do.
+ *
  * @element lit-material-data-table
  *
- * @slot - `lit-material-data-table-row` elements.
+ * @slot - `lit-material-data-table-row` elements (in virtualized mode, the header row only).
  *
  * @csspart table - The table layout container.
+ * @csspart viewport - The scrollable viewport, in virtualized mode.
+ * @csspart spacer - The full-height spacer inside the viewport, in virtualized mode.
  *
  * @fires sort-change - `detail: { sortKey, sortDirection }`, when a sortable header cell is activated.
  * @fires selection-change - `detail: { selected: string[] }` (the checked rows' `data-row-id` values),
@@ -45,10 +70,27 @@ export class LitMaterialDataTable extends LitElement {
   @property({ attribute: "sort-key" }) sortKey?: string;
   @property({ attribute: "sort-direction" }) sortDirection: SortDirection = "ascending";
 
+  /** The full dataset for virtualized mode. Empty (the default) means "not virtualized". */
+  @property({ attribute: false }) items: readonly unknown[] = [];
+  /** Renders one virtualized body row. Required alongside `items` to turn virtualization on. */
+  @property({ attribute: false }) rowRenderer?: (item: unknown, index: number) => unknown;
+  /** Stable key per item, for correct DOM reuse as the visible window scrolls. Defaults to the index. */
+  @property({ attribute: false }) rowKey?: (item: unknown, index: number) => string | number;
+  /** Fixed row height in pixels — every virtualized row is assumed to be exactly this tall. */
+  @property({ attribute: "row-height", type: Number }) rowHeight = 44;
+  /** Visible scroll-viewport height in pixels. */
+  @property({ attribute: "viewport-height", type: Number }) viewportHeight = 400;
+  /** Extra rows rendered beyond each edge of the visible window, to absorb fast scrolling. */
+  @property({ type: Number }) overscan = 4;
+
+  @state() private viewportScrollTop = 0;
+  private scrollUpdatePending = false;
+
   constructor() {
     super();
     this.addEventListener("sort-request", this.handleSortRequest as EventListener);
     this.addEventListener("change", this.handleChange);
+    this.addEventListener("column-resize", this.handleColumnResize as EventListener);
   }
 
   protected override willUpdate(changed: Map<string, unknown>): void {
@@ -64,22 +106,39 @@ export class LitMaterialDataTable extends LitElement {
     }
   }
 
-  private get headerCells(): LitMaterialDataTableCell[] {
+  // Virtualized body rows live in this table's own shadow root (rendered by
+  // `rowRenderer`, not slotted), while everything else lives in the light
+  // DOM as usual — merge both trees rather than picking one, so sorting/
+  // selection delegation keeps working regardless of which mode produced a
+  // given row.
+  private queryAllInTable<T extends Element>(selector: string): T[] {
     // @lit-labs/ssr's light-DOM shim doesn't implement querySelectorAll on
-    // the host during connectedCallback — degrade to no cells rather than
+    // the host during connectedCallback — degrade to no elements rather than
     // throwing (there's no sort/selection state to sync server-side anyway).
     if (typeof this.querySelectorAll !== "function") return [];
-    return Array.from(this.querySelectorAll<LitMaterialDataTableCell>("lit-material-data-table-cell[header]"));
+    const lightMatches = Array.from(this.querySelectorAll<T>(selector));
+    const shadowMatches = this.shadowRoot ? Array.from(this.shadowRoot.querySelectorAll<T>(selector)) : [];
+    return [...lightMatches, ...shadowMatches];
+  }
+
+  private get headerCells(): LitMaterialDataTableCell[] {
+    return this.queryAllInTable<LitMaterialDataTableCell>("lit-material-data-table-cell[header]");
   }
 
   private get rowCheckboxes(): HTMLInputElement[] {
-    if (typeof this.querySelectorAll !== "function") return [];
-    return Array.from(this.querySelectorAll<HTMLInputElement>("[data-row-select]"));
+    return this.queryAllInTable<HTMLInputElement>("[data-row-select]");
   }
 
   private get selectAllCheckbox(): HTMLInputElement | null {
-    if (typeof this.querySelector !== "function") return null;
-    return this.querySelector<HTMLInputElement>("[data-select-all]");
+    return this.queryAllInTable<HTMLInputElement>("[data-select-all]")[0] ?? null;
+  }
+
+  private get rows(): LitMaterialDataTableRow[] {
+    return this.queryAllInTable<LitMaterialDataTableRow>("lit-material-data-table-row");
+  }
+
+  private get isVirtualized(): boolean {
+    return this.items.length > 0 && !!this.rowRenderer;
   }
 
   private syncSortIndicators(): void {
@@ -152,8 +211,70 @@ export class LitMaterialDataTable extends LitElement {
     }
   };
 
+  private readonly handleColumnResize = (event: CustomEvent<{ width: number }>): void => {
+    const cell = event.composedPath()[0] as HTMLElement | undefined;
+    const row = cell?.parentElement;
+    if (!cell || !row) return;
+    const index = Array.from(row.children).indexOf(cell);
+    if (index === -1) return;
+    const width = `${event.detail.width}px`;
+    this.rows.forEach((otherRow) => {
+      const target = otherRow.children[index] as HTMLElement | undefined;
+      if (!target) return;
+      target.style.width = width;
+      target.style.minWidth = width;
+      target.style.maxWidth = width;
+    });
+  };
+
+  private readonly handleViewportScroll = (event: Event): void => {
+    const target = event.currentTarget as HTMLElement;
+    if (this.scrollUpdatePending) return;
+    this.scrollUpdatePending = true;
+    requestAnimationFrame(() => {
+      this.scrollUpdatePending = false;
+      this.viewportScrollTop = target.scrollTop;
+    });
+  };
+
+  private renderVirtualizedRows() {
+    const total = this.items.length;
+    const totalHeight = total * this.rowHeight;
+    const start = Math.max(0, Math.floor(this.viewportScrollTop / this.rowHeight) - this.overscan);
+    const visibleCount = Math.ceil(this.viewportHeight / this.rowHeight) + this.overscan * 2;
+    const end = Math.min(total, start + visibleCount);
+    const visible = this.items.slice(start, end);
+
+    return html`
+      <div
+        class="viewport"
+        part="viewport"
+        style="height: ${this.viewportHeight}px"
+        @scroll=${this.handleViewportScroll}
+      >
+        <div class="spacer" part="spacer" style="height: ${totalHeight}px">
+          ${repeat(
+            visible,
+            (item, i) => (this.rowKey ? this.rowKey(item, start + i) : start + i),
+            (item, i) => {
+              const index = start + i;
+              return html`<div class="virtual-row" style="transform: translateY(${index * this.rowHeight}px)">
+                ${this.rowRenderer!(item, index)}
+              </div>`;
+            },
+          )}
+        </div>
+      </div>
+    `;
+  }
+
   override render() {
-    return html`<div class="table" part="table"><slot @slotchange=${this.handleSlotChange}></slot></div>`;
+    return html`
+      <div class="table" part="table">
+        <slot @slotchange=${this.handleSlotChange}></slot>
+        ${this.isVirtualized ? this.renderVirtualizedRows() : ""}
+      </div>
+    `;
   }
 }
 
