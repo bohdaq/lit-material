@@ -96,7 +96,7 @@ export class LitMaterialSlider extends LitElement {
       <div class="slider ${this.interacting ? "interacting" : ""}" part="slider">
         <div class="track" part="track"></div>
         <div class="track-active" part="track-active" style="width: ${percent}%"></div>
-        <div class="thumb-wrap" style="left: ${percent}%">
+        <div class="thumb-wrap" style="inset-inline-start: ${percent}%">
           <div class="value-label" part="value-label">${this.value}</div>
           <div class="state-layer" part="ripple"></div>
           <div class="focus-ring" part="focus-ring" ?hidden=${!this.focusRing.visible}></div>

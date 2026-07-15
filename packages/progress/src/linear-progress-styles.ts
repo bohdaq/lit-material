@@ -26,7 +26,7 @@ export const styles = css`
 
   /* Determinate: width is set inline from the current value. */
   .indicator.determinate {
-    left: 0;
+    inset-inline-start: 0;
     transition: width 150ms var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   }
 
@@ -45,25 +45,25 @@ export const styles = css`
 
   @keyframes lit-material-linear-progress-bar1 {
     0% {
-      left: -35%;
-      right: 100%;
+      inset-inline-start: -35%;
+      inset-inline-end: 100%;
     }
     60%,
     100% {
-      left: 100%;
-      right: -90%;
+      inset-inline-start: 100%;
+      inset-inline-end: -90%;
     }
   }
 
   @keyframes lit-material-linear-progress-bar2 {
     0% {
-      left: -200%;
-      right: 100%;
+      inset-inline-start: -200%;
+      inset-inline-end: 100%;
     }
     60%,
     100% {
-      left: 107%;
-      right: -8%;
+      inset-inline-start: 107%;
+      inset-inline-end: -8%;
     }
   }
 
@@ -74,8 +74,8 @@ export const styles = css`
     }
 
     .indeterminate1 {
-      left: 0;
-      right: 70%;
+      inset-inline-start: 0;
+      inset-inline-end: 70%;
     }
 
     .indeterminate2 {

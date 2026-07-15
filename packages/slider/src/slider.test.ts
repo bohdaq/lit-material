@@ -25,7 +25,7 @@ describe("lit-material-slider", () => {
     );
     const thumbWrap = el.shadowRoot!.querySelector(".thumb-wrap") as HTMLElement;
     const trackActive = el.shadowRoot!.querySelector(".track-active") as HTMLElement;
-    expect(thumbWrap.style.left).to.equal("25%");
+    expect(thumbWrap.style.insetInlineStart).to.equal("25%");
     expect(trackActive.style.width).to.equal("25%");
   });
 
@@ -34,7 +34,25 @@ describe("lit-material-slider", () => {
       html`<lit-material-slider min="0" max="100" value="500"></lit-material-slider>`,
     );
     const thumbWrap = el.shadowRoot!.querySelector(".thumb-wrap") as HTMLElement;
-    expect(thumbWrap.style.left).to.equal("100%");
+    expect(thumbWrap.style.insetInlineStart).to.equal("100%");
+  });
+
+  it("mirrors the filled track and thumb under dir=\"rtl\" instead of a fixed physical side", async () => {
+    const ltr = await fixture<LitMaterialSlider>(
+      html`<lit-material-slider dir="ltr" min="0" max="100" value="25"></lit-material-slider>`,
+    );
+    const ltrTrack = ltr.shadowRoot!.querySelector(".track")!.getBoundingClientRect();
+    const ltrActive = ltr.shadowRoot!.querySelector(".track-active")!.getBoundingClientRect();
+    expect(ltrActive.left).to.be.closeTo(ltrTrack.left, 1); // fill grows from the left, in LTR
+    expect(ltrActive.right).to.be.lessThan(ltrTrack.right);
+
+    const rtl = await fixture<LitMaterialSlider>(
+      html`<lit-material-slider dir="rtl" min="0" max="100" value="25"></lit-material-slider>`,
+    );
+    const rtlTrack = rtl.shadowRoot!.querySelector(".track")!.getBoundingClientRect();
+    const rtlActive = rtl.shadowRoot!.querySelector(".track-active")!.getBoundingClientRect();
+    expect(rtlActive.right).to.be.closeTo(rtlTrack.right, 1); // mirrored: fill grows from the right, in RTL
+    expect(rtlActive.left).to.be.greaterThan(rtlTrack.left);
   });
 
   it("updates value and dispatches input while dragging (ArrowRight simulated via keyboard)", async () => {

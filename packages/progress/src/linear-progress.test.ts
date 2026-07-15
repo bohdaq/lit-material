@@ -41,6 +41,24 @@ describe("lit-material-linear-progress", () => {
     expect(indicator.style.width).to.equal("25%");
   });
 
+  it("mirrors the determinate fill under dir=\"rtl\" instead of a fixed physical side", async () => {
+    const ltr = await fixture<LitMaterialLinearProgress>(
+      html`<lit-material-linear-progress dir="ltr" aria-label="Loading" value="0.25"></lit-material-linear-progress>`,
+    );
+    const ltrHost = ltr.getBoundingClientRect();
+    const ltrIndicator = ltr.shadowRoot!.querySelector(".indicator")!.getBoundingClientRect();
+    expect(ltrIndicator.left).to.be.closeTo(ltrHost.left, 1); // fill grows from the left, in LTR
+    expect(ltrIndicator.right).to.be.lessThan(ltrHost.right);
+
+    const rtl = await fixture<LitMaterialLinearProgress>(
+      html`<lit-material-linear-progress dir="rtl" aria-label="Loading" value="0.25"></lit-material-linear-progress>`,
+    );
+    const rtlHost = rtl.getBoundingClientRect();
+    const rtlIndicator = rtl.shadowRoot!.querySelector(".indicator")!.getBoundingClientRect();
+    expect(rtlIndicator.right).to.be.closeTo(rtlHost.right, 1); // mirrored: fill grows from the right, in RTL
+    expect(rtlIndicator.left).to.be.greaterThan(rtlHost.left);
+  });
+
   it("omits aria-valuenow and renders two sliding bars when indeterminate", async () => {
     const el = await fixture<LitMaterialLinearProgress>(
       html`<lit-material-linear-progress aria-label="Loading" indeterminate></lit-material-linear-progress>`,

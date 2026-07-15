@@ -100,6 +100,35 @@ describe("lit-material-tabs", () => {
     expect(indicator.style.width).to.equal(`${secondButton.width}px`);
   });
 
+  it("follows the selected tab's actual rendered position under dir=\"rtl\", where tab order itself mirrors", async () => {
+    // The indicator's position is computed from getBoundingClientRect() diffs
+    // (tabs.ts's updateIndicator()), not assumed direction — flex's `row`
+    // direction already reorders tabs right-to-left under RTL naturally, and
+    // measuring already-mirrored rects keeps the indicator correct without
+    // the component needing any direction-specific logic of its own.
+    const el = await fixture<LitMaterialTabs>(html`
+      <lit-material-tabs dir="rtl" style="display: block; width: 300px;">
+        <lit-material-tab>One</lit-material-tab>
+        <lit-material-tab>Two</lit-material-tab>
+      </lit-material-tabs>
+    `);
+    const tabs = Array.from(el.querySelectorAll("lit-material-tab"));
+    const hostRect = el.getBoundingClientRect();
+
+    // In RTL, flex-direction: row lays the first tab out on the right.
+    const firstTabRect = tabs[0]!.getBoundingClientRect();
+    expect(firstTabRect.right).to.be.closeTo(hostRect.right, 1);
+
+    const indicator = el.shadowRoot!.querySelector(".indicator") as HTMLElement;
+    expect(indicator.style.left).to.equal(`${firstTabRect.left - hostRect.left}px`);
+
+    el.selected = 1;
+    await el.updateComplete;
+    const secondTabRect = tabs[1]!.getBoundingClientRect();
+    expect(secondTabRect.right).to.be.at.most(firstTabRect.left); // second tab sits to the left, in RTL (touching, no gap)
+    expect(indicator.style.left).to.equal(`${secondTabRect.left - hostRect.left}px`);
+  });
+
   it("passes axe accessibility checks", async () => {
     const { el } = await tabsFixture();
     await expect(el).to.be.accessible();

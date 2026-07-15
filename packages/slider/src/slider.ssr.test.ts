@@ -32,6 +32,6 @@ describe("lit-material-slider (SSR)", () => {
     const out = await renderToString(
       html`<lit-material-slider min="0" max="200" value="50"></lit-material-slider>`,
     );
-    assert.match(out, /left: 25%/);
+    assert.match(out, /inset-inline-start: 25%/);
   });
 });

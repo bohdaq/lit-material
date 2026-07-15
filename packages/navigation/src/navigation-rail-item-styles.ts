@@ -58,16 +58,16 @@ export const styles = css`
     background-color: var(--md-sys-color-secondary-container, #e8def8);
   }
 
-  .icon ::slotted(*) {
+  slot.icon::slotted(*) {
     display: block;
     width: 24px;
     height: 24px;
   }
 
-  .badge ::slotted(*) {
+  slot.badge::slotted(*) {
     position: absolute;
     top: -4px;
-    right: 8px;
+    inset-inline-end: 8px;
   }
 
   .label {

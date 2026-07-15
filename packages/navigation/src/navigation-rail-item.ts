@@ -18,7 +18,8 @@ import { styles } from "./navigation-rail-item-styles.js";
  *
  * @slot - The label text.
  * @slot icon - The icon.
- * @slot badge - Optional badge content (a count or dot), positioned over the icon's top-right corner.
+ * @slot badge - Optional badge content (a count or dot), positioned over the icon's top-end corner
+ *   (top-right in LTR, top-left in RTL).
  *
  * @csspart item - The `<button>` or `<a>` (layout only, no background of its own).
  * @csspart icon-container - The pill-shaped active indicator behind the icon.

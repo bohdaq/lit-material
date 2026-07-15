@@ -33,7 +33,7 @@ export const styles = css`
   .track-active {
     position: absolute;
     inset-block: 0;
-    left: 0;
+    inset-inline-start: 0;
     border-radius: inherit;
     background-color: var(--md-sys-color-primary, #6750a4);
   }

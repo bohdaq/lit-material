@@ -57,6 +57,25 @@ describe("lit-material-navigation-rail-item", () => {
     expect(el.shadowRoot!.querySelector(".state-layer")!.hasAttribute("data-pressed")).to.be.true;
   });
 
+  it("mirrors the badge slot's corner under dir=\"rtl\" instead of sitting at a fixed physical corner", async () => {
+    // The badge is positioned relative to .icon-container (56px, centered
+    // within .item), not .item itself — .icon-container is the nearest
+    // `position: relative` ancestor, so it's the actual containing block.
+    const ltr = await fixture<LitMaterialNavigationRailItem>(html`
+      <lit-material-navigation-rail-item dir="ltr"><span slot="badge">5</span>Music</lit-material-navigation-rail-item>
+    `);
+    const ltrContainerRect = ltr.shadowRoot!.querySelector(".icon-container")!.getBoundingClientRect();
+    const ltrBadgeRect = ltr.querySelector('[slot="badge"]')!.getBoundingClientRect();
+    expect(ltrContainerRect.right - ltrBadgeRect.right).to.be.closeTo(8, 1); // hugs the right edge in LTR
+
+    const rtl = await fixture<LitMaterialNavigationRailItem>(html`
+      <lit-material-navigation-rail-item dir="rtl"><span slot="badge">5</span>Music</lit-material-navigation-rail-item>
+    `);
+    const rtlContainerRect = rtl.shadowRoot!.querySelector(".icon-container")!.getBoundingClientRect();
+    const rtlBadgeRect = rtl.querySelector('[slot="badge"]')!.getBoundingClientRect();
+    expect(rtlBadgeRect.left - rtlContainerRect.left).to.be.closeTo(8, 1); // mirrored: hugs the left edge in RTL
+  });
+
   it("passes axe accessibility checks inside a nav landmark", async () => {
     const wrapper = await fixture<HTMLElement>(html`
       <nav><lit-material-navigation-rail-item selected>Music</lit-material-navigation-rail-item></nav>

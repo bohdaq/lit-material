@@ -95,23 +95,34 @@ this document originally proposed.
      --litelement`, excluding `*.test.ts`/`*.ssr.test.ts`). `core`/`tokens`/`store`/`task`/`form`/
      `create-lit-material-app` are deliberately excluded — none of them define a real, public custom element
      (`task`/`form`'s only `@customElement`-decorated classes are test-only fixtures, never exported).
-2. **Unverified quality-bar items**: RTL (`dir="rtl"`) has not been explicitly, comprehensively tested — and
-   isn't uniformly correct. **Switch's thumb is now fixed** (`left`/`transition: left` → `inset-inline-start`/
-   `transition: inset-inline-start` in `switch-styles.ts`; a real-DOM test asserting the thumb slides the
-   mirrored direction under `dir="rtl"` was added to `switch.test.ts`). A follow-up grep across every
-   `*-styles.ts` for physical `left:`/`right:` turned up more candidates, not yet fixed — sorted by how
-   confident this pass is that each is a real bug, not just an untested one:
-   - **Confirmed likely bugs** (positioning that represents a start/end concept, should flip under RTL but is
-     hardcoded to a physical side): `navigation-rail-item`'s badge corner (`right: 8px` — should be
-     `inset-inline-end`), `slider`'s filled track (`.track-active { left: 0 }` — the filled portion should grow
-     from the opposite edge in RTL), and `linear-progress`'s determinate fill (`left: 0`) plus its indeterminate
-     `@keyframes` (which hardcode both `left`/`right` per frame — same fix, convert to
-     `inset-inline-start`/`inset-inline-end`).
-   - **Needs code-reading, not yet confirmed either way**: `tabs`' sliding indicator sets `left` via JS
-     (`tabs.ts`, not just CSS) — whether that's already computing an RTL-correct offset or not depends on how
-     the position is derived, not visible from the stylesheet alone.
-   - **Not bugs**: `slider`'s value-label and `snackbar`'s host both use `left: 50%` purely for centering
-     (paired with a `translateX(-50%)`), which is direction-agnostic — no change needed.
+2. **Unverified quality-bar items — the known RTL bugs are now all fixed**: every confirmed-likely candidate
+   from the last pass has been fixed and covered by a real-DOM mirroring test (fixture rendered with
+   `dir="ltr"` vs `dir="rtl"`, asserting the geometry actually flips, not just that the CSS text mentions a
+   logical property):
+   - `switch-styles.ts`: thumb `left`/`transition: left` → `inset-inline-start`.
+   - `navigation-rail-item-styles.ts`: badge corner `right: 8px` → `inset-inline-end: 8px`. While in this file,
+     also fixed a real, separate bug the RTL work happened to surface: `.icon ::slotted(*)`/`.badge ::slotted(*)`
+     (a class selector followed by a *descendant combinator* before `::slotted()`) is invalid/non-matching CSS
+     — verified empirically in a throwaway test page — so neither rule was ever actually applying (icons were
+     unsized, the badge was unpositioned, in plain static flow). Fixed to `slot.icon::slotted(*)`/
+     `slot.badge::slotted(*)` (compound selector, no space), which does match. **The same broken
+     `.foo ::slotted(*)` pattern exists in 9 more files** (`chip`, `button`, `icon-button`,
+     `navigation-drawer-item`, `tab`, `select-option`, `switch`, `dialog`, `text-field` — grepped, not
+     individually verified broken) — left alone this pass since it's a distinct bug from RTL and out of the
+     scope actually asked for; worth its own follow-up.
+   - `slider-styles.ts`/`slider.ts`: `.track-active`'s `left: 0` → `inset-inline-start: 0`; the JS-computed
+     thumb position (`style="left: ${percent}%"`) → `style="inset-inline-start: ${percent}%"` (existing tests
+     asserting `.style.left` updated to `.style.insetInlineStart` accordingly).
+   - `linear-progress-styles.ts`: determinate fill `left: 0` → `inset-inline-start: 0`; both indeterminate
+     `@keyframes` (which hardcoded `left`/`right` per frame) → `inset-inline-start`/`inset-inline-end`,
+     including the `prefers-reduced-motion` fallback frame.
+   - `tabs.ts`'s sliding indicator — read the code: it positions itself from `getBoundingClientRect()` diffs
+     (`tabRect.left - hostRect.left`), not an assumed direction. Since flexbox's `flex-direction: row` already
+     reorders tabs right-to-left under `dir="rtl"` natively, and the rect measurements reflect wherever the
+     browser actually rendered each tab, this was **never actually a bug** — confirmed with a real-DOM RTL test
+     (`tabs.test.ts`) rather than left as a guess, but no code change was needed.
+   - `slider`'s value-label and `snackbar`'s host both use `left: 50%` purely for centering (paired with a
+     `translateX(-50%)`), which is direction-agnostic — confirmed not bugs, no change made.
 
    `prefers-reduced-motion` is handled per-component (each has a media query) but not tested; dark mode relies
    entirely on the token layer's `prefers-color-scheme` values and hasn't been visually verified end-to-end.
@@ -417,11 +428,15 @@ the live, browsable documentation site rather than a repo file most users never 
 2. ~~ESLint, Changesets, and custom-elements-manifest generation~~ — done (see "Not yet done" #1). The one
    tooling gap section 3.2 called for that's still open: CI (GitHub Actions running `pnpm lint typecheck test
    build`).
-3. RTL: Switch's thumb is fixed (see "Not yet done" #2); `navigation-rail-item`'s badge corner, `slider`'s
-   filled track, and `linear-progress`'s determinate fill/indeterminate keyframes are the next confirmed-likely
-   fixes, then `tabs`' JS-computed indicator position needs reading before it's even confirmed as a bug.
-4. `prefers-reduced-motion`/dark-mode: still open, same as RTL — pick one component, verify end-to-end, decide
-   whether to roll the pass across all of them.
+3. ~~RTL~~ — the known bugs (Switch, `navigation-rail-item`, `slider`, `linear-progress`) are all fixed and
+   covered by real-DOM mirroring tests; `tabs`' indicator was checked and confirmed not a bug (see "Not yet
+   done" #2). Two things this surfaced, not yet done: the broader `.foo ::slotted(*)` selector bug in 9 other
+   files (also "Not yet done" #2), and a comprehensive RTL audit beyond just the components already checked —
+   this pass fixed known/grepped candidates, not every component.
+4. `prefers-reduced-motion`/dark-mode: still open — pick one component, verify end-to-end, decide whether to
+   roll the pass across all of them.
+5. Fix the `.foo ::slotted(*)` invalid-selector bug in the other 9 affected files (see "Not yet done" #2) —
+   distinct from RTL, likely affects icon sizing/slot positioning wherever it's used.
 
 ## 6. Open questions (revisit as the project matures)
 
