@@ -2,6 +2,7 @@ import { LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { RouteController, type RouteConfig } from "./route-controller.js";
 import { navigate } from "./navigate.js";
+import { stripBasePath } from "./base-path.js";
 import { styles } from "./router-outlet-styles.js";
 
 /**
@@ -48,7 +49,9 @@ export class LitMaterialRouterOutlet extends LitElement {
     if (url.origin !== window.location.origin) return;
 
     event.preventDefault();
-    navigate(url.pathname + url.search + url.hash);
+    // `navigate()` always takes a base-free path (see `setBasePath()`) and adds the configured base back
+    // itself — strip it from this real, resolved anchor pathname first so it isn't applied twice.
+    navigate(stripBasePath(url.pathname) + url.search + url.hash);
   };
 
   override render() {

@@ -107,6 +107,30 @@ class SideNav extends LitElement {
 }
 ```
 
+## Deploying under a subpath
+
+If the app isn't served from its domain's root — a GitHub Pages project site at `/my-repo/`, for
+instance — call `setBasePath()` once at startup, before constructing the first `RouteController`/
+`<lit-material-router-outlet>`:
+
+```ts
+import { setBasePath } from "@lit-material/router";
+
+setBasePath("/my-repo"); // e.g. import.meta.env.BASE_URL on Vite
+```
+
+Route configs, `navigate()` calls, and `route.current.path` all keep working exactly as written — in path
+space relative to the app's own root — regardless of `setBasePath()`. It only affects two things internally:
+`navigate()` prepends the configured base before calling `history.pushState()`, and `RouteController` strips
+it back off `location.pathname` before matching. The one thing `setBasePath()` *doesn't* do is rewrite the
+`href` you put in your own `<a>` tags — those are real attributes a browser also uses for "open in new tab"/
+hover previews/copy-link, so they need the base prefix written in literally; build it from the same base
+(`` `${basePath}${path}` ``) wherever you author one.
+
+GitHub Pages specifically has no server-side rewrites, so a direct load or refresh of any route other than
+the site root still 404s without a `404.html` fallback that redirects back to `index.html` — `setBasePath()`
+solves routing once you're *on* the page, not the initial static-hosting request.
+
 ## API
 
 | Export | Description |
@@ -118,6 +142,8 @@ class SideNav extends LitElement {
 | `matchRouteTree(routes, pathname, parentParams?)` | Recursively matches a (possibly nested) route tree, composing each level's `render(params, outlet)` into the next. What `RouteController` calls internally on every navigation. |
 | `navigate(path, options?)` | Pushes (or with `{ replace: true }`, replaces) a history entry and notifies mounted outlets/controllers. |
 | `RouteController` | Reactive controller — same lifecycle as `RippleController`/`FocusRingController` in `@lit-material/core` — for reading `.current` route/params without an outlet. |
+| `setBasePath(path)` | Configures the path prefix `navigate()`/`RouteController` treat the app as deployed under — see "Deploying under a subpath." |
+| `getBasePath()` | The path prefix configured via `setBasePath()` (`""` by default). |
 
 ## License
 

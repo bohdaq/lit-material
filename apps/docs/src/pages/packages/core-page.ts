@@ -2,6 +2,7 @@ import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
 import { pageStyles } from "../../styles/page-styles.js";
 import { guidePageStyles } from "../../styles/guide-page-styles.js";
+import { withBase } from "../../with-base.js";
 
 const themeCode = [
   'import { themeContext, type ThemeState } from "@lit-material/core";',
@@ -92,7 +93,7 @@ export class DocsCorePage extends LitElement {
           have hardcoded, translatable strings, so the actual translation runtime is your app's own concern.
           Combine <code>localeContext</code> with
           <a href="https://www.npmjs.com/package/@lit/localize" target="_blank">@lit/localize</a> for the
-          translated strings themselves — see the <a href="/guide/building-apps">Building apps guide</a> for a
+          translated strings themselves — see the <a href=${withBase("/guide/building-apps")}>Building apps guide</a> for a
           worked example wiring both together.
         </p>
       </section>

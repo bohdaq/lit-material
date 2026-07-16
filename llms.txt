@@ -50,10 +50,10 @@ scope cuts — read it before assuming something is missing or unimplemented.
 ## Guides
 
 - [README](https://github.com/bohdaq/lit-material/blob/main/README.md): Why Lit/lit-material, install instructions, the full package list, and development commands.
-- [Building apps guide source](https://github.com/bohdaq/lit-material/blob/main/apps/docs/src/pages/building-apps-page.ts): Router + store + context + task + form wired together in one example; not deployed publicly yet, so this is the source rather than a live page — run the docs app locally and visit `/guide/building-apps` to read it rendered.
+- [Building apps guide](https://bohdaq.github.io/lit-material/guide/building-apps): Router + store + context + task + form wired together in one example.
 
 ## Optional
 
-- [Docs app source](https://github.com/bohdaq/lit-material/tree/main/apps/docs): Every component's live playground and API table; run `pnpm --filter @lit-material/docs dev` (not deployed publicly yet).
+- [Docs site](https://bohdaq.github.io/lit-material/): Every component's live playground and API table, plus the theme builder. Source at [apps/docs](https://github.com/bohdaq/lit-material/tree/main/apps/docs); run `pnpm --filter @lit-material/docs dev` for a local copy.
 - [App-shell demo](https://github.com/bohdaq/lit-material/tree/main/apps/app-shell-demo): A small runnable app showing router/store/context together (private, unpublished).
 - [License](https://github.com/bohdaq/lit-material/blob/main/LICENSE): MIT.

@@ -2,6 +2,7 @@ import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
 import { pageStyles } from "../../styles/page-styles.js";
 import { guidePageStyles } from "../../styles/guide-page-styles.js";
+import { withBase } from "../../with-base.js";
 
 const usageCode = [
   'import { createStore, StoreController } from "@lit-material/store";',
@@ -117,7 +118,7 @@ export class DocsStorePage extends LitElement {
         <p>
           Subscribes in <code>hostConnected()</code> and unsubscribes in <code>hostDisconnected()</code>, the
           same reactive-controller lifecycle <code>RippleController</code>/<code>FocusRingController</code> in
-          <a href="/packages/core">@lit-material/core</a> use.
+          <a href=${withBase("/packages/core")}>@lit-material/core</a> use.
         </p>
       </section>
     `;

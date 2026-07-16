@@ -2,6 +2,7 @@ import { expect, fixture, html } from "@open-wc/testing";
 import "./router-outlet.js";
 import type { LitMaterialRouterOutlet } from "./router-outlet.js";
 import type { RouteConfig } from "./route-controller.js";
+import { setBasePath } from "./base-path.js";
 
 const routes: RouteConfig<unknown>[] = [
   { path: "/", render: () => html`<p id="home">home</p>` },
@@ -86,5 +87,28 @@ describe("lit-material-router-outlet", () => {
 
     document.removeEventListener("click", preventNavigation, { capture: true });
     link.remove();
+  });
+
+  it("doesn't double up a configured base path when a link's real href already includes it", async () => {
+    setBasePath("/app");
+    history.replaceState(null, "", "/app/");
+    const el = await fixture<LitMaterialRouterOutlet>(
+      html`<lit-material-router-outlet .routes=${routes}></lit-material-router-outlet>`,
+    );
+    expect(el.shadowRoot!.querySelector("#home")).to.exist;
+
+    // A real href a consumer would author via a `withBase()`-style helper once deployed under a subpath.
+    const link = document.createElement("a");
+    link.href = "/app/about";
+    document.body.appendChild(link);
+    link.click();
+    await el.updateComplete;
+
+    expect(window.location.pathname).to.equal("/app/about");
+    expect(el.shadowRoot!.querySelector("#about")).to.exist;
+
+    link.remove();
+    setBasePath("");
+    history.replaceState(null, "", "/");
   });
 });

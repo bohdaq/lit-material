@@ -2,6 +2,7 @@ import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
 import { pageStyles } from "../../styles/page-styles.js";
 import { guidePageStyles } from "../../styles/guide-page-styles.js";
+import { withBase } from "../../with-base.js";
 
 const scaffoldTree = [
   "my-app/",
@@ -25,9 +26,9 @@ export class DocsCliPage extends LitElement {
       <div class="eyebrow">App shell · create-lit-material-app</div>
       <h1>CLI starter</h1>
       <p class="lede">
-        Scaffolds a new app with lit-material, <a href="/packages/router">the router</a>,
-        <a href="/packages/store">the store</a>, and <a href="/packages/core">core</a>'s theme context already
-        wired together — a runnable starting point, not just a components library.
+        Scaffolds a new app with lit-material, <a href=${withBase("/packages/router")}>the router</a>,
+        <a href=${withBase("/packages/store")}>the store</a>, and <a href=${withBase("/packages/core")}>core</a>'s
+        theme context already wired together — a runnable starting point, not just a components library.
       </p>
 
       <section class="doc-section">
@@ -48,7 +49,7 @@ npm run dev</code></pre>
           standalone app). Add more routes to <code>app-shell.ts</code>'s <code>routes</code> array, more
           reducer cases to <code>store.ts</code>, and more components with
           <code>npm install @lit-material/&lt;component&gt;</code> as you grow it. See the
-          <a href="/guide/building-apps">Building apps guide</a> for <code>@lit-material/task</code> (data
+          <a href=${withBase("/guide/building-apps")}>Building apps guide</a> for <code>@lit-material/task</code> (data
           fetching) and <code>@lit-material/form</code> (validation) wired into the same shape once you need
           them.
         </p>

@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/router",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A tiny client-side router for lit-material apps: path matching, an SPA route outlet with same-origin link interception, and a reactive controller to read the current route.",
   "license": "MIT",
   "author": {

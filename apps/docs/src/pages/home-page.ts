@@ -2,6 +2,7 @@ import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
 import { pageStyles } from "../styles/page-styles.js";
 import { guidePageStyles } from "../styles/guide-page-styles.js";
+import { withBase } from "../with-base.js";
 
 @customElement("docs-home-page")
 export class DocsHomePage extends LitElement {
@@ -84,7 +85,7 @@ export class DocsHomePage extends LitElement {
             Dark mode follows <code>prefers-color-scheme</code> automatically; force it either way with a
             <code>color-scheme="light"</code> or <code>color-scheme="dark"</code> attribute on
             <code>&lt;html&gt;</code> — or generate your own palette from a seed color on the
-            <a href="/theme">theme builder</a>.
+            <a href=${withBase("/theme")}>theme builder</a>.
           </p>
         </section>
 
@@ -109,7 +110,7 @@ import "@lit-material/text-field";</code></pre>
             <code>localeContext</code> thread theme and locale state through a component tree without prop
             drilling; <code>@lit-material/task</code> and <code>@lit-material/form</code> add data-fetching
             and form-validation controllers with the same headless, bring-your-own-rendering shape. The
-            <a href="/guide/building-apps">Building apps guide</a>
+            <a href=${withBase("/guide/building-apps")}>Building apps guide</a>
             walks through all of them wired together, or skip straight to a running starting point:
           </p>
           <pre><code>npm create lit-material-app my-app</code></pre>
@@ -119,7 +120,7 @@ import "@lit-material/text-field";</code></pre>
           <div class="index">04</div>
           <h3>Using this with AI</h3>
           <p>
-            This repo ships an <a href="/llms.txt" target="_blank">llms.txt</a> at its root — the emerging
+            This repo ships an <a href=${withBase("/llms.txt")} target="_blank">llms.txt</a> at its root — the emerging
             <a href="https://llmstxt.org/" target="_blank">llmstxt.org</a> convention for giving an AI
             assistant or coding agent a curated, one-line-per-package map of the project instead of making it
             crawl the whole tree. Point your assistant at it (or paste its contents in) before asking it to add

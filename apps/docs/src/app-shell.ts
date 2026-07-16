@@ -4,6 +4,7 @@ import { RouteController, type RouteConfig } from "@lit-material/router";
 import { LitElement, html, css } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { navEntries, groupLabels, type NavGroup } from "./route-manifest.js";
+import { withBase } from "./with-base.js";
 
 const groupOrder: NavGroup[] = ["guide", "theme", "packages", "components"];
 
@@ -144,7 +145,7 @@ export class DocsAppShell extends LitElement {
     const currentPath = this.route.current.path;
     return html`
       <header>
-        <a class="wordmark" href="/"><span class="dot"></span>lit-material</a>
+        <a class="wordmark" href=${withBase("/")}><span class="dot"></span>lit-material</a>
         <lit-material-button variant="text" @click=${this.toggleTheme}>
           ${this.colorScheme === "dark" ? "☀️ Light" : "🌙 Dark"}
         </lit-material-button>
@@ -158,7 +159,7 @@ export class DocsAppShell extends LitElement {
               <h2>${groupLabels[group]}</h2>
               ${entries.map(
                 (entry) =>
-                  html`<a href=${entry.path} class=${entry.path === currentPath ? "active" : ""}
+                  html`<a href=${withBase(entry.path)} class=${entry.path === currentPath ? "active" : ""}
                     >${entry.label}</a
                   >`,
               )}

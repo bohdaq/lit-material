@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>lit-material docs</title>
+    <script>
+      // GitHub Pages has no server-side rewrites, so a direct load or refresh of any client-side route other
+      // than the site root lands here (this file is served as-is for any unmatched path). Encode the real
+      // path into a query string and redirect to index.html, which decodes it and restores the real URL via
+      // history.replaceState before the router ever reads location.pathname — see bootstrap-router.ts.
+      //
+      // Hardcoded, not derived from anything: this is a deploy-target-specific file (this exact GitHub Pages
+      // project site), same as vite.config.ts's `base`.
+      var basePath = "/lit-material";
+      var path = location.pathname.slice(basePath.length) + location.search + location.hash;
+      location.replace(basePath + "/?redirect=" + encodeURIComponent(path));
+    </script>
+  </head>
+  <body></body>
+</html>

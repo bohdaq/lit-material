@@ -1,0 +1,54 @@
+name: Deploy docs to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Lets this be re-run manually from the Actions tab without needing a new commit.
+  workflow_dispatch:
+
+# Only one deployment at a time; a newer push cancels an in-flight older one rather than queuing behind it.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.10.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # `apps/docs` depends on every published package's build output (workspace:* deps), so this builds the
+      # whole graph, not just the docs app itself — turbo caches the rest.
+      - run: pnpm build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/docs/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

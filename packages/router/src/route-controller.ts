@@ -1,6 +1,7 @@
 import type { ReactiveController, ReactiveControllerHost } from "lit";
 import { matchRouteTree } from "./route-tree.js";
 import { ROUTE_CHANGE_EVENT } from "./navigate.js";
+import { stripBasePath } from "./base-path.js";
 
 export interface RouteConfig<T> {
   path: string;
@@ -17,6 +18,7 @@ export interface RouteConfig<T> {
 }
 
 export interface CurrentRoute<T> {
+  /** `location.pathname` with the configured base path (see `setBasePath()`) stripped, if any. */
   path: string;
   params: Record<string, string>;
   content: T | null;
@@ -56,7 +58,7 @@ export class RouteController<T = unknown> implements ReactiveController {
   }
 
   private match(): CurrentRoute<T> {
-    const path = window.location.pathname;
+    const path = stripBasePath(window.location.pathname);
     const matched = matchRouteTree(this.getRoutes(), path);
     if (matched) {
       return { path, params: matched.params, content: matched.content };

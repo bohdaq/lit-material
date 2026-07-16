@@ -101,8 +101,9 @@ wired together in one example, including data fetching, form validation, and i18
 
 ## Docs site
 
-`apps/docs` is a live, running docs app — every component's playground, API table, and the theme builder — not
-yet deployed publicly, so run it locally:
+**[bohdaq.github.io/lit-material](https://bohdaq.github.io/lit-material/)** — every component's live playground
+and API table, the theme builder, and the guides above. Deployed on push to `main` via
+[`.github/workflows/deploy-docs.yml`](.github/workflows/deploy-docs.yml). Or run it locally:
 
 ```sh
 pnpm install
