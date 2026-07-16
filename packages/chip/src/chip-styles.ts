@@ -92,7 +92,7 @@ export const styles = css`
     opacity: var(--md-sys-state-pressed-state-layer-opacity, 0.1);
   }
 
-  .leading-icon ::slotted(*) {
+  slot.leading-icon::slotted(*) {
     width: 18px;
     height: 18px;
     display: block;

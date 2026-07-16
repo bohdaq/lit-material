@@ -70,7 +70,7 @@ export const styles = css`
     display: none;
   }
 
-  .icon ::slotted(*) {
+  slot.icon::slotted(*) {
     width: 24px;
     height: 24px;
     display: block;

@@ -40,8 +40,8 @@ export const styles = css`
     color: var(--md-sys-color-on-surface-variant, #49454f);
   }
 
-  .leading-icon ::slotted(*),
-  .trailing-icon ::slotted(*) {
+  slot.leading-icon::slotted(*),
+  slot.trailing-icon::slotted(*) {
     width: 24px;
     height: 24px;
     display: block;

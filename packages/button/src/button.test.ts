@@ -116,6 +116,19 @@ describe("lit-material-button", () => {
     expect(projectedText).to.equal("Save");
   });
 
+  it("sizes slotted icon content to 18x18 (regression: slot.icon::slotted(*) must be a compound selector — a descendant combinator before ::slotted() never matches)", async () => {
+    const el = await fixture<LitMaterialButton>(html`
+      <lit-material-button>
+        <svg slot="icon" aria-hidden="true"><circle /></svg>
+        Save
+      </lit-material-button>
+    `);
+    const icon = el.querySelector('[slot="icon"]')!;
+    const style = getComputedStyle(icon);
+    expect(style.width).to.equal("18px");
+    expect(style.height).to.equal("18px");
+  });
+
   it("passes axe accessibility checks", async () => {
     const el = await fixture<LitMaterialButton>(html`<lit-material-button>Save</lit-material-button>`);
     await expect(el).to.be.accessible();

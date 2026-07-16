@@ -201,4 +201,17 @@ describe("lit-material-text-field", () => {
     );
     await expect(el).to.be.accessible();
   });
+
+  it("sizes slotted leading/trailing icon content to 24x24 (regression: a descendant combinator before ::slotted() never matches — must be a compound slot.foo::slotted(*) selector)", async () => {
+    const el = await fixture<LitMaterialTextField>(html`
+      <lit-material-text-field label="Name">
+        <svg slot="leading-icon" aria-hidden="true"><circle /></svg>
+        <svg slot="trailing-icon" aria-hidden="true"><circle /></svg>
+      </lit-material-text-field>
+    `);
+    const leading = el.querySelector('[slot="leading-icon"]')!;
+    const trailing = el.querySelector('[slot="trailing-icon"]')!;
+    expect(getComputedStyle(leading).width).to.equal("24px");
+    expect(getComputedStyle(trailing).width).to.equal("24px");
+  });
 });

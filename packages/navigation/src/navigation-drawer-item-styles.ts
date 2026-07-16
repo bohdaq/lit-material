@@ -46,7 +46,7 @@ export const styles = css`
     color: var(--md-sys-color-on-secondary-container, #1d192b);
   }
 
-  .icon ::slotted(*) {
+  slot.icon::slotted(*) {
     display: block;
     width: 24px;
     height: 24px;
@@ -60,7 +60,7 @@ export const styles = css`
     white-space: nowrap;
   }
 
-  .badge ::slotted(*) {
+  slot.badge::slotted(*) {
     display: block;
   }
 

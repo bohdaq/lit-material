@@ -105,7 +105,7 @@ export const styles = css`
     background-color: var(--md-sys-color-on-primary, #ffffff);
   }
 
-  .icon ::slotted(*) {
+  slot.icon::slotted(*) {
     width: 16px;
     height: 16px;
     display: block;

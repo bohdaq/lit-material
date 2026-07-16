@@ -55,7 +55,7 @@ export const styles = css`
     );
   }
 
-  .icon ::slotted(*) {
+  slot.icon::slotted(*) {
     width: 24px;
     height: 24px;
     display: block;

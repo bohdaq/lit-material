@@ -54,7 +54,7 @@ export const styles = css`
     flex: none;
   }
 
-  .leading ::slotted(*) {
+  slot.leading::slotted(*) {
     width: 18px;
     height: 18px;
     display: block;

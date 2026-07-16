@@ -88,11 +88,16 @@ describe("lit-material-switch", () => {
     `);
     expect(el.shadowRoot!.querySelector('slot[name="icon"]')).to.exist;
     expect(el.shadowRoot!.querySelector('slot[name="selected-icon"]')).to.not.exist;
+    // Regression: both slots share class="icon" for sizing, via
+    // slot.icon::slotted(*) — a descendant combinator before ::slotted()
+    // never matches, which silently left icons unsized.
+    expect(getComputedStyle(el.querySelector('[slot="icon"]')!).width).to.equal("16px");
 
     el.checked = true;
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector('slot[name="selected-icon"]')).to.exist;
     expect(el.shadowRoot!.querySelector('slot[name="icon"]')).to.not.exist;
+    expect(getComputedStyle(el.querySelector('[slot="selected-icon"]')!).width).to.equal("16px");
   });
 
   it("participates in an ancestor form via FormData, defaulting to value \"on\"", async () => {
