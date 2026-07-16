@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.10.0
+
+      # pnpm 11 requires Node >=22.13 (fails with ERR_UNKNOWN_BUILTIN_MODULE on node:sqlite otherwise) —
+      # keep in sync with the root package.json's engines.node.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Chromium, Firefox, and WebKit engines for the cross-browser test suite below.
+      - run: pnpm exec playwright install --with-deps chromium firefox webkit
+
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm build
+
+      # Each package's web-test-runner binds a fixed dev-server port, so test tasks can't run
+      # turbo's default full parallelism without colliding — keep this sequential.
+      - run: pnpm test:cross-browser
