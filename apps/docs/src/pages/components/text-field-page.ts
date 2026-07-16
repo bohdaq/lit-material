@@ -61,7 +61,7 @@ export class DocsTextFieldPage extends LitElement {
 
       <section>
         <h2>Error</h2>
-        <lit-material-text-field variant="outlined" label="Name" required error-text="Required"></lit-material-text-field>
+        <lit-material-text-field variant="outlined" label="Name" required error error-text="Required"></lit-material-text-field>
       </section>
     `;
   }

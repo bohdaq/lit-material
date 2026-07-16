@@ -24,7 +24,7 @@ npm install @lit-material/text-field @lit-material/tokens
 
 <lit-material-text-field variant="filled" label="Email" type="email" supporting-text="We'll never share it"></lit-material-text-field>
 
-<lit-material-text-field variant="outlined" label="Name" required error-text="Required"></lit-material-text-field>
+<lit-material-text-field variant="outlined" label="Name" required error error-text="Required"></lit-material-text-field>
 
 <lit-material-text-field variant="outlined" label="Bio" maxlength="40">
   <span slot="leading-icon" aria-hidden="true">✏️</span>
