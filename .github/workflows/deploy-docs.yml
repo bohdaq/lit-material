@@ -26,9 +26,11 @@ jobs:
         with:
           version: 11.10.0
 
+      # pnpm 11 requires Node >=22.13 (fails with ERR_UNKNOWN_BUILTIN_MODULE on node:sqlite otherwise) —
+      # keep in sync with the root package.json's engines.node.
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
