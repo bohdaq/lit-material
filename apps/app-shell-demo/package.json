@@ -2,7 +2,7 @@
   "name": "@lit-material/app-shell-demo",
   "private": true,
   "version": "0.0.0",
-  "description": "Demo app showcasing @lit-material/router, @lit-material/store, and @lit-material/core's theme context wired together. Not published.",
+  "description": "Demo app showcasing @lit-material/router, @lit-material/store, @lit-material/core's theme/locale context, @lit-material/task, and @lit-material/form wired together — embedded in the docs site's \"Building apps\" wizard. Not published.",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,8 +12,11 @@
   "dependencies": {
     "@lit-material/button": "workspace:*",
     "@lit-material/core": "workspace:*",
+    "@lit-material/form": "workspace:*",
     "@lit-material/router": "workspace:*",
     "@lit-material/store": "workspace:*",
+    "@lit-material/task": "workspace:*",
+    "@lit-material/text-field": "workspace:*",
     "@lit-material/tokens": "workspace:*",
     "@lit-material/top-app-bar": "workspace:*",
     "@lit/context": "^1.1.0",

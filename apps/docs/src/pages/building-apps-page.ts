@@ -1,160 +1,13 @@
+import "@lit-material/button";
 import { LitElement, html, css } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
 import { pageStyles } from "../styles/page-styles.js";
 import { guidePageStyles } from "../styles/guide-page-styles.js";
+import { withBase } from "../with-base.js";
+import { wizardSteps } from "../wizard/wizard-steps.js";
+import "../wizard/docs-stepper.js";
 
-const installCode =
-  "npm install @lit-material/router @lit-material/store @lit-material/core @lit-material/task @lit-material/form @lit/context lit";
-
-const storeCode = [
-  "// store.ts — one module-level store instance, shared across the app.",
-  'import { createStore } from "@lit-material/store";',
-  "",
-  "export interface AppState {",
-  "  user: { name: string } | null;",
-  "}",
-  "",
-  'type AppAction = { type: "login"; name: string } | { type: "logout" };',
-  "",
-  "function reducer(state: AppState, action: AppAction): AppState {",
-  "  switch (action.type) {",
-  '    case "login":',
-  "      return { user: { name: action.name } };",
-  '    case "logout":',
-  "      return { user: null };",
-  "  }",
-  "}",
-  "",
-  "export const appStore = createStore(reducer, { user: null });",
-].join("\n");
-
-const appShellCode = [
-  "// app-shell.ts — provides the theme context and owns the route outlet.",
-  'import "@lit-material/router";',
-  'import type { RouteConfig } from "@lit-material/router";',
-  'import { themeContext, type ThemeState } from "@lit-material/core";',
-  'import { ContextProvider } from "@lit/context";',
-  'import { LitElement, html } from "lit";',
-  'import "./home-page.js";',
-  'import "./profile-page.js";',
-  "",
-  "const routes: RouteConfig<unknown>[] = [",
-  '  { path: "/", render: () => html`<home-page></home-page>` },',
-  '  { path: "/profile", render: () => html`<profile-page></profile-page>` },',
-  "];",
-  "",
-  "class AppShell extends LitElement {",
-  "  private readonly theme = new ContextProvider(this, {",
-  "    context: themeContext,",
-  '    initialValue: { colorScheme: "auto" } satisfies ThemeState,',
-  "  });",
-  "",
-  "  override render() {",
-  "    return html`<lit-material-router-outlet .routes=${routes}></lit-material-router-outlet>`;",
-  "  }",
-  "}",
-  'customElements.define("app-shell", AppShell);',
-].join("\n");
-
-const profilePageCode = [
-  "// profile-page.ts — reads both the store (for app state) and the theme",
-  "// context (for cross-cutting UI state), the same two mechanisms a React app",
-  "// would reach for useSelector/dispatch and useContext.",
-  'import { StoreController } from "@lit-material/store";',
-  'import { themeContext } from "@lit-material/core";',
-  'import { ContextConsumer } from "@lit/context";',
-  'import { LitElement, html } from "lit";',
-  'import { appStore } from "./store.js";',
-  "",
-  "class ProfilePage extends LitElement {",
-  "  private readonly user = new StoreController(this, appStore, (state) => state.user);",
-  '  private readonly theme = new ContextConsumer(this, { context: themeContext, subscribe: true });',
-  "",
-  "  override render() {",
-  "    return html`",
-  "      <p>Color scheme: ${this.theme.value?.colorScheme}</p>",
-  '      <p>${this.user.value ? `Hi, ${this.user.value.name}` : "Not logged in"}</p>',
-  "    `;",
-  "  }",
-  "}",
-  'customElements.define("profile-page", ProfilePage);',
-].join("\n");
-
-const taskCode = [
-  "// profile-page.ts, extended — fetch the profile itself, keyed by a route param.",
-  'import { TaskController } from "@lit-material/task";',
-  'import { html } from "lit";',
-  "",
-  "class ProfilePage extends LitElement {",
-  "  // ...theme/store as above...",
-  "",
-  "  private readonly profileTask = new TaskController(this, {",
-  "    task: ([userId], signal) => fetch(`/api/users/${userId}`, { signal }).then((r) => r.json()),",
-  "    args: () => [this.user.value?.name] as const,",
-  "  });",
-  "",
-  "  override render() {",
-  "    return this.profileTask.render({",
-  "      pending: () => html`Loading…`,",
-  "      complete: (profile) => html`<p>${profile.bio}</p>`,",
-  "      error: () => html`Couldn't load profile.`,",
-  "    });",
-  "  }",
-  "}",
-].join("\n");
-
-const formCode = [
-  "// settings-page.ts",
-  'import { FormController } from "@lit-material/form";',
-  'import { html } from "lit";',
-  'import { query } from "lit/decorators.js";',
-  'import "@lit-material/text-field";',
-  'import "@lit-material/button";',
-  "",
-  "class SettingsPage extends LitElement {",
-  '  @query("form") private readonly formEl?: HTMLFormElement;',
-  "  private readonly form = new FormController(this, () => this.formEl);",
-  "",
-  "  override render() {",
-  "    return html`",
-  "      <form @submit=${this.handleSubmit}>",
-  '        <lit-material-text-field name="email" label="Email" required type="email"></lit-material-text-field>',
-  '        <lit-material-button type="submit" ?disabled=${!this.form.valid}>Save</lit-material-button>',
-  "      </form>",
-  "    `;",
-  "  }",
-  "",
-  "  private handleSubmit(event: SubmitEvent): void {",
-  "    if (!this.form.reportValidity()) event.preventDefault();",
-  "  }",
-  "}",
-].join("\n");
-
-const i18nCode = [
-  "// app-shell.ts, extended",
-  'import { localeContext, type LocaleState } from "@lit-material/core";',
-  'import { configureLocalization } from "@lit/localize";',
-  'import { sourceLocale, targetLocales } from "./generated/locale-codes.js"; // from `lit-localize` CLI output',
-  "",
-  "const { setLocale } = configureLocalization({",
-  "  sourceLocale,",
-  "  targetLocales,",
-  "  loadLocale: (locale) => import(`./generated/locales/${locale}.js`),",
-  "});",
-  "",
-  "class AppShell extends LitElement {",
-  "  // ...theme provider as above...",
-  "  private readonly locale = new ContextProvider(this, {",
-  "    context: localeContext,",
-  '    initialValue: { locale: sourceLocale } satisfies LocaleState,',
-  "  });",
-  "",
-  "  private async switchLocale(locale: string): Promise<void> {",
-  "    await setLocale(locale);",
-  "    this.locale.setValue({ locale });",
-  "  }",
-  "}",
-].join("\n");
+const IFRAME_LOAD_TIMEOUT_MS = 4000;
 
 @customElement("docs-building-apps-page")
 export class DocsBuildingAppsPage extends LitElement {
@@ -174,10 +27,84 @@ export class DocsBuildingAppsPage extends LitElement {
         font-size: 0.9rem;
         color: var(--md-sys-color-on-surface-variant);
       }
+
+      .demo {
+        position: relative;
+        margin: 1.25rem 0;
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: 14px;
+        overflow: hidden;
+        background: var(--md-sys-color-surface-container-lowest);
+      }
+      .demo-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.6rem 1rem;
+        background: var(--md-sys-color-surface-container-low);
+        border-bottom: 1px solid var(--md-sys-color-outline-variant);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--md-sys-color-on-surface-variant);
+      }
+      iframe.demo-frame {
+        display: block;
+        width: 100%;
+        height: 420px;
+        border: none;
+        background: var(--md-sys-color-surface);
+      }
+      .demo-fallback {
+        position: absolute;
+        inset: 0;
+        top: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        text-align: center;
+        background: var(--md-sys-color-surface-container-lowest);
+      }
+      .demo-fallback p {
+        margin: 0;
+      }
+      .demo-hint {
+        font-size: 0.8rem;
+        margin: 0.5rem 0 0;
+      }
+
+      .nav-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1.5rem;
+      }
     `,
   ];
 
+  @state() private currentIndex = 0;
+  @state() private furthest = 0;
+  @state() private iframeFailed = false;
+
+  private iframeLoadTimer?: ReturnType<typeof setTimeout>;
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    clearTimeout(this.iframeLoadTimer);
+  }
+
+  private get iframeSrc(): string {
+    const demoStep = wizardSteps[this.currentIndex]?.demoStep ?? 1;
+    return withBase(`/app-shell-demo/?step=${demoStep}`);
+  }
+
   override render() {
+    // wizardSteps is a fixed, non-empty literal array and currentIndex is always kept in [0, length)
+    // by handleNext/handleBack/handleStepSelect, so this index access is safe.
+    const step = wizardSteps[this.currentIndex]!;
+    const isLast = this.currentIndex === wizardSteps.length - 1;
+
     return html`
       <div class="eyebrow">Guide</div>
       <h1>Building apps with lit-material</h1>
@@ -186,8 +113,8 @@ export class DocsBuildingAppsPage extends LitElement {
         application typically also needs a router, a place for cross-cutting state, and a way to thread values
         (like the current theme) down a component tree without prop drilling — the trio a React app usually
         reaches for (router, context, Redux). This guide wires up the <code>lit-material</code> equivalents in
-        one minimal example, then extends it with data fetching, form validation, and i18n. See each package's
-        own README for full API detail:
+        one minimal example, then extends it with data fetching, form validation, and i18n — one step at a
+        time, with a live demo growing alongside it. See each package's own README for full API detail:
       </p>
       <ul class="packages">
         <li><code>@lit-material/router</code> — SPA routing.</li>
@@ -201,88 +128,101 @@ export class DocsBuildingAppsPage extends LitElement {
         <li><code>@lit-material/form</code> — a reactive controller tracking a form's aggregate validity.</li>
       </ul>
 
-      <section class="doc-section">
-        <h2>Install</h2>
-        <pre><code>${installCode}</code></pre>
-        <p>Add <code>@lit/localize</code> too if you're using the i18n section below.</p>
-      </section>
+      <docs-stepper
+        .steps=${wizardSteps.map((s) => ({ title: s.title }))}
+        .current=${this.currentIndex}
+        .furthest=${this.furthest}
+        @step-select=${this.handleStepSelect}
+      ></docs-stepper>
 
       <section class="doc-section">
-        <h2>Wiring it together</h2>
-        <pre><code>${storeCode}</code></pre>
-        <pre><code>${appShellCode}</code></pre>
-        <pre><code>${profilePageCode}</code></pre>
-        <p>
-          Any same-origin <code>&lt;a href="/profile"&gt;</code> navigates via the outlet automatically; use
-          <code>navigate("/profile")</code> from <code>@lit-material/router</code> for programmatic navigation
-          (e.g. after <code>appStore.dispatch({ type: "login", name })</code>).
-        </p>
+        <h2>${step.title}</h2>
+        ${step.content()}
       </section>
 
-      <section class="doc-section">
-        <h2>Data fetching</h2>
-        <pre><code>${taskCode}</code></pre>
-        <p>
-          <code>TaskController</code> re-runs <code>task</code> automatically whenever <code>args()</code>
-          returns a shallowly different value (checked before every render), aborting a superseded run via the
-          <code>AbortSignal</code> it passes in — no stale-response race if <code>userId</code> changes again
-          before the first fetch resolves.
-        </p>
-      </section>
+      <div class="demo">
+        <div class="demo-header">Live demo — step ${this.currentIndex + 1} of ${wizardSteps.length}</div>
+        <iframe
+          class="demo-frame"
+          title="lit-material app-shell demo"
+          src=${this.iframeSrc}
+          @load=${this.handleIframeLoad}
+        ></iframe>
+        ${this.iframeFailed
+          ? html`
+              <div class="demo-fallback">
+                <p>
+                  Couldn't load the live demo. If you're running the docs site locally, build the demo first
+                  (<code>pnpm --filter @lit-material/app-shell-demo dev</code>) or view the
+                  <a href="https://bohdaq.github.io/lit-material/guide/building-apps" target="_blank"
+                    >deployed site</a
+                  >.
+                </p>
+              </div>
+            `
+          : null}
+      </div>
+      <p class="demo-hint">
+        Running the docs site locally? <code>pnpm --filter @lit-material/app-shell-demo dev</code> to preview
+        this demo in isolation.
+      </p>
 
-      <section class="doc-section">
-        <h2>Form validation</h2>
-        <pre><code>${formCode}</code></pre>
-        <p>
-          <code>form.checkValidity()</code>/<code>reportValidity()</code> already aggregate across native
-          inputs and any form-associated <code>lit-material</code> component (Text Field, Checkbox, Radio,
-          Switch, Slider) via the same <code>ElementInternals</code> APIs — <code>FormController</code> just
-          makes that aggregate result <em>reactive</em>, so the Save button above disables itself as the user
-          types instead of only failing on submit.
-        </p>
-      </section>
-
-      <section class="doc-section">
-        <h2>Internationalization (i18n)</h2>
-        <p>
-          None of <code>lit-material</code>'s own components have hardcoded, translatable strings baked into
-          their templates — every visible label is either slotted content or a consumer-supplied property
-          (<code>aria-label</code>, <code>label</code>, etc.), so translating an app built with
-          <code>lit-material</code> is purely about your own app's strings. <code>localeContext</code> is just
-          the connective tissue for threading the active locale down the tree, the same shape
-          <code>themeContext</code> uses for color scheme; combine it with
-          <a href="https://www.npmjs.com/package/@lit/localize" target="_blank">@lit/localize</a> (the Lit
-          team's own message-extraction/translation tool) for the actual translated strings:
-        </p>
-        <pre><code>${i18nCode}</code></pre>
-        <p>
-          Any component under the app shell reads <code>msg("Hello")</code>-wrapped strings (translated per
-          <code>@lit/localize</code>'s own mechanism, independent of context) and, if it needs the
-          <em>current locale value itself</em> (e.g. to format a date, or render a <code>dir</code>-aware
-          layout), consumes <code>localeContext</code> the same way <code>profile-page.ts</code> above consumes
-          <code>themeContext</code>.
-        </p>
-        <p>
-          RTL (<code>dir="rtl"</code>): every component uses logical CSS properties
-          (<code>margin-inline-start</code>, <code>padding-inline</code>, etc.), which flip automatically with
-          <code>dir</code> — confirmed via a repo-wide fix pass (Switch's thumb, Navigation Rail's badge corner,
-          Slider's filled track, and Linear Progress's fill/keyframes were all converted from physical
-          <code>left</code>/<code>right</code>, each backed by a real-DOM test asserting the geometry actually
-          mirrors under <code>dir="rtl"</code>) plus a read-through of Tabs' JS-computed indicator confirming it
-          was already correct.
-        </p>
-      </section>
-
-      <section class="doc-section">
-        <h2>What this doesn't cover</h2>
-        <p>
-          <code>@lit/localize</code>'s own message extraction workflow (its CLI, not something
-          <code>lit-material</code> wraps), and anything listed as a scope cut in an individual component's own
-          README, are still out of scope.
-        </p>
-      </section>
+      <div class="nav-buttons">
+        <lit-material-button variant="outlined" ?disabled=${this.currentIndex === 0} @click=${this.handleBack}>
+          Back
+        </lit-material-button>
+        <lit-material-button variant="filled" @click=${this.handleNext} ?disabled=${isLast}>
+          ${isLast ? "Done" : "Next"}
+        </lit-material-button>
+      </div>
     `;
   }
+
+  override updated(changed: Map<string, unknown>): void {
+    if (changed.has("currentIndex")) {
+      this.iframeFailed = false;
+      clearTimeout(this.iframeLoadTimer);
+      this.iframeLoadTimer = setTimeout(() => {
+        this.iframeFailed = true;
+      }, IFRAME_LOAD_TIMEOUT_MS);
+    }
+  }
+
+  private readonly handleIframeLoad = (event: Event): void => {
+    // The iframe's `load` event fires even when the navigation itself failed (e.g. an aborted request
+    // or a DNS/connection error) — the browser's own error page still "loads". Confirm the frame actually
+    // landed on app-shell-demo, not an error page, before treating this as success.
+    const iframe = event.target as HTMLIFrameElement;
+    let reachedDemo = false;
+    try {
+      reachedDemo = !!iframe.contentWindow?.location.href.includes("/app-shell-demo/");
+    } catch {
+      reachedDemo = false;
+    }
+
+    if (reachedDemo) {
+      clearTimeout(this.iframeLoadTimer);
+      this.iframeFailed = false;
+    } else {
+      this.iframeFailed = true;
+    }
+  };
+
+  private readonly handleNext = (): void => {
+    if (this.currentIndex >= wizardSteps.length - 1) return;
+    this.currentIndex += 1;
+    this.furthest = Math.max(this.furthest, this.currentIndex);
+  };
+
+  private readonly handleBack = (): void => {
+    if (this.currentIndex === 0) return;
+    this.currentIndex -= 1;
+  };
+
+  private readonly handleStepSelect = (event: CustomEvent<{ index: number }>): void => {
+    if (event.detail.index > this.furthest) return;
+    this.currentIndex = event.detail.index;
+  };
 }
 
 declare global {

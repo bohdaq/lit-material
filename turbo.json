@@ -5,6 +5,10 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "@lit-material/docs#build": {
+      "dependsOn": ["^build", "@lit-material/app-shell-demo#build"],
+      "outputs": ["dist/**"]
+    },
     "test": {
       "dependsOn": ["build"],
       "env": ["WTR_BROWSERS"],
