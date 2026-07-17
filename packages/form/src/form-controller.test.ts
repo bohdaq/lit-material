@@ -1,6 +1,8 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import "./form-test-host.js";
+import "./form-text-field-test-host.js";
 import type { FormTestHost } from "./form-test-host.js";
+import type { FormTextFieldTestHost } from "./form-text-field-test-host.js";
 import type { LitMaterialCheckbox } from "@lit-material/checkbox";
 
 function statusText(el: FormTestHost): string | null | undefined {
@@ -71,6 +73,16 @@ describe("FormController + LitElement", () => {
   it("reportValidity() returns the same boolean and updates valid", async () => {
     const el = await fixture<FormTestHost>(html`<lit-material-form-test-host></lit-material-form-test-host>`);
     expect(el.form.reportValidity()).to.be.false;
+    expect(el.form.valid).to.be.false;
+  });
+
+  it("starts invalid on the very first check, even with a Text Field as the only participant", async () => {
+    // Text Field's own ElementInternals validity is set in firstUpdated(), not connectedCallback() —
+    // if attach()'s initial checkValidity() ever ran before that first update flushed, it would see
+    // the Text Field as still defaulting to valid and incorrectly report the form as valid too.
+    const el = await fixture<FormTextFieldTestHost>(
+      html`<lit-material-form-text-field-test-host></lit-material-form-text-field-test-host>`,
+    );
     expect(el.form.valid).to.be.false;
   });
 

@@ -92,7 +92,14 @@ export class FormController implements ReactiveController {
     form.addEventListener("input", this.handleChange);
     form.addEventListener("change", this.handleChange);
     form.addEventListener("invalid", this.handleInvalid, true);
-    this.checkValidity();
+    // Deferred a microtask for the same reason handleChange is: this typically runs from
+    // hostUpdated(), synchronously right after the host's own first render — but a form-associated
+    // child (e.g. a required, still-empty Text Field) that *just* connected as part of that same
+    // render hasn't run its own first update yet, so its ElementInternals validity is still unset
+    // (defaults to valid). Queuing this lets any such pending child update flush first, so the
+    // very first check already reflects real validity instead of only catching up on the next
+    // input/change event.
+    queueMicrotask(() => this.checkValidity());
   }
 
   private detach(): void {
