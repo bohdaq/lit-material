@@ -1,4 +1,14 @@
 import { html } from "lit";
+import mainSource from "../../../app-shell-demo/src/main.ts?raw";
+import bootstrapRouterSource from "../../../app-shell-demo/src/bootstrap-router.ts?raw";
+import storeSource from "../../../app-shell-demo/src/store.ts?raw";
+import appShellSource from "../../../app-shell-demo/src/app-shell.ts?raw";
+import counterPageSource from "../../../app-shell-demo/src/counter-page.ts?raw";
+import aboutPageSource from "../../../app-shell-demo/src/about-page.ts?raw";
+import dataPageSource from "../../../app-shell-demo/src/data-page.ts?raw";
+import settingsPageSource from "../../../app-shell-demo/src/settings-page.ts?raw";
+import i18nSource from "../../../app-shell-demo/src/i18n.ts?raw";
+import homePageSource from "../../../app-shell-demo/src/home-page.ts?raw";
 
 export interface WizardStepConfig {
   id: string;
@@ -8,177 +18,12 @@ export interface WizardStepConfig {
   content: () => unknown;
 }
 
+// Every code block on this page is the *actual* apps/app-shell-demo source, pulled in verbatim via Vite's
+// `?raw` import (a plain string at build time) — not a hand-typed approximation. What you read here is
+// byte-for-byte what's running in the live demo on the right; it cannot drift out of sync the way a
+// hand-copied snippet can.
 const installCode =
   "npm install @lit-material/router @lit-material/store @lit-material/core @lit-material/task @lit-material/form @lit/context lit";
-
-const storeCode = [
-  "// store.ts — one module-level store instance, shared across the app.",
-  'import { createStore } from "@lit-material/store";',
-  "",
-  "export interface CounterState {",
-  "  count: number;",
-  "}",
-  "",
-  'type CounterAction = { type: "increment" } | { type: "decrement" } | { type: "reset" };',
-  "",
-  "function reducer(state: CounterState, action: CounterAction): CounterState {",
-  "  switch (action.type) {",
-  '    case "increment":',
-  "      return { count: state.count + 1 };",
-  '    case "decrement":',
-  "      return { count: state.count - 1 };",
-  '    case "reset":',
-  "      return { count: 0 };",
-  "  }",
-  "}",
-  "",
-  "export const counterStore = createStore(reducer, { count: 0 });",
-].join("\n");
-
-const appShellCode = [
-  "// app-shell.ts — provides the theme context and owns the route outlet.",
-  'import "@lit-material/router";',
-  'import type { RouteConfig } from "@lit-material/router";',
-  'import { themeContext, type ThemeState } from "@lit-material/core";',
-  'import { ContextProvider } from "@lit/context";',
-  'import { LitElement, html } from "lit";',
-  'import "./home-page.js";',
-  'import "./counter-page.js";',
-  'import "./about-page.js";',
-  "",
-  "const routes: RouteConfig<unknown>[] = [",
-  '  { path: "/", render: () => html`<home-page></home-page>` },',
-  '  { path: "/counter", render: () => html`<counter-page></counter-page>` },',
-  '  { path: "/about", render: () => html`<about-page></about-page>` },',
-  "];",
-  "",
-  "class AppShell extends LitElement {",
-  "  private readonly theme = new ContextProvider(this, {",
-  "    context: themeContext,",
-  '    initialValue: { colorScheme: "auto" } satisfies ThemeState,',
-  "  });",
-  "",
-  "  override render() {",
-  "    return html`<lit-material-router-outlet .routes=${routes}></lit-material-router-outlet>`;",
-  "  }",
-  "}",
-  'customElements.define("app-shell", AppShell);',
-].join("\n");
-
-const counterPageCode = [
-  "// counter-page.ts — reads both the store (for app state) and the theme",
-  "// context (for cross-cutting UI state), the same two mechanisms a React app",
-  "// would reach for useSelector/dispatch and useContext.",
-  'import "@lit-material/button";',
-  'import { StoreController } from "@lit-material/store";',
-  'import { themeContext } from "@lit-material/core";',
-  'import { ContextConsumer } from "@lit/context";',
-  'import { LitElement, html } from "lit";',
-  'import { counterStore } from "./store.js";',
-  "",
-  "class CounterPage extends LitElement {",
-  "  private readonly count = new StoreController(this, counterStore, (state) => state.count);",
-  '  private readonly theme = new ContextConsumer(this, { context: themeContext, subscribe: true });',
-  "",
-  "  override render() {",
-  "    return html`",
-  "      <p>Color scheme: ${this.theme.value?.colorScheme}</p>",
-  "      <p>Count: ${this.count.value}</p>",
-  '      <lit-material-button @click=${() => counterStore.dispatch({ type: "increment" })}>',
-  "        +",
-  "      </lit-material-button>",
-  "    `;",
-  "  }",
-  "}",
-  'customElements.define("counter-page", CounterPage);',
-].join("\n");
-
-const taskCode = [
-  "// data-page.ts — a new route, keyed by its own local state.",
-  'import { TaskController } from "@lit-material/task";',
-  'import { LitElement, html } from "lit";',
-  'import { state } from "lit/decorators.js";',
-  "",
-  "class DataPage extends LitElement {",
-  "  @state() private userId = 1;",
-  "",
-  "  private readonly userTask = new TaskController(this, {",
-  "    task: ([id], signal) => fetch(`/api/users/${id}`, { signal }).then((r) => r.json()),",
-  "    args: () => [this.userId] as const,",
-  "  });",
-  "",
-  "  override render() {",
-  "    return this.userTask.render({",
-  "      pending: () => html`Loading…`,",
-  "      complete: (user) => html`<p>${user.bio}</p>`,",
-  "      error: () => html`Couldn't load that user.`,",
-  "    });",
-  "  }",
-  "}",
-].join("\n");
-
-const formCode = [
-  "// settings-page.ts",
-  'import { FormController } from "@lit-material/form";',
-  'import { LitElement, html } from "lit";',
-  'import { query, state } from "lit/decorators.js";',
-  'import "@lit-material/text-field";',
-  'import "@lit-material/button";',
-  "",
-  "class SettingsPage extends LitElement {",
-  '  @query("form") private readonly formEl?: HTMLFormElement;',
-  "  private readonly form = new FormController(this, () => this.formEl);",
-  "",
-  "  @state() private saved = false;",
-  "",
-  "  override render() {",
-  "    return html`",
-  "      <form @submit=${this.handleSubmit}>",
-  "        <lit-material-text-field",
-  '          name="email"',
-  '          label="Email"',
-  '          required',
-  '          type="email"',
-  '          @input=${() => (this.saved = false)}',
-  "        ></lit-material-text-field>",
-  '        <lit-material-button type="submit" ?disabled=${!this.form.valid}>Save</lit-material-button>',
-  "        ${this.saved ? html`<p>Saved.</p>` : null}",
-  "      </form>",
-  "    `;",
-  "  }",
-  "",
-  "  private handleSubmit(event: SubmitEvent): void {",
-  "    event.preventDefault();",
-  "    if (this.form.reportValidity()) this.saved = true;",
-  "  }",
-  "}",
-].join("\n");
-
-const i18nCode = [
-  "// app-shell.ts, extended",
-  'import { localeContext, type LocaleState } from "@lit-material/core";',
-  'import { configureLocalization } from "@lit/localize";',
-  'import { sourceLocale, targetLocales } from "./generated/locale-codes.js"; // from `lit-localize` CLI output',
-  "",
-  "const { setLocale } = configureLocalization({",
-  "  sourceLocale,",
-  "  targetLocales,",
-  "  loadLocale: (locale) => import(`./generated/locales/${locale}.js`),",
-  "});",
-  "",
-  "class AppShell extends LitElement {",
-  "  // ...theme provider from the \"Wiring it together\" step, unchanged...",
-  "  private readonly locale = new ContextProvider(this, {",
-  "    context: localeContext,",
-  '    initialValue: { locale: sourceLocale } satisfies LocaleState,',
-  "  });",
-  "",
-  "  private async switchLocale(locale: string): Promise<void> {",
-  "    await setLocale(locale);",
-  "    this.locale.setValue({ locale });",
-  "  }",
-  "}",
-].join("\n");
 
 export const wizardSteps: WizardStepConfig[] = [
   {
@@ -187,26 +32,62 @@ export const wizardSteps: WizardStepConfig[] = [
     demoStep: 1,
     content: () => html`
       <pre><code>${installCode}</code></pre>
-      <p>Add <code>@lit/localize</code> too if you're using the i18n step below.</p>
+      <p>Add <code>@lit/localize</code> too if you're using the i18n step later on.</p>
       <p>
-        The demo on the right starts from nothing — just a <code>home-page</code>, no router destinations yet.
-        Each step from here adds one more piece.
+        The entry point is tiny — <code>main.ts</code> loads the design tokens, then the app shell:
+      </p>
+      <pre><code>${mainSource.trim()}</code></pre>
+      <p>
+        Deploying under a sub-path (a GitHub Pages project site, for instance, not a domain root) needs one
+        more line before anything reads the current URL — <code>@lit-material/router</code>'s
+        <code>setBasePath()</code>. This demo is embedded in an <code>&lt;iframe&gt;</code> under exactly that
+        kind of nested path, so it needs this too:
+      </p>
+      <pre><code>${bootstrapRouterSource.trim()}</code></pre>
+      <p>Skip this file entirely if your app is deployed at a domain root.</p>
+      <p>
+        The demo on the right starts from nothing but a home page — no router destinations yet. Each step
+        from here adds one more piece.
+      </p>
+    `,
+  },
+  {
+    id: "store",
+    title: "A shared store",
+    demoStep: 1,
+    content: () => html`
+      <p>
+        Start with state that outlives any single page: a plain module-level <code>@lit-material/store</code>
+        instance, the same Redux-shaped reducer pattern regardless of what reads or writes it later.
+      </p>
+      <pre><code>${storeSource.trim()}</code></pre>
+      <p>
+        Nothing reads this yet — the demo on the right hasn't changed. That's the point: state and UI are
+        separate concerns here, wired together next.
       </p>
     `,
   },
   {
     id: "wiring",
-    title: "Wire it together",
+    title: "Router, theme context & the app shell",
     demoStep: 2,
     content: () => html`
-      <pre><code>${storeCode}</code></pre>
-      <pre><code>${appShellCode}</code></pre>
-      <pre><code>${counterPageCode}</code></pre>
       <p>
-        <code>about-page.ts</code> isn't shown separately — it's a read-only page using the exact same
-        <code>StoreController</code>/<code>ContextConsumer</code> pattern as <code>counter-page.ts</code>
-        above, just displaying the count instead of changing it. No new concepts, so no new code sample.
+        The app shell owns the route outlet and provides <code>themeContext</code>
+        (and, later, <code>localeContext</code> — already in this file, unused until the i18n step). This is
+        the complete, current <code>app-shell.ts</code>:
       </p>
+      <pre><code>${appShellSource.trim()}</code></pre>
+      <p>
+        The <code>wizardStep</code>/<code>unlockedAt</code>/<code>demoEntries</code> machinery at the top is
+        <em>this tutorial's own</em> progressive-reveal switch, not something your app would have — in a real
+        app <code>routes</code> would just be a plain, fixed array from day one. Everything else is real: a
+        <code>ContextProvider</code>, a <code>RouteConfig</code> array, one
+        <code>&lt;lit-material-router-outlet .routes=$&#123;routes&#125;&gt;</code>.
+      </p>
+      <p>Two pages now exist behind that outlet, both reading the store and the theme context:</p>
+      <pre><code>${counterPageSource.trim()}</code></pre>
+      <pre><code>${aboutPageSource.trim()}</code></pre>
       <p>
         Any same-origin <code>&lt;a href="/counter"&gt;</code> navigates via the outlet automatically; use
         <code>navigate("/counter")</code> from <code>@lit-material/router</code> for programmatic navigation
@@ -223,17 +104,18 @@ export const wizardSteps: WizardStepConfig[] = [
     title: "Data fetching",
     demoStep: 3,
     content: () => html`
-      <pre><code>${taskCode}</code></pre>
+      <p>A new route, keyed by its own local state:</p>
+      <pre><code>${dataPageSource.trim()}</code></pre>
       <p>
         <code>TaskController</code> re-runs <code>task</code> automatically whenever <code>args()</code>
         returns a shallowly different value (checked before every render), aborting a superseded run via the
-        <code>AbortSignal</code> it passes in — no stale-response race if <code>userId</code> changes again
-        before the first fetch resolves. (The demo's own version of this page tracks <code>userId</code> via
-        a "Next user" button instead of a route param, but the re-run/abort mechanics are identical.)
+        <code>AbortSignal</code> it passes in — no stale-response race if you ask for a different user again
+        before the first fetch resolves. There's no real backend here, so <code>fetchFakeUser</code> stands in
+        for a real <code>fetch()</code> call with an artificial delay — it's the abort/re-run mechanics being
+        demonstrated, not the transport.
       </p>
       <p>
-        The demo's new <strong>Data</strong> page uses a simulated fetch (there's no real backend here) to
-        show the same pending/complete/abort behavior — click "Next user" a couple of times quickly and watch
+        Click "Next user" a couple of times quickly in the <strong>Data</strong> page on the right and watch
         it never show a stale result.
       </p>
     `,
@@ -243,15 +125,15 @@ export const wizardSteps: WizardStepConfig[] = [
     title: "Form validation",
     demoStep: 4,
     content: () => html`
-      <pre><code>${formCode}</code></pre>
+      <pre><code>${settingsPageSource.trim()}</code></pre>
       <p>
         <code>form.checkValidity()</code>/<code>reportValidity()</code> already aggregate across native
         inputs and any form-associated <code>lit-material</code> component (Text Field, Checkbox, Radio,
         Switch, Slider) via the same <code>ElementInternals</code> APIs — <code>FormController</code> just
-        makes that aggregate result <em>reactive</em>, so the Save button above disables itself as the user
-        types instead of only failing on submit.
+        makes that aggregate result <em>reactive</em>, so the Save button disables itself as you type an
+        invalid email instead of only failing on submit.
       </p>
-      <p>The demo's new <strong>Settings</strong> page is this exact code, wired up and running.</p>
+      <p>This is the exact, complete <strong>Settings</strong> page running on the right.</p>
     `,
   },
   {
@@ -263,19 +145,24 @@ export const wizardSteps: WizardStepConfig[] = [
         None of <code>lit-material</code>'s own components have hardcoded, translatable strings baked into
         their templates — every visible label is either slotted content or a consumer-supplied property
         (<code>aria-label</code>, <code>label</code>, etc.), so translating an app built with
-        <code>lit-material</code> is purely about your own app's strings. <code>localeContext</code> is just
-        the connective tissue for threading the active locale down the tree, the same shape
-        <code>themeContext</code> uses for color scheme; combine it with
-        <a href="https://www.npmjs.com/package/@lit/localize" target="_blank">@lit/localize</a> (the Lit
-        team's own message-extraction/translation tool) for the actual translated strings:
+        <code>lit-material</code> is purely about your own app's strings. <code>localeContext</code> (already
+        provided by <code>app-shell.ts</code> above, alongside <code>themeContext</code>) is just the
+        connective tissue for threading the active locale down the tree.
       </p>
-      <pre><code>${i18nCode}</code></pre>
       <p>
-        Any component under the app shell reads <code>msg("Hello")</code>-wrapped strings (translated per
-        <code>@lit/localize</code>'s own mechanism, independent of context) and, if it needs the
-        <em>current locale value itself</em> (e.g. to format a date, or render a <code>dir</code>-aware
-        layout), consumes <code>localeContext</code> the same way <code>counter-page.ts</code> above consumes
-        <code>themeContext</code>.
+        This demo pairs it with a small hand-written dictionary, not the real
+        <a href="https://www.npmjs.com/package/@lit/localize" target="_blank">@lit/localize</a> toolchain —
+        message extraction/XLIFF is real build tooling that would be a distraction from the point being made
+        here. Swap in <code>@lit/localize</code>'s <code>configureLocalization()</code>/<code>msg()</code> for
+        the production-grade version.
+      </p>
+      <pre><code>${i18nSource.trim()}</code></pre>
+      <p>And the complete, current <code>home-page.ts</code> — the greeting line at the top is what's new:</p>
+      <pre><code>${homePageSource.trim()}</code></pre>
+      <p>
+        Same caveat as <code>app-shell.ts</code>: the <code>wizardStep</code> checks are this tutorial's
+        progressive reveal, not your app's code — a real <code>home-page.ts</code> would just have the
+        content, unconditionally.
       </p>
       <p>
         RTL (<code>dir="rtl"</code>): every component uses logical CSS properties
@@ -284,13 +171,7 @@ export const wizardSteps: WizardStepConfig[] = [
         Slider's filled track, and Linear Progress's fill/keyframes were all converted from physical
         <code>left</code>/<code>right</code>, each backed by a real-DOM test asserting the geometry actually
         mirrors under <code>dir="rtl"</code>) plus a read-through of Tabs' JS-computed indicator confirming it
-        was already correct.
-      </p>
-      <p>
-        The live demo on the right exercises <code>localeContext</code> with a small hand-written dictionary
-        for simplicity — click the <strong>AR</strong> button and watch the layout mirror. Swap in
-        <code>@lit/localize</code>'s <code>configureLocalization()</code>/<code>msg()</code> for real message
-        extraction and XLIFF translation files in production.
+        was already correct. Click the <strong>AR</strong> button on the right and watch the layout mirror.
       </p>
     `,
   },
@@ -307,7 +188,7 @@ export const wizardSteps: WizardStepConfig[] = [
       <p>
         That's the whole stack: router, store, theme/locale context, data fetching, and form validation,
         wired together and running in the panel on the right — the same demo the whole way through, one
-        feature richer per step.
+        feature richer per step, every code block above copied verbatim from its actual source.
       </p>
     `,
   },
