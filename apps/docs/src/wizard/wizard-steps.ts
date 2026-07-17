@@ -203,6 +203,11 @@ export const wizardSteps: WizardStepConfig[] = [
       <pre><code>${appShellCode}</code></pre>
       <pre><code>${counterPageCode}</code></pre>
       <p>
+        <code>about-page.ts</code> isn't shown separately — it's a read-only page using the exact same
+        <code>StoreController</code>/<code>ContextConsumer</code> pattern as <code>counter-page.ts</code>
+        above, just displaying the count instead of changing it. No new concepts, so no new code sample.
+      </p>
+      <p>
         Any same-origin <code>&lt;a href="/counter"&gt;</code> navigates via the outlet automatically; use
         <code>navigate("/counter")</code> from <code>@lit-material/router</code> for programmatic navigation
         (e.g. after <code>counterStore.dispatch({ type: "increment" })</code>).
