@@ -15,22 +15,24 @@ const storeCode = [
   "// store.ts — one module-level store instance, shared across the app.",
   'import { createStore } from "@lit-material/store";',
   "",
-  "export interface AppState {",
-  "  user: { name: string } | null;",
+  "export interface CounterState {",
+  "  count: number;",
   "}",
   "",
-  'type AppAction = { type: "login"; name: string } | { type: "logout" };',
+  'type CounterAction = { type: "increment" } | { type: "decrement" } | { type: "reset" };',
   "",
-  "function reducer(state: AppState, action: AppAction): AppState {",
+  "function reducer(state: CounterState, action: CounterAction): CounterState {",
   "  switch (action.type) {",
-  '    case "login":',
-  "      return { user: { name: action.name } };",
-  '    case "logout":',
-  "      return { user: null };",
+  '    case "increment":',
+  "      return { count: state.count + 1 };",
+  '    case "decrement":',
+  "      return { count: state.count - 1 };",
+  '    case "reset":',
+  "      return { count: 0 };",
   "  }",
   "}",
   "",
-  "export const appStore = createStore(reducer, { user: null });",
+  "export const counterStore = createStore(reducer, { count: 0 });",
 ].join("\n");
 
 const appShellCode = [
@@ -41,11 +43,11 @@ const appShellCode = [
   'import { ContextProvider } from "@lit/context";',
   'import { LitElement, html } from "lit";',
   'import "./home-page.js";',
-  'import "./profile-page.js";',
+  'import "./counter-page.js";',
   "",
   "const routes: RouteConfig<unknown>[] = [",
   '  { path: "/", render: () => html`<home-page></home-page>` },',
-  '  { path: "/profile", render: () => html`<profile-page></profile-page>` },',
+  '  { path: "/counter", render: () => html`<counter-page></counter-page>` },',
   "];",
   "",
   "class AppShell extends LitElement {",
@@ -61,48 +63,50 @@ const appShellCode = [
   'customElements.define("app-shell", AppShell);',
 ].join("\n");
 
-const profilePageCode = [
-  "// profile-page.ts — reads both the store (for app state) and the theme",
+const counterPageCode = [
+  "// counter-page.ts — reads both the store (for app state) and the theme",
   "// context (for cross-cutting UI state), the same two mechanisms a React app",
   "// would reach for useSelector/dispatch and useContext.",
   'import { StoreController } from "@lit-material/store";',
   'import { themeContext } from "@lit-material/core";',
   'import { ContextConsumer } from "@lit/context";',
   'import { LitElement, html } from "lit";',
-  'import { appStore } from "./store.js";',
+  'import { counterStore } from "./store.js";',
   "",
-  "class ProfilePage extends LitElement {",
-  "  private readonly user = new StoreController(this, appStore, (state) => state.user);",
+  "class CounterPage extends LitElement {",
+  "  private readonly count = new StoreController(this, counterStore, (state) => state.count);",
   '  private readonly theme = new ContextConsumer(this, { context: themeContext, subscribe: true });',
   "",
   "  override render() {",
   "    return html`",
   "      <p>Color scheme: ${this.theme.value?.colorScheme}</p>",
-  '      <p>${this.user.value ? `Hi, ${this.user.value.name}` : "Not logged in"}</p>',
+  "      <p>Count: ${this.count.value}</p>",
+  '      <button @click=${() => counterStore.dispatch({ type: "increment" })}>+</button>',
   "    `;",
   "  }",
   "}",
-  'customElements.define("profile-page", ProfilePage);',
+  'customElements.define("counter-page", CounterPage);',
 ].join("\n");
 
 const taskCode = [
-  "// profile-page.ts, extended — fetch the profile itself, keyed by a route param.",
+  "// data-page.ts — a new route, keyed by its own local state.",
   'import { TaskController } from "@lit-material/task";',
   'import { html } from "lit";',
+  'import { state } from "lit/decorators.js";',
   "",
-  "class ProfilePage extends LitElement {",
-  "  // ...theme/store as above...",
+  "class DataPage extends LitElement {",
+  "  @state() private userId = 1;",
   "",
-  "  private readonly profileTask = new TaskController(this, {",
-  "    task: ([userId], signal) => fetch(`/api/users/${userId}`, { signal }).then((r) => r.json()),",
-  "    args: () => [this.user.value?.name] as const,",
+  "  private readonly userTask = new TaskController(this, {",
+  "    task: ([id], signal) => fetch(`/api/users/${id}`, { signal }).then((r) => r.json()),",
+  "    args: () => [this.userId] as const,",
   "  });",
   "",
   "  override render() {",
-  "    return this.profileTask.render({",
+  "    return this.userTask.render({",
   "      pending: () => html`Loading…`,",
-  "      complete: (profile) => html`<p>${profile.bio}</p>`,",
-  "      error: () => html`Couldn't load profile.`,",
+  "      complete: (user) => html`<p>${user.bio}</p>`,",
+  "      error: () => html`Couldn't load that user.`,",
   "    });",
   "  }",
   "}",
@@ -182,11 +186,11 @@ export const wizardSteps: WizardStepConfig[] = [
     content: () => html`
       <pre><code>${storeCode}</code></pre>
       <pre><code>${appShellCode}</code></pre>
-      <pre><code>${profilePageCode}</code></pre>
+      <pre><code>${counterPageCode}</code></pre>
       <p>
-        Any same-origin <code>&lt;a href="/profile"&gt;</code> navigates via the outlet automatically; use
-        <code>navigate("/profile")</code> from <code>@lit-material/router</code> for programmatic navigation
-        (e.g. after <code>appStore.dispatch({ type: "login", name })</code>).
+        Any same-origin <code>&lt;a href="/counter"&gt;</code> navigates via the outlet automatically; use
+        <code>navigate("/counter")</code> from <code>@lit-material/router</code> for programmatic navigation
+        (e.g. after <code>counterStore.dispatch({ type: "increment" })</code>).
       </p>
       <p>
         The demo just gained a router, a store, and theme context — click through to <strong>Counter</strong>
@@ -204,7 +208,8 @@ export const wizardSteps: WizardStepConfig[] = [
         <code>TaskController</code> re-runs <code>task</code> automatically whenever <code>args()</code>
         returns a shallowly different value (checked before every render), aborting a superseded run via the
         <code>AbortSignal</code> it passes in — no stale-response race if <code>userId</code> changes again
-        before the first fetch resolves.
+        before the first fetch resolves. (The demo's own version of this page tracks <code>userId</code> via
+        a "Next user" button instead of a route param, but the re-run/abort mechanics are identical.)
       </p>
       <p>
         The demo's new <strong>Data</strong> page uses a simulated fetch (there's no real backend here) to
@@ -249,7 +254,7 @@ export const wizardSteps: WizardStepConfig[] = [
         Any component under the app shell reads <code>msg("Hello")</code>-wrapped strings (translated per
         <code>@lit/localize</code>'s own mechanism, independent of context) and, if it needs the
         <em>current locale value itself</em> (e.g. to format a date, or render a <code>dir</code>-aware
-        layout), consumes <code>localeContext</code> the same way <code>profile-page.ts</code> above consumes
+        layout), consumes <code>localeContext</code> the same way <code>counter-page.ts</code> above consumes
         <code>themeContext</code>.
       </p>
       <p>
