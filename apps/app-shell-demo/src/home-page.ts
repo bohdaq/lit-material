@@ -30,13 +30,21 @@ export class DemoHomePage extends LitElement {
         ? html`<p>${t(this.locale.value?.locale as Locale, "greeting")} —
             ${t(this.locale.value?.locale as Locale, "tagline")}</p>`
         : null}
-      <p>
-        This page${wizardStep >= 2 ? html`, <code>/counter</code>, and <code>/about</code> are three separate
-          routes` : html` is rendered`} by
-        <code>&lt;lit-material-router-outlet&gt;</code> from <code>@lit-material/router</code>. Use the
-        links in the top bar${wizardStep >= 2 ? ", or click below" : ""} — every navigation is a client-side
-        route change, not a full page reload (open devtools' Network tab and watch).
-      </p>
+      ${wizardStep >= 2
+        ? html`
+            <p>
+              This page, <code>/counter</code>, and <code>/about</code> are three separate routes rendered by
+              <code>&lt;lit-material-router-outlet&gt;</code> from <code>@lit-material/router</code>. Use the
+              links in the top bar, or click below — every navigation is a client-side route change, not a
+              full page reload (open devtools' Network tab and watch).
+            </p>
+          `
+        : html`
+            <p>
+              This page is rendered by <code>&lt;lit-material-router-outlet&gt;</code> from
+              <code>@lit-material/router</code> — right now it's the only route. Later steps add more.
+            </p>
+          `}
       ${wizardStep >= 2
         ? html`
             <p>
