@@ -30,7 +30,7 @@ export class DocsBuildingAppsPage extends LitElement {
 
       .demo {
         position: relative;
-        margin: 1.25rem 0;
+        margin: 0 0 2rem;
         border: 1px solid var(--md-sys-color-outline-variant);
         border-radius: 14px;
         overflow: hidden;
@@ -72,7 +72,7 @@ export class DocsBuildingAppsPage extends LitElement {
       }
       .demo-hint {
         font-size: 0.8rem;
-        margin: 0.5rem 0 0;
+        margin: -1.25rem 0 2rem;
       }
 
       .nav-buttons {
@@ -89,15 +89,17 @@ export class DocsBuildingAppsPage extends LitElement {
 
   private iframeLoadTimer?: ReturnType<typeof setTimeout>;
 
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.armIframeLoadTimer();
+  }
+
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     clearTimeout(this.iframeLoadTimer);
   }
 
-  private get iframeSrc(): string {
-    const demoStep = wizardSteps[this.currentIndex]?.demoStep ?? 1;
-    return withBase(`/app-shell-demo/?step=${demoStep}`);
-  }
+  private readonly iframeSrc = withBase("/app-shell-demo/");
 
   override render() {
     // wizardSteps is a fixed, non-empty literal array and currentIndex is always kept in [0, length)
@@ -113,8 +115,8 @@ export class DocsBuildingAppsPage extends LitElement {
         application typically also needs a router, a place for cross-cutting state, and a way to thread values
         (like the current theme) down a component tree without prop drilling — the trio a React app usually
         reaches for (router, context, Redux). This guide wires up the <code>lit-material</code> equivalents in
-        one minimal example, then extends it with data fetching, form validation, and i18n — one step at a
-        time, with a live demo growing alongside it. See each package's own README for full API detail:
+        one minimal example, then extends it with data fetching, form validation, and i18n. See each package's
+        own README for full API detail:
       </p>
       <ul class="packages">
         <li><code>@lit-material/router</code> — SPA routing.</li>
@@ -128,20 +130,8 @@ export class DocsBuildingAppsPage extends LitElement {
         <li><code>@lit-material/form</code> — a reactive controller tracking a form's aggregate validity.</li>
       </ul>
 
-      <docs-stepper
-        .steps=${wizardSteps.map((s) => ({ title: s.title }))}
-        .current=${this.currentIndex}
-        .furthest=${this.furthest}
-        @step-select=${this.handleStepSelect}
-      ></docs-stepper>
-
-      <section class="doc-section">
-        <h2>${step.title}</h2>
-        ${step.content()}
-      </section>
-
       <div class="demo">
-        <div class="demo-header">Live demo — step ${this.currentIndex + 1} of ${wizardSteps.length}</div>
+        <div class="demo-header">The finished app, running live</div>
         <iframe
           class="demo-frame"
           title="lit-material app-shell demo"
@@ -167,6 +157,18 @@ export class DocsBuildingAppsPage extends LitElement {
         this demo in isolation.
       </p>
 
+      <docs-stepper
+        .steps=${wizardSteps.map((s) => ({ title: s.title }))}
+        .current=${this.currentIndex}
+        .furthest=${this.furthest}
+        @step-select=${this.handleStepSelect}
+      ></docs-stepper>
+
+      <section class="doc-section">
+        <h2>${step.title}</h2>
+        ${step.content()}
+      </section>
+
       <div class="nav-buttons">
         <lit-material-button variant="outlined" ?disabled=${this.currentIndex === 0} @click=${this.handleBack}>
           Back
@@ -178,14 +180,12 @@ export class DocsBuildingAppsPage extends LitElement {
     `;
   }
 
-  override updated(changed: Map<string, unknown>): void {
-    if (changed.has("currentIndex")) {
-      this.iframeFailed = false;
-      clearTimeout(this.iframeLoadTimer);
-      this.iframeLoadTimer = setTimeout(() => {
-        this.iframeFailed = true;
-      }, IFRAME_LOAD_TIMEOUT_MS);
-    }
+  private armIframeLoadTimer(): void {
+    this.iframeFailed = false;
+    clearTimeout(this.iframeLoadTimer);
+    this.iframeLoadTimer = setTimeout(() => {
+      this.iframeFailed = true;
+    }, IFRAME_LOAD_TIMEOUT_MS);
   }
 
   private readonly handleIframeLoad = (event: Event): void => {

@@ -6,7 +6,6 @@ import { themeContext, localeContext, type ThemeState, type LocaleState } from "
 import { ContextProvider } from "@lit/context";
 import { LitElement, html, css } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import { wizardStep, type WizardStep } from "./wizard-step.js";
 import type { Locale } from "./i18n.js";
 import "./home-page.js";
 import "./counter-page.js";
@@ -14,29 +13,13 @@ import "./about-page.js";
 import "./data-page.js";
 import "./settings-page.js";
 
-interface DemoNavEntry {
-  path: string;
-  label: string;
-  /** Minimum wizard step (see wizard-step.ts) that unlocks this route/nav entry. */
-  unlockedAt: WizardStep;
-  render: () => unknown;
-}
-
-const demoEntries: DemoNavEntry[] = [
-  { path: "/", label: "Home", unlockedAt: 1, render: () => html`<demo-home-page></demo-home-page>` },
-  { path: "/counter", label: "Counter", unlockedAt: 2, render: () => html`<demo-counter-page></demo-counter-page>` },
-  { path: "/about", label: "About", unlockedAt: 2, render: () => html`<demo-about-page></demo-about-page>` },
-  { path: "/data", label: "Data", unlockedAt: 3, render: () => html`<demo-data-page></demo-data-page>` },
-  {
-    path: "/settings",
-    label: "Settings",
-    unlockedAt: 4,
-    render: () => html`<demo-settings-page></demo-settings-page>`,
-  },
+const routes: RouteConfig<unknown>[] = [
+  { path: "/", render: () => html`<demo-home-page></demo-home-page>` },
+  { path: "/counter", render: () => html`<demo-counter-page></demo-counter-page>` },
+  { path: "/about", render: () => html`<demo-about-page></demo-about-page>` },
+  { path: "/data", render: () => html`<demo-data-page></demo-data-page>` },
+  { path: "/settings", render: () => html`<demo-settings-page></demo-settings-page>` },
 ];
-
-const visibleEntries = demoEntries.filter((entry) => entry.unlockedAt <= wizardStep);
-const routes: RouteConfig<unknown>[] = visibleEntries.map(({ path, render }) => ({ path, render }));
 
 @customElement("app-shell")
 export class AppShell extends LitElement {
@@ -102,14 +85,14 @@ export class AppShell extends LitElement {
       <lit-material-top-app-bar>
         lit-material app-shell demo
         <nav slot="trailing">
-          ${visibleEntries.map((entry) => html`<a href=${entry.path}>${entry.label}</a>`)}
-          ${wizardStep >= 5
-            ? html`
-                <lit-material-button variant="text" @click=${this.toggleLocale}>
-                  ${this.locale.locale === "ar" ? "EN" : "AR"}
-                </lit-material-button>
-              `
-            : null}
+          <a href="/">Home</a>
+          <a href="/counter">Counter</a>
+          <a href="/about">About</a>
+          <a href="/data">Data</a>
+          <a href="/settings">Settings</a>
+          <lit-material-button variant="text" @click=${this.toggleLocale}>
+            ${this.locale.locale === "ar" ? "EN" : "AR"}
+          </lit-material-button>
           <lit-material-button variant="text" @click=${this.toggleTheme}>
             ${this.theme.colorScheme === "dark" ? "☀️ Light" : "🌙 Dark"}
           </lit-material-button>
