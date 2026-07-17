@@ -65,9 +65,15 @@ export class LitMaterialIconButton extends LitElement {
   }
 
   override render() {
-    const icon = this.toggle && this.selected
-      ? html`<slot name="selected-icon" class="icon"></slot>`
-      : html`<slot class="icon"></slot>`;
+    // Off state accepts icon content either way: `slot="icon"` (the documented contract, needed to
+    // distinguish it from `selected-icon` on a toggle button) or no slot attribute at all (the simpler
+    // form for a plain, non-toggle button, where there's nothing to distinguish it from). Both slot
+    // elements can coexist — each child's own `slot` attribute (or lack of one) picks which one it lands
+    // in, so a consumer only ever needs one of the two forms, never both at once.
+    const icon =
+      this.toggle && this.selected
+        ? html`<slot name="selected-icon" class="icon"></slot>`
+        : html`<slot name="icon" class="icon"></slot><slot class="icon"></slot>`;
 
     const content = html`
       <div class="focus-ring" part="focus-ring" ?hidden=${!this.focusRing.visible}></div>

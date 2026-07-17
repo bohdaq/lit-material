@@ -47,18 +47,36 @@ importers:
       '@lit-material/button':
         specifier: workspace:*
         version: link:../../packages/button
+      '@lit-material/card':
+        specifier: workspace:*
+        version: link:../../packages/card
       '@lit-material/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@lit-material/divider':
+        specifier: workspace:*
+        version: link:../../packages/divider
       '@lit-material/form':
         specifier: workspace:*
         version: link:../../packages/form
+      '@lit-material/icon-button':
+        specifier: workspace:*
+        version: link:../../packages/icon-button
+      '@lit-material/list':
+        specifier: workspace:*
+        version: link:../../packages/list
+      '@lit-material/progress':
+        specifier: workspace:*
+        version: link:../../packages/progress
       '@lit-material/router':
         specifier: workspace:*
         version: link:../../packages/router
       '@lit-material/store':
         specifier: workspace:*
         version: link:../../packages/store
+      '@lit-material/tabs':
+        specifier: workspace:*
+        version: link:../../packages/tabs
       '@lit-material/task':
         specifier: workspace:*
         version: link:../../packages/task

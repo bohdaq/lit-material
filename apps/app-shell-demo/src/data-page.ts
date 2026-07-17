@@ -1,4 +1,6 @@
 import "@lit-material/button";
+import "@lit-material/card";
+import "@lit-material/progress";
 import { TaskController } from "@lit-material/task";
 import { LitElement, html, css } from "lit";
 import { customElement, state } from "lit/decorators.js";
@@ -36,7 +38,18 @@ export class DemoDataPage extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      max-width: 640px;
+    }
+    .controls {
+      margin: 1rem 0;
+    }
+    .result {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      min-height: 3rem;
+    }
+    lit-material-card.result-card {
+      margin-top: 1rem;
     }
   `;
 
@@ -49,20 +62,33 @@ export class DemoDataPage extends LitElement {
 
   override render() {
     return html`
-      <h1>Data fetching</h1>
-      <p>
-        Backed by <code>@lit-material/task</code>'s <code>TaskController</code>. Click "Next user" a couple of
-        times quickly — each click aborts the previous, still-pending fetch, so the result you see always
-        matches the last user you asked for, never a stale one that happened to resolve out of order.
-      </p>
-      <lit-material-button variant="outlined" @click=${this.nextUser}>Next user →</lit-material-button>
-      <div>
+      <lit-material-card variant="elevated">
+        <h1>Data fetching</h1>
+        <p>
+          Backed by <code>@lit-material/task</code>'s <code>TaskController</code>. Click "Next user" a couple
+          of times quickly — each click aborts the previous, still-pending fetch, so the result you see
+          always matches the last user you asked for, never a stale one that happened to resolve out of
+          order.
+        </p>
+        <div class="controls">
+          <lit-material-button variant="outlined" @click=${this.nextUser}>Next user →</lit-material-button>
+        </div>
         ${this.userTask.render({
-          pending: () => html`<p>Loading…</p>`,
-          complete: (user) => html`<p><strong>${user.name}</strong> — ${user.bio}</p>`,
+          pending: () => html`
+            <div class="result">
+              <lit-material-circular-progress indeterminate size="28" aria-label="Loading"></lit-material-circular-progress>
+              <span>Loading…</span>
+            </div>
+          `,
+          complete: (user) => html`
+            <lit-material-card class="result-card" variant="filled">
+              <strong>${user.name}</strong>
+              <p>${user.bio}</p>
+            </lit-material-card>
+          `,
           error: () => html`<p>Couldn't load that user.</p>`,
         })}
-      </div>
+      </lit-material-card>
     `;
   }
 
