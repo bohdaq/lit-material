@@ -20,7 +20,7 @@ export class DocsStepper extends LitElement {
 
     ol {
       display: flex;
-      align-items: center;
+      flex-direction: column;
       list-style: none;
       padding: 0;
       margin: 0 0 1.5rem;
@@ -28,18 +28,22 @@ export class DocsStepper extends LitElement {
 
     li {
       display: flex;
-      align-items: center;
-      flex: 1;
+      align-items: stretch;
     }
-    li:last-child {
+
+    .dot-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       flex: 0 0 auto;
     }
 
     .connector {
+      width: 1px;
       flex: 1;
-      height: 1px;
+      min-height: 1.1rem;
       background: var(--md-sys-color-outline-variant);
-      margin: 0 0.5rem;
+      margin: 0.25rem 0;
     }
 
     .dot {
@@ -82,21 +86,15 @@ export class DocsStepper extends LitElement {
 
     .label {
       display: block;
-      font-size: 0.68rem;
+      padding: 0.45rem 0 0.9rem 0.85rem;
+      font-size: 0.82rem;
       font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      letter-spacing: 0.02em;
       color: var(--md-sys-color-on-surface-variant);
-      text-align: center;
-      margin-top: 0.4rem;
-      max-width: 6rem;
     }
 
-    .step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 0 0 auto;
+    li[data-current] .label {
+      color: var(--md-sys-color-on-background);
     }
   `;
 
@@ -109,8 +107,8 @@ export class DocsStepper extends LitElement {
       <ol>
         ${this.steps.map(
           (step, index) => html`
-            <li>
-              <div class="step">
+            <li ?data-current=${index === this.current}>
+              <div class="dot-column">
                 ${index <= this.furthest
                   ? html`
                       <button
@@ -128,9 +126,9 @@ export class DocsStepper extends LitElement {
                         ${index + 1}
                       </span>
                     `}
-                <span class="label">${step.title}</span>
+                ${index < this.steps.length - 1 ? html`<div class="connector"></div>` : null}
               </div>
-              ${index < this.steps.length - 1 ? html`<div class="connector"></div>` : null}
+              <span class="label">${step.title}</span>
             </li>
           `,
         )}
