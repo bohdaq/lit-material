@@ -4,3 +4,5 @@ export { LitMaterialNavigationDrawerItem } from "./navigation-drawer-item.js";
 export { LitMaterialNavigationRail } from "./navigation-rail.js";
 export type { NavigationRailAlignment } from "./navigation-rail.js";
 export { LitMaterialNavigationRailItem } from "./navigation-rail-item.js";
+export { LitMaterialNavigationBar } from "./navigation-bar.js";
+export { LitMaterialNavigationBarItem } from "./navigation-bar-item.js";

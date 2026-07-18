@@ -1,9 +1,9 @@
 # @lit-material/navigation
 
-Material Design 3 navigation drawer and navigation rail web components built with
+Material Design 3 navigation drawer, navigation rail, and navigation bar web components built with
 [Lit](https://lit.dev/). Part of [lit-material](https://github.com/bohdaq/lit-material).
 
-![lit-material navigation drawer (standard, with a modal-drawer trigger button) and navigation rail, both showing their first destination selected](./screenshot.png)
+![lit-material navigation drawer (standard, with a modal-drawer trigger button), navigation rail, and navigation bar, all showing their first destination selected](./screenshot.png)
 
 ## Install
 
@@ -42,6 +42,18 @@ npm install @lit-material/navigation @lit-material/tokens
     Videos
   </lit-material-navigation-rail-item>
 </lit-material-navigation-rail>
+
+<!-- Navigation bar: a row of destinations sharing a bar's width equally, typically docked to the bottom. -->
+<lit-material-navigation-bar selected="0">
+  <lit-material-navigation-bar-item>
+    <svg slot="icon">…</svg>
+    Music
+  </lit-material-navigation-bar-item>
+  <lit-material-navigation-bar-item>
+    <svg slot="icon">…</svg>
+    Videos
+  </lit-material-navigation-bar-item>
+</lit-material-navigation-bar>
 ```
 
 Listen for `change` to react to the selection:
@@ -109,14 +121,38 @@ Slots: default (label text, shown below the icon), `icon`, `badge` (positioned o
 top-right corner). The ripple/focus-ring are scoped to the icon's pill-shaped active indicator,
 not the whole item, matching the MD3 spec.
 
+### `lit-material-navigation-bar`
+
+| Property   | Attribute  | Type     | Default |
+| ---------- | ---------- | -------- | ------- |
+| `selected` | `selected` | `number` | `-1`    |
+
+Slots: default (`lit-material-navigation-bar-item` elements). Unlike `lit-material-navigation-rail`,
+there's no `alignment` property or `fab` slot — a bottom bar is a single row of equally-shared
+destinations, not a strip with room to position things along its length.
+
+### `lit-material-navigation-bar-item`
+
+| Property   | Attribute  | Type      | Default |
+| ---------- | ---------- | --------- | ------- |
+| `selected` | `selected` | `boolean` | `false` |
+| `disabled` | `disabled` | `boolean` | `false` |
+| `href`     | `href`     | `string`  | `""`    |
+| `target`   | `target`   | `string`  | `""`    |
+
+Slots: default (label text, shown below the icon), `icon`, `badge` (positioned over the icon's
+top-right corner). Almost identical to `lit-material-navigation-rail-item` (same icon-pill +
+label-below layout) — it shares the bar's width equally with its siblings instead of filling a
+narrow vertical rail, and its indicator is 64px wide (the MD3 bar spec) rather than the rail's 56px.
+
 ## Behavior
 
-Both `lit-material-navigation-drawer` and `lit-material-navigation-rail` manage selection the
-same way `lit-material-tabs` does: set `selected` (an index) to reflect your current route or
-section, and each item's own `selected` is kept in sync automatically. Clicking an item updates
-`selected` and fires `change` — items don't manage selection themselves, so binding `selected` to
-your router state (rather than reading it back out) is the expected integration point for SPA
-navigation.
+`lit-material-navigation-drawer`, `lit-material-navigation-rail`, and `lit-material-navigation-bar`
+all manage selection the same way `lit-material-tabs` does: set `selected` (an index) to reflect
+your current route or section, and each item's own `selected` is kept in sync automatically.
+Clicking an item updates `selected` and fires `change` — items don't manage selection themselves,
+so binding `selected` to your router state (rather than reading it back out) is the expected
+integration point for SPA navigation.
 
 Fully out of scope for this first pass: responsive breakpoint switching (automatically swapping
 between rail/drawer/bottom-navigation based on window size) — that's an app-level layout decision

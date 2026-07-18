@@ -6,8 +6,9 @@ interaction models.
 
 1. ~~**Segmented Button** — standalone package. Selection model already exists in `chip`/`tabs`.~~
    Done: [`@lit-material/segmented-button`](packages/segmented-button).
-2. **Navigation Bar** (bottom nav) — extends `navigation`, reuses the `selected`-index pattern
-   already shared by drawer/rail.
+2. ~~**Navigation Bar** (bottom nav) — extends `navigation`, reuses the `selected`-index pattern
+   already shared by drawer/rail.~~ Done: `lit-material-navigation-bar` in
+   [`@lit-material/navigation`](packages/navigation).
 3. **Docked date picker variant** — extends `date-picker`, reuses the existing calendar-grid
    rendering, swaps the `<dialog>` wrapper for inline.
 4. **Date Range Picker** — extends `date-picker`, builds on the same calendar grid but needs

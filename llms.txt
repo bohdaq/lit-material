@@ -34,7 +34,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Snackbar](https://github.com/bohdaq/lit-material/tree/main/packages/snackbar): Built on the native Popover API.
 - [Tabs](https://github.com/bohdaq/lit-material/tree/main/packages/tabs): `lit-material-tabs` + `lit-material-tab`.
 - [Top App Bar](https://github.com/bohdaq/lit-material/tree/main/packages/top-app-bar): Center-aligned, small, medium, large.
-- [Navigation](https://github.com/bohdaq/lit-material/tree/main/packages/navigation): Navigation drawer and navigation rail.
+- [Navigation](https://github.com/bohdaq/lit-material/tree/main/packages/navigation): Navigation drawer, rail, and bottom bar.
 - [Progress](https://github.com/bohdaq/lit-material/tree/main/packages/progress): Linear and circular progress indicators.
 - [Date Picker](https://github.com/bohdaq/lit-material/tree/main/packages/date-picker): Modal date picker.
 

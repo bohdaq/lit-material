@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/navigation",
-  "version": "0.0.1",
-  "description": "Material Design 3 navigation drawer and navigation rail web components.",
+  "version": "0.0.2",
+  "description": "Material Design 3 navigation drawer, navigation rail, and navigation bar web components.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
@@ -22,7 +22,8 @@
     "material-design",
     "material-design-3",
     "navigation-drawer",
-    "navigation-rail"
+    "navigation-rail",
+    "navigation-bar"
   ],
   "type": "module",
   "main": "./dist/index.js",

@@ -16,7 +16,7 @@ export class DocsNavigationPage extends LitElement {
 
   override render() {
     return html`
-      <h1>Navigation Drawer &amp; Rail</h1>
+      <h1>Navigation Drawer, Rail &amp; Bar</h1>
       <p>One package (<code>@lit-material/navigation</code>), matching the List/List Item precedent.</p>
 
       <section>
@@ -55,6 +55,18 @@ export class DocsNavigationPage extends LitElement {
           <lit-material-navigation-rail-item><span slot="icon">🎬</span>Videos</lit-material-navigation-rail-item>
           <lit-material-navigation-rail-item disabled><span slot="icon">🖼️</span>Photos</lit-material-navigation-rail-item>
         </lit-material-navigation-rail>
+      </section>
+
+      <section>
+        <h2>Navigation Bar</h2>
+        <lit-material-navigation-bar
+          selected="0"
+          style="max-width: 400px; border: 1px solid var(--md-sys-color-outline-variant, #cac4d0); border-radius: 12px; overflow: hidden;"
+        >
+          <lit-material-navigation-bar-item><span slot="icon">🎵</span>Music</lit-material-navigation-bar-item>
+          <lit-material-navigation-bar-item><span slot="icon">🎬</span>Videos</lit-material-navigation-bar-item>
+          <lit-material-navigation-bar-item disabled><span slot="icon">🖼️</span>Photos</lit-material-navigation-bar-item>
+        </lit-material-navigation-bar>
       </section>
     `;
   }
