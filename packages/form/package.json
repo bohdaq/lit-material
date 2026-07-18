@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/form",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A reactive controller that tracks a native <form>'s aggregate validity for a Lit host.",
   "license": "MIT",
   "author": {
@@ -15,7 +15,14 @@
     "url": "git+ssh://git@github.com/bohdaq/lit-material.git",
     "directory": "packages/form"
   },
-  "keywords": ["lit", "web-components", "lit-material", "reactive-controller", "form", "validation"],
+  "keywords": [
+    "lit",
+    "web-components",
+    "lit-material",
+    "reactive-controller",
+    "form",
+    "validation"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

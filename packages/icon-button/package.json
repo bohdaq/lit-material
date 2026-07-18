@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/icon-button",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Material Design 3 icon button web component (standard + toggle).",
   "license": "MIT",
   "author": {
