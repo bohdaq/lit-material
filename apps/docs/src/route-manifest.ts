@@ -22,6 +22,7 @@ import "./pages/components/fab-page.js";
 import "./pages/components/divider-page.js";
 import "./pages/components/select-page.js";
 import "./pages/components/slider-page.js";
+import "./pages/components/segmented-button-page.js";
 import "./pages/components/tabs-page.js";
 import "./pages/components/tooltip-page.js";
 import "./pages/components/dialog-page.js";
@@ -182,6 +183,12 @@ export const navEntries: NavEntry[] = [
     label: "Slider",
     group: "components",
     render: () => html`<docs-slider-page></docs-slider-page>`,
+  },
+  {
+    path: "/components/segmented-button",
+    label: "Segmented Button",
+    group: "components",
+    render: () => html`<docs-segmented-button-page></docs-segmented-button-page>`,
   },
   {
     path: "/components/tabs",

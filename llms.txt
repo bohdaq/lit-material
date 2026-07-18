@@ -22,6 +22,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Slider](https://github.com/bohdaq/lit-material/tree/main/packages/slider): Single value, native `<input type="range">`-based.
 - [Select](https://github.com/bohdaq/lit-material/tree/main/packages/select): `lit-material-select` + `lit-material-select-option`.
 - [Chip](https://github.com/bohdaq/lit-material/tree/main/packages/chip): Assist, filter, input, suggestion variants.
+- [Segmented Button](https://github.com/bohdaq/lit-material/tree/main/packages/segmented-button): Single-select or multi-select connected button row.
 - [Card](https://github.com/bohdaq/lit-material/tree/main/packages/card): Elevated, filled, outlined; optionally interactive.
 - [List](https://github.com/bohdaq/lit-material/tree/main/packages/list): `lit-material-list` + `lit-material-list-item`.
 - [Data Table](https://github.com/bohdaq/lit-material/tree/main/packages/data-table): Sortable, selectable, paginated, resizable, virtualized.

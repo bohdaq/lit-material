@@ -4,7 +4,7 @@ A [Material Design 3](https://m3.material.io/) web component collection built wi
 one package per component, no shared mega-bundle, no required adapter layer. Framework-agnostic, SSR-ready,
 and small enough to actually read the source of.
 
-- **24 components**, each its own npm package — install only what you use.
+- **25 components**, each its own npm package — install only what you use.
 - **Zero runtime dependencies beyond Lit.** No icon font, no CSS-in-JS runtime, no framework required.
 - **SSR-ready.** Every component is tested against [`@lit-labs/ssr`](https://www.npmjs.com/package/@lit-labs/ssr)
   as well as in a real browser.
@@ -69,6 +69,7 @@ components as you like.
 | [`@lit-material/slider`](packages/slider) | Single value, native `<input type="range">`-based. |
 | [`@lit-material/select`](packages/select) | `lit-material-select` + `lit-material-select-option`. |
 | [`@lit-material/chip`](packages/chip) | Assist, filter, input, suggestion variants. |
+| [`@lit-material/segmented-button`](packages/segmented-button) | Single-select or multi-select connected button row. |
 | [`@lit-material/card`](packages/card) | Elevated, filled, outlined; optionally interactive. |
 | [`@lit-material/list`](packages/list) | `lit-material-list` + `lit-material-list-item`. |
 | [`@lit-material/data-table`](packages/data-table) | Sortable, selectable, paginated, resizable, virtualized. |
