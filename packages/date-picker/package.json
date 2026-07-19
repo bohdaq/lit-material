@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/date-picker",
-  "version": "0.0.2",
-  "description": "Material Design 3 modal or docked date picker web component.",
+  "version": "0.0.3",
+  "description": "Material Design 3 modal or docked date picker and date range picker web components.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
@@ -22,6 +22,7 @@
     "material-design",
     "material-design-3",
     "date-picker",
+    "date-range-picker",
     "calendar",
     "docked"
   ],
