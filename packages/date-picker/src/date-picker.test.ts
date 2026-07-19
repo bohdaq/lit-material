@@ -219,4 +219,58 @@ describe("lit-material-date-picker", () => {
     await el.updateComplete;
     await expect(el).to.be.accessible();
   });
+
+  describe("docked variant", () => {
+    it("renders the calendar in-flow with no <dialog>, regardless of `open`", async () => {
+      const el = await fixture<LitMaterialDatePicker>(
+        html`<lit-material-date-picker variant="docked" value="2026-06-15"></lit-material-date-picker>`,
+      );
+      expect(el.shadowRoot!.querySelector("dialog")).to.not.exist;
+      expect(el.shadowRoot!.querySelector(".container")).to.exist;
+      expect(el.shadowRoot!.querySelector(".day.selected")).to.exist;
+    });
+
+    it("commits a pick via OK without needing show()/open", async () => {
+      const el = await fixture<LitMaterialDatePicker>(
+        html`<lit-material-date-picker variant="docked" value="2026-06-15"></lit-material-date-picker>`,
+      );
+      let changeEvent: Event | undefined;
+      el.addEventListener("change", (event) => (changeEvent = event));
+
+      el.shadowRoot!.querySelector<HTMLButtonElement>('.day[data-iso="2026-06-20"]')!.click();
+      await el.updateComplete;
+      expect(el.value).to.equal("2026-06-15"); // not yet committed
+
+      el.shadowRoot!.querySelector<HTMLButtonElement>(".text-button[part='ok-button']")!.click();
+      await el.updateComplete;
+
+      expect(el.value).to.equal("2026-06-20");
+      expect(changeEvent).to.exist;
+    });
+
+    it("cancel visibly snaps the calendar back to value instead of closing anything", async () => {
+      const el = await fixture<LitMaterialDatePicker>(
+        html`<lit-material-date-picker variant="docked" value="2026-06-15"></lit-material-date-picker>`,
+      );
+      el.shadowRoot!.querySelector<HTMLButtonElement>('.day[data-iso="2026-06-20"]')!.click();
+      await el.updateComplete;
+      expect(
+        el.shadowRoot!.querySelector<HTMLButtonElement>('.day[data-iso="2026-06-20"]')!.classList.contains("selected"),
+      ).to.be.true;
+
+      el.shadowRoot!.querySelector<HTMLButtonElement>(".text-button[part='cancel-button']")!.click();
+      await el.updateComplete;
+
+      expect(el.value).to.equal("2026-06-15");
+      const reselected = el.shadowRoot!.querySelector(".day.selected") as HTMLButtonElement;
+      expect(reselected.dataset.iso).to.equal("2026-06-15");
+    });
+
+    it("passes axe accessibility checks", async () => {
+      const el = await fixture<LitMaterialDatePicker>(
+        html`<lit-material-date-picker variant="docked" value="2026-06-15"></lit-material-date-picker>`,
+      );
+      await expect(el).to.be.accessible();
+    });
+  });
 });

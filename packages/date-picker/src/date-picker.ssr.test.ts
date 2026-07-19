@@ -52,4 +52,14 @@ describe("lit-material-date-picker (SSR)", () => {
     const out = await renderToString(html`<lit-material-date-picker open></lit-material-date-picker>`);
     assert.match(out, /<lit-material-date-picker[^>]*\bopen\b/);
   });
+
+  it("docked variant renders the calendar with no <dialog>", async () => {
+    const out = await renderToString(
+      html`<lit-material-date-picker variant="docked" value="2026-06-15"></lit-material-date-picker>`,
+    );
+    assert.match(out, /shadowrootmode="open"/);
+    assert.doesNotMatch(out, /<dialog/);
+    assert.match(out, /role="grid"/);
+    assert.match(out, /class="day[^"]*selected[^"]*"[^>]*data-iso="2026-06-15"/);
+  });
 });

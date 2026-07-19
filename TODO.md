@@ -9,8 +9,9 @@ interaction models.
 2. ~~**Navigation Bar** (bottom nav) — extends `navigation`, reuses the `selected`-index pattern
    already shared by drawer/rail.~~ Done: `lit-material-navigation-bar` in
    [`@lit-material/navigation`](packages/navigation).
-3. **Docked date picker variant** — extends `date-picker`, reuses the existing calendar-grid
-   rendering, swaps the `<dialog>` wrapper for inline.
+3. ~~**Docked date picker variant** — extends `date-picker`, reuses the existing calendar-grid
+   rendering, swaps the `<dialog>` wrapper for inline.~~ Done: `variant="docked"` on
+   [`@lit-material/date-picker`](packages/date-picker).
 4. **Date Range Picker** — extends `date-picker`, builds on the same calendar grid but needs
    range-selection state/keyboard handling.
 5. **Search** (bar + view) — new package, built on the Popover API like `menu`/`snackbar`/`tooltip`.

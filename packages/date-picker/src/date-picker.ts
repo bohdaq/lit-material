@@ -1,4 +1,4 @@
-import { html, LitElement } from "lit";
+import { html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import {
   type CalendarDate,
@@ -20,28 +20,37 @@ import {
 import { styles } from "./date-picker-styles.js";
 
 type PickerMode = "calendar" | "year";
+export type DatePickerVariant = "modal" | "docked";
 
 /**
- * Material Design 3 modal date picker — a single-date calendar dialog, built
- * on the native `<dialog>` element like `lit-material-dialog` (scrim,
- * Escape-to-close, focus trap all come from the browser).
+ * Material Design 3 date picker — a single-date calendar, either `modal`
+ * (the default: a dialog built on the native `<dialog>` element, like
+ * `lit-material-dialog` — scrim, Escape-to-close, focus trap all come from
+ * the browser) or `docked` (the same header/calendar/actions, rendered
+ * plainly in-flow with no dialog, scrim, or `open`/`show()`/`close()`
+ * gating — meant to be embedded in your own layout, a card, or a popover you
+ * position yourself, the same way `lit-material-navigation-drawer`'s
+ * `standard` variant is the same content as `modal` minus the dialog shell).
  *
  * Tapping a day highlights it immediately but doesn't commit it — the same
  * two-step "pick, then confirm" flow the MD3 spec calls for. `change` only
- * fires once "OK" is clicked; "Cancel" (or Escape, or a backdrop click)
- * discards the in-progress selection and leaves `value` untouched.
+ * fires once "OK" is clicked; "Cancel" (or, for `modal`, Escape or a
+ * backdrop click) discards the in-progress selection and leaves `value`
+ * untouched — for `docked`, "Cancel" resets the visible calendar back to
+ * `value` right away, since there's no dialog to hide the discarded pick
+ * behind.
  *
  * Deliberately out of scope for this first pass: the manual keyboard-entry
- * text field mode MD3 lets you toggle to (calendar-only here), a docked
- * (non-modal, inline) variant, and date *range* selection — all reasonable
- * follow-ups, not silently missing. Values are ISO `"YYYY-MM-DD"` strings,
- * parsed and formatted with plain year/month/day arithmetic rather than
- * `new Date(isoString)` — the latter parses as UTC and is a classic source
- * of off-by-one-day bugs in negative-UTC-offset timezones.
+ * text field mode MD3 lets you toggle to (calendar-only here), and date
+ * *range* selection — both reasonable follow-ups, not silently missing.
+ * Values are ISO `"YYYY-MM-DD"` strings, parsed and formatted with plain
+ * year/month/day arithmetic rather than `new Date(isoString)` — the latter
+ * parses as UTC and is a classic source of off-by-one-day bugs in
+ * negative-UTC-offset timezones.
  *
  * @element lit-material-date-picker
  *
- * @csspart dialog - The native `<dialog>` element.
+ * @csspart dialog - The native `<dialog>` element. Only rendered for `modal`.
  * @csspart container - The visible card.
  * @csspart header - The label + selected-date headline.
  * @csspart nav - The month navigation row (or the year-range label, in year mode).
@@ -50,14 +59,18 @@ type PickerMode = "calendar" | "year";
  * @csspart actions - The Cancel/OK row.
  *
  * @fires change - Fires when a date is confirmed via "OK" and `value` actually changed.
- * @fires cancel - Re-dispatched from the native `cancel` event. Cancelable: calling
- *   `preventDefault()` stops the dialog from closing.
- * @fires close - Re-dispatched from the native `close` event, after the dialog has closed.
+ * @fires cancel - `modal` only: re-dispatched from the native `cancel` event. Cancelable:
+ *   calling `preventDefault()` stops the dialog from closing.
+ * @fires close - `modal` only: re-dispatched from the native `close` event, after the dialog
+ *   has closed.
  */
 @customElement("lit-material-date-picker")
 export class LitMaterialDatePicker extends LitElement {
   static override styles = styles;
 
+  @property() variant: DatePickerVariant = "modal";
+
+  /** Whether a `modal` picker is open. Ignored for `docked`, which is always visible in-flow. */
   @property({ type: Boolean, reflect: true }) open = false;
   /** The confirmed date, as an ISO `"YYYY-MM-DD"` string. */
   @property() value?: string;
@@ -115,7 +128,7 @@ export class LitMaterialDatePicker extends LitElement {
   }
 
   protected override updated(changed: Map<string, unknown>): void {
-    if (!changed.has("open") || !this.dialogElement) return;
+    if (!changed.has("open") || this.variant !== "modal" || !this.dialogElement) return;
     if (this.open && !this.dialogElement.open) {
       this.dialogElement.showModal();
     } else if (!this.open && this.dialogElement.open) {
@@ -123,18 +136,28 @@ export class LitMaterialDatePicker extends LitElement {
     }
   }
 
-  /** Opens the picker, resetting its view to `value` (or today). Equivalent to setting `.open = true` after resetting state. */
-  show(): void {
+  /** Resets the pending selection, view, and mode back to `value` (or today). */
+  private resetPendingToValue(): void {
     const initial = (this.value && parseISODate(this.value)) || today();
     this.pendingValue = this.value;
     this.viewYear = initial.year;
     this.viewMonth = initial.month;
     this.mode = "calendar";
     this.focusedDate = initial;
+  }
+
+  /**
+   * Resets the view to `value` (or today) and, for `modal`, opens the picker
+   * (equivalent to resetting state then setting `.open = true`). For
+   * `docked`, which is always visible, only the reset happens — useful to
+   * call after reassigning `value` to also snap the visible calendar to it.
+   */
+  show(): void {
+    this.resetPendingToValue();
     this.open = true;
   }
 
-  /** Closes the picker without confirming a selection. Equivalent to setting `.open = false`. */
+  /** Closes a `modal` picker without confirming a selection. Equivalent to setting `.open = false`. No visible effect for `docked`. */
   close(returnValue?: string): void {
     this.open = false;
     if (returnValue !== undefined && this.dialogElement) {
@@ -199,7 +222,9 @@ export class LitMaterialDatePicker extends LitElement {
   }
 
   override render() {
-    const pending = this.pendingValue ? parseISODate(this.pendingValue) : undefined;
+    const container = this.renderContainer();
+    if (this.variant !== "modal") return container;
+
     return html`
       <dialog
         class="dialog"
@@ -209,22 +234,36 @@ export class LitMaterialDatePicker extends LitElement {
         @cancel=${this.handleCancel}
         @click=${this.handleBackdropClick}
       >
-        <div class="container" part="container" tabindex="-1" autofocus>
-          <div class="header" part="header">
-            <span class="label" part="label">${this.label}</span>
-            <span class="headline" id="headline" part="headline">
-              ${pending ? headlineDateLabel(pending) : "Enter date"}
-            </span>
-          </div>
-          ${this.mode === "calendar" ? this.renderCalendar(pending) : this.renderYearGrid()}
-          <div class="actions" part="actions">
-            <button class="text-button" part="cancel-button" type="button" @click=${this.handleCancelClick}>
-              Cancel
-            </button>
-            <button class="text-button" part="ok-button" type="button" @click=${this.handleOkClick}>OK</button>
-          </div>
-        </div>
+        ${container}
       </dialog>
+    `;
+  }
+
+  private renderContainer() {
+    // For `modal`, showModal() auto-focuses the first focusable descendant
+    // when nothing has autofocus — without this, that's the Cancel button,
+    // showing its focus ring on every open even though the user never
+    // interacted with it (same fix as lit-material-dialog's `container`).
+    // Harmless to skip for `docked`, since it's never the target of
+    // showModal() in the first place (there's no dialog at all).
+    const isModal = this.variant === "modal";
+    const pending = this.pendingValue ? parseISODate(this.pendingValue) : undefined;
+    return html`
+      <div class="container" part="container" tabindex=${isModal ? "-1" : nothing} ?autofocus=${isModal}>
+        <div class="header" part="header">
+          <span class="label" part="label">${this.label}</span>
+          <span class="headline" id="headline" part="headline">
+            ${pending ? headlineDateLabel(pending) : "Enter date"}
+          </span>
+        </div>
+        ${this.mode === "calendar" ? this.renderCalendar(pending) : this.renderYearGrid()}
+        <div class="actions" part="actions">
+          <button class="text-button" part="cancel-button" type="button" @click=${this.handleCancelClick}>
+            Cancel
+          </button>
+          <button class="text-button" part="ok-button" type="button" @click=${this.handleOkClick}>OK</button>
+        </div>
+      </div>
     `;
   }
 
@@ -393,6 +432,12 @@ export class LitMaterialDatePicker extends LitElement {
   };
 
   private readonly handleCancelClick = (): void => {
+    if (this.variant !== "modal") {
+      // No dialog to hide the discarded pick behind — visibly snap the
+      // calendar back to `value` instead.
+      this.resetPendingToValue();
+      return;
+    }
     this.close("cancel");
   };
 

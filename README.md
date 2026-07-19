@@ -83,7 +83,7 @@ components as you like.
 | [`@lit-material/top-app-bar`](packages/top-app-bar) | Center-aligned, small, medium, large. |
 | [`@lit-material/navigation`](packages/navigation) | Navigation drawer, rail, and bottom bar. |
 | [`@lit-material/progress`](packages/progress) | Linear and circular progress indicators. |
-| [`@lit-material/date-picker`](packages/date-picker) | Modal date picker. |
+| [`@lit-material/date-picker`](packages/date-picker) | Modal or docked date picker. |
 | [`@lit-material/tokens`](packages/tokens) | Color, type, shape, elevation, and motion design tokens. |
 
 ## Building a whole app
