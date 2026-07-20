@@ -27,6 +27,7 @@ import "./pages/components/tabs-page.js";
 import "./pages/components/tooltip-page.js";
 import "./pages/components/dialog-page.js";
 import "./pages/components/menu-page.js";
+import "./pages/components/search-page.js";
 import "./pages/components/snackbar-page.js";
 import "./pages/components/top-app-bar-page.js";
 import "./pages/components/navigation-page.js";
@@ -214,6 +215,12 @@ export const navEntries: NavEntry[] = [
     label: "Menu",
     group: "components",
     render: () => html`<docs-menu-page></docs-menu-page>`,
+  },
+  {
+    path: "/components/search",
+    label: "Search",
+    group: "components",
+    render: () => html`<docs-search-page></docs-search-page>`,
   },
   {
     path: "/components/snackbar",

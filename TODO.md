@@ -15,7 +15,8 @@ interaction models.
 4. ~~**Date Range Picker** — extends `date-picker`, builds on the same calendar grid but needs
    range-selection state/keyboard handling.~~ Done: `lit-material-date-range-picker` in
    [`@lit-material/date-picker`](packages/date-picker).
-5. **Search** (bar + view) — new package, built on the Popover API like `menu`/`snackbar`/`tooltip`.
+5. ~~**Search** (bar + view) — new package, built on the Popover API like `menu`/`snackbar`/`tooltip`.~~
+   Done: [`@lit-material/search`](packages/search).
 6. **Bottom Sheet / Side Sheet** — new package(s), same native-`<dialog>` foundation as
    `dialog`/modal `navigation-drawer`. Drag-to-dismiss gesture is a likely scope cut, same way
    `navigation` scope-cuts responsive breakpoint switching.

@@ -31,6 +31,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Tooltip](https://github.com/bohdaq/lit-material/tree/main/packages/tooltip): Plain tooltip, built on the native Popover API.
 - [Dialog](https://github.com/bohdaq/lit-material/tree/main/packages/dialog): Built on the native `<dialog>` element.
 - [Menu](https://github.com/bohdaq/lit-material/tree/main/packages/menu): Built on the native Popover API.
+- [Search](https://github.com/bohdaq/lit-material/tree/main/packages/search): Search bar and docked search view; view built on the native Popover API.
 - [Snackbar](https://github.com/bohdaq/lit-material/tree/main/packages/snackbar): Built on the native Popover API.
 - [Tabs](https://github.com/bohdaq/lit-material/tree/main/packages/tabs): `lit-material-tabs` + `lit-material-tab`.
 - [Top App Bar](https://github.com/bohdaq/lit-material/tree/main/packages/top-app-bar): Center-aligned, small, medium, large.
