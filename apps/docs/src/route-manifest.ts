@@ -26,6 +26,7 @@ import "./pages/components/segmented-button-page.js";
 import "./pages/components/tabs-page.js";
 import "./pages/components/tooltip-page.js";
 import "./pages/components/dialog-page.js";
+import "./pages/components/sheet-page.js";
 import "./pages/components/menu-page.js";
 import "./pages/components/search-page.js";
 import "./pages/components/snackbar-page.js";
@@ -209,6 +210,12 @@ export const navEntries: NavEntry[] = [
     label: "Dialog",
     group: "components",
     render: () => html`<docs-dialog-page></docs-dialog-page>`,
+  },
+  {
+    path: "/components/sheet",
+    label: "Sheet",
+    group: "components",
+    render: () => html`<docs-sheet-page></docs-sheet-page>`,
   },
   {
     path: "/components/menu",
