@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/time-picker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Material Design 3 time picker web component (lit-material-time-picker).",
   "license": "MIT",
   "author": {

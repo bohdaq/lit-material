@@ -162,11 +162,11 @@ export const styles = css`
 
   .selection-line {
     position: absolute;
-    top: 50%;
+    bottom: 50%;
     left: calc(50% - 1px);
     width: 2px;
     background-color: var(--md-sys-color-primary, #6750a4);
-    transform-origin: top center;
+    transform-origin: bottom center;
     pointer-events: none;
   }
 
