@@ -11,6 +11,7 @@ import "./pages/packages/cli-page.js";
 import "./pages/components/accordion-page.js";
 import "./pages/components/autocomplete-page.js";
 import "./pages/components/stepper-page.js";
+import "./pages/components/tree-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -305,5 +306,11 @@ export const navEntries: NavEntry[] = [
     label: "Stepper",
     group: "components",
     render: () => html`<docs-stepper-page></docs-stepper-page>`,
+  },
+  {
+    path: "/components/tree",
+    label: "Tree",
+    group: "components",
+    render: () => html`<docs-tree-page></docs-tree-page>`,
   },
 ];

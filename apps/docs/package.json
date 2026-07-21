@@ -43,6 +43,7 @@
     "@lit-material/tokens": "workspace:*",
     "@lit-material/tooltip": "workspace:*",
     "@lit-material/top-app-bar": "workspace:*",
+    "@lit-material/tree": "workspace:*",
     "@material/material-color-utilities": "^0.4.0",
     "lit": "^3.2.0"
   },
