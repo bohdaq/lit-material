@@ -20,7 +20,8 @@ interaction models.
 6. ~~**Bottom Sheet / Side Sheet** — new package(s), same native-`<dialog>` foundation as
    `dialog`/modal `navigation-drawer`. Drag-to-dismiss gesture is a likely scope cut, same way
    `navigation` scope-cuts responsive breakpoint switching.~~ Done: [`@lit-material/sheet`](packages/sheet).
-7. **Carousel** — new package, scroll-snap based; no prior pattern in this repo to lean on.
+7. ~~**Carousel** — new package, scroll-snap based; no prior pattern in this repo to lean on.~~
+   Done: [`@lit-material/carousel`](packages/carousel).
 8. **Time Picker** — new package, last — the clock-dial UI is the most novel interaction to build
    from scratch.
 

@@ -16,6 +16,7 @@ import "./pages/components/radio-page.js";
 import "./pages/components/switch-page.js";
 import "./pages/components/chip-page.js";
 import "./pages/components/card-page.js";
+import "./pages/components/carousel-page.js";
 import "./pages/components/list-page.js";
 import "./pages/components/badge-page.js";
 import "./pages/components/fab-page.js";
@@ -150,6 +151,12 @@ export const navEntries: NavEntry[] = [
     label: "Card",
     group: "components",
     render: () => html`<docs-card-page></docs-card-page>`,
+  },
+  {
+    path: "/components/carousel",
+    label: "Carousel",
+    group: "components",
+    render: () => html`<docs-carousel-page></docs-carousel-page>`,
   },
   {
     path: "/components/list",

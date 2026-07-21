@@ -24,6 +24,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Chip](https://github.com/bohdaq/lit-material/tree/main/packages/chip): Assist, filter, input, suggestion variants.
 - [Segmented Button](https://github.com/bohdaq/lit-material/tree/main/packages/segmented-button): Single-select or multi-select connected button row.
 - [Card](https://github.com/bohdaq/lit-material/tree/main/packages/card): Elevated, filled, outlined; optionally interactive.
+- [Carousel](https://github.com/bohdaq/lit-material/tree/main/packages/carousel): Scroll-snap based, with overlaid nav buttons.
 - [List](https://github.com/bohdaq/lit-material/tree/main/packages/list): `lit-material-list` + `lit-material-list-item`.
 - [Data Table](https://github.com/bohdaq/lit-material/tree/main/packages/data-table): Sortable, selectable, paginated, resizable, virtualized.
 - [Badge](https://github.com/bohdaq/lit-material/tree/main/packages/badge): Small dot or large numeric/text badge.
