@@ -36,6 +36,7 @@
     "@lit-material/switch": "workspace:*",
     "@lit-material/tabs": "workspace:*",
     "@lit-material/text-field": "workspace:*",
+    "@lit-material/time-picker": "workspace:*",
     "@lit-material/tokens": "workspace:*",
     "@lit-material/tooltip": "workspace:*",
     "@lit-material/top-app-bar": "workspace:*",

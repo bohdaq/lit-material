@@ -22,8 +22,8 @@ interaction models.
    `navigation` scope-cuts responsive breakpoint switching.~~ Done: [`@lit-material/sheet`](packages/sheet).
 7. ~~**Carousel** — new package, scroll-snap based; no prior pattern in this repo to lean on.~~
    Done: [`@lit-material/carousel`](packages/carousel).
-8. **Time Picker** — new package, last — the clock-dial UI is the most novel interaction to build
-   from scratch.
+8. ~~**Time Picker** — new package, last — the clock-dial UI is the most novel interaction to build
+   from scratch.~~ Done: [`@lit-material/time-picker`](packages/time-picker).
 
 ## Beyond spec
 

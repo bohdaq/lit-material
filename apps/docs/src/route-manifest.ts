@@ -36,6 +36,7 @@ import "./pages/components/navigation-page.js";
 import "./pages/components/progress-page.js";
 import "./pages/components/date-picker-page.js";
 import "./pages/components/date-range-picker-page.js";
+import "./pages/components/time-picker-page.js";
 import "./pages/components/data-table-page.js";
 
 export type NavGroup = "guide" | "theme" | "packages" | "components";
@@ -271,6 +272,12 @@ export const navEntries: NavEntry[] = [
     label: "Date Range Picker",
     group: "components",
     render: () => html`<docs-date-range-picker-page></docs-date-range-picker-page>`,
+  },
+  {
+    path: "/components/time-picker",
+    label: "Time Picker",
+    group: "components",
+    render: () => html`<docs-time-picker-page></docs-time-picker-page>`,
   },
   {
     path: "/components/data-table",
