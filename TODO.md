@@ -33,7 +33,7 @@ specifically.
 
 - ~~**Autocomplete** — text field + filtered option list.~~ Done: [`@lit-material/autocomplete`](packages/autocomplete).
 - ~~**Accordion / Expansion Panel** — expandable content sections.~~ Done: [`@lit-material/accordion`](packages/accordion).
-- **Stepper** — multi-step wizard flow.
+- ~~**Stepper** — multi-step wizard flow.~~ Done: [`@lit-material/stepper`](packages/stepper).
 - **Tree** — hierarchical/nested list with expand-collapse.
 - **Avatar**, **Skeleton** (loading placeholder), **Rating**, **Speed Dial** (expandable FAB menu),
   **Breadcrumbs** — smaller MUI-specific additions.

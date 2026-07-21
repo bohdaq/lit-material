@@ -35,6 +35,7 @@
     "@lit-material/sheet": "workspace:*",
     "@lit-material/slider": "workspace:*",
     "@lit-material/snackbar": "workspace:*",
+    "@lit-material/stepper": "workspace:*",
     "@lit-material/switch": "workspace:*",
     "@lit-material/tabs": "workspace:*",
     "@lit-material/text-field": "workspace:*",

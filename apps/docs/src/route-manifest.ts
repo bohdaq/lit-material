@@ -10,6 +10,7 @@ import "./pages/packages/form-page.js";
 import "./pages/packages/cli-page.js";
 import "./pages/components/accordion-page.js";
 import "./pages/components/autocomplete-page.js";
+import "./pages/components/stepper-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -298,5 +299,11 @@ export const navEntries: NavEntry[] = [
     label: "Accordion",
     group: "components",
     render: () => html`<docs-accordion-page></docs-accordion-page>`,
+  },
+  {
+    path: "/components/stepper",
+    label: "Stepper",
+    group: "components",
+    render: () => html`<docs-stepper-page></docs-stepper-page>`,
   },
 ];
