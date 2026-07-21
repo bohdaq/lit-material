@@ -8,6 +8,7 @@ import "./pages/packages/core-page.js";
 import "./pages/packages/task-page.js";
 import "./pages/packages/form-page.js";
 import "./pages/packages/cli-page.js";
+import "./pages/components/autocomplete-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -284,5 +285,11 @@ export const navEntries: NavEntry[] = [
     label: "Data Table",
     group: "components",
     render: () => html`<docs-data-table-page></docs-data-table-page>`,
+  },
+  {
+    path: "/components/autocomplete",
+    label: "Autocomplete",
+    group: "components",
+    render: () => html`<docs-autocomplete-page></docs-autocomplete-page>`,
   },
 ];

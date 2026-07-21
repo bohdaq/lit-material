@@ -9,6 +9,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@lit-material/autocomplete": "workspace:*",
     "@lit-material/badge": "workspace:*",
     "@lit-material/button": "workspace:*",
     "@lit-material/card": "workspace:*",

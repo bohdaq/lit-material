@@ -41,6 +41,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Progress](https://github.com/bohdaq/lit-material/tree/main/packages/progress): Linear and circular progress indicators.
 - [Date Picker](https://github.com/bohdaq/lit-material/tree/main/packages/date-picker): Modal or docked date picker and date range picker.
 - [Time Picker](https://github.com/bohdaq/lit-material/tree/main/packages/time-picker): Clock-dial dialog, 12- or 24-hour.
+- [Autocomplete](https://github.com/bohdaq/lit-material/tree/main/packages/autocomplete): Text field with a filtered, data-driven option list.
 
 ## App shell
 

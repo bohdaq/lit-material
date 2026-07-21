@@ -31,7 +31,7 @@ Not part of the official M3 spec, but present in mature Material libraries (Angu
 that go beyond it. Lower priority than the M3 gaps above — this project's stated scope is M3
 specifically.
 
-- **Autocomplete** — text field + filtered option list.
+- ~~**Autocomplete** — text field + filtered option list.~~ Done: [`@lit-material/autocomplete`](packages/autocomplete).
 - **Accordion / Expansion Panel** — expandable content sections.
 - **Stepper** — multi-step wizard flow.
 - **Tree** — hierarchical/nested list with expand-collapse.
