@@ -4,7 +4,7 @@ A [Material Design 3](https://m3.material.io/) web component collection built wi
 one package per component, no shared mega-bundle, no required adapter layer. Framework-agnostic, SSR-ready,
 and small enough to actually read the source of.
 
-- **30 components**, each its own npm package — install only what you use.
+- **31 components**, each its own npm package — install only what you use.
 - **Zero runtime dependencies beyond Lit.** No icon font, no CSS-in-JS runtime, no framework required.
 - **SSR-ready.** Every component is tested against [`@lit-labs/ssr`](https://www.npmjs.com/package/@lit-labs/ssr)
   as well as in a real browser.
@@ -89,6 +89,7 @@ components as you like.
 | [`@lit-material/date-picker`](packages/date-picker) | Modal or docked date picker and date range picker. |
 | [`@lit-material/time-picker`](packages/time-picker) | Clock-dial dialog, 12- or 24-hour. |
 | [`@lit-material/autocomplete`](packages/autocomplete) | Text field with a filtered, data-driven option list. |
+| [`@lit-material/accordion`](packages/accordion) | Expansion panels, single- or multi-expand. |
 | [`@lit-material/tokens`](packages/tokens) | Color, type, shape, elevation, and motion design tokens. |
 
 ## Building a whole app

@@ -8,6 +8,7 @@ import "./pages/packages/core-page.js";
 import "./pages/packages/task-page.js";
 import "./pages/packages/form-page.js";
 import "./pages/packages/cli-page.js";
+import "./pages/components/accordion-page.js";
 import "./pages/components/autocomplete-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
@@ -291,5 +292,11 @@ export const navEntries: NavEntry[] = [
     label: "Autocomplete",
     group: "components",
     render: () => html`<docs-autocomplete-page></docs-autocomplete-page>`,
+  },
+  {
+    path: "/components/accordion",
+    label: "Accordion",
+    group: "components",
+    render: () => html`<docs-accordion-page></docs-accordion-page>`,
   },
 ];

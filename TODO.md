@@ -32,8 +32,29 @@ that go beyond it. Lower priority than the M3 gaps above — this project's stat
 specifically.
 
 - ~~**Autocomplete** — text field + filtered option list.~~ Done: [`@lit-material/autocomplete`](packages/autocomplete).
-- **Accordion / Expansion Panel** — expandable content sections.
+- ~~**Accordion / Expansion Panel** — expandable content sections.~~ Done: [`@lit-material/accordion`](packages/accordion).
 - **Stepper** — multi-step wizard flow.
 - **Tree** — hierarchical/nested list with expand-collapse.
 - **Avatar**, **Skeleton** (loading placeholder), **Rating**, **Speed Dial** (expandable FAB menu),
   **Breadcrumbs** — smaller MUI-specific additions.
+
+## PatternFly comparison
+
+Gaps against [PatternFly](https://www.patternfly.org/components/all-components), for reference —
+not M3 components, so lower priority than both sections above unless product need pulls one forward.
+Overlaps with items already listed above (Avatar, Skeleton, Breadcrumbs, Stepper/Wizard, Tree/Tree
+view, Accordion/Expandable section) aren't repeated here.
+
+- **Alert** — persistent inline/page-level banner; distinct from the `snackbar` toast.
+- **Spinner**, **Empty state**
+- **Textarea** — currently only single-line via `text-field`.
+- **File upload** (simple + multiple) — no package covers this at all.
+- **Popover** — richer, non-hover overlay content; distinct from `tooltip`.
+- **Pagination**
+- **Toolbar**, **Page**/**Panel**/**Sidebar** — layout shell primitives.
+- **Description list**, **Data list**, **Simple list** — `list`/`data-table` don't cover these variants.
+- **Number input**, **Input group**, **Inline edit**, **Dual list selector**, **Clipboard copy**
+- **Drawer** / **Notification drawer** — persistent panel, distinct from `sheet`.
+- **Overflow menu**, **Application launcher**, **Jump links**, **Action list**
+- **Timestamp**, **Title**/**Content** (typography primitives), standalone **Icon**, **Truncate**,
+  **Back to top**, **Code block**, **About modal**
