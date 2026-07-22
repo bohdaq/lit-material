@@ -14,6 +14,7 @@ import "./pages/components/stepper-page.js";
 import "./pages/components/tree-page.js";
 import "./pages/components/avatar-page.js";
 import "./pages/components/skeleton-page.js";
+import "./pages/components/rating-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -326,5 +327,11 @@ export const navEntries: NavEntry[] = [
     label: "Skeleton",
     group: "components",
     render: () => html`<docs-skeleton-page></docs-skeleton-page>`,
+  },
+  {
+    path: "/components/rating",
+    label: "Rating",
+    group: "components",
+    render: () => html`<docs-rating-page></docs-rating-page>`,
   },
 ];

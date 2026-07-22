@@ -29,6 +29,7 @@
     "@lit-material/navigation": "workspace:*",
     "@lit-material/progress": "workspace:*",
     "@lit-material/radio": "workspace:*",
+    "@lit-material/rating": "workspace:*",
     "@lit-material/router": "workspace:*",
     "@lit-material/search": "workspace:*",
     "@lit-material/segmented-button": "workspace:*",

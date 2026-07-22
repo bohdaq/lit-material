@@ -47,6 +47,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Tree](https://github.com/bohdaq/lit-material/tree/main/packages/tree): Hierarchical expand-collapse list, single- or multi-select.
 - [Avatar](https://github.com/bohdaq/lit-material/tree/main/packages/avatar): Image, initials, or icon fallback.
 - [Skeleton](https://github.com/bohdaq/lit-material/tree/main/packages/skeleton): Loading placeholder — text, circular, rectangular, rounded.
+- [Rating](https://github.com/bohdaq/lit-material/tree/main/packages/rating): Star rating, native range input foundation, hover preview.
 
 ## App shell
 
