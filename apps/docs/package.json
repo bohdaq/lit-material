@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@lit-material/accordion": "workspace:*",
+    "@lit-material/avatar": "workspace:*",
     "@lit-material/autocomplete": "workspace:*",
     "@lit-material/badge": "workspace:*",
     "@lit-material/button": "workspace:*",

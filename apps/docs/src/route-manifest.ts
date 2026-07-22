@@ -12,6 +12,7 @@ import "./pages/components/accordion-page.js";
 import "./pages/components/autocomplete-page.js";
 import "./pages/components/stepper-page.js";
 import "./pages/components/tree-page.js";
+import "./pages/components/avatar-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -312,5 +313,11 @@ export const navEntries: NavEntry[] = [
     label: "Tree",
     group: "components",
     render: () => html`<docs-tree-page></docs-tree-page>`,
+  },
+  {
+    path: "/components/avatar",
+    label: "Avatar",
+    group: "components",
+    render: () => html`<docs-avatar-page></docs-avatar-page>`,
   },
 ];

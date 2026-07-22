@@ -45,6 +45,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Accordion](https://github.com/bohdaq/lit-material/tree/main/packages/accordion): Expansion panels, single- or multi-expand.
 - [Stepper](https://github.com/bohdaq/lit-material/tree/main/packages/stepper): Wizard-progress indicator, horizontal or vertical, linear or free.
 - [Tree](https://github.com/bohdaq/lit-material/tree/main/packages/tree): Hierarchical expand-collapse list, single- or multi-select.
+- [Avatar](https://github.com/bohdaq/lit-material/tree/main/packages/avatar): Image, initials, or icon fallback.
 
 ## App shell
 
