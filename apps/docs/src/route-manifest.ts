@@ -16,6 +16,7 @@ import "./pages/components/avatar-page.js";
 import "./pages/components/skeleton-page.js";
 import "./pages/components/rating-page.js";
 import "./pages/components/speed-dial-page.js";
+import "./pages/components/breadcrumbs-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -340,5 +341,11 @@ export const navEntries: NavEntry[] = [
     label: "Speed Dial",
     group: "components",
     render: () => html`<docs-speed-dial-page></docs-speed-dial-page>`,
+  },
+  {
+    path: "/components/breadcrumbs",
+    label: "Breadcrumbs",
+    group: "components",
+    render: () => html`<docs-breadcrumbs-page></docs-breadcrumbs-page>`,
   },
 ];

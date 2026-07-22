@@ -13,6 +13,7 @@
     "@lit-material/avatar": "workspace:*",
     "@lit-material/autocomplete": "workspace:*",
     "@lit-material/badge": "workspace:*",
+    "@lit-material/breadcrumbs": "workspace:*",
     "@lit-material/button": "workspace:*",
     "@lit-material/card": "workspace:*",
     "@lit-material/carousel": "workspace:*",

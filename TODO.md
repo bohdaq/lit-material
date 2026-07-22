@@ -39,7 +39,7 @@ specifically.
 - ~~**Skeleton** (loading placeholder)~~ Done: [`@lit-material/skeleton`](packages/skeleton).
 - ~~**Rating**~~ Done: [`@lit-material/rating`](packages/rating).
 - ~~**Speed Dial** (expandable FAB menu)~~ Done: [`@lit-material/speed-dial`](packages/speed-dial).
-- **Breadcrumbs** — smaller MUI-specific additions.
+- ~~**Breadcrumbs**~~ Done: [`@lit-material/breadcrumbs`](packages/breadcrumbs).
 
 ## PatternFly comparison
 

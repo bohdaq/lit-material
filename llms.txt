@@ -49,6 +49,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Skeleton](https://github.com/bohdaq/lit-material/tree/main/packages/skeleton): Loading placeholder — text, circular, rectangular, rounded.
 - [Rating](https://github.com/bohdaq/lit-material/tree/main/packages/rating): Star rating, native range input foundation, hover preview.
 - [Speed Dial](https://github.com/bohdaq/lit-material/tree/main/packages/speed-dial): Expandable FAB menu, built on the Popover API.
+- [Breadcrumbs](https://github.com/bohdaq/lit-material/tree/main/packages/breadcrumbs): Nav landmark showing the current page's place in a hierarchy.
 
 ## App shell
 

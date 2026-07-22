@@ -1,0 +1,16 @@
+import { css } from "lit";
+
+export const styles = css`
+  :host {
+    display: block;
+  }
+
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+`;
