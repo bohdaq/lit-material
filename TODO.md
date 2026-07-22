@@ -57,7 +57,9 @@ view, Accordion/Expandable section) aren't repeated here.
 - ~~**Toolbar**, **Page**/**Panel**/**Sidebar** — layout shell primitives.~~ Done:
   [`@lit-material/toolbar`](packages/toolbar), [`@lit-material/page`](packages/page),
   [`@lit-material/panel`](packages/panel), [`@lit-material/sidebar`](packages/sidebar).
-- **Description list**, **Data list**, **Simple list** — `list`/`data-table` don't cover these variants.
+- ~~**Description list**, **Data list**, **Simple list** — `list`/`data-table` don't cover these
+  variants.~~ Done: [`@lit-material/description-list`](packages/description-list),
+  [`@lit-material/data-list`](packages/data-list), [`@lit-material/simple-list`](packages/simple-list).
 - **Number input**, **Input group**, **Inline edit**, **Dual list selector**, **Clipboard copy**
 - ~~**Drawer** / **Notification drawer** — persistent panel, distinct from `sheet`.~~ Done:
   [`@lit-material/drawer`](packages/drawer).

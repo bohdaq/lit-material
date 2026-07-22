@@ -55,6 +55,9 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Sidebar](https://github.com/bohdaq/lit-material/tree/main/packages/sidebar): Two-pane layout — fixed-width side panel next to flexible content.
 - [Page](https://github.com/bohdaq/lit-material/tree/main/packages/page): App-shell grid: header row plus a sidebar/main-content row.
 - [Drawer](https://github.com/bohdaq/lit-material/tree/main/packages/drawer): Non-modal, persistent overlay panel — e.g. a notification drawer.
+- [Description List](https://github.com/bohdaq/lit-material/tree/main/packages/description-list): Metadata display — a set of term/description pairs.
+- [Data List](https://github.com/bohdaq/lit-material/tree/main/packages/data-list): Flexible, multi-cell rows, optionally expandable.
+- [Simple List](https://github.com/bohdaq/lit-material/tree/main/packages/simple-list): Plain, lightweight list of links or buttons.
 
 ## App shell
 

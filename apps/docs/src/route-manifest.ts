@@ -22,6 +22,9 @@ import "./pages/components/panel-page.js";
 import "./pages/components/sidebar-page.js";
 import "./pages/components/page-page.js";
 import "./pages/components/drawer-page.js";
+import "./pages/components/description-list-page.js";
+import "./pages/components/data-list-page.js";
+import "./pages/components/simple-list-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -382,5 +385,23 @@ export const navEntries: NavEntry[] = [
     label: "Drawer",
     group: "components",
     render: () => html`<docs-drawer-page></docs-drawer-page>`,
+  },
+  {
+    path: "/components/description-list",
+    label: "Description List",
+    group: "components",
+    render: () => html`<docs-description-list-page></docs-description-list-page>`,
+  },
+  {
+    path: "/components/data-list",
+    label: "Data List",
+    group: "components",
+    render: () => html`<docs-data-list-page></docs-data-list-page>`,
+  },
+  {
+    path: "/components/simple-list",
+    label: "Simple List",
+    group: "components",
+    render: () => html`<docs-simple-list-page></docs-simple-list-page>`,
   },
 ];
