@@ -54,7 +54,9 @@ view, Accordion/Expandable section) aren't repeated here.
 - **File upload** (simple + multiple) — no package covers this at all.
 - **Popover** — richer, non-hover overlay content; distinct from `tooltip`.
 - **Pagination**
-- **Toolbar**, **Page**/**Panel**/**Sidebar** — layout shell primitives.
+- ~~**Toolbar**, **Page**/**Panel**/**Sidebar** — layout shell primitives.~~ Done:
+  [`@lit-material/toolbar`](packages/toolbar), [`@lit-material/page`](packages/page),
+  [`@lit-material/panel`](packages/panel), [`@lit-material/sidebar`](packages/sidebar).
 - **Description list**, **Data list**, **Simple list** — `list`/`data-table` don't cover these variants.
 - **Number input**, **Input group**, **Inline edit**, **Dual list selector**, **Clipboard copy**
 - **Drawer** / **Notification drawer** — persistent panel, distinct from `sheet`.

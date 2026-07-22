@@ -17,6 +17,10 @@ import "./pages/components/skeleton-page.js";
 import "./pages/components/rating-page.js";
 import "./pages/components/speed-dial-page.js";
 import "./pages/components/breadcrumbs-page.js";
+import "./pages/components/toolbar-page.js";
+import "./pages/components/panel-page.js";
+import "./pages/components/sidebar-page.js";
+import "./pages/components/page-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -347,5 +351,29 @@ export const navEntries: NavEntry[] = [
     label: "Breadcrumbs",
     group: "components",
     render: () => html`<docs-breadcrumbs-page></docs-breadcrumbs-page>`,
+  },
+  {
+    path: "/components/toolbar",
+    label: "Toolbar",
+    group: "components",
+    render: () => html`<docs-toolbar-page></docs-toolbar-page>`,
+  },
+  {
+    path: "/components/panel",
+    label: "Panel",
+    group: "components",
+    render: () => html`<docs-panel-page></docs-panel-page>`,
+  },
+  {
+    path: "/components/sidebar",
+    label: "Sidebar",
+    group: "components",
+    render: () => html`<docs-sidebar-page></docs-sidebar-page>`,
+  },
+  {
+    path: "/components/page",
+    label: "Page",
+    group: "components",
+    render: () => html`<docs-page-page></docs-page-page>`,
   },
 ];

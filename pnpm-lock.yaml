@@ -162,6 +162,12 @@ importers:
       '@lit-material/navigation':
         specifier: workspace:*
         version: link:../../packages/navigation
+      '@lit-material/page':
+        specifier: workspace:*
+        version: link:../../packages/page
+      '@lit-material/panel':
+        specifier: workspace:*
+        version: link:../../packages/panel
       '@lit-material/progress':
         specifier: workspace:*
         version: link:../../packages/progress
@@ -186,6 +192,9 @@ importers:
       '@lit-material/sheet':
         specifier: workspace:*
         version: link:../../packages/sheet
+      '@lit-material/sidebar':
+        specifier: workspace:*
+        version: link:../../packages/sidebar
       '@lit-material/skeleton':
         specifier: workspace:*
         version: link:../../packages/skeleton
@@ -216,6 +225,9 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
+      '@lit-material/toolbar':
+        specifier: workspace:*
+        version: link:../../packages/toolbar
       '@lit-material/tooltip':
         specifier: workspace:*
         version: link:../../packages/tooltip
@@ -977,6 +989,74 @@ importers:
         specifier: ^5.7.0
         version: 5.9.3
 
+  packages/page:
+    dependencies:
+      '@lit-material/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
+    devDependencies:
+      '@lit-labs/ssr':
+        specifier: ^3.3.1
+        version: 3.3.1
+      '@open-wc/testing':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@web/dev-server-esbuild':
+        specifier: ^1.0.0
+        version: 1.0.5
+      '@web/test-runner':
+        specifier: ^0.19.0
+        version: 0.19.0
+      '@web/test-runner-commands':
+        specifier: ^0.9.0
+        version: 0.9.0
+      '@web/test-runner-playwright':
+        specifier: ^0.11.0
+        version: 0.11.1
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.0
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
+  packages/panel:
+    dependencies:
+      '@lit-material/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
+    devDependencies:
+      '@lit-labs/ssr':
+        specifier: ^3.3.1
+        version: 3.3.1
+      '@open-wc/testing':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@web/dev-server-esbuild':
+        specifier: ^1.0.0
+        version: 1.0.5
+      '@web/test-runner':
+        specifier: ^0.19.0
+        version: 0.19.0
+      '@web/test-runner-commands':
+        specifier: ^0.9.0
+        version: 0.9.0
+      '@web/test-runner-playwright':
+        specifier: ^0.11.0
+        version: 0.11.1
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.0
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
   packages/progress:
     dependencies:
       '@lit-material/tokens':
@@ -1228,6 +1308,40 @@ importers:
         version: 5.9.3
 
   packages/sheet:
+    dependencies:
+      '@lit-material/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
+    devDependencies:
+      '@lit-labs/ssr':
+        specifier: ^3.3.1
+        version: 3.3.1
+      '@open-wc/testing':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@web/dev-server-esbuild':
+        specifier: ^1.0.0
+        version: 1.0.5
+      '@web/test-runner':
+        specifier: ^0.19.0
+        version: 0.19.0
+      '@web/test-runner-commands':
+        specifier: ^0.9.0
+        version: 0.9.0
+      '@web/test-runner-playwright':
+        specifier: ^0.11.0
+        version: 0.11.1
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.0
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
+  packages/sidebar:
     dependencies:
       '@lit-material/tokens':
         specifier: workspace:*
@@ -1649,6 +1763,40 @@ importers:
 
   packages/tokens:
     devDependencies:
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
+  packages/toolbar:
+    dependencies:
+      '@lit-material/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
+    devDependencies:
+      '@lit-labs/ssr':
+        specifier: ^3.3.1
+        version: 3.3.1
+      '@open-wc/testing':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@web/dev-server-esbuild':
+        specifier: ^1.0.0
+        version: 1.0.5
+      '@web/test-runner':
+        specifier: ^0.19.0
+        version: 0.19.0
+      '@web/test-runner-commands':
+        specifier: ^0.9.0
+        version: 0.9.0
+      '@web/test-runner-playwright':
+        specifier: ^0.11.0
+        version: 0.11.1
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.0
       typescript:
         specifier: ^5.7.0
         version: 5.9.3

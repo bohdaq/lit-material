@@ -50,6 +50,10 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Rating](https://github.com/bohdaq/lit-material/tree/main/packages/rating): Star rating, native range input foundation, hover preview.
 - [Speed Dial](https://github.com/bohdaq/lit-material/tree/main/packages/speed-dial): Expandable FAB menu, built on the Popover API.
 - [Breadcrumbs](https://github.com/bohdaq/lit-material/tree/main/packages/breadcrumbs): Nav landmark showing the current page's place in a hierarchy.
+- [Toolbar](https://github.com/bohdaq/lit-material/tree/main/packages/toolbar): Grouped controls above a piece of content, with a trailing spacer.
+- [Panel](https://github.com/bohdaq/lit-material/tree/main/packages/panel): Generic content container with optional header/footer bands.
+- [Sidebar](https://github.com/bohdaq/lit-material/tree/main/packages/sidebar): Two-pane layout — fixed-width side panel next to flexible content.
+- [Page](https://github.com/bohdaq/lit-material/tree/main/packages/page): App-shell grid: header row plus a sidebar/main-content row.
 
 ## App shell
 
