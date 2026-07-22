@@ -21,6 +21,7 @@ import "./pages/components/toolbar-page.js";
 import "./pages/components/panel-page.js";
 import "./pages/components/sidebar-page.js";
 import "./pages/components/page-page.js";
+import "./pages/components/drawer-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -375,5 +376,11 @@ export const navEntries: NavEntry[] = [
     label: "Page",
     group: "components",
     render: () => html`<docs-page-page></docs-page-page>`,
+  },
+  {
+    path: "/components/drawer",
+    label: "Drawer",
+    group: "components",
+    render: () => html`<docs-drawer-page></docs-drawer-page>`,
   },
 ];

@@ -59,7 +59,8 @@ view, Accordion/Expandable section) aren't repeated here.
   [`@lit-material/panel`](packages/panel), [`@lit-material/sidebar`](packages/sidebar).
 - **Description list**, **Data list**, **Simple list** — `list`/`data-table` don't cover these variants.
 - **Number input**, **Input group**, **Inline edit**, **Dual list selector**, **Clipboard copy**
-- **Drawer** / **Notification drawer** — persistent panel, distinct from `sheet`.
+- ~~**Drawer** / **Notification drawer** — persistent panel, distinct from `sheet`.~~ Done:
+  [`@lit-material/drawer`](packages/drawer).
 - **Overflow menu**, **Application launcher**, **Jump links**, **Action list**
 - **Timestamp**, **Title**/**Content** (typography primitives), standalone **Icon**, **Truncate**,
   **Back to top**, **Code block**, **About modal**
