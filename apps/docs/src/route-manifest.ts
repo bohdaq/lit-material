@@ -15,6 +15,7 @@ import "./pages/components/tree-page.js";
 import "./pages/components/avatar-page.js";
 import "./pages/components/skeleton-page.js";
 import "./pages/components/rating-page.js";
+import "./pages/components/speed-dial-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -333,5 +334,11 @@ export const navEntries: NavEntry[] = [
     label: "Rating",
     group: "components",
     render: () => html`<docs-rating-page></docs-rating-page>`,
+  },
+  {
+    path: "/components/speed-dial",
+    label: "Speed Dial",
+    group: "components",
+    render: () => html`<docs-speed-dial-page></docs-speed-dial-page>`,
   },
 ];

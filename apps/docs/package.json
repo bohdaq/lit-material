@@ -38,6 +38,7 @@
     "@lit-material/skeleton": "workspace:*",
     "@lit-material/slider": "workspace:*",
     "@lit-material/snackbar": "workspace:*",
+    "@lit-material/speed-dial": "workspace:*",
     "@lit-material/stepper": "workspace:*",
     "@lit-material/switch": "workspace:*",
     "@lit-material/tabs": "workspace:*",
