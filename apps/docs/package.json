@@ -34,6 +34,7 @@
     "@lit-material/segmented-button": "workspace:*",
     "@lit-material/select": "workspace:*",
     "@lit-material/sheet": "workspace:*",
+    "@lit-material/skeleton": "workspace:*",
     "@lit-material/slider": "workspace:*",
     "@lit-material/snackbar": "workspace:*",
     "@lit-material/stepper": "workspace:*",

@@ -36,8 +36,8 @@ specifically.
 - ~~**Stepper** — multi-step wizard flow.~~ Done: [`@lit-material/stepper`](packages/stepper).
 - ~~**Tree** — hierarchical/nested list with expand-collapse.~~ Done: [`@lit-material/tree`](packages/tree).
 - ~~**Avatar**~~ Done: [`@lit-material/avatar`](packages/avatar).
-- **Skeleton** (loading placeholder), **Rating**, **Speed Dial** (expandable FAB menu),
-  **Breadcrumbs** — smaller MUI-specific additions.
+- ~~**Skeleton** (loading placeholder)~~ Done: [`@lit-material/skeleton`](packages/skeleton).
+- **Rating**, **Speed Dial** (expandable FAB menu), **Breadcrumbs** — smaller MUI-specific additions.
 
 ## PatternFly comparison
 
