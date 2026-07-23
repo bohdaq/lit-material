@@ -53,7 +53,8 @@ view, Accordion/Expandable section) aren't repeated here.
 - **Spinner**, **Empty state**
 - ~~**Textarea** — currently only single-line via `text-field`.~~ Done: `lit-material-textarea` in
   [`@lit-material/text-field`](packages/text-field).
-- **File upload** (simple + multiple) — no package covers this at all.
+- ~~**File upload** (simple + multiple) — no package covers this at all.~~ Done:
+  [`@lit-material/file-upload`](packages/file-upload).
 - **Popover** — richer, non-hover overlay content; distinct from `tooltip`.
 - **Pagination**
 - ~~**Toolbar**, **Page**/**Panel**/**Sidebar** — layout shell primitives.~~ Done:

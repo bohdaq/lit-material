@@ -60,6 +60,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Simple List](https://github.com/bohdaq/lit-material/tree/main/packages/simple-list): Plain, lightweight list of links or buttons.
 - [Alert](https://github.com/bohdaq/lit-material/tree/main/packages/alert): Persistent inline/page-level banner — distinct from the snackbar toast.
 - [Code Block](https://github.com/bohdaq/lit-material/tree/main/packages/code-block): Monospace code container with a copy button and optional truncation.
+- [File Upload](https://github.com/bohdaq/lit-material/tree/main/packages/file-upload): Drag-and-drop or click-to-browse file picking, single or multiple.
 
 ## App shell
 

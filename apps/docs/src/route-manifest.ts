@@ -27,6 +27,7 @@ import "./pages/components/data-list-page.js";
 import "./pages/components/simple-list-page.js";
 import "./pages/components/alert-page.js";
 import "./pages/components/code-block-page.js";
+import "./pages/components/file-upload-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -417,5 +418,11 @@ export const navEntries: NavEntry[] = [
     label: "Code Block",
     group: "components",
     render: () => html`<docs-code-block-page></docs-code-block-page>`,
+  },
+  {
+    path: "/components/file-upload",
+    label: "File Upload",
+    group: "components",
+    render: () => html`<docs-file-upload-page></docs-file-upload-page>`,
   },
 ];

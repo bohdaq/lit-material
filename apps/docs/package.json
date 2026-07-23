@@ -29,6 +29,7 @@
     "@lit-material/dialog": "workspace:*",
     "@lit-material/drawer": "workspace:*",
     "@lit-material/fab": "workspace:*",
+    "@lit-material/file-upload": "workspace:*",
     "@lit-material/icon-button": "workspace:*",
     "@lit-material/list": "workspace:*",
     "@lit-material/menu": "workspace:*",
