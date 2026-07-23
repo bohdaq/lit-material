@@ -48,7 +48,8 @@ not M3 components, so lower priority than both sections above unless product nee
 Overlaps with items already listed above (Avatar, Skeleton, Breadcrumbs, Stepper/Wizard, Tree/Tree
 view, Accordion/Expandable section) aren't repeated here.
 
-- **Alert** — persistent inline/page-level banner; distinct from the `snackbar` toast.
+- ~~**Alert** — persistent inline/page-level banner; distinct from the `snackbar` toast.~~ Done:
+  [`@lit-material/alert`](packages/alert).
 - **Spinner**, **Empty state**
 - ~~**Textarea** — currently only single-line via `text-field`.~~ Done: `lit-material-textarea` in
   [`@lit-material/text-field`](packages/text-field).

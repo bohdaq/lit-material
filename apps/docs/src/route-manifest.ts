@@ -25,6 +25,7 @@ import "./pages/components/drawer-page.js";
 import "./pages/components/description-list-page.js";
 import "./pages/components/data-list-page.js";
 import "./pages/components/simple-list-page.js";
+import "./pages/components/alert-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -403,5 +404,11 @@ export const navEntries: NavEntry[] = [
     label: "Simple List",
     group: "components",
     render: () => html`<docs-simple-list-page></docs-simple-list-page>`,
+  },
+  {
+    path: "/components/alert",
+    label: "Alert",
+    group: "components",
+    render: () => html`<docs-alert-page></docs-alert-page>`,
   },
 ];
