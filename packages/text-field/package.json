@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/text-field",
-  "version": "0.0.2",
-  "description": "Material Design 3 text field web component (filled + outlined, validation states).",
+  "version": "0.1.0",
+  "description": "Material Design 3 text field web components: lit-material-text-field (single-line) and lit-material-textarea (multi-line) — filled + outlined, validation states.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
@@ -22,6 +22,7 @@
     "material-design",
     "material-design-3",
     "text-field",
+    "textarea",
     "input",
     "form"
   ],
@@ -44,7 +45,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "web-test-runner && node --import tsx --test src/text-field.ssr.test.ts",
+    "test": "web-test-runner && node --import tsx --test src/*.ssr.test.ts",
     "analyze": "custom-elements-manifest analyze --litelement --globs \"src/**/*.ts\" --exclude \"src/**/*.test.ts\" --exclude \"src/**/*.ssr.test.ts\""
   },
   "dependencies": {

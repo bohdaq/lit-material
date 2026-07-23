@@ -35,6 +35,38 @@ function markup(state: PlaygroundState): string {
   return `<lit-material-text-field ${attrs}></lit-material-text-field>`;
 }
 
+const textareaControls: PlaygroundControl[] = [
+  { kind: "select", key: "variant", label: "Variant", options: ["filled", "outlined"], default: "outlined" },
+  { kind: "text", key: "label", label: "Label", default: "Comments" },
+  { kind: "boolean", key: "required", label: "Required", default: false },
+  { kind: "boolean", key: "disabled", label: "Disabled", default: false },
+];
+
+function textareaPreview(state: PlaygroundState) {
+  return html`
+    <lit-material-textarea
+      variant=${state.variant as string}
+      label=${state.label as string}
+      ?required=${state.required as boolean}
+      ?disabled=${state.disabled as boolean}
+      maxlength="280"
+    ></lit-material-textarea>
+  `;
+}
+
+function textareaMarkup(state: PlaygroundState): string {
+  const attrs = [
+    `variant="${state.variant}"`,
+    `label="${state.label}"`,
+    state.required ? "required" : null,
+    state.disabled ? "disabled" : null,
+    `maxlength="280"`,
+  ]
+    .filter(Boolean)
+    .join(" ");
+  return `<lit-material-textarea ${attrs}></lit-material-textarea>`;
+}
+
 @customElement("docs-text-field-page")
 export class DocsTextFieldPage extends LitElement {
   static override styles = [pageStyles];
@@ -62,6 +94,20 @@ export class DocsTextFieldPage extends LitElement {
       <section>
         <h2>Error</h2>
         <lit-material-text-field variant="outlined" label="Name" required error error-text="Required"></lit-material-text-field>
+      </section>
+
+      <h1>Textarea</h1>
+      <p>Multi-line body text, sharing text field's floating-label/filled/outlined/error design.</p>
+
+      <docs-playground
+        .controls=${textareaControls}
+        .preview=${textareaPreview}
+        .markup=${textareaMarkup}
+      ></docs-playground>
+
+      <section>
+        <h2>Error</h2>
+        <lit-material-textarea variant="outlined" label="Comments" required error error-text="Required"></lit-material-textarea>
       </section>
     `;
   }

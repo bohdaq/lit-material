@@ -50,7 +50,8 @@ view, Accordion/Expandable section) aren't repeated here.
 
 - **Alert** — persistent inline/page-level banner; distinct from the `snackbar` toast.
 - **Spinner**, **Empty state**
-- **Textarea** — currently only single-line via `text-field`.
+- ~~**Textarea** — currently only single-line via `text-field`.~~ Done: `lit-material-textarea` in
+  [`@lit-material/text-field`](packages/text-field).
 - **File upload** (simple + multiple) — no package covers this at all.
 - **Popover** — richer, non-hover overlay content; distinct from `tooltip`.
 - **Pagination**

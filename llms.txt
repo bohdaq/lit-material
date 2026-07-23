@@ -15,7 +15,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Button](https://github.com/bohdaq/lit-material/tree/main/packages/button): Filled, outlined, text, elevated, tonal.
 - [Icon Button](https://github.com/bohdaq/lit-material/tree/main/packages/icon-button): Standard + toggle variants.
 - [FAB](https://github.com/bohdaq/lit-material/tree/main/packages/fab): Floating action button.
-- [Text Field](https://github.com/bohdaq/lit-material/tree/main/packages/text-field): Filled + outlined, validation states.
+- [Text Field](https://github.com/bohdaq/lit-material/tree/main/packages/text-field): Single-line + `lit-material-textarea` multi-line, filled + outlined, validation states.
 - [Checkbox](https://github.com/bohdaq/lit-material/tree/main/packages/checkbox): Checked, indeterminate, error, form participation.
 - [Radio](https://github.com/bohdaq/lit-material/tree/main/packages/radio): Grouped selection, error, form participation.
 - [Switch](https://github.com/bohdaq/lit-material/tree/main/packages/switch): On/off toggle, optional thumb icons, form participation.

@@ -62,7 +62,7 @@ components as you like.
 | [`@lit-material/button`](packages/button) | Filled, outlined, text, elevated, tonal. |
 | [`@lit-material/icon-button`](packages/icon-button) | Standard + toggle variants. |
 | [`@lit-material/fab`](packages/fab) | Floating action button. |
-| [`@lit-material/text-field`](packages/text-field) | Filled + outlined, validation states. |
+| [`@lit-material/text-field`](packages/text-field) | Single-line + `lit-material-textarea` multi-line, filled + outlined, validation states. |
 | [`@lit-material/checkbox`](packages/checkbox) | Checked, indeterminate, error, form participation. |
 | [`@lit-material/radio`](packages/radio) | Grouped selection, error, form participation. |
 | [`@lit-material/switch`](packages/switch) | On/off toggle, optional thumb icons, form participation. |
