@@ -18,6 +18,7 @@
     "@lit-material/button": "workspace:*",
     "@lit-material/card": "workspace:*",
     "@lit-material/carousel": "workspace:*",
+    "@lit-material/code-block": "workspace:*",
     "@lit-material/checkbox": "workspace:*",
     "@lit-material/chip": "workspace:*",
     "@lit-material/data-list": "workspace:*",

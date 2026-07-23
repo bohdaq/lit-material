@@ -26,6 +26,7 @@ import "./pages/components/description-list-page.js";
 import "./pages/components/data-list-page.js";
 import "./pages/components/simple-list-page.js";
 import "./pages/components/alert-page.js";
+import "./pages/components/code-block-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -410,5 +411,11 @@ export const navEntries: NavEntry[] = [
     label: "Alert",
     group: "components",
     render: () => html`<docs-alert-page></docs-alert-page>`,
+  },
+  {
+    path: "/components/code-block",
+    label: "Code Block",
+    group: "components",
+    render: () => html`<docs-code-block-page></docs-code-block-page>`,
   },
 ];

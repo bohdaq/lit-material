@@ -67,4 +67,5 @@ view, Accordion/Expandable section) aren't repeated here.
   [`@lit-material/drawer`](packages/drawer).
 - **Overflow menu**, **Application launcher**, **Jump links**, **Action list**
 - **Timestamp**, **Title**/**Content** (typography primitives), standalone **Icon**, **Truncate**,
-  **Back to top**, **Code block**, **About modal**
+  **Back to top**, **About modal**
+- ~~**Code block**~~ Done: [`@lit-material/code-block`](packages/code-block).
