@@ -63,6 +63,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [File Upload](https://github.com/bohdaq/lit-material/tree/main/packages/file-upload): Drag-and-drop or click-to-browse file picking, single or multiple.
 - [Timestamp](https://github.com/bohdaq/lit-material/tree/main/packages/timestamp): Absolute or live-updating relative date/time display.
 - [Popover](https://github.com/bohdaq/lit-material/tree/main/packages/popover): Richer, click-triggered overlay content — distinct from the tooltip.
+- [Icon](https://github.com/bohdaq/lit-material/tree/main/packages/icon): Consistent sizing/color wrapper for any icon content; ships no icon set.
 
 ## App shell
 
