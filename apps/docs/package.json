@@ -36,6 +36,7 @@
     "@lit-material/navigation": "workspace:*",
     "@lit-material/page": "workspace:*",
     "@lit-material/panel": "workspace:*",
+    "@lit-material/popover": "workspace:*",
     "@lit-material/progress": "workspace:*",
     "@lit-material/radio": "workspace:*",
     "@lit-material/rating": "workspace:*",

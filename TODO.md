@@ -55,7 +55,8 @@ view, Accordion/Expandable section) aren't repeated here.
   [`@lit-material/text-field`](packages/text-field).
 - ~~**File upload** (simple + multiple) — no package covers this at all.~~ Done:
   [`@lit-material/file-upload`](packages/file-upload).
-- **Popover** — richer, non-hover overlay content; distinct from `tooltip`.
+- ~~**Popover** — richer, non-hover overlay content; distinct from `tooltip`.~~ Done:
+  [`@lit-material/popover`](packages/popover).
 - **Pagination**
 - ~~**Toolbar**, **Page**/**Panel**/**Sidebar** — layout shell primitives.~~ Done:
   [`@lit-material/toolbar`](packages/toolbar), [`@lit-material/page`](packages/page),

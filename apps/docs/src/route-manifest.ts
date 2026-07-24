@@ -29,6 +29,7 @@ import "./pages/components/alert-page.js";
 import "./pages/components/code-block-page.js";
 import "./pages/components/file-upload-page.js";
 import "./pages/components/timestamp-page.js";
+import "./pages/components/popover-page.js";
 import "./pages/components/button-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -431,5 +432,11 @@ export const navEntries: NavEntry[] = [
     label: "Timestamp",
     group: "components",
     render: () => html`<docs-timestamp-page></docs-timestamp-page>`,
+  },
+  {
+    path: "/components/popover",
+    label: "Popover",
+    group: "components",
+    render: () => html`<docs-popover-page></docs-popover-page>`,
   },
 ];
