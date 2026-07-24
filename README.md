@@ -4,7 +4,7 @@ A [Material Design 3](https://m3.material.io/) web component collection built wi
 one package per component, no shared mega-bundle, no required adapter layer. Framework-agnostic, SSR-ready,
 and small enough to actually read the source of.
 
-- **49 components**, each its own npm package — install only what you use.
+- **50 components**, each its own npm package — install only what you use.
 - **Zero runtime dependencies beyond Lit.** No icon font, no CSS-in-JS runtime, no framework required.
 - **SSR-ready.** Every component is tested against [`@lit-labs/ssr`](https://www.npmjs.com/package/@lit-labs/ssr)
   as well as in a real browser.
@@ -108,6 +108,7 @@ components as you like.
 | [`@lit-material/alert`](packages/alert) | Persistent inline/page-level banner — distinct from the snackbar toast. |
 | [`@lit-material/code-block`](packages/code-block) | Monospace code container with a copy button and optional truncation. |
 | [`@lit-material/file-upload`](packages/file-upload) | Drag-and-drop or click-to-browse file picking, single or multiple. |
+| [`@lit-material/timestamp`](packages/timestamp) | Absolute or live-updating relative date/time display. |
 | [`@lit-material/tokens`](packages/tokens) | Color, type, shape, elevation, and motion design tokens. |
 
 ## Building a whole app

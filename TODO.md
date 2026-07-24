@@ -67,6 +67,7 @@ view, Accordion/Expandable section) aren't repeated here.
 - ~~**Drawer** / **Notification drawer** — persistent panel, distinct from `sheet`.~~ Done:
   [`@lit-material/drawer`](packages/drawer).
 - **Overflow menu**, **Application launcher**, **Jump links**, **Action list**
-- **Timestamp**, **Title**/**Content** (typography primitives), standalone **Icon**, **Truncate**,
-  **Back to top**, **About modal**
+- **Title**/**Content** (typography primitives), standalone **Icon**, **Truncate**, **Back to top**,
+  **About modal**
+- ~~**Timestamp**~~ Done: [`@lit-material/timestamp`](packages/timestamp).
 - ~~**Code block**~~ Done: [`@lit-material/code-block`](packages/code-block).

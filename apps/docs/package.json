@@ -55,6 +55,7 @@
     "@lit-material/tabs": "workspace:*",
     "@lit-material/text-field": "workspace:*",
     "@lit-material/time-picker": "workspace:*",
+    "@lit-material/timestamp": "workspace:*",
     "@lit-material/tokens": "workspace:*",
     "@lit-material/toolbar": "workspace:*",
     "@lit-material/tooltip": "workspace:*",
