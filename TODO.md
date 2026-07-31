@@ -67,7 +67,8 @@ view, Accordion/Expandable section) aren't repeated here.
 - **Number input**, **Input group**, **Inline edit**, **Dual list selector**, **Clipboard copy**
 - ~~**Drawer** / **Notification drawer** — persistent panel, distinct from `sheet`.~~ Done:
   [`@lit-material/drawer`](packages/drawer).
-- **Overflow menu**, **Application launcher**, **Jump links**, **Action list**
+- **Application launcher**, **Jump links**, **Action list**
+- ~~**Overflow menu**~~ Done: [`@lit-material/overflow-menu`](packages/overflow-menu).
 - **Title**/**Content** (typography primitives), **Truncate**, **Back to top**, **About modal**
 - ~~standalone **Icon**~~ Done: [`@lit-material/icon`](packages/icon).
 - ~~**Timestamp**~~ Done: [`@lit-material/timestamp`](packages/timestamp).

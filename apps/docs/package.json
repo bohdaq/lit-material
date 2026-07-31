@@ -35,6 +35,7 @@
     "@lit-material/list": "workspace:*",
     "@lit-material/menu": "workspace:*",
     "@lit-material/navigation": "workspace:*",
+    "@lit-material/overflow-menu": "workspace:*",
     "@lit-material/page": "workspace:*",
     "@lit-material/panel": "workspace:*",
     "@lit-material/popover": "workspace:*",
