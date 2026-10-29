@@ -26,6 +26,31 @@ describe("lit-material-tabs", () => {
     expect(tabs[1]!.selected).to.be.false;
   });
 
+  it("moves the selection when `selected` is set from code", async () => {
+    const { el, tabs } = await tabsFixture();
+    el.selected = 3;
+    await el.updateComplete;
+    await tabs[0]!.updateComplete;
+    expect(tabs[0]!.selected).to.be.false;
+    expect(tabs[0]!.hasAttribute("selected")).to.be.false;
+    expect(tabs[3]!.selected).to.be.true;
+    expect(tabs[3]!.hasAttribute("selected")).to.be.true;
+  });
+
+  it("keeps the selection in sync after being moved in the document", async () => {
+    const { el, tabs } = await tabsFixture();
+    el.selected = 1;
+    await el.updateComplete;
+    const other = document.createElement("div");
+    document.body.append(other);
+    other.append(el);
+    el.selected = 3;
+    await el.updateComplete;
+    expect(tabs[1]!.selected).to.be.false;
+    expect(tabs[3]!.selected).to.be.true;
+    other.remove();
+  });
+
   it("gives only the selected tab a real tabindex of 0", async () => {
     const { tabs } = await tabsFixture();
     const buttons = tabs.map((tab) => tab.shadowRoot!.querySelector("button")!);

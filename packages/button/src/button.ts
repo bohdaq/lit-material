@@ -16,6 +16,10 @@ let instanceCount = 0;
  * @slot - The button's label.
  * @slot icon - An optional leading icon.
  *
+ * @cssprop --lit-material-button-height - Button height (default `40px`).
+ * @cssprop --lit-material-button-padding-inline - Left and right padding (default `24px`).
+ * @cssprop --lit-material-button-text-padding-inline - The same for `variant="text"` (default `12px`).
+ *
  * @csspart button - The native `<button>` or `<a>` element rendered inside the shadow root.
  * @csspart ripple - The state-layer element the hover/press feedback is drawn on.
  * @csspart focus-ring - The focus indicator element.

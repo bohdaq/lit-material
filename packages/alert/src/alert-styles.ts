@@ -4,28 +4,14 @@ export const styles = css`
   :host {
     display: block;
     /* MD3 doesn't define standard color roles for "success"/"warning"/"info"
-       the way it does for "error" — these are this component's own tokens,
-       overridable like any other CSS custom property. error uses the real
-       --md-sys-color-error/-container/-on-error-container tokens since a
-       spec answer exists. Each container/on-container pair uses
-       light-dark(), matching every real --md-sys-color-* token in
-       @lit-material/tokens — a *-container color alone isn't enough to stay
-       readable across themes: the container backgrounds here are fixed light
-       pastels with no theme awareness of their own, so pairing them with a
-       theme-aware "on-surface"-style text color (rather than a matching
-       "on-container" of their own) reads fine in light mode and goes
-       light-text-on-light-background in dark mode. */
-    --lit-material-alert-info-color: light-dark(#0b57d0, #a8c7fa);
-    --lit-material-alert-info-container: light-dark(#d3e3fd, #0a3577);
-    --lit-material-alert-on-info-container: light-dark(#001b3d, #d3e3fd);
-
-    --lit-material-alert-success-color: light-dark(#146c2e, #83da9e);
-    --lit-material-alert-success-container: light-dark(#d0f0d8, #0f5223);
-    --lit-material-alert-on-success-container: light-dark(#04210d, #d0f0d8);
-
-    --lit-material-alert-warning-color: light-dark(#7a4d00, #ffb945);
-    --lit-material-alert-warning-container: light-dark(#ffe4b3, #5c3f00);
-    --lit-material-alert-on-warning-container: light-dark(#271900, #ffe4b3);
+       the way it does for "error", so these are this component's own tokens
+       (--lit-material-alert-{info,success,warning}-{color,container} and
+       --lit-material-alert-on-…-container). Their defaults are fallbacks in
+       the rules below, not declarations here: a value declared on :host
+       would beat one a page sets on :root or any ancestor, and theming the
+       alert would need an element selector. error uses the real
+       --md-sys-color-error/-container/-on-error-container tokens. Each pair
+       is light-dark() so text stays readable in both schemes. */
   }
 
   :host([hidden]) {
@@ -120,31 +106,31 @@ export const styles = css`
 
   :host([variant="info"]) .alert,
   :host(:not([variant])) .alert {
-    background-color: var(--lit-material-alert-info-container);
-    color: var(--lit-material-alert-on-info-container);
+    background-color: var(--lit-material-alert-info-container, light-dark(#d3e3fd, #0a3577));
+    color: var(--lit-material-alert-on-info-container, light-dark(#001b3d, #d3e3fd));
   }
 
   :host([variant="info"]) .icon,
   :host(:not([variant])) .icon {
-    color: var(--lit-material-alert-info-color);
+    color: var(--lit-material-alert-info-color, light-dark(#0b57d0, #a8c7fa));
   }
 
   :host([variant="success"]) .alert {
-    background-color: var(--lit-material-alert-success-container);
-    color: var(--lit-material-alert-on-success-container);
+    background-color: var(--lit-material-alert-success-container, light-dark(#d0f0d8, #0f5223));
+    color: var(--lit-material-alert-on-success-container, light-dark(#04210d, #d0f0d8));
   }
 
   :host([variant="success"]) .icon {
-    color: var(--lit-material-alert-success-color);
+    color: var(--lit-material-alert-success-color, light-dark(#146c2e, #83da9e));
   }
 
   :host([variant="warning"]) .alert {
-    background-color: var(--lit-material-alert-warning-container);
-    color: var(--lit-material-alert-on-warning-container);
+    background-color: var(--lit-material-alert-warning-container, light-dark(#ffe4b3, #5c3f00));
+    color: var(--lit-material-alert-on-warning-container, light-dark(#271900, #ffe4b3));
   }
 
   :host([variant="warning"]) .icon {
-    color: var(--lit-material-alert-warning-color);
+    color: var(--lit-material-alert-warning-color, light-dark(#7a4d00, #ffb945));
   }
 
   :host([variant="error"]) .alert {

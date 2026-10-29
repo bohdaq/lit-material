@@ -112,4 +112,23 @@ describe("lit-material-alert", () => {
     const el = await fixture<LitMaterialAlert>(html`<lit-material-alert variant="error">Something went wrong.</lit-material-alert>`);
     await expect(el).to.be.accessible();
   });
+
+  it("takes its colour tokens from an ancestor, not only from the element", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div style="--lit-material-alert-info-container: rgb(1, 2, 3); --lit-material-alert-on-info-container: rgb(4, 5, 6)">
+        <lit-material-alert variant="info">Themed</lit-material-alert>
+      </div>
+    `);
+    const el = wrapper.querySelector("lit-material-alert")!;
+    await el.updateComplete;
+    const box = getComputedStyle(el.shadowRoot!.querySelector(".alert")!);
+    expect(box.backgroundColor).to.equal("rgb(1, 2, 3)");
+    expect(box.color).to.equal("rgb(4, 5, 6)");
+  });
+
+  it("keeps its default colours when nothing sets the tokens", async () => {
+    const el = await fixture<HTMLElement>(html`<lit-material-alert variant="info">Plain</lit-material-alert>`);
+    const box = getComputedStyle(el.shadowRoot!.querySelector(".alert")!);
+    expect(box.backgroundColor).to.not.equal("rgba(0, 0, 0, 0)");
+  });
 });

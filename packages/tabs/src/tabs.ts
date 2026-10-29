@@ -33,6 +33,8 @@ export class LitMaterialTabs extends LitElement {
   /** Index of the selected tab. */
   @property({ type: Number }) selected = 0;
 
+  private tabsReady = false;
+
   @query(".indicator") private readonly indicatorElement?: HTMLElement;
 
   private resizeObserver?: ResizeObserver;
@@ -54,7 +56,8 @@ export class LitMaterialTabs extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
-    this.syncSelected();
+    // On first connect the tabs aren't upgraded yet: firstUpdated syncs.
+    if (this.tabsReady) this.syncSelected();
   }
 
   override disconnectedCallback(): void {
@@ -62,7 +65,19 @@ export class LitMaterialTabs extends LitElement {
     this.resizeObserver?.disconnect();
   }
 
-  protected override firstUpdated(): void {
+  protected override async firstUpdated(): Promise<void> {
+    // Server-rendered tabs hydrate after this element does. Setting their
+    // `selected` before that lands in hydration, which keeps the DOM the
+    // server sent (aria-selected="false", tabindex="-1" on every tab), so
+    // wait for them, then sync.
+    // `updated()` and `slotchange` run before that too, so both wait for
+    // `tabsReady`.
+    // They may not even be upgraded yet (then `updateComplete` is undefined
+    // and a `selected` set now becomes an own property they adopt, and
+    // hydrate with, when they upgrade).
+    await customElements.whenDefined("lit-material-tab");
+    await Promise.all(this.tabs.map((tab) => tab.updateComplete));
+    this.tabsReady = true;
     this.syncSelected();
     this.updateIndicator();
     if (typeof ResizeObserver !== "undefined") {
@@ -72,7 +87,7 @@ export class LitMaterialTabs extends LitElement {
   }
 
   protected override updated(changed: Map<string, unknown>): void {
-    if (changed.has("selected")) {
+    if (this.tabsReady && changed.has("selected")) {
       this.syncSelected();
       this.updateIndicator();
     }
@@ -125,6 +140,7 @@ export class LitMaterialTabs extends LitElement {
   }
 
   private readonly handleSlotChange = (): void => {
+    if (!this.tabsReady) return;
     this.syncSelected();
     this.updateIndicator();
   };

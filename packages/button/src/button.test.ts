@@ -150,4 +150,24 @@ describe("lit-material-button", () => {
     const stateLayer = el.shadowRoot!.querySelector(".state-layer")!;
     expect(stateLayer.hasAttribute("data-pressed")).to.be.true;
   });
+
+  it("takes its height and padding from custom properties, with the MD3 defaults", async () => {
+    const plain = await fixture<HTMLElement>(html`<lit-material-button>Save</lit-material-button>`);
+    const box = getComputedStyle(plain.shadowRoot!.querySelector(".button")!);
+    expect(box.height).to.equal("40px");
+    expect(box.paddingLeft).to.equal("24px");
+
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div style="--lit-material-button-height: 32px; --lit-material-button-padding-inline: 12px; --lit-material-button-text-padding-inline: 8px">
+        <lit-material-button>Save</lit-material-button>
+        <lit-material-button variant="text">Cancel</lit-material-button>
+      </div>
+    `);
+    const [filled, text] = Array.from(wrapper.querySelectorAll("lit-material-button"));
+    await filled!.updateComplete;
+    const themed = getComputedStyle(filled!.shadowRoot!.querySelector(".button")!);
+    expect(themed.height).to.equal("32px");
+    expect(themed.paddingLeft).to.equal("12px");
+    expect(getComputedStyle(text!.shadowRoot!.querySelector(".button")!).paddingLeft).to.equal("8px");
+  });
 });

@@ -19,9 +19,9 @@ export const styles = css`
     justify-content: center;
     gap: 8px;
     box-sizing: border-box;
-    height: 40px;
+    height: var(--lit-material-button-height, 40px);
     min-width: 64px;
-    padding: 0 24px;
+    padding: 0 var(--lit-material-button-padding-inline, 24px);
     border: none;
     border-radius: var(--md-sys-shape-corner-full, 9999px);
     background-color: transparent;
@@ -123,7 +123,7 @@ export const styles = css`
   :host([variant="text"]) .button {
     background-color: transparent;
     color: var(--md-sys-color-primary, #6750a4);
-    padding: 0 12px;
+    padding: 0 var(--lit-material-button-text-padding-inline, 12px);
   }
 
   /* Disabled treatment is identical across variants: on-surface at fixed opacities. */
