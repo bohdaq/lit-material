@@ -62,8 +62,18 @@ export class LitMaterialSnackbar extends LitElement {
     this.clearTimer();
   }
 
-  /** Opens the snackbar and (re)starts its auto-dismiss timer. */
-  show(): void {
+  /**
+   * Opens the snackbar and (re)starts its auto-dismiss timer. With
+   * `message`, replaces its text first — for reusing one instance as a queue
+   * (slotted elements such as an action button are kept).
+   */
+  show(message?: string): void {
+    if (message !== undefined) {
+      for (const node of [...this.childNodes]) {
+        if (node.nodeType === Node.TEXT_NODE) node.remove();
+      }
+      this.prepend(document.createTextNode(message));
+    }
     this.open = true;
   }
 

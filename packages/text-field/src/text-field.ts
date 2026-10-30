@@ -175,6 +175,7 @@ export class LitMaterialTextField extends LitElement {
                 @change=${this.handleChange}
                 @focus=${this.handleFocus}
                 @blur=${this.handleBlur}
+                @keydown=${this.handleKeydown}
               />
             </div>
             ${this.suffix ? html`<span class="suffix">${this.suffix}</span>` : nothing}
@@ -208,6 +209,18 @@ export class LitMaterialTextField extends LitElement {
     this.syncInternals();
     this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
     event.stopPropagation();
+  }
+
+  /**
+   * Implicit submission: the native input lives in the shadow root, so the
+   * browser never submits the enclosing form on Enter by itself.
+   */
+  private handleKeydown(event: KeyboardEvent): void {
+    if (event.key !== "Enter" || event.isComposing || event.defaultPrevented) return;
+    const form = this.internals.form;
+    if (!form) return;
+    event.preventDefault();
+    form.requestSubmit();
   }
 
   private handleFocus(): void {

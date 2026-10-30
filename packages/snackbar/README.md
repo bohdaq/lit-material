@@ -36,7 +36,7 @@ npm install @lit-material/snackbar @lit-material/tokens
 ```
 
 Only one snackbar is meant to be visible at a time. For a queue of messages, reuse a single
-instance — update its slotted content, then call `show()` again — rather than stacking multiple
+instance — call `show("New message")` (or update its slotted content, then `show()`) — rather than stacking multiple
 instances.
 
 ## API
@@ -49,7 +49,7 @@ instances.
 
 | Method   | Description                                                        |
 | -------- | --------------------------------------------------------------------- |
-| `show()` | Opens the snackbar (`open = true`) and (re)starts its auto-dismiss timer. |
+| `show(message?)` | Opens the snackbar (`open = true`) and (re)starts its auto-dismiss timer. With `message`, replaces its text first; slotted elements (the action) are kept. |
 | `close()` | Closes the snackbar (`open = false`).                                  |
 
 Slots: default (message text), `action` (an optional action element, e.g.

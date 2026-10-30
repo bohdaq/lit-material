@@ -214,4 +214,27 @@ describe("lit-material-text-field", () => {
     expect(getComputedStyle(leading).width).to.equal("24px");
     expect(getComputedStyle(trailing).width).to.equal("24px");
   });
+
+  it("submits its form on Enter, like a native input", async () => {
+    const form = await fixture<HTMLFormElement>(
+      html`<form><lit-material-text-field name="q" label="Search"></lit-material-text-field></form>`,
+    );
+    const el = form.querySelector<LitMaterialTextField>("lit-material-text-field")!;
+    let submitted: string | null = null;
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      submitted = new FormData(form).get("q") as string;
+    });
+    el.shadowRoot!.querySelector("input")!.focus();
+    await sendKeys({ type: "rws" });
+    await sendKeys({ press: "Enter" });
+    expect(submitted).to.equal("rws");
+  });
+
+  it("does nothing on Enter outside a form", async () => {
+    const el = await fixture<LitMaterialTextField>(html`<lit-material-text-field label="Name"></lit-material-text-field>`);
+    el.shadowRoot!.querySelector("input")!.focus();
+    await sendKeys({ press: "Enter" });
+    expect(el.value).to.equal("");
+  });
 });

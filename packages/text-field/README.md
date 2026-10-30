@@ -98,7 +98,7 @@ text the way a single-line one does.
 ## Behavior
 
 The label floats when the field is focused, holds a value, or has a placeholder. A character
-counter renders when `maxlength` is set. Both are form-associated via `ElementInternals`
+counter renders when `maxlength` is set. Pressing Enter in `lit-material-text-field` submits its form, as with a native input. Both are form-associated via `ElementInternals`
 (participate in `FormData`, validation, and form reset) and forward native constraint validation:
 set `error`/`error-text` for custom errors, or rely on `required`/`minlength`/etc., which surface an
 error state after the field is blurred (touched).

@@ -125,4 +125,17 @@ describe("lit-material-snackbar", () => {
     await expect(el).to.be.accessible();
     el.close();
   });
+
+  it("show(message) replaces the text and keeps slotted actions", async () => {
+    const el = await fixture<LitMaterialSnackbar>(
+      html`<lit-material-snackbar>Old<button slot="action">Undo</button></lit-material-snackbar>`,
+    );
+    el.show("Saved");
+    await el.updateComplete;
+    expect(el.open).to.be.true;
+    expect(el.textContent).to.equal("SavedUndo");
+    expect(el.querySelector('[slot="action"]')).to.exist;
+    el.show();
+    expect(el.textContent).to.equal("SavedUndo", "show() without a message keeps the text");
+  });
 });
