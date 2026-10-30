@@ -40,7 +40,9 @@ jobs:
           node-version: 24
           cache: pnpm
 
-      - run: npm install -g npm@12.2.1
+      # npm 11, not 12: npm 12's `npm info --json` returns an array, which
+      # changesets reads as "not published" for every package.
+      - run: npm install -g npm@11.21.1
 
       - run: pnpm install --frozen-lockfile
 
