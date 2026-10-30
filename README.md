@@ -160,8 +160,14 @@ pnpm analyze      # turbo run analyze — regenerates each component's custom-el
 pnpm dev          # turbo run dev --parallel
 ```
 
-Releases go through [Changesets](https://github.com/changesets/changesets): `pnpm changeset` to describe a
-change, `pnpm version` to apply it, `pnpm release` to build, regenerate manifests, and publish.
+Releases go through [Changesets](https://github.com/changesets/changesets) and GitHub Actions: add a
+changeset with `pnpm changeset` and push. The [Release workflow](.github/workflows/release.yml) opens a
+"Version packages" pull request; merging it publishes the bumped packages to npm with
+[trusted publishing](https://docs.npmjs.com/trusted-publishers) (no npm token in the repo, provenance
+attached) and pushes the tags.
+
+A new package is published once by hand (`pnpm run release` while logged in to npm), then
+`tools/trust-publishing.sh <dir>` lets the workflow publish it from then on.
 
 ## Using this repo with AI
 

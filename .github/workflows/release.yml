@@ -1,0 +1,54 @@
+name: Release
+
+# Publishes to npm with trusted publishing (OIDC): no npm token is stored in
+# GitHub. Each package trusts this workflow file on npmjs.com, set up once
+# with tools/trust-publishing.sh.
+#
+# On every push to main: if there are unreleased changesets, this opens (or
+# updates) a "Version packages" pull request; merging it publishes every
+# package whose version isn't on npm yet, with provenance, and pushes tags.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write       # tags and the version-packages branch
+  pull-requests: write  # the version-packages pull request
+  id-token: write       # OIDC token npm exchanges for a short-lived publish token
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.10.0
+
+      # Trusted publishing needs npm >= 11.5.1; node 24 ships npm 11.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - run: npm install -g npm@12.2.1
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: changesets/action@v1
+        with:
+          version: pnpm run version
+          publish: pnpm run release
+          commit: "Version packages"
+          title: "Version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_CONFIG_PROVENANCE: "true"
