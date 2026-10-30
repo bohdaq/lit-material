@@ -4,9 +4,10 @@ name: Release
 # GitHub. Each package trusts this workflow file on npmjs.com, set up once
 # with tools/trust-publishing.sh.
 #
-# On every push to main: if there are unreleased changesets, this opens (or
-# updates) a "Version packages" pull request; merging it publishes every
-# package whose version isn't on npm yet, with provenance, and pushes tags.
+# On every push to main: unreleased changesets are applied (versions and
+# CHANGELOGs) and committed to main as "Version packages", then every package
+# whose version isn't on npm yet is published, with provenance, and tagged.
+# No pull request: pushing a changeset is the release.
 
 on:
   push:
@@ -18,15 +19,16 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write       # tags and the version-packages branch
-  pull-requests: write  # the version-packages pull request
-  id-token: write       # OIDC token npm exchanges for a short-lived publish token
+  contents: write  # the Version packages commit and the tags
+  id-token: write  # OIDC token npm exchanges for a short-lived publish token
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
         with:
@@ -46,12 +48,24 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - uses: changesets/action@v1
-        with:
-          version: pnpm run version
-          publish: pnpm run release
-          commit: "Version packages"
-          title: "Version packages"
+      - name: Apply changesets
+        run: |
+          if ls .changeset/*.md 2>/dev/null | grep -qv README.md; then
+            pnpm run version
+            pnpm install --lockfile-only
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A .changeset packages pnpm-lock.yaml
+            git commit -m "Version packages"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          else
+            echo "No changesets: nothing to version."
+          fi
+
+      - name: Publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: "true"
+        run: |
+          pnpm run release
+          git push origin --tags
