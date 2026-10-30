@@ -33,6 +33,13 @@ import "./pages/components/popover-page.js";
 import "./pages/components/icon-page.js";
 import "./pages/components/overflow-menu-page.js";
 import "./pages/components/button-page.js";
+import "./pages/components/status-page.js";
+import "./pages/components/stat-page.js";
+import "./pages/components/empty-state-page.js";
+import "./pages/components/log-viewer-page.js";
+import "./pages/components/table-page.js";
+import "./pages/components/chart-page.js";
+import "./pages/components/adaptive-navigation-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
 import "./pages/components/checkbox-page.js";
@@ -452,5 +459,47 @@ export const navEntries: NavEntry[] = [
     label: "Overflow Menu",
     group: "components",
     render: () => html`<docs-overflow-menu-page></docs-overflow-menu-page>`,
+  },
+  {
+    path: "/components/status",
+    label: "Status",
+    group: "components",
+    render: () => html`<docs-status-page></docs-status-page>`,
+  },
+  {
+    path: "/components/stat",
+    label: "Stat",
+    group: "components",
+    render: () => html`<docs-stat-page></docs-stat-page>`,
+  },
+  {
+    path: "/components/empty-state",
+    label: "Empty State",
+    group: "components",
+    render: () => html`<docs-empty-state-page></docs-empty-state-page>`,
+  },
+  {
+    path: "/components/log-viewer",
+    label: "Log Viewer",
+    group: "components",
+    render: () => html`<docs-log-viewer-page></docs-log-viewer-page>`,
+  },
+  {
+    path: "/components/table",
+    label: "Table",
+    group: "components",
+    render: () => html`<docs-table-page></docs-table-page>`,
+  },
+  {
+    path: "/components/chart",
+    label: "Chart",
+    group: "components",
+    render: () => html`<docs-chart-page></docs-chart-page>`,
+  },
+  {
+    path: "/components/adaptive-navigation",
+    label: "Adaptive Navigation",
+    group: "components",
+    render: () => html`<docs-adaptive-navigation-page></docs-adaptive-navigation-page>`,
   },
 ];

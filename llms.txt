@@ -37,7 +37,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Snackbar](https://github.com/bohdaq/lit-material/tree/main/packages/snackbar): Built on the native Popover API.
 - [Tabs](https://github.com/bohdaq/lit-material/tree/main/packages/tabs): `lit-material-tabs` + `lit-material-tab`.
 - [Top App Bar](https://github.com/bohdaq/lit-material/tree/main/packages/top-app-bar): Center-aligned, small, medium, large.
-- [Navigation](https://github.com/bohdaq/lit-material/tree/main/packages/navigation): Navigation drawer, rail, and bottom bar.
+- [Navigation](https://github.com/bohdaq/lit-material/tree/main/packages/navigation): Navigation drawer, rail, and bottom bar; adaptive navigation picks one by window width.
 - [Progress](https://github.com/bohdaq/lit-material/tree/main/packages/progress): Linear and circular progress indicators.
 - [Date Picker](https://github.com/bohdaq/lit-material/tree/main/packages/date-picker): Modal or docked date picker and date range picker.
 - [Time Picker](https://github.com/bohdaq/lit-material/tree/main/packages/time-picker): Clock-dial dialog, 12- or 24-hour.
@@ -65,6 +65,12 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Popover](https://github.com/bohdaq/lit-material/tree/main/packages/popover): Richer, click-triggered overlay content — distinct from the tooltip.
 - [Icon](https://github.com/bohdaq/lit-material/tree/main/packages/icon): Consistent sizing/color wrapper for any icon content; ships no icon set.
 - [Overflow Menu](https://github.com/bohdaq/lit-material/tree/main/packages/overflow-menu): Responsive action row that collapses overflow into a kebab menu.
+- [Status](https://github.com/bohdaq/lit-material/tree/main/packages/status): Icon + label coloured by state (ok, warning, error, info, neutral) — never colour alone.
+- [Stat](https://github.com/bohdaq/lit-material/tree/main/packages/stat): Dashboard tile: label, large tabular value, caption or trend.
+- [Empty State](https://github.com/bohdaq/lit-material/tree/main/packages/empty-state): Headline, guidance and actions in place of a blank view.
+- [Log Viewer](https://github.com/bohdaq/lit-material/tree/main/packages/log-viewer): Monospace line stream that follows the newest line, with pause, highlighting and a line cap.
+- [Table](https://github.com/bohdaq/lit-material/tree/main/packages/table): Data-driven semantic `<table>`: caption, headers, numeric and monospace columns.
+- [Chart](https://github.com/bohdaq/lit-material/tree/main/packages/chart): Line chart and sparkline: crosshair tooltip, keyboard access, screen-reader table.
 
 ## App shell
 

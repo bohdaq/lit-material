@@ -50,7 +50,7 @@ view, Accordion/Expandable section) aren't repeated here.
 
 - ~~**Alert** — persistent inline/page-level banner; distinct from the `snackbar` toast.~~ Done:
   [`@lit-material/alert`](packages/alert).
-- **Spinner**, **Empty state**
+- **Spinner**, ~~**Empty state**~~ (done: [`@lit-material/empty-state`](packages/empty-state))
 - ~~**Textarea** — currently only single-line via `text-field`.~~ Done: `lit-material-textarea` in
   [`@lit-material/text-field`](packages/text-field).
 - ~~**File upload** (simple + multiple) — no package covers this at all.~~ Done:
@@ -86,21 +86,22 @@ rest are components the app had to write by hand.
   (form-associated `requestSubmit()` on Enter, single-line only), likely the
   same for `lit-material-button type="submit"`.~~ Done (unreleased changeset); the button
   already submitted.
-- **Responsive navigation.** Switching drawer ↔ rail ↔ bottom bar by width
+- ~~**Responsive navigation.** Switching drawer ↔ rail ↔ bottom bar by width
   needs two components and a media query today (the `navigation` README's
   scope cut). A `lit-material-navigation` wrapper (or `responsive` attribute)
-  that picks by breakpoint and keeps one `selected`.
+  that picks by breakpoint and keeps one `selected`.~~ Done: `lit-material-adaptive-navigation` in
+  [`@lit-material/navigation`](packages/navigation).
 - ~~**Snackbar `show(message)`.** Reusing one instance means setting
   `textContent` then calling `show()`; an optional message argument.~~ Done (unreleased changeset).
-- **Line chart / sparkline.** One series, 2px line, recessive grid,
+- ~~**Line chart / sparkline.** One series, 2px line, recessive grid,
   crosshair + tooltip on hover and focus, a text summary for screen readers.
-  Needed by the rws8.tech benchmarks and the admin overview.
-- **Status indicator.** Icon + label coloured by state (ok / warning / error /
-  neutral), never colour alone: health, breaker state, expiry.
-- **Stat tile.** Label, large tabular-number value, optional caption/trend.
-- **Log viewer.** Monospace stream of lines, sticks to the bottom only while
-  scrolled there, pause/resume, optional per-line highlighting, a line cap.
-- **Simple table.** Styling for a semantic `<table>` (header row, numeric
+  Needed by the rws8.tech benchmarks and the admin overview.~~ Done: [`@lit-material/chart`](packages/chart).
+- ~~**Status indicator.** Icon + label coloured by state (ok / warning / error /
+  neutral), never colour alone: health, breaker state, expiry.~~ Done: [`@lit-material/status`](packages/status).
+- ~~**Stat tile.** Label, large tabular-number value, optional caption/trend.~~ Done: [`@lit-material/stat`](packages/stat).
+- ~~**Log viewer.** Monospace stream of lines, sticks to the bottom only while
+  scrolled there, pause/resume, optional per-line highlighting, a line cap.~~ Done: [`@lit-material/log-viewer`](packages/log-viewer).
+- ~~**Simple table.** Styling for a semantic `<table>` (header row, numeric
   columns, scroll container) next to the div-based `data-table`, for
-  read-only tables.
-- **Empty state** (listed above under PatternFly) was needed six times.
+  read-only tables.~~ Done: [`@lit-material/table`](packages/table).
+- ~~**Empty state** (listed above under PatternFly) was needed six times.~~ Done: [`@lit-material/empty-state`](packages/empty-state).

@@ -6,3 +6,5 @@ export type { NavigationRailAlignment } from "./navigation-rail.js";
 export { LitMaterialNavigationRailItem } from "./navigation-rail-item.js";
 export { LitMaterialNavigationBar } from "./navigation-bar.js";
 export { LitMaterialNavigationBarItem } from "./navigation-bar-item.js";
+export { LitMaterialAdaptiveNavigation } from "./adaptive-navigation.js";
+export type { NavigationDestination } from "./adaptive-navigation.js";

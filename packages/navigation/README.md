@@ -158,6 +158,34 @@ Fully out of scope for this first pass: responsive breakpoint switching (automat
 between rail/drawer/bottom-navigation based on window size) — that's an app-level layout decision
 this library doesn't make on your behalf.
 
+## Adaptive navigation
+
+`lit-material-adaptive-navigation` takes one list of destinations and shows the form M3
+prescribes for the window: a navigation bar under 600px, a rail from 600px, and a drawer (or a
+rail, with `expanded="rail"`) from 840px. All three are rendered and CSS shows one, so it needs no
+script to pick and server-rendered markup is already right.
+
+```html
+<lit-material-adaptive-navigation id="nav" label="Sections"></lit-material-adaptive-navigation>
+<script type="module">
+  const nav = document.querySelector("#nav");
+  nav.destinations = [{ label: "Overview", icon: "◎" }, { label: "Logs", icon: "≡", href: "/logs" }];
+  nav.selected = 0;
+  nav.addEventListener("change", () => console.log(nav.selected));
+</script>
+```
+
+| Property | Attribute | Type | Default |
+| -------- | --------- | ---- | ------- |
+| `destinations` | — | `{ label; icon?; href?; disabled? }[]` | `[]` |
+| `selected` | — | `number` | `-1` |
+| `expanded` | `expanded` (reflected) | `"drawer" \| "rail"` | `"drawer"` |
+| `label` | `label` | `string` | `"Main"` |
+
+The selection is shared and `change` fires whichever form was used. It's one `<nav>` landmark
+named by `label`; the hidden forms are out of the accessibility tree. Place it yourself (the bar
+sits where the element is).
+
 ## License
 
 MIT

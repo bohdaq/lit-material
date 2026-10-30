@@ -84,7 +84,7 @@ components as you like.
 | [`@lit-material/snackbar`](packages/snackbar) | Built on the native Popover API. |
 | [`@lit-material/tabs`](packages/tabs) | `lit-material-tabs` + `lit-material-tab`. |
 | [`@lit-material/top-app-bar`](packages/top-app-bar) | Center-aligned, small, medium, large. |
-| [`@lit-material/navigation`](packages/navigation) | Navigation drawer, rail, and bottom bar. |
+| [`@lit-material/navigation`](packages/navigation) | Navigation drawer, rail, and bottom bar — and adaptive navigation that picks one by window width. |
 | [`@lit-material/progress`](packages/progress) | Linear and circular progress indicators. |
 | [`@lit-material/date-picker`](packages/date-picker) | Modal or docked date picker and date range picker. |
 | [`@lit-material/time-picker`](packages/time-picker) | Clock-dial dialog, 12- or 24-hour. |
@@ -112,6 +112,12 @@ components as you like.
 | [`@lit-material/popover`](packages/popover) | Richer, click-triggered overlay content — distinct from the tooltip. |
 | [`@lit-material/icon`](packages/icon) | Consistent sizing/color wrapper for any icon content; ships no icon set. |
 | [`@lit-material/overflow-menu`](packages/overflow-menu) | Responsive action row that collapses overflow into a kebab menu. |
+| [`@lit-material/status`](packages/status) | Icon + label coloured by state (ok, warning, error, info, neutral) — never colour alone. |
+| [`@lit-material/stat`](packages/stat) | Dashboard tile: label, large tabular value, caption or trend. |
+| [`@lit-material/empty-state`](packages/empty-state) | Headline, guidance and actions in place of a blank view. |
+| [`@lit-material/log-viewer`](packages/log-viewer) | Monospace line stream that follows the newest line, with pause, highlighting and a line cap. |
+| [`@lit-material/table`](packages/table) | Data-driven semantic `<table>`: caption, headers, numeric and monospace columns. |
+| [`@lit-material/chart`](packages/chart) | Line chart and sparkline: crosshair tooltip, keyboard access, screen-reader table. |
 | [`@lit-material/tokens`](packages/tokens) | Color, type, shape, elevation, and motion design tokens. |
 
 ## Building a whole app
