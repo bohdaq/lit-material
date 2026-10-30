@@ -32,12 +32,13 @@ jobs:
         with:
           version: 11.10.0
 
-      # Trusted publishing needs npm >= 11.5.1; node 24 ships npm 11.
+      # Trusted publishing needs npm >= 11.5.1; node 24 ships npm 11. No
+      # `registry-url`: it writes an .npmrc with an empty NODE_AUTH_TOKEN, which
+      # makes `npm info` fail, so changesets thought every package unpublished.
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: pnpm
-          registry-url: https://registry.npmjs.org
 
       - run: npm install -g npm@12.2.1
 
