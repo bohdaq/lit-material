@@ -1,5 +1,11 @@
 # @lit-material/text-field
 
+## 0.1.1
+
+### Patch Changes
+
+- f9ec833: Pressing Enter in a text field now submits its form, as with a native input. The input lives in the shadow root, so the browser never did this by itself.
+
 ## 0.1.0
 
 ### Minor Changes
