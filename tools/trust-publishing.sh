@@ -14,6 +14,7 @@ REPO="bohdaq/lit-material"
 FILE="release.yml"
 
 dirs=("$@")
+failed=()
 [ ${#dirs[@]} -gt 0 ] || mapfile -t dirs < <(ls packages)
 
 for dir in "${dirs[@]}"; do
@@ -29,5 +30,11 @@ for dir in "${dirs[@]}"; do
     continue
   fi
   echo "trust $pkg"
-  $NPM trust github "$pkg" --repo "$REPO" --file "$FILE" --allow-publish --yes
+  # One failure (a missed 2FA prompt) must not skip the rest.
+  $NPM trust github "$pkg" --repo "$REPO" --file "$FILE" --allow-publish --yes || failed+=("$dir")
 done
+
+if [ ${#failed[@]} -gt 0 ]; then
+  echo "failed: ${failed[*]} (run again: tools/trust-publishing.sh ${failed[*]})" >&2
+  exit 1
+fi

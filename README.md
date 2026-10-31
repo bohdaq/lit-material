@@ -169,8 +169,14 @@ changeset with `pnpm changeset` and push. The [Release workflow](.github/workflo
 [trusted publishing](https://docs.npmjs.com/trusted-publishers) (no npm token in the repo, provenance
 attached) and pushes the tags.
 
-A new package is published once by hand (`pnpm run release` while logged in to npm), then
-`tools/trust-publishing.sh <dir>` lets the workflow publish it from then on.
+A new package is published once by hand (`corepack pnpm run release` while logged in to npm), then
+`tools/trust-publishing.sh <dir>` lets the workflow publish it from then on. Check with
+`npx npm@12.2.1 trust list <package>`: it should show `file: release.yml`.
+
+If the workflow fails with `E404 … PUT https://registry.npmjs.org/@lit-material%2f<name>`, that package has no
+trusted publisher: run the script for it and re-run the workflow (`gh workflow run release.yml`). A failed run
+pushes no tags for the packages that did publish; tag those at the "Version packages" commit by hand
+(`git tag @lit-material/<name>@<version> <sha> && git push origin <tag>`).
 
 ## Using this repo with AI
 
