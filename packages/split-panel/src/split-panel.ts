@@ -151,7 +151,11 @@ export class LitMaterialSplitPanel extends LitElement {
   private readonly onPointerDown = (event: PointerEvent): void => {
     if (this.disabled || event.button !== 0) return;
     const divider = event.currentTarget as HTMLElement;
-    divider.setPointerCapture(event.pointerId);
+    try {
+      divider.setPointerCapture(event.pointerId);
+    } catch {
+      // Synthetic pointers (as tests dispatch) aren't "active": Firefox throws.
+    }
     divider.classList.add("dragging");
     this.dragging = true;
     event.preventDefault();

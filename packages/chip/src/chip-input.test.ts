@@ -68,7 +68,10 @@ describe("lit-material-chip-input", () => {
     const el = await chipInput();
     const data = new DataTransfer();
     data.setData("text/plain", "a@x.io, b@x.io\nc@x.io");
-    input(el).dispatchEvent(new ClipboardEvent("paste", { clipboardData: data, bubbles: true, cancelable: true }));
+    // Firefox drops `clipboardData` from a synthetic ClipboardEvent's init.
+    const paste = new ClipboardEvent("paste", { bubbles: true, cancelable: true });
+    Object.defineProperty(paste, "clipboardData", { value: data });
+    input(el).dispatchEvent(paste);
     expect(el.values).to.deep.equal(["app=web", "a@x.io", "b@x.io", "c@x.io"]);
   });
 
