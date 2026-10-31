@@ -4,7 +4,7 @@ A [Material Design 3](https://m3.material.io/) web component collection built wi
 one package per component, no shared mega-bundle, no required adapter layer. Framework-agnostic, SSR-ready,
 and small enough to actually read the source of.
 
-- **60 components**, each its own npm package — install only what you use.
+- **62 components**, each its own npm package — install only what you use.
 - **Zero runtime dependencies beyond Lit.** No icon font, no CSS-in-JS runtime, no framework required.
 - **SSR-ready.** Every component is tested against [`@lit-labs/ssr`](https://www.npmjs.com/package/@lit-labs/ssr)
   as well as in a real browser.
@@ -118,6 +118,8 @@ components as you like.
 | [`@lit-material/truncate`](packages/truncate) | End or middle ellipsis for long IDs, hashes and paths; full text kept for copy and screen readers. |
 | [`@lit-material/inline-edit`](packages/inline-edit) | Click-to-edit value: Enter saves, Escape cancels, async save with errors. |
 | [`@lit-material/dual-list`](packages/dual-list) | Move items between available and chosen lists, with filters and full keyboard support. |
+| [`@lit-material/sortable`](packages/sortable) | Reorder by pointer, touch or keyboard, within or between lists; announced to screen readers. |
+| [`@lit-material/jump-links`](packages/jump-links) | "On this page" anchors that highlight the section in view; work without JS. |
 | [`@lit-material/key-value`](packages/key-value) | Key/value rows for labels and env vars: duplicate/pattern checks, `KEY=value` paste. |
 | [`@lit-material/status`](packages/status) | Icon + label coloured by state (ok, warning, error, info, neutral) — never colour alone. |
 | [`@lit-material/stat`](packages/stat) | Dashboard tile: label, large tabular value, caption or trend. |

@@ -37,6 +37,8 @@ import "./pages/components/status-page.js";
 import "./pages/components/color-scheme-page.js";
 import "./pages/components/confirm-page.js";
 import "./pages/components/key-value-page.js";
+import "./pages/components/jump-links-page.js";
+import "./pages/components/sortable-page.js";
 import "./pages/components/dual-list-page.js";
 import "./pages/components/inline-edit-page.js";
 import "./pages/components/truncate-page.js";
@@ -490,6 +492,18 @@ export const navEntries: NavEntry[] = [
     label: "Key/value editor",
     group: "components",
     render: () => html`<docs-key-value-page></docs-key-value-page>`,
+  },
+  {
+    path: "/components/jump-links",
+    label: "Jump links",
+    group: "components",
+    render: () => html`<docs-jump-links-page></docs-jump-links-page>`,
+  },
+  {
+    path: "/components/sortable",
+    label: "Sortable",
+    group: "components",
+    render: () => html`<docs-sortable-page></docs-sortable-page>`,
   },
   {
     path: "/components/dual-list",
