@@ -171,6 +171,9 @@ hitop's webapp, the rws site and admin UI, compared with Web Awesome, Carbon and
 - ~~**Split panel** — request/response, editor/preview.~~ Done: [`@lit-material/split-panel`](packages/split-panel).
 - ~~**Formatting helpers** — bytes, counts, durations, Kubernetes quantities.~~ Done:
   [`@lit-material/format`](packages/format).
-- **Adopt in consumers**: hitop — `color-scheme` instead of its theme toggle, `registerIcons`
-  instead of `icons.js`, `sortable` for request order; rws site — `jump-links` for "On this page",
-  `menu` for the version switcher, `search` for the docs search field.
+- ~~**Adopt in consumers**~~ (2026-10-31): hitop cb3a41f — `color-scheme` toggle (key
+  `hitop-theme`), `registerIcons`, `sortable` sidebar requests (collection cards stay HTML5 drag:
+  sortable is vertical-only, they're a grid); rws site a8809496 — `jump-links` for "On this page"
+  (SSR via the JSON `links` attribute, added for this). Not done on purpose: `menu` for the version
+  switcher and `search` for docs search — both are no-JS `<details>`/`<dialog>` today and would lose that.
+- **Sortable in a grid**: horizontal/2-D drop targets, so hitop's collection cards can move to it.
