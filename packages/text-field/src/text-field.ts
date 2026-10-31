@@ -21,6 +21,9 @@ let instanceCount = 0;
  * @csspart supporting - The supporting-text / character-counter row.
  *
  * @cssprop --lit-material-text-field-min-width - Smallest width (default `210px`); `0` lets a grid or flex cell narrow it.
+ * @cssprop --lit-material-text-field-shape - Corner radius (default `--md-sys-shape-corner-extra-small`; filled rounds the top only).
+ * @cssprop --lit-material-text-field-shape-start - Start-side corners; `lit-material-input-group` squares inner ones.
+ * @cssprop --lit-material-text-field-shape-end - End-side corners.
  * @cssprop --lit-material-text-field-notch-color - Behind the outlined variant's floating label; match the surface the field sits on (default `--md-sys-color-surface`; dialogs set it for you).
  *
  * @fires input - Bubbles when the value changes (like a native input).

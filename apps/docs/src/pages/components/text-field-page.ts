@@ -1,4 +1,6 @@
 import "@lit-material/text-field";
+import "@lit-material/button";
+import "@lit-material/select";
 import { LitElement, html } from "lit";
 import { pageStyles } from "../../styles/page-styles.js";
 import { customElement } from "lit/decorators.js";
@@ -108,6 +110,24 @@ export class DocsTextFieldPage extends LitElement {
       <section>
         <h2>Error</h2>
         <lit-material-textarea variant="outlined" label="Comments" required error error-text="Required"></lit-material-textarea>
+      </section>
+
+      <h2>Input group</h2>
+      <section>
+        <p><code>lit-material-input-group</code> joins outlined fields, selects and buttons into one control.</p>
+        <div style="display: grid; gap: 16px; max-width: 560px;">
+          <lit-material-input-group aria-label="Endpoint">
+            <lit-material-select variant="outlined" label="Scheme" value="https" style="width: 130px;">
+              <lit-material-select-option value="https">https://</lit-material-select-option>
+              <lit-material-select-option value="http">http://</lit-material-select-option>
+            </lit-material-select>
+            <lit-material-text-field variant="outlined" label="Host" value="api.example.com"></lit-material-text-field>
+          </lit-material-input-group>
+          <lit-material-input-group aria-label="Access token">
+            <lit-material-text-field variant="outlined" label="Token" value="rws_8f2c1a"></lit-material-text-field>
+            <lit-material-button variant="outlined">Generate</lit-material-button>
+          </lit-material-input-group>
+        </div>
       </section>
 
       <h2>Number field</h2>

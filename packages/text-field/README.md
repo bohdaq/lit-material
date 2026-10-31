@@ -126,6 +126,25 @@ Events: `input` while typing a number, `change` after a step or a committed edit
 `field`, `decrement`, `increment`. `--lit-material-number-field-width` sets the field's
 smallest width (default `8ch`).
 
+## `lit-material-input-group`
+
+Joins outlined fields, selects and buttons into one control: a scheme in front of a host, a
+field with a "Generate" button, a value and its unit.
+
+```html
+<lit-material-input-group aria-label="Endpoint">
+  <lit-material-select variant="outlined" label="Scheme" value="https" style="width: 130px">…</lit-material-select>
+  <lit-material-text-field variant="outlined" label="Host"></lit-material-text-field>
+</lit-material-input-group>
+```
+
+Inner corners are squared and neighbours share a border; text fields take the remaining width,
+buttons the fields' 56px height and 4px corners. The host is `role="group"`: give it an
+`aria-label` for the whole. It works through custom properties that you can also set yourself:
+`--lit-material-text-field-shape`/`-shape-start`/`-shape-end`, the same for
+`--lit-material-select-…` and `--lit-material-button-…`. Use outlined fields; filled ones have
+no side borders to join.
+
 ## Behavior
 
 The label floats when the field is focused, holds a value, or has a placeholder. A character

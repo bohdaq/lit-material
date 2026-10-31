@@ -24,6 +24,11 @@ let instanceCount = 0;
  *
  * @slot - `lit-material-select-option` elements.
  *
+ * @cssprop --lit-material-select-min-width - Smallest width (default `210px`).
+ * @cssprop --lit-material-select-shape - Corner radius (default `--md-sys-shape-corner-extra-small`; filled rounds the top only).
+ * @cssprop --lit-material-select-shape-start - Start-side corners; `lit-material-input-group` squares inner ones.
+ * @cssprop --lit-material-select-shape-end - End-side corners.
+ *
  * @csspart trigger - The button that shows the current value and opens the listbox.
  * @csspart label - The floating label element.
  * @csspart listbox - The popup listbox surface.

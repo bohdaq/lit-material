@@ -23,7 +23,10 @@ export const styles = css`
     min-width: 64px;
     padding: 0 var(--lit-material-button-padding-inline, 24px);
     border: none;
-    border-radius: var(--lit-material-button-shape, var(--md-sys-shape-corner-full, 9999px));
+    border-start-start-radius: var(--lit-material-button-shape-start, var(--lit-material-button-shape, var(--md-sys-shape-corner-full, 9999px)));
+    border-end-start-radius: var(--lit-material-button-shape-start, var(--lit-material-button-shape, var(--md-sys-shape-corner-full, 9999px)));
+    border-start-end-radius: var(--lit-material-button-shape-end, var(--lit-material-button-shape, var(--md-sys-shape-corner-full, 9999px)));
+    border-end-end-radius: var(--lit-material-button-shape-end, var(--lit-material-button-shape, var(--md-sys-shape-corner-full, 9999px)));
     background-color: transparent;
     cursor: pointer;
     font-family: var(--md-sys-typescale-label-large-font, Roboto, system-ui, sans-serif);

@@ -161,7 +161,10 @@ export const styles = css`
   :host([variant="filled"]) .container,
   :host(:not([variant])) .container {
     background-color: var(--md-sys-color-surface-container-highest, #e6e0e9);
-    border-radius: var(--md-sys-shape-corner-extra-small, 4px) var(--md-sys-shape-corner-extra-small, 4px) 0 0;
+    border-start-start-radius: var(--lit-material-text-field-shape-start, var(--lit-material-text-field-shape, var(--md-sys-shape-corner-extra-small, 4px)));
+    border-start-end-radius: var(--lit-material-text-field-shape-end, var(--lit-material-text-field-shape, var(--md-sys-shape-corner-extra-small, 4px)));
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
     padding-inline: 16px;
   }
 
@@ -186,7 +189,10 @@ export const styles = css`
   :host([variant="outlined"]) .container {
     background-color: transparent;
     border: 1px solid var(--md-sys-color-outline, #79747e);
-    border-radius: var(--md-sys-shape-corner-extra-small, 4px);
+    border-start-start-radius: var(--lit-material-text-field-shape-start, var(--lit-material-text-field-shape, var(--md-sys-shape-corner-extra-small, 4px)));
+    border-end-start-radius: var(--lit-material-text-field-shape-start, var(--lit-material-text-field-shape, var(--md-sys-shape-corner-extra-small, 4px)));
+    border-start-end-radius: var(--lit-material-text-field-shape-end, var(--lit-material-text-field-shape, var(--md-sys-shape-corner-extra-small, 4px)));
+    border-end-end-radius: var(--lit-material-text-field-shape-end, var(--lit-material-text-field-shape, var(--md-sys-shape-corner-extra-small, 4px)));
     padding-inline: 16px;
     transition: border-color 100ms linear, border-width 100ms linear;
   }

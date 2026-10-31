@@ -20,6 +20,8 @@ let instanceCount = 0;
  * @cssprop --lit-material-button-padding-inline - Left and right padding (default `24px`).
  * @cssprop --lit-material-button-text-padding-inline - The same for `variant="text"` (default `12px`).
  * @cssprop --lit-material-button-shape - Corner radius (default `--md-sys-shape-corner-full`).
+ * @cssprop --lit-material-button-shape-start - Start-side corners (default `--lit-material-button-shape`).
+ * @cssprop --lit-material-button-shape-end - End-side corners (default `--lit-material-button-shape`).
  * @cssprop --lit-material-button-pressed-scale - Scale while pressed, e.g. `0.98` (default `1`; off under reduced motion).
  *
  * @csspart button - The native `<button>` or `<a>` element rendered inside the shadow root.

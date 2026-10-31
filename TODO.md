@@ -64,7 +64,7 @@ view, Accordion/Expandable section) aren't repeated here.
 - ~~**Description list**, **Data list**, **Simple list** — `list`/`data-table` don't cover these
   variants.~~ Done: [`@lit-material/description-list`](packages/description-list),
   [`@lit-material/data-list`](packages/data-list), [`@lit-material/simple-list`](packages/simple-list).
-- **Number input**, **Input group**, **Inline edit**, **Dual list selector**, ~~**Clipboard copy**~~ (done: [`@lit-material/clipboard`](packages/clipboard))
+- ~~**Number input**~~, ~~**Input group**~~ (done: [`@lit-material/text-field`](packages/text-field)), **Inline edit**, **Dual list selector**, ~~**Clipboard copy**~~ (done: [`@lit-material/clipboard`](packages/clipboard))
 - ~~**Drawer** / **Notification drawer** — persistent panel, distinct from `sheet`.~~ Done:
   [`@lit-material/drawer`](packages/drawer).
 - **Application launcher**, **Jump links**, **Action list**
@@ -150,8 +150,7 @@ consumer code each one replaces.
 - ~~**Editable code field** — YAML/JSON editing; `code-block` is read-only.~~ Done:
   `lit-material-code-field` in [`@lit-material/code-block`](packages/code-block).
 - ~~**Number input**~~ Done: `lit-material-number-field` in [`@lit-material/text-field`](packages/text-field).
-  **Input group** (also above) still open: joining a field to a button or select needs
-  text-field to expose its outline corners; `prefix`/`suffix` cover the text-only cases.
+  ~~**Input group**~~ Done: `lit-material-input-group` in [`@lit-material/text-field`](packages/text-field).
 - ~~**rws `starters/fullstack` frontend** (lives in rust-web-server) uses raw
   `<input>`/`<ul>` and only `button`; agents copy it when deploying to kube-dc,
   so it should show text-field, list, empty-state, snackbar.~~ Done in rust-web-server 1d3f6067: text-field, list,

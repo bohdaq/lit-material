@@ -16,7 +16,7 @@ export const styles = css`
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-width: 210px;
+    min-width: var(--lit-material-select-min-width, 210px);
   }
 
   .trigger {
@@ -121,7 +121,10 @@ export const styles = css`
   :host([variant="filled"]) .trigger,
   :host(:not([variant])) .trigger {
     background-color: var(--md-sys-color-surface-container-highest, #e6e0e9);
-    border-radius: var(--md-sys-shape-corner-extra-small, 4px) var(--md-sys-shape-corner-extra-small, 4px) 0 0;
+    border-start-start-radius: var(--lit-material-select-shape-start, var(--lit-material-select-shape, var(--md-sys-shape-corner-extra-small, 4px)));
+    border-start-end-radius: var(--lit-material-select-shape-end, var(--lit-material-select-shape, var(--md-sys-shape-corner-extra-small, 4px)));
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
   }
 
   :host([variant="filled"]) .trigger::after,
@@ -145,7 +148,10 @@ export const styles = css`
   :host([variant="outlined"]) .trigger {
     background-color: transparent;
     border: 1px solid var(--md-sys-color-outline, #79747e);
-    border-radius: var(--md-sys-shape-corner-extra-small, 4px);
+    border-start-start-radius: var(--lit-material-select-shape-start, var(--lit-material-select-shape, var(--md-sys-shape-corner-extra-small, 4px)));
+    border-end-start-radius: var(--lit-material-select-shape-start, var(--lit-material-select-shape, var(--md-sys-shape-corner-extra-small, 4px)));
+    border-start-end-radius: var(--lit-material-select-shape-end, var(--lit-material-select-shape, var(--md-sys-shape-corner-extra-small, 4px)));
+    border-end-end-radius: var(--lit-material-select-shape-end, var(--lit-material-select-shape, var(--md-sys-shape-corner-extra-small, 4px)));
   }
 
   :host([variant="outlined"]) .trigger.focused {
