@@ -1,5 +1,11 @@
 # @lit-material/code-block
 
+## 0.1.2
+
+### Patch Changes
+
+- d65e91e: `validateJson` (and `lit-material-code-field language="json"`) names the right line in Safari, whose JSON errors give neither a line nor a position.
+
 ## 0.1.1
 
 ### Patch Changes
