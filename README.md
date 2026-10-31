@@ -110,7 +110,7 @@ components as you like.
 | [`@lit-material/file-upload`](packages/file-upload) | Drag-and-drop or click-to-browse file picking, single or multiple. |
 | [`@lit-material/timestamp`](packages/timestamp) | Absolute or live-updating relative date/time display. |
 | [`@lit-material/popover`](packages/popover) | Richer, click-triggered overlay content — distinct from the tooltip. |
-| [`@lit-material/icon`](packages/icon) | Consistent sizing/color wrapper for any icon content; ships no icon set. |
+| [`@lit-material/icon`](packages/icon) | Sizing/colour wrapper for any icon; register an SVG set once and use icons by name. |
 | [`@lit-material/overflow-menu`](packages/overflow-menu) | Responsive action row that collapses overflow into a kebab menu. |
 | [`@lit-material/color-scheme`](packages/color-scheme) | Light/dark/system toggle, persisted, with a no-flash `<head>` snippet. |
 | [`@lit-material/clipboard`](packages/clipboard) | `copyText()` with a plain-http fallback, copy button, read-only value with copy (optionally masked). |

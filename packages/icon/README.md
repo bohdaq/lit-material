@@ -38,8 +38,37 @@ npm install @lit-material/icon @lit-material/tokens
 | `size`   | `size`    | `"small" \| "medium" \| "large"`                        | `"medium"`  |
 | `color`  | `color`   | `"inherit" \| "info" \| "success" \| "warning" \| "error"` | `"inherit"` |
 | `label`  | `label`   | `string`                                                | `""`        |
+| `name`   | `name`    | `string` (a registered icon)                            | `""`        |
 
 Slot: default — the icon content (an `<svg>`, an `<img>`, or a character).
+
+## Icon sets
+
+Register an app's icons once, then use them by name — no hand-written `icons.js` mapping names to
+inline SVG in every app:
+
+```js
+import { registerIcons, icon } from "@lit-material/icon";
+// Vite: ?raw imports the file's text; only the icons you import are bundled.
+import trash from "@phosphor-icons/core/assets/regular/trash.svg?raw";
+import gauge from "@phosphor-icons/core/assets/regular/gauge.svg?raw";
+
+registerIcons({ trash, gauge });
+
+html`<lit-material-icon name="gauge"></lit-material-icon>`;
+html`<lit-material-button>${icon("trash", { slot: "icon" })}Delete</lit-material-button>`;
+html`${icon("gauge", { label: "Load", size: "small" })}`;
+```
+
+- Any SVG set works (Phosphor, Material Symbols, Lucide, your own): each string's fixed
+  `width`/`height` are dropped so the element sizes it, the root gets `fill="currentColor"` unless
+  it sets a fill (stroke sets keep `fill="none"`), and it's hidden from assistive technology.
+- `registerIcons(set, { prefix: "ph" })` namespaces a set: `name="ph:trash"`.
+- An element whose icon isn't registered yet renders nothing and fills in when it is (lazy-loaded
+  sets); a name still missing after that tick logs one warning.
+- `getIcon(name)`, `iconNames()` and `normalizeSvg(svg)` are exported too; it renders on the server
+  with `@lit-labs/ssr` when the set is registered there.
+- Icons are inserted as markup: register only SVG you ship, never user or network input.
 
 ## Behavior
 

@@ -1,5 +1,7 @@
 import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { unsafeSVG } from "lit/directives/unsafe-svg.js";
+import { ICONS_CHANGED, getIcon, iconRegistry, warnMissing } from "./registry.js";
 import { styles } from "./icon-styles.js";
 
 export type IconSize = "small" | "medium" | "large";
@@ -20,7 +22,10 @@ export type IconColor = "inherit" | "info" | "success" | "warning" | "error";
  *
  * @element lit-material-icon
  *
- * @slot - The icon content (an `<svg>`, an `<img>`, or a character).
+ * Set `name` to show an icon registered with `registerIcons()` instead of
+ * slotting one; it updates when icons are registered later.
+ *
+ * @slot - The icon content (an `<svg>`, an `<img>`, or a character); not used with `name`.
  *
  * @csspart icon - The host itself (size, color).
  */
@@ -32,6 +37,22 @@ export class LitMaterialIcon extends LitElement {
   @property({ reflect: true }) color: IconColor = "inherit";
   /** An accessible name — set only when the icon conveys information no nearby text already does. */
   @property() label = "";
+  /** A name registered with `registerIcons()`; replaces the slotted content. */
+  @property({ reflect: true }) name = "";
+
+  private readonly onIconsChanged = (): void => {
+    if (this.name) this.requestUpdate();
+  };
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    iconRegistry.addEventListener(ICONS_CHANGED, this.onIconsChanged);
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    iconRegistry.removeEventListener(ICONS_CHANGED, this.onIconsChanged);
+  }
 
   protected override willUpdate(): void {
     if (this.label) {
@@ -45,8 +66,16 @@ export class LitMaterialIcon extends LitElement {
     }
   }
 
-  override render() {
-    return html`<slot part="icon"></slot>`;
+  override render(): unknown {
+    if (!this.name) return html`<slot part="icon"></slot>`;
+    const svg = getIcon(this.name);
+    if (svg === undefined) {
+      // Give a set registered in the same tick a chance before warning.
+      const name = this.name;
+      queueMicrotask(() => getIcon(name) === undefined && warnMissing(name));
+      return html``;
+    }
+    return unsafeSVG(svg);
   }
 }
 

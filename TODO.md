@@ -137,8 +137,9 @@ consumer code each one replaces.
   `--lit-material-button-shape`, `-button-pressed-scale`,
   `-code-block-{shape,container-color,font,font-size,line-height,label-font}`,
   `-alert-shape`, `-stat-value-font`. rws `site/src/theme.css` can switch once released.
-- **Icon set helper.** Every app hand-wires inline Phosphor SVGs in an
-  `icons.js`; a small helper/registry for SVG sets.
+- ~~**Icon set helper.** Every app hand-wires inline Phosphor SVGs in an
+  `icons.js`; a small helper/registry for SVG sets.~~ Done: `registerIcons()` + `name` / `icon()` in
+  [`@lit-material/icon`](packages/icon).
 - ~~**Pagination** (also above) — server-side paging for `data-table`/`table`.~~ Done:
   `lit-material-data-table-pagination` gained `unknown-total` + `has-more` (cursor / `continue`
   paging), `disabled` and SVG icons; README shows a Kubernetes example.

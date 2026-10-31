@@ -35,7 +35,8 @@ export const styles = css`
   }
 
   ::slotted(svg),
-  ::slotted(img) {
+  ::slotted(img),
+  svg {
     width: 100%;
     height: 100%;
     display: block;
