@@ -1,5 +1,11 @@
 # @lit-material/jump-links
 
+## 0.2.0
+
+### Minor Changes
+
+- 571cf0b: `links` also takes a JSON attribute, so server-rendered markup carries the links and hydrates to the same list.
+
 ## 0.1.0
 
 ### Minor Changes
