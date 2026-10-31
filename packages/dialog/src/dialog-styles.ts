@@ -46,6 +46,8 @@ export const styles = css`
     padding: 24px;
     border-radius: var(--md-sys-shape-corner-extra-large, 28px);
     background-color: var(--md-sys-color-surface-container-high, #ece6f0);
+    /* Outlined text fields in the body notch their label against this surface. */
+    --lit-material-text-field-notch-color: var(--md-sys-color-surface-container-high, #ece6f0);
     color: var(--md-sys-color-on-surface, #1c1b1f);
     font-family: var(--md-sys-typescale-body-medium-font, Roboto, system-ui, sans-serif);
     box-shadow: var(

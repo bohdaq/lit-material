@@ -20,6 +20,8 @@ let instanceCount = 0;
  * @csspart label - The floating label element.
  * @csspart supporting - The supporting-text / character-counter row.
  *
+ * @cssprop --lit-material-text-field-notch-color - Behind the outlined variant's floating label; match the surface the field sits on (default `--md-sys-color-surface`; dialogs set it for you).
+ *
  * @fires input - Bubbles when the value changes (like a native input).
  * @fires change - Bubbles on committed edits (blur/Enter).
  */

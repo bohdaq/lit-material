@@ -6,7 +6,7 @@ export const styles = css`
     outline: none;
     vertical-align: top;
     -webkit-tap-highlight-color: transparent;
-    --notch-color: var(--md-sys-color-surface, #fffbfe);
+    --notch-color: var(--lit-material-text-field-notch-color, var(--md-sys-color-surface, #fffbfe));
   }
 
   :host([disabled]) {

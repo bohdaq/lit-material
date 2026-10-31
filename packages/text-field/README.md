@@ -107,6 +107,13 @@ error state after the field is blurred (touched).
 line would go) rather than vertically centering — unlike a single-line field, there's no sensible
 "middle" to center it in once the box is several rows tall.
 
+## Styling
+
+The outlined variant's floating label sits on a patch of `--lit-material-text-field-notch-color`
+(default `--md-sys-color-surface`) that hides the outline behind it. On another surface, set it to
+match: `lit-material-text-field { --lit-material-text-field-notch-color: var(--md-sys-color-surface-container-low); }`.
+`lit-material-dialog` sets it for fields in its body.
+
 ## License
 
 MIT
