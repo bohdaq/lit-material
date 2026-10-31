@@ -59,6 +59,41 @@ action triggers, removable tags), not a value a `<form>` submits, matching how M
 itself treats chips. Track a `filter` chip set's selection or an `input` chip list by listening for
 `change`/`remove` rather than reading `FormData`.
 
+## `lit-material-chip-input`
+
+A field that turns what you type into chips: tags, labels, email addresses, allowed hosts.
+
+```html
+<lit-material-chip-input id="hosts" label="Allowed hosts" placeholder="api.example.com"></lit-material-chip-input>
+<script type="module">
+  import "@lit-material/chip";
+  const hosts = document.querySelector("#hosts");
+  hosts.validator = (v) => (/^[a-z0-9.-]+$/.test(v) ? "" : "Not a host name");
+  hosts.addEventListener("change", (e) => console.log(e.detail.values));
+</script>
+```
+
+| Property          | Attribute          | Type                  | Default |
+| ----------------- | ------------------ | --------------------- | ------- |
+| `values`          | —                  | `string[]`            | `[]`    |
+| `label`           | `label`            | `string`              | `""`    |
+| `placeholder`     | `placeholder`      | `string`              | `""`    |
+| `supportingText`  | `supporting-text`  | `string`              | `""`    |
+| `validator`       | —                  | `(value) => string`   | —       |
+| `allowDuplicates` | `allow-duplicates` | `boolean`             | `false` |
+| `max`             | `max`              | `number` (0: no limit)| `0`     |
+| `disabled`        | `disabled` (reflected) | `boolean`         | `false` |
+| `invalid`         | `invalid` (reflected, read it) | `boolean` | `false` |
+
+Enter or a comma adds the typed value; a paste of several values (commas, spaces, new lines) adds
+them all and leaves any refused ones in the field. Backspace in the empty field removes the last
+chip; each chip's remove button is named "Remove <value>". A refused value keeps its text and shows
+why under the field (duplicates, `max`, `validator`). Methods `add(value)` (returns the refusal,
+`""` when added) and `removeAt(index)`; event `change` with `detail: { values }`. Additions and
+removals are announced.
+
+`lit-material-chip` also gained `remove-label` (default `"Remove"`), the remove button's name.
+
 ## License
 
 MIT

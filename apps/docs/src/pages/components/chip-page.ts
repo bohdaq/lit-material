@@ -50,6 +50,18 @@ export class DocsChipPage extends LitElement {
       </section>
 
       <section>
+        <h2>Chip input</h2>
+        <p>Type and press Enter or comma; paste several at once; Backspace removes the last.</p>
+        <lit-material-chip-input
+          label="Allowed hosts"
+          placeholder="api.example.com"
+          .values=${["example.com", "www.example.com"]}
+          .validator=${(v: string) => (/^[a-z0-9.-]+$/.test(v) ? "" : "Not a host name")}
+          style="max-width: 480px;"
+        ></lit-material-chip-input>
+      </section>
+
+      <section>
         <h2>Input (removable; click × to remove)</h2>
         <lit-material-chip variant="input" removable>Tag one</lit-material-chip>
         <lit-material-chip variant="input" removable>Tag two</lit-material-chip>

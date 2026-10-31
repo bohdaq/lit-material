@@ -37,6 +37,8 @@ import "./pages/components/status-page.js";
 import "./pages/components/color-scheme-page.js";
 import "./pages/components/confirm-page.js";
 import "./pages/components/key-value-page.js";
+import "./pages/components/format-page.js";
+import "./pages/components/split-panel-page.js";
 import "./pages/components/jump-links-page.js";
 import "./pages/components/sortable-page.js";
 import "./pages/components/dual-list-page.js";
@@ -492,6 +494,18 @@ export const navEntries: NavEntry[] = [
     label: "Key/value editor",
     group: "components",
     render: () => html`<docs-key-value-page></docs-key-value-page>`,
+  },
+  {
+    path: "/components/format",
+    label: "Format",
+    group: "components",
+    render: () => html`<docs-format-page></docs-format-page>`,
+  },
+  {
+    path: "/components/split-panel",
+    label: "Split panel",
+    group: "components",
+    render: () => html`<docs-split-panel-page></docs-split-panel-page>`,
   },
   {
     path: "/components/jump-links",

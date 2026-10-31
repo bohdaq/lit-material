@@ -26,6 +26,8 @@
     "@lit-material/color-scheme": "workspace:*",
     "@lit-material/confirm": "workspace:*",
     "@lit-material/key-value": "workspace:*",
+    "@lit-material/format": "workspace:*",
+    "@lit-material/split-panel": "workspace:*",
     "@lit-material/jump-links": "workspace:*",
     "@lit-material/sortable": "workspace:*",
     "@lit-material/dual-list": "workspace:*",

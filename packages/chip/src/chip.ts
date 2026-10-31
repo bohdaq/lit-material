@@ -38,6 +38,8 @@ export class LitMaterialChip extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) elevated = false;
   @property({ type: Boolean }) removable = false;
+  /** Accessible name of the remove button, e.g. "Remove app=web". */
+  @property({ attribute: "remove-label" }) removeLabel = "Remove";
 
   /** If set, renders the main action as a link (`<a>`) instead of a `<button>`. */
   @property() href = "";
@@ -118,7 +120,7 @@ export class LitMaterialChip extends LitElement {
                 part="remove-button"
                 type="button"
                 ?disabled=${this.disabled}
-                aria-label="Remove"
+                aria-label=${this.removeLabel}
                 @click=${this.handleRemoveClick}
               >
                 <svg class="remove-icon" viewBox="0 0 18 18" aria-hidden="true">

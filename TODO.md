@@ -157,3 +157,20 @@ consumer code each one replaces.
   so it should show text-field, list, empty-state, snackbar.~~ Done in rust-web-server 1d3f6067: text-field, list,
   empty-state, snackbar; it found the list fix in 0.0.3 (static rows' trailing
   controls weren't clickable).
+
+## Found surveying consumers and other libraries (2026-10-31)
+
+hitop's webapp, the rws site and admin UI, compared with Web Awesome, Carbon and PatternFly.
+
+- ~~**Sortable list** — hitop reorders requests with native drag and drop; no keyboard way.~~ Done:
+  [`@lit-material/sortable`](packages/sortable).
+- ~~**Jump links** — the rws docs' "On this page" has no current-section highlight.~~ Done:
+  [`@lit-material/jump-links`](packages/jump-links).
+- ~~**Chip input** — labels, emails, allowed hosts.~~ Done: `lit-material-chip-input` in
+  [`@lit-material/chip`](packages/chip).
+- ~~**Split panel** — request/response, editor/preview.~~ Done: [`@lit-material/split-panel`](packages/split-panel).
+- ~~**Formatting helpers** — bytes, counts, durations, Kubernetes quantities.~~ Done:
+  [`@lit-material/format`](packages/format).
+- **Adopt in consumers**: hitop — `color-scheme` instead of its theme toggle, `registerIcons`
+  instead of `icons.js`, `sortable` for request order; rws site — `jump-links` for "On this page",
+  `menu` for the version switcher, `search` for the docs search field.

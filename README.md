@@ -4,7 +4,7 @@ A [Material Design 3](https://m3.material.io/) web component collection built wi
 one package per component, no shared mega-bundle, no required adapter layer. Framework-agnostic, SSR-ready,
 and small enough to actually read the source of.
 
-- **62 components**, each its own npm package — install only what you use.
+- **64 components**, each its own npm package — install only what you use.
 - **Zero runtime dependencies beyond Lit.** No icon font, no CSS-in-JS runtime, no framework required.
 - **SSR-ready.** Every component is tested against [`@lit-labs/ssr`](https://www.npmjs.com/package/@lit-labs/ssr)
   as well as in a real browser.
@@ -68,7 +68,7 @@ components as you like.
 | [`@lit-material/switch`](packages/switch) | On/off toggle, optional thumb icons, form participation. |
 | [`@lit-material/slider`](packages/slider) | Single value, native `<input type="range">`-based. |
 | [`@lit-material/select`](packages/select) | `lit-material-select` + `lit-material-select-option`. |
-| [`@lit-material/chip`](packages/chip) | Assist, filter, input, suggestion variants. |
+| [`@lit-material/chip`](packages/chip) | Assist, filter, input, suggestion variants.; chip input for tags and labels. |
 | [`@lit-material/segmented-button`](packages/segmented-button) | Single-select or multi-select connected button row. |
 | [`@lit-material/card`](packages/card) | Elevated, filled, outlined; optionally interactive. |
 | [`@lit-material/carousel`](packages/carousel) | Scroll-snap based, with overlaid nav buttons. |
@@ -120,6 +120,8 @@ components as you like.
 | [`@lit-material/dual-list`](packages/dual-list) | Move items between available and chosen lists, with filters and full keyboard support. |
 | [`@lit-material/sortable`](packages/sortable) | Reorder by pointer, touch or keyboard, within or between lists; announced to screen readers. |
 | [`@lit-material/jump-links`](packages/jump-links) | "On this page" anchors that highlight the section in view; work without JS. |
+| [`@lit-material/split-panel`](packages/split-panel) | Two panes with a draggable, keyboard-operable divider (WAI-ARIA window splitter). |
+| [`@lit-material/format`](packages/format) | `formatBytes`, `formatNumber`, `formatDuration`, `formatCpu`, `parseQuantity` (Kubernetes) — locale-aware, no dependencies. |
 | [`@lit-material/key-value`](packages/key-value) | Key/value rows for labels and env vars: duplicate/pattern checks, `KEY=value` paste. |
 | [`@lit-material/status`](packages/status) | Icon + label coloured by state (ok, warning, error, info, neutral) — never colour alone. |
 | [`@lit-material/stat`](packages/stat) | Dashboard tile: label, large tabular value, caption or trend. |
