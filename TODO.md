@@ -145,7 +145,8 @@ consumer code each one replaces.
 - ~~**Usage meter** — quota bar with warning/critical thresholds, value and limit
   in text; `progress` doesn't cover thresholds.~~ Done: `lit-material-usage-meter` in
   [`@lit-material/progress`](packages/progress).
-- **Key/value editor** — labels, env vars, annotations.
+- ~~**Key/value editor** — labels, env vars, annotations.~~ Done:
+  [`@lit-material/key-value`](packages/key-value).
 - **Editable code field** — YAML/JSON editing; `code-block` is read-only.
 - **Number input**, **Input group** (also above).
 - **rws `starters/fullstack` frontend** (lives in rust-web-server) uses raw

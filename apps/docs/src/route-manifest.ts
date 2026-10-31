@@ -36,6 +36,7 @@ import "./pages/components/button-page.js";
 import "./pages/components/status-page.js";
 import "./pages/components/color-scheme-page.js";
 import "./pages/components/confirm-page.js";
+import "./pages/components/key-value-page.js";
 import "./pages/components/clipboard-page.js";
 import "./pages/components/stat-page.js";
 import "./pages/components/empty-state-page.js";
@@ -480,6 +481,12 @@ export const navEntries: NavEntry[] = [
     label: "Confirm",
     group: "components",
     render: () => html`<docs-confirm-page></docs-confirm-page>`,
+  },
+  {
+    path: "/components/key-value",
+    label: "Key/value editor",
+    group: "components",
+    render: () => html`<docs-key-value-page></docs-key-value-page>`,
   },
   {
     path: "/components/status",

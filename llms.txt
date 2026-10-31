@@ -68,6 +68,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Color Scheme](https://github.com/bohdaq/lit-material/tree/main/packages/color-scheme): `lit-material-color-scheme-toggle` (light/dark, or light/dark/system with `cycle`), `setColorScheme()`, `colorSchemeBootScript()` for a no-flash `<head>` script.
 - [Clipboard](https://github.com/bohdaq/lit-material/tree/main/packages/clipboard): `copyText()` (Clipboard API with execCommand fallback, resolves ok), `lit-material-copy-button` (`value` or `for`), `lit-material-clipboard-copy` (read-only value + copy, `masked`).
 - [Confirm](https://github.com/bohdaq/lit-material/tree/main/packages/confirm): `await confirm({ headline, message, confirmLabel, destructive, requireText })` resolves true/false; `lit-material-confirm-dialog` element.
+- [Key/value editor](https://github.com/bohdaq/lit-material/tree/main/packages/key-value): `lit-material-key-value-editor` — `.entries` `{key,value}[]`, `change` event, `toObject()`, `checkValidity()`, `key-pattern`, `mask-values`; `parseKeyValues()` for `.env` paste.
 - [Status](https://github.com/bohdaq/lit-material/tree/main/packages/status): Icon + label coloured by state (ok, warning, error, info, neutral) — never colour alone.
 - [Stat](https://github.com/bohdaq/lit-material/tree/main/packages/stat): Dashboard tile: label, large tabular value, caption or trend.
 - [Empty State](https://github.com/bohdaq/lit-material/tree/main/packages/empty-state): Headline, guidance and actions in place of a blank view.
