@@ -2,8 +2,9 @@
 # Trust .github/workflows/release.yml to publish every @lit-material package
 # (npm trusted publishing). Run once, logged in to npm as an owner of the
 # packages: `npm login` first. npm asks for 2FA approval per change.
-# New packages: run again after their first publish (a package must exist on
-# npm before it can trust a workflow); existing trusts are skipped.
+# New packages: use tools/first-publish.sh, which creates them and calls
+# this (a package must exist on npm before it can trust a workflow).
+# Existing trusts are skipped.
 # A trust expires 48 h after creation unless a publish uses it, so run the
 # release workflow within 48 h (`gh workflow run release.yml`). An expired
 # trust is still listed and skipped here: recreate it with `npm trust github`.

@@ -170,8 +170,10 @@ changeset with `pnpm changeset` and push. The [Release workflow](.github/workflo
 [trusted publishing](https://docs.npmjs.com/trusted-publishers) (no npm token in the repo, provenance
 attached) and pushes the tags.
 
-A new package is published once by hand (`corepack pnpm run release` while logged in to npm), then
-`tools/trust-publishing.sh <dir>` lets the workflow publish it from then on. Check with
+The workflow skips a package that isn't on npm yet and names it in a warning. Run
+`tools/first-publish.sh <dir>` (logged in to npm): it publishes a `0.0.0-init` placeholder, trusts the
+workflow for it and re-runs the workflow, which publishes the real version. That CI publish matters: npm
+expires a trust that no publish has used within 48 h. Check with
 `npx npm@12.2.1 trust list <package>`: it should show `file: release.yml`.
 
 If the workflow fails with `E404 … PUT https://registry.npmjs.org/@lit-material%2f<name>`, that package has no

@@ -64,6 +64,27 @@ jobs:
             echo "No changesets: nothing to version."
           fi
 
+      # npm trust is per package and needs the package to exist, so a new
+      # package can't be published from here: mark it private for this run
+      # (not committed) and print the commands for its first publish.
+      - name: Skip packages not on npm yet
+        run: |
+          new=()
+          for dir in packages/*/; do
+            dir=${dir%/}
+            pkg=$(node -p "require('./$dir/package.json').name")
+            [ "$(node -p "Boolean(require('./$dir/package.json').private)")" = true ] && continue
+            if npm view "$pkg" name 2>&1 | grep -q E404; then
+              (cd "$dir" && npm pkg set private=true)
+              new+=("${dir#packages/}")
+            fi
+          done
+          [ ${#new[@]} -eq 0 ] && exit 0
+          echo "::warning::New on npm, not published: ${new[*]}. Run tools/first-publish.sh ${new[*]}"
+          { echo "### New packages, not published"; echo
+            echo "Run \`tools/first-publish.sh ${new[*]}\` (logged in to npm): it creates them, trusts this workflow and re-runs it."
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Publish
         env:
           NPM_CONFIG_PROVENANCE: "true"
