@@ -72,10 +72,27 @@ separate activation keypress), matching real Material Design tab behavior. `Arro
 move focus and wrap at the ends, skipping disabled tabs; `Home`/`End` jump to the first/last
 enabled tab. Only the selected tab is in the tab order (roving `tabindex`).
 
-Tab *panels* are deliberately out of scope — showing a tab's content varies too much across real
-apps (a plain `<div>`, a routed view, lazy-loaded content) to bake in one scheme. Listen for
-`change` and show/hide your own content; set `aria-controls` on each `lit-material-tab` if you
-want full ARIA tab/tabpanel wiring to your own panel elements.
+### Panels
+
+Panels are opt-in. Put `lit-material-tab-panel` elements after the tabs, in the same parent, and
+they're paired with the tabs by index: the selected tab's panel is shown, the rest are hidden, and
+`aria-controls`/`aria-labelledby` are wired between them (ids are generated when you don't set
+them). Mark the initially selected panel `selected` so server-rendered markup shows it before
+hydration.
+
+```html
+<lit-material-tabs>
+  <lit-material-tab>Linux</lit-material-tab>
+  <lit-material-tab>macOS</lit-material-tab>
+</lit-material-tabs>
+<lit-material-tab-panel selected>curl … | sh</lit-material-tab-panel>
+<lit-material-tab-panel>brew install …</lit-material-tab-panel>
+```
+
+A panel has `role="tabpanel"` and `tabindex="0"` (it's a tab stop, per the APG pattern). A second
+`lit-material-tabs` in the same parent owns the panels after it.
+
+For routed or lazy-loaded content, leave panels out, listen for `change` and show your own content.
 
 ## License
 

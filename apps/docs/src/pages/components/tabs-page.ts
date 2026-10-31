@@ -17,12 +17,17 @@ function preview(state: PlaygroundState) {
       <lit-material-tab>Videos</lit-material-tab>
       <lit-material-tab ?disabled=${state.photosDisabled as boolean}>Photos</lit-material-tab>
     </lit-material-tabs>
+    ${["Music", "Videos", "Photos"].map(
+      (name, i) => html`<lit-material-tab-panel ?selected=${String(i) === state.selected}><p>${name} panel</p></lit-material-tab-panel>`,
+    )}
   `;
 }
 
 function markup(state: PlaygroundState): string {
   const disabled = state.photosDisabled ? " disabled" : "";
-  return `<lit-material-tabs selected="${state.selected}">\n  <lit-material-tab>Music</lit-material-tab>\n  <lit-material-tab>Videos</lit-material-tab>\n  <lit-material-tab${disabled}>Photos</lit-material-tab>\n</lit-material-tabs>`;
+  return `<lit-material-tabs selected="${state.selected}">\n  <lit-material-tab>Music</lit-material-tab>\n  <lit-material-tab>Videos</lit-material-tab>\n  <lit-material-tab${disabled}>Photos</lit-material-tab>\n</lit-material-tabs>\n${["Music", "Videos", "Photos"]
+    .map((name, i) => `<lit-material-tab-panel${String(i) === state.selected ? " selected" : ""}>${name} panel</lit-material-tab-panel>`)
+    .join("\n")}`;
 }
 
 @customElement("docs-tabs-page")
@@ -32,7 +37,7 @@ export class DocsTabsPage extends LitElement {
   override render() {
     return html`
       <h1>Tabs</h1>
-      <p>WAI-ARIA tabs pattern, automatic activation, sliding indicator. No tabpanel management — click a tab or use arrow keys.</p>
+      <p>WAI-ARIA tabs pattern, automatic activation, sliding indicator. Optional <code>lit-material-tab-panel</code> siblings are paired by index and shown for the selected tab.</p>
 
       <docs-playground .controls=${controls} .preview=${preview} .markup=${markup}></docs-playground>
     `;

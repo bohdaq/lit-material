@@ -105,3 +105,39 @@ rest are components the app had to write by hand.
   columns, scroll container) next to the div-based `data-table`, for
   read-only tables.~~ Done: [`@lit-material/table`](packages/table).
 - ~~**Empty state** (listed above under PatternFly) was needed six times.~~ Done: [`@lit-material/empty-state`](packages/empty-state).
+
+## Found reviewing rws + kube-dc usage
+
+Second pass (2026-10-31) over what rust-web-server's `site/`, `admin-ui/` and
+`starters/fullstack/` still hand-roll, plus what a kube-dc style console
+(deploy, rollout status, quotas) needs next. Ordered by how much existing
+consumer code each one replaces.
+
+- **Tab panels.** `lit-material-tabs` leaves panels to the page; the rws site
+  wrote `tab-panels.js` to show one by index on `change`. A
+  `lit-material-tab-panel` (or tabs that own their panels) with
+  `aria-controls`/`aria-labelledby` wired up.
+- **Bar chart.** `@lit-material/chart` has line + sparkline only; the rws
+  benchmarks page hand-wrote horizontal bars with one highlighted entity, a
+  shared pointer/focus tooltip and focusable rows (`site/src/charts/bars.js`,
+  `chart-tooltip.js`).
+- **Colour-scheme switch.** Light / dark / system toggle plus a no-flash head
+  snippet; the rws site wrote `theme-toggle.js` and an inline script.
+- **Confirm dialog.** Destructive actions (rws admin "Purge", kube-dc deletes)
+  need a one-call confirm, including a type-the-name-to-confirm variant.
+- **Clipboard copy** (also under PatternFly above) — install commands, URLs,
+  tokens, kubeconfigs.
+- **Component tokens instead of `::part` overrides.** The rws theme reaches
+  into button (press motion), code-block (radius, surface, mono font) and
+  alert (radius) through `::part`; expose these as custom properties.
+- **Icon set helper.** Every app hand-wires inline Phosphor SVGs in an
+  `icons.js`; a small helper/registry for SVG sets.
+- **Pagination** (also above) — server-side paging for `data-table`/`table`.
+- **Usage meter** — quota bar with warning/critical thresholds, value and limit
+  in text; `progress` doesn't cover thresholds.
+- **Key/value editor** — labels, env vars, annotations.
+- **Editable code field** — YAML/JSON editing; `code-block` is read-only.
+- **Number input**, **Input group** (also above).
+- **rws `starters/fullstack` frontend** (lives in rust-web-server) uses raw
+  `<input>`/`<ul>` and only `button`; agents copy it when deploying to kube-dc,
+  so it should show text-field, list, empty-state, snackbar.

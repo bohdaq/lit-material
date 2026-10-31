@@ -1,7 +1,10 @@
 import { html, LitElement } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import type { LitMaterialTab } from "./tab.js";
+import type { LitMaterialTabPanel } from "./tab-panel.js";
 import { styles } from "./tabs-styles.js";
+
+let nextId = 0;
 
 /**
  * Material Design 3 tabs — a horizontal row of `lit-material-tab` elements
@@ -11,11 +14,11 @@ import { styles } from "./tabs-styles.js";
  * the same roving-tabindex, wrap-on-arrow-keys, activate-immediately model
  * `lit-material-radio` already uses for its group).
  *
- * Tab *panels* are deliberately out of scope: what "showing a tab's content"
- * means varies too much across real apps (a plain `<div>`, a routed view,
- * lazy-loaded content...) to bake in one scheme. Listen for `change` and
- * show/hide your own content — set `aria-controls` on each `lit-material-tab`
- * if you want full ARIA tab/tabpanel wiring to your own panel elements.
+ * Panels are opt-in: put `lit-material-tab-panel` elements after the tabs
+ * (same parent) and they're paired by index, shown/hidden, and wired with
+ * `aria-controls`/`aria-labelledby`. For anything else (a routed view,
+ * lazy-loaded content...) leave them out, listen for `change` and show your
+ * own content.
  *
  * @element lit-material-tabs
  *
@@ -106,9 +109,36 @@ export class LitMaterialTabs extends LitElement {
     return this.tabs.filter((tab) => !tab.disabled);
   }
 
+  /**
+   * `lit-material-tab-panel` siblings after this element, paired with tabs
+   * by index. Panels are opt-in: with none, showing content stays the
+   * page's job (listen for `change`).
+   */
+  private get panels(): LitMaterialTabPanel[] {
+    const parent = this.parentElement;
+    if (!parent) return [];
+    const panels: LitMaterialTabPanel[] = [];
+    let seen = false;
+    for (const child of Array.from(parent.children)) {
+      if (child === this) seen = true;
+      else if (seen && child.localName === "lit-material-tab-panel") panels.push(child as LitMaterialTabPanel);
+      // A second tabs element in the same parent owns the panels after it.
+      else if (seen && child.localName === "lit-material-tabs") break;
+    }
+    return panels;
+  }
+
   private syncSelected(): void {
+    const panels = this.panels;
     this.tabs.forEach((tab, index) => {
       tab.selected = index === this.selected;
+      const panel = panels[index];
+      if (!panel) return;
+      panel.selected = index === this.selected;
+      if (!tab.id) tab.id = `lit-material-tab-${++nextId}`;
+      if (!panel.id) panel.id = `${tab.id}-panel`;
+      if (!panel.hasAttribute("aria-labelledby")) panel.setAttribute("aria-labelledby", tab.id);
+      if (!tab.ariaControls) tab.ariaControls = panel.id;
     });
   }
 
