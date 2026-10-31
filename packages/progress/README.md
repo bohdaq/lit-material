@@ -62,6 +62,33 @@ omitted entirely while indeterminate, per the WAI-ARIA progressbar pattern.
 A buffer/secondary-track variant of linear progress (e.g. video buffering) is a deliberate scope
 cut for this first pass.
 
+## Usage meter
+
+`lit-material-usage-meter` shows how much of a limit is used: a label, "used of limit" text and a
+bar, for quotas and disks.
+
+```html
+<lit-material-usage-meter label="Memory" unit="GiB" value="6.6" max="8"></lit-material-usage-meter>
+```
+
+| Property   | Attribute  | Type                    | Default                   |
+| ---------- | ---------- | ----------------------- | ------------------------- |
+| `label`    | `label`    | `string`                | `""`                      |
+| `value`    | `value`    | `number`                | `0`                       |
+| `max`      | `max`      | `number`                | `0` (no limit, no bar)    |
+| `unit`     | `unit`     | `string`                | `""`                      |
+| `warning`  | `warning`  | `number` (fraction)     | `0.8`                     |
+| `critical` | `critical` | `number` (fraction)     | `0.95`                    |
+| `format`   | —          | `(n: number) => string` | locale, up to 2 decimals  |
+| `level`    | `level` (reflected, read it) | `"" \| "warning" \| "critical"` | from the value |
+
+From `warning` the bar takes the warning colour and the text adds "near limit"; from `critical`
+or over the limit it takes the error colour ("over limit" once past it). The bar is a
+`role="meter"` named by the label, with the visible text as its value text.
+
+Custom properties: `--lit-material-usage-meter-color`, `-warning-color`, `-critical-color`,
+`-track-color`, `-height`. Parts: `label`, `value`, `bar`, `indicator`.
+
 ## License
 
 MIT

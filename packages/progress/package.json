@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/progress",
   "version": "0.0.1",
-  "description": "Material Design 3 linear and circular progress indicator web components.",
+  "description": "Material Design 3 linear and circular progress indicators and a usage meter, as web components.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
@@ -24,7 +24,9 @@
     "progress-indicator",
     "linear-progress",
     "circular-progress",
-    "spinner"
+    "spinner",
+    "meter",
+    "quota"
   ],
   "type": "module",
   "main": "./dist/index.js",

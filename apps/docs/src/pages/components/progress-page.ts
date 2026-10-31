@@ -45,6 +45,18 @@ export class DocsProgressPage extends LitElement {
         <lit-material-circular-progress id="circular" aria-label="Upload progress" value="0.3"></lit-material-circular-progress>
         <lit-material-circular-progress aria-label="Loading, unknown duration" indeterminate></lit-material-circular-progress>
       </div>
+
+      <h2>Usage meter</h2>
+      <p>
+        <code>lit-material-usage-meter</code> shows how much of a limit is used. It warns at 80% and turns critical at
+        95% or over the limit, in words as well as colour.
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 20px; max-width: 400px;">
+        <lit-material-usage-meter label="CPU" unit="cores" value="1.5" max="4"></lit-material-usage-meter>
+        <lit-material-usage-meter label="Memory" unit="GiB" value="6.6" max="8"></lit-material-usage-meter>
+        <lit-material-usage-meter label="Disk" unit="GiB" value="21" max="20"></lit-material-usage-meter>
+        <lit-material-usage-meter label="Public IPs" value="2"></lit-material-usage-meter>
+      </div>
     `;
   }
 }

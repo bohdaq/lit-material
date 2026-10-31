@@ -142,8 +142,9 @@ consumer code each one replaces.
 - ~~**Pagination** (also above) — server-side paging for `data-table`/`table`.~~ Done:
   `lit-material-data-table-pagination` gained `unknown-total` + `has-more` (cursor / `continue`
   paging), `disabled` and SVG icons; README shows a Kubernetes example.
-- **Usage meter** — quota bar with warning/critical thresholds, value and limit
-  in text; `progress` doesn't cover thresholds.
+- ~~**Usage meter** — quota bar with warning/critical thresholds, value and limit
+  in text; `progress` doesn't cover thresholds.~~ Done: `lit-material-usage-meter` in
+  [`@lit-material/progress`](packages/progress).
 - **Key/value editor** — labels, env vars, annotations.
 - **Editable code field** — YAML/JSON editing; `code-block` is read-only.
 - **Number input**, **Input group** (also above).

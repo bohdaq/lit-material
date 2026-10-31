@@ -85,7 +85,7 @@ components as you like.
 | [`@lit-material/tabs`](packages/tabs) | `lit-material-tabs` + `lit-material-tab`. |
 | [`@lit-material/top-app-bar`](packages/top-app-bar) | Center-aligned, small, medium, large. |
 | [`@lit-material/navigation`](packages/navigation) | Navigation drawer, rail, and bottom bar — and adaptive navigation that picks one by window width. |
-| [`@lit-material/progress`](packages/progress) | Linear and circular progress indicators. |
+| [`@lit-material/progress`](packages/progress) | Linear and circular progress indicators, usage meter for quotas. |
 | [`@lit-material/date-picker`](packages/date-picker) | Modal or docked date picker and date range picker. |
 | [`@lit-material/time-picker`](packages/time-picker) | Clock-dial dialog, 12- or 24-hour. |
 | [`@lit-material/autocomplete`](packages/autocomplete) | Text field with a filtered, data-driven option list. |
