@@ -125,8 +125,9 @@ consumer code each one replaces.
 - ~~**Colour-scheme switch.** Light / dark / system toggle plus a no-flash head
   snippet; the rws site wrote `theme-toggle.js` and an inline script.~~ Done:
   [`@lit-material/color-scheme`](packages/color-scheme).
-- **Confirm dialog.** Destructive actions (rws admin "Purge", kube-dc deletes)
-  need a one-call confirm, including a type-the-name-to-confirm variant.
+- ~~**Confirm dialog.** Destructive actions (rws admin "Purge", kube-dc deletes)
+  need a one-call confirm, including a type-the-name-to-confirm variant.~~ Done:
+  [`@lit-material/confirm`](packages/confirm).
 - **Clipboard copy** (also under PatternFly above) — install commands, URLs,
   tokens, kubeconfigs.
 - **Component tokens instead of `::part` overrides.** The rws theme reaches

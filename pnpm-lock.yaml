@@ -147,6 +147,9 @@ importers:
       '@lit-material/color-scheme':
         specifier: workspace:*
         version: link:../../packages/color-scheme
+      '@lit-material/confirm':
+        specifier: workspace:*
+        version: link:../../packages/confirm
       '@lit-material/data-list':
         specifier: workspace:*
         version: link:../../packages/data-list
@@ -801,6 +804,49 @@ importers:
       '@lit-material/icon-button':
         specifier: workspace:*
         version: link:../icon-button
+      '@lit-material/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
+    devDependencies:
+      '@lit-labs/ssr':
+        specifier: ^3.3.1
+        version: 3.3.1
+      '@open-wc/testing':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@web/dev-server-esbuild':
+        specifier: ^1.0.0
+        version: 1.0.5
+      '@web/test-runner':
+        specifier: ^0.19.0
+        version: 0.19.0
+      '@web/test-runner-commands':
+        specifier: ^0.9.0
+        version: 0.9.0
+      '@web/test-runner-playwright':
+        specifier: ^0.11.0
+        version: 0.11.1
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.0
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
+  packages/confirm:
+    dependencies:
+      '@lit-material/button':
+        specifier: workspace:*
+        version: link:../button
+      '@lit-material/dialog':
+        specifier: workspace:*
+        version: link:../dialog
+      '@lit-material/text-field':
+        specifier: workspace:*
+        version: link:../text-field
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens

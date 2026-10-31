@@ -23,6 +23,7 @@
     "@lit-material/chip": "workspace:*",
     "@lit-material/code-block": "workspace:*",
     "@lit-material/color-scheme": "workspace:*",
+    "@lit-material/confirm": "workspace:*",
     "@lit-material/data-list": "workspace:*",
     "@lit-material/data-table": "workspace:*",
     "@lit-material/date-picker": "workspace:*",
