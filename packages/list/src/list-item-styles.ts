@@ -91,6 +91,12 @@ export const styles = css`
     display: flex;
     align-items: center;
     flex: none;
+  }
+
+  /* An interactive row is one button/link: clicks on its icons belong to it.
+     A static row's slotted controls (a switch, a delete button) stay clickable. */
+  .item.interactive .leading,
+  .item.interactive .trailing {
     pointer-events: none;
   }
 

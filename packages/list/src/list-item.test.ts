@@ -141,4 +141,20 @@ describe("lit-material-list-item", () => {
     `);
     await expect(wrapper).to.be.accessible();
   });
+
+  it("lets a static row's trailing control take clicks", async () => {
+    const el = await fixture<LitMaterialListItem>(
+      html`<lit-material-list-item>Note<button slot="trailing">Delete</button></lit-material-list-item>`,
+    );
+    const button = el.querySelector("button")!;
+    const box = button.getBoundingClientRect();
+    expect(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2)).to.equal(button);
+  });
+
+  it("keeps an interactive row's trailing icon from taking clicks", async () => {
+    const el = await fixture<LitMaterialListItem>(
+      html`<lit-material-list-item interactive>Open<span slot="trailing">›</span></lit-material-list-item>`,
+    );
+    expect(getComputedStyle(el.querySelector("span")!).pointerEvents).to.equal("none");
+  });
 });
