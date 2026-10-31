@@ -1,5 +1,13 @@
 # @lit-material/list
 
+## 0.0.4
+
+### Patch Changes
+
+- Updated dependencies [998f020]
+  - @lit-material/core@0.0.3
+  - @lit-material/tokens@0.0.2
+
 ## 0.0.3
 
 ### Patch Changes

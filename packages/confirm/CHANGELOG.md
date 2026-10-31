@@ -1,5 +1,15 @@
 # @lit-material/confirm
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [998f020]
+  - @lit-material/tokens@0.0.2
+  - @lit-material/button@0.1.2
+  - @lit-material/text-field@0.2.1
+  - @lit-material/dialog@0.0.4
+
 ## 0.1.1
 
 ### Patch Changes

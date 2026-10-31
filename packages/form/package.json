@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/form",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A reactive controller that tracks a native <form>'s aggregate validity for a Lit host.",
   "license": "MIT",
   "author": {

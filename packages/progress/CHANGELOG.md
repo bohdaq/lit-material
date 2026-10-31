@@ -1,5 +1,12 @@
 # @lit-material/progress
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies [998f020]
+  - @lit-material/tokens@0.0.2
+
 ## 0.1.0
 
 ### Minor Changes

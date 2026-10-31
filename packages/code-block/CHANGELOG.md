@@ -1,5 +1,13 @@
 # @lit-material/code-block
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies [998f020]
+  - @lit-material/tokens@0.0.2
+  - @lit-material/clipboard@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes

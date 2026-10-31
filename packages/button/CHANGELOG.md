@@ -1,5 +1,13 @@
 # @lit-material/button
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [998f020]
+  - @lit-material/core@0.0.3
+  - @lit-material/tokens@0.0.2
+
 ## 0.1.1
 
 ### Patch Changes

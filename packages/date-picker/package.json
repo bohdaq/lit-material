@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/date-picker",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Material Design 3 modal or docked date picker and date range picker web components.",
   "license": "MIT",
   "author": {

@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/task",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A dependency-free reactive controller for async work (data fetching) tied to a Lit host's reactive properties.",
   "license": "MIT",
   "author": {
@@ -15,7 +15,15 @@
     "url": "git+ssh://git@github.com/bohdaq/lit-material.git",
     "directory": "packages/task"
   },
-  "keywords": ["lit", "web-components", "lit-material", "reactive-controller", "task", "data-fetching", "async"],
+  "keywords": [
+    "lit",
+    "web-components",
+    "lit-material",
+    "reactive-controller",
+    "task",
+    "data-fetching",
+    "async"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

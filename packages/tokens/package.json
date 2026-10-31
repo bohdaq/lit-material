@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/tokens",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Material Design 3 design tokens (color, type, shape, elevation, motion) for lit-material components.",
   "license": "MIT",
   "author": {
@@ -15,7 +15,15 @@
     "url": "git+ssh://git@github.com/bohdaq/lit-material.git",
     "directory": "packages/tokens"
   },
-  "keywords": ["lit", "web-components", "lit-material", "material-design", "material-design-3", "design-tokens", "css-custom-properties"],
+  "keywords": [
+    "lit",
+    "web-components",
+    "lit-material",
+    "material-design",
+    "material-design-3",
+    "design-tokens",
+    "css-custom-properties"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

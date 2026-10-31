@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/core",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Shared reactive controllers and helpers (ripple, focus-ring, theme context) for lit-material components.",
   "license": "MIT",
   "author": {
@@ -15,7 +15,15 @@
     "url": "git+ssh://git@github.com/bohdaq/lit-material.git",
     "directory": "packages/core"
   },
-  "keywords": ["lit", "web-components", "lit-material", "reactive-controller", "ripple", "focus-ring", "context"],
+  "keywords": [
+    "lit",
+    "web-components",
+    "lit-material",
+    "reactive-controller",
+    "ripple",
+    "focus-ring",
+    "context"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
