@@ -81,7 +81,9 @@ describe("lit-material-key-value-editor", () => {
     await el.addRow();
     const data = new DataTransfer();
     data.setData("text/plain", "# env\nPORT=8080\nexport NAME=\"web app\"\n");
-    const paste = new ClipboardEvent("paste", { clipboardData: data, bubbles: true, cancelable: true, composed: true });
+    // Firefox drops `clipboardData` from a synthetic ClipboardEvent's init.
+    const paste = new ClipboardEvent("paste", { bubbles: true, cancelable: true, composed: true });
+    Object.defineProperty(paste, "clipboardData", { value: data });
     fields(el)[0].dispatchEvent(paste);
     await el.updateComplete;
     expect(paste.defaultPrevented).to.be.true;
