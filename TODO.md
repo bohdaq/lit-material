@@ -131,9 +131,12 @@ consumer code each one replaces.
 - ~~**Clipboard copy** (also under PatternFly above) — install commands, URLs,
   tokens, kubeconfigs.~~ Done: [`@lit-material/clipboard`](packages/clipboard); code-block
   copies through it (it used to report "Copied" on plain http, where nothing was copied).
-- **Component tokens instead of `::part` overrides.** The rws theme reaches
+- ~~**Component tokens instead of `::part` overrides.** The rws theme reaches
   into button (press motion), code-block (radius, surface, mono font) and
-  alert (radius) through `::part`; expose these as custom properties.
+  alert (radius) through `::part`; expose these as custom properties.~~ Done:
+  `--lit-material-button-shape`, `-button-pressed-scale`,
+  `-code-block-{shape,container-color,font,font-size,line-height,label-font}`,
+  `-alert-shape`, `-stat-value-font`. rws `site/src/theme.css` can switch once released.
 - **Icon set helper.** Every app hand-wires inline Phosphor SVGs in an
   `icons.js`; a small helper/registry for SVG sets.
 - **Pagination** (also above) — server-side paging for `data-table`/`table`.

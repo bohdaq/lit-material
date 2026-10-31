@@ -51,7 +51,7 @@ npm install @lit-material/stat @lit-material/tokens
 | `variant` | `variant` (reflected) | `"outlined" \| "filled" \| "plain"` | `"outlined"` |
 
 Slots: `icon` (beside the label), `caption` (replaces the `caption` text). Parts: `stat`, `label`,
-`value`, `caption`. Custom properties: `--lit-material-stat-value-size`, `-value-line-height`,
+`value`, `caption`. Custom properties: `--lit-material-stat-value-font`, `-value-size`, `-value-line-height`,
 `-value-weight`, `-positive-color`, `-negative-color`.
 
 The value is text you format, shown in tabular figures so a refreshing number doesn't jitter.

@@ -24,7 +24,7 @@ export const styles = css`
     gap: 12px;
     box-sizing: border-box;
     padding: 16px;
-    border-radius: var(--md-sys-shape-corner-small, 8px);
+    border-radius: var(--lit-material-alert-shape, var(--md-sys-shape-corner-small, 8px));
     color: var(--md-sys-color-on-surface, #1c1b1f);
     font-family: var(--md-sys-typescale-body-medium-font, Roboto, system-ui, sans-serif);
     font-size: var(--md-sys-typescale-body-medium-size, 0.875rem);

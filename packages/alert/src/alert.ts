@@ -53,6 +53,8 @@ const ICONS: Record<AlertVariant, ReturnType<typeof svg>> = {
  * @slot - The alert's description/body text.
  * @slot action - Optional action buttons/links. For more than one, wrap them in a single element yourself so they end up in one row.
  *
+ * @cssprop --lit-material-alert-shape - Corner radius (default `--md-sys-shape-corner-small`).
+ *
  * @csspart alert - The banner (background, padding, shape).
  * @csspart icon - The icon container.
  * @csspart body - The title/description/action container.

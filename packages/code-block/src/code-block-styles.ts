@@ -7,8 +7,8 @@ export const styles = css`
 
   .code-block {
     box-sizing: border-box;
-    border-radius: var(--md-sys-shape-corner-small, 8px);
-    background-color: var(--md-sys-color-surface-container-high, #ece6f0);
+    border-radius: var(--lit-material-code-block-shape, var(--md-sys-shape-corner-small, 8px));
+    background-color: var(--lit-material-code-block-container-color, var(--md-sys-color-surface-container-high, #ece6f0));
     color: var(--md-sys-color-on-surface, #1c1b1f);
     overflow: hidden;
   }
@@ -24,6 +24,10 @@ export const styles = css`
     font-family: var(--md-sys-typescale-label-medium-font, Roboto, system-ui, sans-serif);
     font-size: var(--md-sys-typescale-label-medium-size, 0.75rem);
     color: var(--md-sys-color-on-surface-variant, #49454f);
+  }
+
+  .label {
+    font-family: var(--lit-material-code-block-label-font, inherit);
   }
 
   .label {
@@ -61,9 +65,12 @@ export const styles = css`
     box-sizing: border-box;
     padding: 12px 16px;
     overflow-x: auto;
-    font-family: var(--md-sys-typescale-code-font, "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
-    font-size: 0.875rem;
-    line-height: 1.5;
+    font-family: var(
+      --lit-material-code-block-font,
+      var(--md-sys-typescale-code-font, "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace)
+    );
+    font-size: var(--lit-material-code-block-font-size, 0.875rem);
+    line-height: var(--lit-material-code-block-line-height, 1.5);
     white-space: pre;
   }
 

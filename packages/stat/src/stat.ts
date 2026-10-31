@@ -21,6 +21,11 @@ export type StatVariant = "outlined" | "filled" | "plain";
  * @slot icon - An optional icon beside the label.
  * @slot caption - Rich caption content (replaces the `caption` text).
  *
+ * @cssprop --lit-material-stat-value-font - The value's font family, e.g. monospace (default: inherited).
+ * @cssprop --lit-material-stat-value-size - The value's font size (default `1.5rem`).
+ * @cssprop --lit-material-stat-value-line-height - The value's line height (default `2rem`).
+ * @cssprop --lit-material-stat-value-weight - The value's font weight (default `600`).
+ *
  * @csspart stat - The tile.
  * @csspart label - The label.
  * @csspart value - The value.

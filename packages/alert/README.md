@@ -61,6 +61,8 @@ MD3 doesn't define standard color roles for "success"/"warning"/"info" the way i
 `error` uses the real `--md-sys-color-error`/`-error-container` tokens since a spec answer exists
 there.
 
+`--lit-material-alert-shape` sets the corner radius.
+
 ## License
 
 MIT

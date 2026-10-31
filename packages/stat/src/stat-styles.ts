@@ -41,6 +41,7 @@ export const styles = css`
 
   .value {
     margin-top: 4px;
+    font-family: var(--lit-material-stat-value-font, inherit);
     font-size: var(--lit-material-stat-value-size, 1.5rem);
     line-height: var(--lit-material-stat-value-line-height, 2rem);
     font-weight: var(--lit-material-stat-value-weight, 600);

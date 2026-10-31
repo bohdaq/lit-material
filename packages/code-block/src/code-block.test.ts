@@ -109,4 +109,17 @@ describe("lit-material-code-block", () => {
     );
     await expect(el).to.be.accessible();
   });
+
+  it("takes shape, colour and font from its custom properties", async () => {
+    const el = await fixture<LitMaterialCodeBlock>(
+      html`<lit-material-code-block
+        style="--lit-material-code-block-shape: 3px; --lit-material-code-block-container-color: rgb(1, 2, 3); --lit-material-code-block-font: serif"
+        >x</lit-material-code-block
+      >`,
+    );
+    const box = getComputedStyle(el.shadowRoot!.querySelector(".code-block")!);
+    expect(box.borderTopLeftRadius).to.equal("3px");
+    expect(box.backgroundColor).to.equal("rgb(1, 2, 3)");
+    expect(getComputedStyle(el.shadowRoot!.querySelector(".pre")!).fontFamily).to.equal("serif");
+  });
 });

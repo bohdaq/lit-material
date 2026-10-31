@@ -16,6 +16,13 @@ import { styles } from "./code-block-styles.js";
  *
  * @slot - The code content (plain text, or pre-highlighted markup from your own highlighter).
  *
+ * @cssprop --lit-material-code-block-shape - Corner radius (default `--md-sys-shape-corner-small`).
+ * @cssprop --lit-material-code-block-container-color - Background (default `--md-sys-color-surface-container-high`).
+ * @cssprop --lit-material-code-block-font - The code's font family (default `--md-sys-typescale-code-font`, then monospace).
+ * @cssprop --lit-material-code-block-font-size - The code's font size (default `0.875rem`).
+ * @cssprop --lit-material-code-block-line-height - The code's line height (default `1.5`).
+ * @cssprop --lit-material-code-block-label-font - The label's font family, e.g. a monospace file name (default: the header's).
+ *
  * @csspart code-block - The outer container.
  * @csspart header - The label/copy-button row. Only rendered when `label` or `copyable`.
  * @csspart label - The label text.

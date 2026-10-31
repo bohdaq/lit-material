@@ -23,7 +23,7 @@ export const styles = css`
     min-width: 64px;
     padding: 0 var(--lit-material-button-padding-inline, 24px);
     border: none;
-    border-radius: var(--md-sys-shape-corner-full, 9999px);
+    border-radius: var(--lit-material-button-shape, var(--md-sys-shape-corner-full, 9999px));
     background-color: transparent;
     cursor: pointer;
     font-family: var(--md-sys-typescale-label-large-font, Roboto, system-ui, sans-serif);
@@ -36,7 +36,18 @@ export const styles = css`
     appearance: none;
     transition:
       box-shadow 150ms var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1)),
-      background-color 150ms var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+      background-color 150ms var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1)),
+      transform 150ms var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  }
+
+  .button:active {
+    transform: scale(var(--lit-material-button-pressed-scale, 1));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .button:active {
+      transform: none;
+    }
   }
 
   .button:disabled,

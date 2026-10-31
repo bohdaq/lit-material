@@ -63,6 +63,19 @@ and `copyable="false"` together mean no header at all, not an empty band.
 hiding it outright — useful for long snippets where you want a compact default without losing the
 option to see everything.
 
+## Styling
+
+Theme the component through custom properties rather than `::part`:
+
+| Property | Default |
+| --- | --- |
+| `--lit-material-code-block-shape` | `--md-sys-shape-corner-small` |
+| `--lit-material-code-block-container-color` | `--md-sys-color-surface-container-high` |
+| `--lit-material-code-block-font` | `--md-sys-typescale-code-font`, then monospace |
+| `--lit-material-code-block-font-size` | `0.875rem` |
+| `--lit-material-code-block-line-height` | `1.5` |
+| `--lit-material-code-block-label-font` | the header's font |
+
 ## License
 
 MIT

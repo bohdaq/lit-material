@@ -19,6 +19,8 @@ let instanceCount = 0;
  * @cssprop --lit-material-button-height - Button height (default `40px`).
  * @cssprop --lit-material-button-padding-inline - Left and right padding (default `24px`).
  * @cssprop --lit-material-button-text-padding-inline - The same for `variant="text"` (default `12px`).
+ * @cssprop --lit-material-button-shape - Corner radius (default `--md-sys-shape-corner-full`).
+ * @cssprop --lit-material-button-pressed-scale - Scale while pressed, e.g. `0.98` (default `1`; off under reduced motion).
  *
  * @csspart button - The native `<button>` or `<a>` element rendered inside the shadow root.
  * @csspart ripple - The state-layer element the hover/press feedback is drawn on.

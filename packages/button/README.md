@@ -42,6 +42,17 @@ Slots: default (label), `icon` (leading icon).
 `type="submit"` and `type="reset"` participate in an ancestor `<form>` via
 `ElementInternals`; setting `href` renders an `<a>` instead of a `<button>`.
 
+## Styling
+
+Theme the component through custom properties rather than `::part`:
+
+| Property | Default |
+| --- | --- |
+| `--lit-material-button-height` | `40px` |
+| `--lit-material-button-padding-inline` | `24px` (`12px` for `text`: `--lit-material-button-text-padding-inline`) |
+| `--lit-material-button-shape` | `--md-sys-shape-corner-full` |
+| `--lit-material-button-pressed-scale` | `1` (try `0.98`; ignored under reduced motion) |
+
 ## License
 
 MIT
