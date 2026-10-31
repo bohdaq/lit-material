@@ -154,3 +154,93 @@ describe("lit-material-sortable", () => {
     expect((await listener).detail.to).to.equal(2);
   });
 });
+
+/** Six 60×40 cards, three to a row, reordered on `sort`. */
+async function grid(dir = "ltr") {
+  const host = await fixture<HTMLDivElement>(html`<div dir=${dir}></div>`);
+  const data = ["A", "B", "C", "D", "E", "F"];
+  const draw = () =>
+    render(
+      html`<lit-material-sortable layout="grid" label="Cards" style="display: grid; grid-template-columns: repeat(3, 60px); gap: 10px; width: 240px" @sort=${(e: CustomEvent<SortDetail>) => {
+        const [moved] = data.splice(e.detail.from, 1);
+        data.splice(e.detail.to, 0, moved!);
+        draw();
+      }}>
+        ${repeat(data, (n) => n, (n) => html`<button data-sort-id=${n} style="height: 40px">${n}</button>`)}
+      </lit-material-sortable>`,
+      host,
+    );
+  draw();
+  const el = host.querySelector("lit-material-sortable") as LitMaterialSortable;
+  await el.updateComplete;
+  const card = (n: string) => el.querySelector<HTMLElement>(`[data-sort-id="${n}"]`)!;
+  return { el, order: () => [...data], card };
+}
+
+describe("lit-material-sortable layout=grid", () => {
+  it("drops in reading order and stands the line between cards", async () => {
+    const { el, order, card } = await grid();
+    const a = card("A").getBoundingClientRect();
+    const e = card("E").getBoundingClientRect();
+    pointer("pointerdown", card("A"), a.left + 5, a.top + 5);
+    pointer("pointermove", document, a.left + 20, a.top + 5);
+    pointer("pointermove", document, e.right - 5, e.top + 20); // E's second half
+    await el.updateComplete;
+    const line = el.shadowRoot!.querySelector<HTMLElement>(".indicator.between")!;
+    expect(line).to.exist;
+    // Between E and F, the height of a card.
+    expect(line.getBoundingClientRect().height).to.equal(40);
+    const f = card("F").getBoundingClientRect();
+    expect(line.getBoundingClientRect().left).to.be.within(e.right - 1, f.left + 1);
+    const listener = oneEvent(el, "sort");
+    pointer("pointerup", document, e.right - 5, e.top + 20);
+    expect((await listener).detail.to).to.equal(4);
+    expect(order()).to.deep.equal(["B", "C", "D", "E", "A", "F"]);
+  });
+
+  it("drops at the end of a row from past its last card", async () => {
+    const { order, card } = await grid();
+    const a = card("A").getBoundingClientRect();
+    const c = card("C").getBoundingClientRect();
+    pointer("pointerdown", card("A"), a.left + 5, a.top + 5);
+    pointer("pointermove", document, a.left + 20, a.top + 5);
+    pointer("pointermove", document, c.right + 2, c.top + 20);
+    pointer("pointerup", document, c.right + 2, c.top + 20);
+    await frames();
+    expect(order()).to.deep.equal(["B", "C", "A", "D", "E", "F"]);
+  });
+
+  it("moves a row with ↑/↓ and one place with ←/→", async () => {
+    const { order, card } = await grid();
+    card("B").focus();
+    await sendKeys({ press: "Space" });
+    await sendKeys({ press: "ArrowDown" });
+    await frames();
+    expect(order()).to.deep.equal(["A", "C", "D", "E", "B", "F"]);
+    await sendKeys({ press: "ArrowLeft" });
+    await frames();
+    expect(order()).to.deep.equal(["A", "C", "D", "B", "E", "F"]);
+    await sendKeys({ press: "ArrowUp" });
+    await frames();
+    expect(order()).to.deep.equal(["B", "A", "C", "D", "E", "F"]);
+    await sendKeys({ press: "Space" });
+  });
+
+  it("follows the reading direction right to left", async () => {
+    const { order, card } = await grid("rtl");
+    card("A").focus();
+    await sendKeys({ press: "Space" });
+    await sendKeys({ press: "ArrowLeft" }); // forward in RTL
+    await frames();
+    expect(order()).to.deep.equal(["B", "A", "C", "D", "E", "F"]);
+    await sendKeys({ press: "Space" });
+    const b = card("B").getBoundingClientRect();
+    const c = card("C").getBoundingClientRect();
+    pointer("pointerdown", card("B"), b.right - 5, b.top + 5);
+    pointer("pointermove", document, b.right - 20, b.top + 5);
+    pointer("pointermove", document, c.left + 5, c.top + 20); // C's second half, reading leftwards
+    pointer("pointerup", document, c.left + 5, c.top + 20);
+    await frames();
+    expect(order()).to.deep.equal(["A", "C", "B", "D", "E", "F"]);
+  });
+});

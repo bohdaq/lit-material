@@ -54,12 +54,17 @@ describe("lit-material-code-field", () => {
   });
 
   it("lets Tab leave after Escape", async () => {
-    const el = await field("x");
+    // A button to move to: Firefox keeps focus when Tab would leave the page.
+    const host = await fixture<HTMLDivElement>(
+      html`<div><lit-material-code-field label="Config" .value=${"x"}></lit-material-code-field><button>Next</button></div>`,
+    );
+    const el = host.querySelector("lit-material-code-field")!;
+    await el.updateComplete;
     area(el).focus();
     await sendKeys({ press: "Escape" });
     await sendKeys({ press: "Tab" });
     expect(el.value).to.equal("x");
-    expect(el.shadowRoot!.activeElement).to.not.equal(area(el));
+    expect(document.activeElement).to.equal(host.querySelector("button"));
   });
 
   it("fires input on typing", async () => {
@@ -101,5 +106,8 @@ describe("validateJson", () => {
 
   it("names the line", () => {
     expect(validateJson('{\n"a": }')).to.match(/^Line 2: /);
+    expect(validateJson('{\n  "a": 1,\n  "b": [1, 2,]\n}')).to.match(/^Line 3: /);
+    expect(validateJson('{\n  "a": "x\\"y",\n  b: 2\n}')).to.match(/^Line 3: /);
+    expect(validateJson('[\n  1,\n  2')).to.match(/^Line 3: /);
   });
 });

@@ -37,6 +37,7 @@ items (`repeat`, React `key`) so the moved element keeps keyboard focus.
 | `group`    | `group`    | `string`  | `""` (this list only) |
 | `label`    | `label`    | `string`  | `""` (names the list in announcements) |
 | `disabled` | `disabled` (reflected) | `boolean` | `false` |
+| `layout` | `layout` (reflected) | `"list" \| "grid"` | `"list"` |
 
 Event `sort`: `detail: { item, id, from, to, fromList, toList }` — `to` is the item's index in
 `toList` after the move. Between lists it fires on the list the item left; check
@@ -51,6 +52,9 @@ default the text), `data-sort-handle` on the handle (default: the item). While d
   cancels. Handles get `touch-action: none` so touch drags don't scroll.
 - Keyboard: focus a handle, Space or Enter picks the item up, ↑/↓ (or Home/End) move it — each move
   fires `sort` — Space drops, Escape puts it back where it started. Moving focus away drops it.
+- `layout="grid"`: for items in rows — a card grid, wrapping chips, one horizontal row. Make the
+  list itself the grid or flex container. The drop slot follows reading order (right to left too),
+  the drop line stands between items, and from the keyboard ←/→ move one place and ↑/↓ a row.
 - Handles get `aria-description="Press Space to reorder"` unless they have one; pick-up, moves and
   drops are announced from a live region.
 - Lists that share a `group` accept each other's items by pointer.

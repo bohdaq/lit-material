@@ -1,6 +1,8 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 
+export type SortLayout = "list" | "grid";
+
 export interface SortDetail {
   /** The moved element. */
   item: HTMLElement;
@@ -33,6 +35,11 @@ const DRAG_THRESHOLD = 4;
  * re-renders — so it works with Lit, React or plain DOM, which each own
  * their own nodes. Lists that share a `group` accept each other's items by
  * pointer; `sort` then fires on the list the item left, with `toList` set.
+ *
+ * `layout="grid"` is for items laid out in rows — a card grid, chips that
+ * wrap, a single horizontal row (style the list as the grid or flex
+ * container): the drop slot follows reading order, the drop line stands
+ * between items, ←/→ move one place and ↑/↓ a row.
  *
  * @element lit-material-sortable
  *
@@ -68,6 +75,12 @@ export class LitMaterialSortable extends LitElement {
       background: var(--lit-material-sortable-indicator-color, var(--md-sys-color-primary, light-dark(#6750a4, #d0bcff)));
       pointer-events: none;
     }
+    .indicator.between {
+      width: 2px;
+      margin-top: 0;
+      margin-inline-start: -1px;
+      inset-inline: auto;
+    }
     .sr {
       position: absolute;
       width: 1px;
@@ -85,6 +98,9 @@ export class LitMaterialSortable extends LitElement {
   @property() label = "";
 
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  /** `list`: one item per row. `grid`: items in rows (a card grid, wrapping chips, one horizontal row). */
+  @property({ reflect: true }) layout: SortLayout = "list";
 
   /** Where a dragged item would land (index among the other items), or `null`. */
   @state() private dropIndex: number | null = null;
@@ -202,7 +218,7 @@ export class LitMaterialSortable extends LitElement {
     const target = this.listAt(event.clientX, event.clientY);
     if (drag.target && drag.target !== target) drag.target.dropIndex = null;
     drag.target = target;
-    if (target) target.dropIndex = target.indexAt(event.clientY, drag.item);
+    if (target) target.dropIndex = target.indexAt(event.clientY, drag.item, event.clientX);
   };
 
   private readonly onPointerUp = (event: PointerEvent): void => {
@@ -253,25 +269,64 @@ export class LitMaterialSortable extends LitElement {
     return null;
   }
 
-  /** Index among the items other than `dragged` before which `y` falls. */
-  indexAt(y: number, dragged: HTMLElement): number {
+  private get rtl(): boolean {
+    return getComputedStyle(this).direction === "rtl";
+  }
+
+  /**
+   * Index among the items other than `dragged` before which the point falls:
+   * by `y` in a list; in a grid, the first item in a row below the point or
+   * in its row past it.
+   */
+  indexAt(y: number, dragged: HTMLElement, x = 0): number {
     const others = this.items.filter((item) => item !== dragged);
+    const grid = this.layout === "grid";
+    const rtl = grid && this.rtl;
     const index = others.findIndex((item) => {
       const box = item.getBoundingClientRect();
-      return y < box.top + box.height / 2;
+      if (!grid) return y < box.top + box.height / 2;
+      if (y < box.top) return true;
+      if (y > box.bottom) return false;
+      const middle = box.left + box.width / 2;
+      return rtl ? x > middle : x < middle;
     });
     return index === -1 ? others.length : index;
   }
 
-  private indicatorTop(): number | null {
+  /** The drop line, relative to the list: a horizontal line in a list, an upright one between items in a grid. */
+  private indicator(): { top: number; left?: number; height?: number } | null {
     if (this.dropIndex === null) return null;
     const dragged = this.drag?.item ?? document.querySelector<HTMLElement>("[data-sort-dragging]");
     const others = this.items.filter((item) => item !== dragged);
     const host = this.getBoundingClientRect();
-    if (others.length === 0) return 0;
+    if (others.length === 0) return { top: 0 };
     const next = others[this.dropIndex];
-    if (next) return next.getBoundingClientRect().top - host.top;
-    return others[others.length - 1]!.getBoundingClientRect().bottom - host.top;
+    const prev = others[this.dropIndex - 1];
+    if (this.layout !== "grid") {
+      if (next) return { top: next.getBoundingClientRect().top - host.top };
+      return { top: others[others.length - 1]!.getBoundingClientRect().bottom - host.top };
+    }
+    const rtl = this.rtl;
+    const lead = (box: DOMRect) => (rtl ? box.right : box.left);
+    const trail = (box: DOMRect) => (rtl ? box.left : box.right);
+    const n = next?.getBoundingClientRect();
+    const p = prev?.getBoundingClientRect();
+    // Between two items of one row: halfway across the gap.
+    const box = n ?? p!;
+    let x = n ? lead(n) : trail(p!);
+    if (n && p && Math.abs(n.top - p.top) < 1) x = (trail(p) + lead(n)) / 2;
+    // `left` is applied as inset-inline-start, so measure from the start edge.
+    const left = rtl ? host.right - x : x - host.left;
+    return { top: box.top - host.top, left, height: box.height };
+  }
+
+  /** Items per row in a grid (those level with the first). */
+  private get columns(): number {
+    const items = this.items;
+    if (this.layout !== "grid" || items.length === 0) return 1;
+    const top = items[0]!.getBoundingClientRect().top;
+    const count = items.filter((item) => Math.abs(item.getBoundingClientRect().top - top) < 1).length;
+    return Math.max(1, count);
   }
 
   // ---- Keyboard ----
@@ -302,7 +357,9 @@ export class LitMaterialSortable extends LitElement {
       this.drop(`${this.nameOf(item)} back at position ${grabbed.origin + 1} of ${count}.`);
       return;
     }
-    const step = { ArrowUp: -1, ArrowDown: 1, ArrowLeft: -1, ArrowRight: 1 }[event.key];
+    const row = this.columns;
+    const side = this.layout === "grid" && this.rtl ? -1 : 1;
+    const step = { ArrowUp: -row, ArrowDown: row, ArrowLeft: -side, ArrowRight: side }[event.key];
     const jump = event.key === "Home" ? 0 : event.key === "End" ? count - 1 : undefined;
     if (step === undefined && jump === undefined) return;
     event.preventDefault();
@@ -369,10 +426,11 @@ export class LitMaterialSortable extends LitElement {
   };
 
   override render() {
-    const top = this.indicatorTop();
-    return html`<slot @slotchange=${this.onSlotChange}></slot>${top === null
+    const line = this.indicator();
+    const style = line && (line.left === undefined ? `top: ${line.top}px` : `top: ${line.top}px; inset-inline-start: ${line.left}px; height: ${line.height}px`);
+    return html`<slot @slotchange=${this.onSlotChange}></slot>${line === null
         ? ""
-        : html`<div class="indicator" style="top: ${top}px"></div>`}<div class="sr" role="status" aria-live="assertive">${this.announcement}</div>`;
+        : html`<div class=${line.left === undefined ? "indicator" : "indicator between"} style=${style}></div>`}<div class="sr" role="status" aria-live="assertive">${this.announcement}</div>`;
   }
 }
 

@@ -12,47 +12,79 @@ export function validateJson(text: string): string {
     return "";
   } catch (error) {
     const message = (error as Error).message;
-    // Firefox and newer V8 name the line; older V8 gives a position; otherwise find it.
+    // Firefox and newer V8 name the line; for the rest (Safari) find it.
     const line = /line (\d+)/i.exec(message)?.[1];
     if (line) {
       const plain = message.replace(/\s*\(?(at )?line \d+ column \d+( of the JSON data)?\)?/i, "");
       return `Line ${line}: ${plain.replace(/ at position \d+$/, "")}`;
     }
-    const position = Number(/position (\d+)/.exec(message)?.[1] ?? errorOffset(text));
-    return `Line ${text.slice(0, position).split("\n").length}: ${message}`;
+    const plain = message.replace(/,? at position \d+(?= |$)/, "").replace(/ \(line \d+ column \d+\)$/, "");
+    return `Line ${text.slice(0, errorOffset(text)).split("\n").length}: ${plain}`;
   }
 }
 
-const END_OF_INPUT = /end of (JSON )?(input|data)|EOF/i;
+const LITERAL = /-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?|true|false|null/y;
 
 /**
- * Where parsing fails, to the line: the first line whose end leaves the text
- * broken rather than just unfinished. JSON tokens never span lines, so
- * "unfinished" holds for every line before that one and a binary search works.
+ * Where parsing fails, as an offset: a small JSON scanner, for engines whose
+ * message names neither a line nor a position (Safari's). Only runs on text
+ * `JSON.parse` already refused.
  */
 function errorOffset(text: string): number {
-  const ends: number[] = [];
-  for (let i = text.indexOf("\n"); i !== -1; i = text.indexOf("\n", i + 1)) ends.push(i);
-  ends.push(text.length);
-  const unfinished = (end: number) => {
-    try {
-      JSON.parse(text.slice(0, end));
-      return true;
-    } catch (error) {
-      // "Unexpected end of input", or an error reported at the very end of the prefix.
-      const message = (error as Error).message;
-      const at = /position (\d+)/.exec(message)?.[1];
-      return END_OF_INPUT.test(message) || (at !== undefined && Number(at) >= end);
-    }
+  let i = 0;
+  const fail = (): never => {
+    throw i;
   };
-  let low = 0;
-  let high = ends.length - 1;
-  while (low < high) {
-    const mid = Math.floor((low + high) / 2);
-    if (unfinished(ends[mid]!)) low = mid + 1;
-    else high = mid;
+  const space = () => {
+    while (i < text.length && " \t\n\r".includes(text[i]!)) i++;
+  };
+  const string = () => {
+    i++;
+    while (i < text.length) {
+      const c = text[i]!;
+      if (c === '"') return void i++;
+      if (c < " ") fail();
+      i += c === "\\" ? 2 : 1;
+    }
+    fail();
+  };
+  const value = (): void => {
+    space();
+    const c = text[i];
+    if (c === "{" || c === "[") {
+      const close = c === "{" ? "}" : "]";
+      i++;
+      space();
+      if (text[i] === close) return void i++;
+      for (;;) {
+        if (c === "{") {
+          space();
+          if (text[i] !== '"') fail();
+          string();
+          space();
+          if (text[i] !== ":") fail();
+          i++;
+        }
+        value();
+        space();
+        if (text[i] === close) return void i++;
+        if (text[i] !== ",") fail();
+        i++;
+      }
+    }
+    if (c === '"') return string();
+    LITERAL.lastIndex = i;
+    const match = LITERAL.exec(text);
+    if (!match) fail();
+    i += match![0].length;
+  };
+  try {
+    value();
+    space();
+    return i < text.length ? i : text.length;
+  } catch (at) {
+    return typeof at === "number" ? at : text.length;
   }
-  return ends[low]!;
 }
 
 /**
