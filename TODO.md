@@ -176,4 +176,4 @@ hitop's webapp, the rws site and admin UI, compared with Web Awesome, Carbon and
   sortable is vertical-only, they're a grid); rws site a8809496 — `jump-links` for "On this page"
   (SSR via the JSON `links` attribute, added for this). Not done on purpose: `menu` for the version
   switcher and `search` for docs search — both are no-JS `<details>`/`<dialog>` today and would lose that.
-- **Sortable in a grid**: horizontal/2-D drop targets, so hitop's collection cards can move to it.
+- ~~**Sortable in a grid**~~: `layout="grid"` (sortable 0.2.0); hitop's collection cards use it (19753a3).
