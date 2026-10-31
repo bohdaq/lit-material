@@ -17,7 +17,7 @@ export const styles = css`
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-width: 210px;
+    min-width: var(--lit-material-text-field-min-width, 210px);
   }
 
   .container {

@@ -114,6 +114,9 @@ The outlined variant's floating label sits on a patch of `--lit-material-text-fi
 match: `lit-material-text-field { --lit-material-text-field-notch-color: var(--md-sys-color-surface-container-low); }`.
 `lit-material-dialog` sets it for fields in its body.
 
+A field is at least `--lit-material-text-field-min-width` wide (default `210px`). Set it to `0`
+(and `width: 100%`) to let a grid or flex cell make it narrower.
+
 ## License
 
 MIT
