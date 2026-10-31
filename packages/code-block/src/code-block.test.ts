@@ -66,6 +66,25 @@ describe("lit-material-code-block", () => {
     }
   });
 
+  it("says so, and fires no copy event, when copying fails", async () => {
+    const el = await fixture<LitMaterialCodeBlock>(html`<lit-material-code-block>const x = 1;</lit-material-code-block>`);
+    const originalWriteText = navigator.clipboard.writeText.bind(navigator.clipboard);
+    const originalExec = document.execCommand.bind(document);
+    navigator.clipboard.writeText = () => Promise.reject(new DOMException("denied", "NotAllowedError"));
+    document.execCommand = () => false;
+    let fired = false;
+    el.addEventListener("copy", () => (fired = true));
+    try {
+      expect(await el.copy()).to.be.false;
+      await el.updateComplete;
+      expect(fired).to.be.false;
+      expect(el.shadowRoot!.querySelector(".copy")!.textContent!.trim()).to.equal("Copy failed");
+    } finally {
+      navigator.clipboard.writeText = originalWriteText;
+      document.execCommand = originalExec;
+    }
+  });
+
   it("does not render an expand toggle by default", async () => {
     const el = await fixture<LitMaterialCodeBlock>(html`<lit-material-code-block>const x = 1;</lit-material-code-block>`);
     expect(el.shadowRoot!.querySelector(".expand-toggle")).to.not.exist;

@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/code-block",
   "version": "0.0.1",
-  "description": "Material Design 3-styled code block web component (lit-material-code-block) — a monospace code container with a copy button and optional truncation.",
+  "description": "Material Design 3-styled code block web component (lit-material-code-block) \u2014 a monospace code container with a copy button and optional truncation.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
@@ -48,6 +48,7 @@
     "analyze": "custom-elements-manifest analyze --litelement --globs \"src/**/*.ts\" --exclude \"src/**/*.test.ts\" --exclude \"src/**/*.ssr.test.ts\""
   },
   "dependencies": {
+    "@lit-material/clipboard": "workspace:*",
     "@lit-material/tokens": "workspace:*",
     "lit": "^3.2.0"
   },

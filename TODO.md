@@ -64,7 +64,7 @@ view, Accordion/Expandable section) aren't repeated here.
 - ~~**Description list**, **Data list**, **Simple list** — `list`/`data-table` don't cover these
   variants.~~ Done: [`@lit-material/description-list`](packages/description-list),
   [`@lit-material/data-list`](packages/data-list), [`@lit-material/simple-list`](packages/simple-list).
-- **Number input**, **Input group**, **Inline edit**, **Dual list selector**, **Clipboard copy**
+- **Number input**, **Input group**, **Inline edit**, **Dual list selector**, ~~**Clipboard copy**~~ (done: [`@lit-material/clipboard`](packages/clipboard))
 - ~~**Drawer** / **Notification drawer** — persistent panel, distinct from `sheet`.~~ Done:
   [`@lit-material/drawer`](packages/drawer).
 - **Application launcher**, **Jump links**, **Action list**
@@ -128,8 +128,9 @@ consumer code each one replaces.
 - ~~**Confirm dialog.** Destructive actions (rws admin "Purge", kube-dc deletes)
   need a one-call confirm, including a type-the-name-to-confirm variant.~~ Done:
   [`@lit-material/confirm`](packages/confirm).
-- **Clipboard copy** (also under PatternFly above) — install commands, URLs,
-  tokens, kubeconfigs.
+- ~~**Clipboard copy** (also under PatternFly above) — install commands, URLs,
+  tokens, kubeconfigs.~~ Done: [`@lit-material/clipboard`](packages/clipboard); code-block
+  copies through it (it used to report "Copied" on plain http, where nothing was copied).
 - **Component tokens instead of `::part` overrides.** The rws theme reaches
   into button (press motion), code-block (radius, surface, mono font) and
   alert (radius) through `::part`; expose these as custom properties.

@@ -36,6 +36,7 @@ import "./pages/components/button-page.js";
 import "./pages/components/status-page.js";
 import "./pages/components/color-scheme-page.js";
 import "./pages/components/confirm-page.js";
+import "./pages/components/clipboard-page.js";
 import "./pages/components/stat-page.js";
 import "./pages/components/empty-state-page.js";
 import "./pages/components/log-viewer-page.js";
@@ -467,6 +468,12 @@ export const navEntries: NavEntry[] = [
     label: "Color Scheme",
     group: "components",
     render: () => html`<docs-color-scheme-page></docs-color-scheme-page>`,
+  },
+  {
+    path: "/components/clipboard",
+    label: "Clipboard",
+    group: "components",
+    render: () => html`<docs-clipboard-page></docs-clipboard-page>`,
   },
   {
     path: "/components/confirm",

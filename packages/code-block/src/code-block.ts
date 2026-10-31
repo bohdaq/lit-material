@@ -1,5 +1,6 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import { copyText } from "@lit-material/clipboard/copy-text.js";
 import { styles } from "./code-block-styles.js";
 
 /**
@@ -23,7 +24,7 @@ import { styles } from "./code-block-styles.js";
  * @csspart code - The `<code>` element.
  * @csspart expand-toggle - The "Show more"/"Show less" button. Only rendered when `expandable`.
  *
- * @fires copy - Fires after `copy()` writes the code's text to the clipboard.
+ * @fires copy - Fires after `copy()` writes the code's text to the clipboard (not when copying fails).
  */
 @customElement("lit-material-code-block")
 export class LitMaterialCodeBlock extends LitElement {
@@ -37,7 +38,7 @@ export class LitMaterialCodeBlock extends LitElement {
   /** Whether an `expandable` block shows its full content. Ignored otherwise. */
   @property({ type: Boolean, reflect: true }) expanded = false;
 
-  @state() private copied = false;
+  @state() private copied: "" | "ok" | "failed" = "";
 
   private copiedTimer?: ReturnType<typeof setTimeout>;
 
@@ -46,18 +47,20 @@ export class LitMaterialCodeBlock extends LitElement {
     clearTimeout(this.copiedTimer);
   }
 
-  /** Writes the code's text content to the clipboard and fires `copy`. */
-  async copy(): Promise<void> {
-    const text = this.textContent ?? "";
-    if (typeof navigator !== "undefined" && navigator.clipboard) {
-      await navigator.clipboard.writeText(text);
-    }
-    this.copied = true;
-    this.dispatchEvent(new Event("copy", { bubbles: true }));
+  /**
+   * Writes the code's text content to the clipboard (with a fallback where
+   * the Clipboard API is missing, e.g. plain http), fires `copy`, and
+   * resolves whether it worked.
+   */
+  async copy(): Promise<boolean> {
+    const ok = await copyText(this.textContent ?? "");
+    this.copied = ok ? "ok" : "failed";
+    if (ok) this.dispatchEvent(new Event("copy", { bubbles: true }));
     clearTimeout(this.copiedTimer);
     this.copiedTimer = setTimeout(() => {
-      this.copied = false;
+      this.copied = "";
     }, 2000);
+    return ok;
   }
 
   private readonly handleCopyClick = (): void => {
@@ -80,7 +83,7 @@ export class LitMaterialCodeBlock extends LitElement {
                 ${this.copyable
                   ? html`
                       <button class="copy" part="copy" type="button" @click=${this.handleCopyClick}>
-                        ${this.copied ? "Copied" : "Copy"}
+                        ${this.copied === "ok" ? "Copied" : this.copied === "failed" ? "Copy failed" : "Copy"}
                       </button>
                     `
                   : nothing}

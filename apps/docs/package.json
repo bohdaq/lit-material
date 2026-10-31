@@ -21,6 +21,7 @@
     "@lit-material/chart": "workspace:*",
     "@lit-material/checkbox": "workspace:*",
     "@lit-material/chip": "workspace:*",
+    "@lit-material/clipboard": "workspace:*",
     "@lit-material/code-block": "workspace:*",
     "@lit-material/color-scheme": "workspace:*",
     "@lit-material/confirm": "workspace:*",
