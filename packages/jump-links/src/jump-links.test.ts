@@ -52,6 +52,14 @@ describe("lit-material-jump-links", () => {
     expect(el.shadowRoot!.querySelector(".title")).to.be.null;
   });
 
+  it("reads links from a JSON attribute, as server-rendered markup has them", async () => {
+    const host = await fixture<HTMLDivElement>(html`<div></div>`);
+    host.innerHTML = `<lit-material-jump-links links='[{"id":"a","text":"A"},{"id":"b","text":"B","depth":3}]'></lit-material-jump-links>`;
+    const el = host.firstElementChild as LitMaterialJumpLinks;
+    await el.updateComplete;
+    expect(links(el).map((a) => a.getAttribute("href"))).to.deep.equal(["#a", "#b"]);
+  });
+
   it("follows headings added later", async () => {
     const el = await page();
     const h = document.createElement("h2");

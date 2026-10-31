@@ -24,11 +24,19 @@ Or pass the sections yourself (e.g. from a Markdown renderer's TOC):
 jumpLinks.links = [{ id: "install", text: "Install", depth: 2 }, { id: "docker", text: "Docker", depth: 3 }];
 ```
 
+Rendering on the server (Lit SSR, a static site), pass them as the `links` attribute, in JSON: the
+markup then carries them, and the element hydrates to the same list. A property set on the server
+isn't in the markup, so the browser would start with none.
+
+```js
+html`<lit-material-jump-links links=${JSON.stringify(toc)} offset="96"></lit-material-jump-links>`;
+```
+
 ## API
 
 | Property | Attribute | Type                          | Default          |
 | -------- | --------- | ----------------------------- | ---------------- |
-| `links`  | —         | `{ id, text, depth? }[]`      | `[]`             |
+| `links`  | `links` (JSON) | `{ id, text, depth? }[]` | `[]`             |
 | `htmlFor`| `for`     | `string` (container id)       | `""`             |
 | `label`  | `label`   | `string` (heading, nav name)  | `"On this page"` |
 | `offset` | `offset`  | `number` (sticky header px)   | `0`              |

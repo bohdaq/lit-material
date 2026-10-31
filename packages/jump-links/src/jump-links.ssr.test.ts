@@ -14,4 +14,11 @@ describe("lit-material-jump-links (SSR)", () => {
     assert.match(out, /href="#docker"/);
     assert.match(out, /aria-label="On this page"/);
   });
+
+  it("takes links as a JSON attribute", async () => {
+    const links = JSON.stringify([{ id: "install", text: "Install" }]);
+    const out = await collectResult(render(html`<lit-material-jump-links links=${links}></lit-material-jump-links>`));
+    assert.match(out, /href="#install"/);
+    assert.match(out, /links="\[\{&quot;id&quot;/);
+  });
 });

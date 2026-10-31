@@ -16,8 +16,10 @@ export interface JumpLink {
  * (and without) JavaScript and render on the server; scrolling then marks
  * the section at the top of the viewport with `aria-current="location"`.
  *
- * Give it `links` (`{ id, text, depth? }[]`), or set `for` to the id of a
- * container and it collects that container's `h2`/`h3` headings with ids.
+ * Give it `links` (`{ id, text, depth? }[]`; as an attribute, JSON), or set
+ * `for` to the id of a container and it collects that container's `h2`/`h3`
+ * headings with ids. Rendering on the server, pass `links` as the attribute:
+ * a property set there isn't in the markup, so the browser would start empty.
  * Sticky headers: set `scroll-margin-top` on the headings (the browser then
  * leaves room when jumping) and `offset` to the header's height.
  *
@@ -72,8 +74,11 @@ export class LitMaterialJumpLinks extends LitElement {
     }
   `;
 
-  /** The sections. Ignored while `for` is set. */
-  @property({ attribute: false }) links: JumpLink[] = [];
+  /**
+   * The sections. Ignored while `for` is set. As an attribute it takes JSON,
+   * so server-rendered markup carries the links and hydrates to the same list.
+   */
+  @property({ type: Array }) links: JumpLink[] = [];
 
   /** Id of a container whose `h2`/`h3` headings with ids become the links. */
   @property({ attribute: "for" }) htmlFor = "";

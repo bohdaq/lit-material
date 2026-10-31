@@ -101,6 +101,18 @@ describe("lit-material-sortable", () => {
     expect(el.shadowRoot!.querySelector("[role=status]")!.textContent).to.include("dropped at position 3");
   });
 
+  it("keeps keys pressed right after a move", async () => {
+    const { el, order } = await list();
+    handle(el, "Alpha").focus();
+    await sendKeys({ press: "Space" });
+    await sendKeys({ press: "ArrowDown" });
+    await sendKeys({ press: "ArrowDown" });
+    await sendKeys({ press: "Space" });
+    expect(order()).to.deep.equal(["Beta", "Gamma", "Alpha", "Delta"]);
+    expect(el.querySelector("[data-sort-grabbed]")).to.be.null;
+    expect(document.activeElement).to.equal(handle(el, "Alpha"));
+  });
+
   it("puts the item back on Escape", async () => {
     const { el, order } = await list();
     handle(el, "Beta").focus();

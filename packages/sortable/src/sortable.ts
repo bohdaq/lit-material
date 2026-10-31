@@ -102,7 +102,7 @@ export class LitMaterialSortable extends LitElement {
   };
 
   /** Keyboard pick-up: the item, where it started, where it is now. */
-  private grabbed?: { item: HTMLElement; origin: number; index: number; refocusing?: boolean };
+  private grabbed?: { item: HTMLElement; origin: number; index: number; refocusing?: number };
 
   /** The items, in order. */
   get items(): HTMLElement[] {
@@ -317,23 +317,33 @@ export class LitMaterialSortable extends LitElement {
     const { item } = grabbed;
     const from = grabbed.index;
     grabbed.index = to;
-    grabbed.refocusing = true;
+    grabbed.refocusing = (grabbed.refocusing ?? 0) + 1;
     this.emit(item, from, to, this);
-    // The app re-renders the list; moving a focused node drops focus, so put it back.
+    // The app re-renders the list; moving a focused node drops focus, so put it
+    // back: right after the re-render (Lit and synchronous renderers finish in
+    // a microtask), so a key pressed at once still lands, and again two frames
+    // later for renderers that wait for a frame.
+    queueMicrotask(() => this.refocus(item));
     requestAnimationFrame(() =>
       requestAnimationFrame(() => {
-        const current = (item.isConnected && this.contains(item) ? item : undefined) ??
-          this.items.find((el) => item.dataset.sortId && el.dataset.sortId === item.dataset.sortId);
-        if (this.grabbed) this.grabbed.refocusing = false;
-        if (!current || !this.grabbed) return;
-        if (current !== this.grabbed.item) {
-          this.grabbed.item.removeAttribute("data-sort-grabbed");
-          this.grabbed.item = current;
-          current.setAttribute("data-sort-grabbed", "");
-        }
-        this.handleOf(current).focus();
+        if (this.grabbed) this.grabbed.refocusing = (this.grabbed.refocusing ?? 1) - 1;
+        this.refocus(item);
       }),
     );
+  }
+
+  private refocus(item: HTMLElement): void {
+    const grabbed = this.grabbed;
+    if (!grabbed) return;
+    const current = (item.isConnected && this.contains(item) ? item : undefined) ??
+      this.items.find((el) => item.dataset.sortId && el.dataset.sortId === item.dataset.sortId);
+    if (!current) return;
+    if (current !== grabbed.item) {
+      grabbed.item.removeAttribute("data-sort-grabbed");
+      grabbed.item = current;
+      current.setAttribute("data-sort-grabbed", "");
+    }
+    this.handleOf(current).focus();
   }
 
   private drop(message: string): void {
