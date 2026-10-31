@@ -65,6 +65,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Popover](https://github.com/bohdaq/lit-material/tree/main/packages/popover): Richer, click-triggered overlay content — distinct from the tooltip.
 - [Icon](https://github.com/bohdaq/lit-material/tree/main/packages/icon): Consistent sizing/color wrapper for any icon content; ships no icon set.
 - [Overflow Menu](https://github.com/bohdaq/lit-material/tree/main/packages/overflow-menu): Responsive action row that collapses overflow into a kebab menu.
+- [Color Scheme](https://github.com/bohdaq/lit-material/tree/main/packages/color-scheme): `lit-material-color-scheme-toggle` (light/dark, or light/dark/system with `cycle`), `setColorScheme()`, `colorSchemeBootScript()` for a no-flash `<head>` script.
 - [Status](https://github.com/bohdaq/lit-material/tree/main/packages/status): Icon + label coloured by state (ok, warning, error, info, neutral) — never colour alone.
 - [Stat](https://github.com/bohdaq/lit-material/tree/main/packages/stat): Dashboard tile: label, large tabular value, caption or trend.
 - [Empty State](https://github.com/bohdaq/lit-material/tree/main/packages/empty-state): Headline, guidance and actions in place of a blank view.

@@ -4,7 +4,7 @@ A [Material Design 3](https://m3.material.io/) web component collection built wi
 one package per component, no shared mega-bundle, no required adapter layer. Framework-agnostic, SSR-ready,
 and small enough to actually read the source of.
 
-- **53 components**, each its own npm package — install only what you use.
+- **54 components**, each its own npm package — install only what you use.
 - **Zero runtime dependencies beyond Lit.** No icon font, no CSS-in-JS runtime, no framework required.
 - **SSR-ready.** Every component is tested against [`@lit-labs/ssr`](https://www.npmjs.com/package/@lit-labs/ssr)
   as well as in a real browser.
@@ -112,6 +112,7 @@ components as you like.
 | [`@lit-material/popover`](packages/popover) | Richer, click-triggered overlay content — distinct from the tooltip. |
 | [`@lit-material/icon`](packages/icon) | Consistent sizing/color wrapper for any icon content; ships no icon set. |
 | [`@lit-material/overflow-menu`](packages/overflow-menu) | Responsive action row that collapses overflow into a kebab menu. |
+| [`@lit-material/color-scheme`](packages/color-scheme) | Light/dark/system toggle, persisted, with a no-flash `<head>` snippet. |
 | [`@lit-material/status`](packages/status) | Icon + label coloured by state (ok, warning, error, info, neutral) — never colour alone. |
 | [`@lit-material/stat`](packages/stat) | Dashboard tile: label, large tabular value, caption or trend. |
 | [`@lit-material/empty-state`](packages/empty-state) | Headline, guidance and actions in place of a blank view. |

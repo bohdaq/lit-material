@@ -1,8 +1,8 @@
 import "@lit-material/router";
-import "@lit-material/button";
+import "@lit-material/color-scheme";
 import { RouteController, type RouteConfig } from "@lit-material/router";
 import { LitElement, html, css } from "lit";
-import { customElement, state } from "lit/decorators.js";
+import { customElement } from "lit/decorators.js";
 import { navEntries, groupLabels, type NavGroup } from "./route-manifest.js";
 import { withBase } from "./with-base.js";
 
@@ -126,9 +126,6 @@ export class DocsAppShell extends LitElement {
     }
   `;
 
-  @state()
-  private colorScheme: "light" | "dark" = "light";
-
   private readonly route = new RouteController(this, () => []);
 
   private readonly routes: RouteConfig<unknown>[] = navEntries.map((entry) => ({
@@ -136,19 +133,12 @@ export class DocsAppShell extends LitElement {
     render: entry.render,
   }));
 
-  private readonly toggleTheme = (): void => {
-    this.colorScheme = this.colorScheme === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("color-scheme", this.colorScheme);
-  };
-
   override render() {
     const currentPath = this.route.current.path;
     return html`
       <header>
         <a class="wordmark" href=${withBase("/")}><span class="dot"></span>lit-material</a>
-        <lit-material-button variant="text" @click=${this.toggleTheme}>
-          ${this.colorScheme === "dark" ? "☀️ Light" : "🌙 Dark"}
-        </lit-material-button>
+        <lit-material-color-scheme-toggle cycle></lit-material-color-scheme-toggle>
       </header>
       <div class="layout">
         <nav class="sidebar">

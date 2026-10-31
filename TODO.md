@@ -122,8 +122,9 @@ consumer code each one replaces.
   benchmarks page hand-wrote horizontal bars with one highlighted entity, a
   shared pointer/focus tooltip and focusable rows (`site/src/charts/bars.js`,
   `chart-tooltip.js`).~~ Done: `lit-material-bar-chart` in [`@lit-material/chart`](packages/chart).
-- **Colour-scheme switch.** Light / dark / system toggle plus a no-flash head
-  snippet; the rws site wrote `theme-toggle.js` and an inline script.
+- ~~**Colour-scheme switch.** Light / dark / system toggle plus a no-flash head
+  snippet; the rws site wrote `theme-toggle.js` and an inline script.~~ Done:
+  [`@lit-material/color-scheme`](packages/color-scheme).
 - **Confirm dialog.** Destructive actions (rws admin "Purge", kube-dc deletes)
   need a one-call confirm, including a type-the-name-to-confirm variant.
 - **Clipboard copy** (also under PatternFly above) — install commands, URLs,
