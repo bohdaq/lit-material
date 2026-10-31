@@ -197,9 +197,35 @@ range, and button disabled-state itself:
 | `pageSize`         | `page-size`  | `number`                | `10`           |
 | `total`            | `total`      | `number`                | `0`            |
 | `pageSizeOptions`  | —            | `readonly number[]`     | `[10, 25, 50]` |
+| `unknownTotal`     | `unknown-total` | `boolean`            | `false`        |
+| `hasMore`          | `has-more`   | `boolean`               | `false`        |
+| `disabled`         | `disabled` (reflected) | `boolean`     | `false`        |
 
 Fires `page-change` (`detail: { page, pageSize }`) when a nav button is clicked or the page-size
 select changes (which also resets `page` back to `0`).
+
+### Server-side and cursor paging
+
+For an API that returns a total, set `total` and fetch on `page-change`. For a cursor-paged API
+(Kubernetes `limit` + `continue`, a `next_cursor`) the total is unknown: set `unknown-total`, and
+`has-more` while the response carries a next cursor. The footer shows "Page N", drops Last, and
+enables Next only while `has-more` is set. Remember each page's cursor to go back; set `disabled`
+while a request is in flight.
+
+```js
+const cursors = [""]; // cursors[n] fetches page n
+pager.addEventListener("page-change", async ({ detail: { page, pageSize } }) => {
+  if (page === 0) cursors.length = 1; // page-size change restarts
+  pager.disabled = true;
+  const res = await fetch(`/api/pods?limit=${pageSize}&continue=${cursors[page]}`).then((r) => r.json());
+  cursors[page + 1] = res.metadata.continue ?? "";
+  table.rows = res.items;
+  pager.hasMore = Boolean(res.metadata.continue);
+  pager.disabled = false;
+});
+```
+
+The footer works under `lit-material-table` too; it never touches the table.
 
 ## Scope
 

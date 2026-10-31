@@ -82,4 +82,33 @@ describe("lit-material-data-table-pagination", () => {
     const buttons = Array.from(el.shadowRoot!.querySelectorAll("button")) as HTMLButtonElement[];
     expect(buttons.every((button) => button.disabled)).to.be.true;
   });
+
+  it("pages by has-more when the total is unknown", async () => {
+    const el = await fixture<LitMaterialDataTablePagination>(
+      html`<lit-material-data-table-pagination unknown-total has-more page-size="25"></lit-material-data-table-pagination>`,
+    );
+    const root = el.shadowRoot!;
+    expect(root.querySelector(".range")!.textContent).to.equal("Page 1");
+    expect(root.querySelector('button[aria-label="Last page"]')).to.be.null;
+    const next = root.querySelector('button[aria-label="Next page"]') as HTMLButtonElement;
+    expect(next.disabled).to.be.false;
+
+    const listener = oneEvent(el, "page-change");
+    next.click();
+    expect((await listener).detail).to.deep.equal({ page: 1, pageSize: 25 });
+    el.hasMore = false;
+    await el.updateComplete;
+    expect(root.querySelector(".range")!.textContent).to.equal("Page 2");
+    expect(next.disabled).to.be.true;
+    expect((root.querySelector('button[aria-label="Previous page"]') as HTMLButtonElement).disabled).to.be.false;
+  });
+
+  it("disables every control while disabled", async () => {
+    const el = await paginationFixture();
+    el.page = 3;
+    el.disabled = true;
+    await el.updateComplete;
+    const controls = el.shadowRoot!.querySelectorAll<HTMLButtonElement | HTMLSelectElement>("button, select");
+    expect(Array.from(controls).every((c) => c.disabled)).to.be.true;
+  });
 });

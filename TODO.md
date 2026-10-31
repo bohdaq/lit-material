@@ -57,7 +57,7 @@ view, Accordion/Expandable section) aren't repeated here.
   [`@lit-material/file-upload`](packages/file-upload).
 - ~~**Popover** — richer, non-hover overlay content; distinct from `tooltip`.~~ Done:
   [`@lit-material/popover`](packages/popover).
-- **Pagination**
+- ~~**Pagination**~~ Done: `lit-material-data-table-pagination` in [`@lit-material/data-table`](packages/data-table).
 - ~~**Toolbar**, **Page**/**Panel**/**Sidebar** — layout shell primitives.~~ Done:
   [`@lit-material/toolbar`](packages/toolbar), [`@lit-material/page`](packages/page),
   [`@lit-material/panel`](packages/panel), [`@lit-material/sidebar`](packages/sidebar).
@@ -139,7 +139,9 @@ consumer code each one replaces.
   `-alert-shape`, `-stat-value-font`. rws `site/src/theme.css` can switch once released.
 - **Icon set helper.** Every app hand-wires inline Phosphor SVGs in an
   `icons.js`; a small helper/registry for SVG sets.
-- **Pagination** (also above) — server-side paging for `data-table`/`table`.
+- ~~**Pagination** (also above) — server-side paging for `data-table`/`table`.~~ Done:
+  `lit-material-data-table-pagination` gained `unknown-total` + `has-more` (cursor / `continue`
+  paging), `disabled` and SVG icons; README shows a Kubernetes example.
 - **Usage meter** — quota bar with warning/critical thresholds, value and limit
   in text; `progress` doesn't cover thresholds.
 - **Key/value editor** — labels, env vars, annotations.

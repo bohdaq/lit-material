@@ -54,10 +54,15 @@ export const styles = css`
     background: transparent;
     color: var(--md-sys-color-on-surface-variant, #49454f);
     cursor: pointer;
-    font-size: 1.1rem;
     -webkit-appearance: none;
     appearance: none;
     transition: background-color 150ms var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  }
+
+  button svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
   }
 
   button:hover:not(:disabled) {

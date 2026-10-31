@@ -23,6 +23,6 @@ describe("lit-material-data-table-pagination (SSR)", () => {
     assert.match(out, /<lit-material-data-table-pagination[^>]*role="group"/);
     // Each interpolated value sits behind its own lit-part comment marker in the SSR output, so
     // this can't be a single contiguous substring match — allow anything between the pieces.
-    assert.match(out, /class="range"[\s\S]*?>1<[\s\S]*?>10<[\s\S]*?of[\s\S]*?>97</);
+    assert.match(out, /class="range"[\s\S]*?1–10 of 97</);
   });
 });
