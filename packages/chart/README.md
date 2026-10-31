@@ -1,6 +1,6 @@
 # @lit-material/chart
 
-A line chart and a sparkline. Built with [Lit](https://lit.dev/). Part of
+A line chart, a horizontal bar chart and a sparkline. Built with [Lit](https://lit.dev/). Part of
 [lit-material](https://github.com/bohdaq/lit-material).
 
 ![lit-material line chart: three series with a legend, direct labels and a hover readout; sparklines beside numbers](./screenshot.png)
@@ -47,6 +47,38 @@ npm install @lit-material/chart @lit-material/tokens
 | `formatX` / `formatY` | — | `(n: number) => string` | compact numbers |
 
 Parts: `chart`, `legend`, `tooltip`. Series colours: `--lit-material-chart-series-1` … `-8`.
+
+### `lit-material-bar-chart`
+
+Compares one value across named items. Bars start at zero on a shared scale. `highlight` names the
+item to emphasise: it gets the accent colour and the only direct value label, the others go grey
+and show their value on hover or focus (↑ ↓ Home End). Without it every bar is labelled. Rendered
+in HTML with percentage widths, so it needs no measuring and fills its container's width.
+
+```js
+const bars = document.querySelector("lit-material-bar-chart");
+bars.data = [
+  { name: "nginx", value: 98400 },
+  { name: "rws", value: 121300 },
+];
+```
+
+```html
+<lit-material-bar-chart label="Requests per second, higher is better" unit="req/s" highlight="rws" sort="desc"></lit-material-bar-chart>
+```
+
+| Property | Attribute | Type | Default |
+| -------- | --------- | ---- | ------- |
+| `data` | — | `{ name: string; value: number }[]` | `[]` |
+| `label` | `label` | `string` | `""` |
+| `highlight` | `highlight` | `string` (an item's name) | `""` |
+| `sort` | `sort` | `"" \| "desc" \| "asc"` | `""` (given order) |
+| `unit` | `unit` | `string` | `""` |
+| `format` | — | `(n: number) => string` | compact numbers |
+
+Parts: `chart`, `tooltip`. Colours: `--lit-material-chart-series-1` (bars, and the highlight by
+default), `--lit-material-bar-chart-highlight`, `--lit-material-bar-chart-muted`. Name column width:
+`--lit-material-bar-chart-name-width` (112px).
 
 ### `lit-material-sparkline`
 

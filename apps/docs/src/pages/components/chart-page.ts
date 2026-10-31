@@ -17,6 +17,13 @@ const three: ChartSeries[] = [
 ];
 const time = (t: number) => new Date(t).toISOString().slice(11, 16);
 
+const bars = [
+  { name: "nginx", value: 98400 },
+  { name: "rws", value: 121300 },
+  { name: "caddy", value: 64200 },
+  { name: "envoy", value: 87100 },
+];
+
 @customElement("docs-chart-page")
 export class DocsChartPage extends LitElement {
   static override styles = [pageStyles];
@@ -24,7 +31,7 @@ export class DocsChartPage extends LitElement {
   override render() {
     return html`
       <h1>Chart</h1>
-      <p>A line chart and a sparkline. Hover, or focus the chart and use the arrow keys, to read values.</p>
+      <p>A line chart, a bar chart and a sparkline. Hover, or focus the chart and use the arrow keys, to read values.</p>
       <section>
         <h2>One series</h2>
         <lit-material-line-chart label="Requests per second, 09:00 to 09:30 UTC" unit="req/s" .series=${one} .formatX=${time}></lit-material-line-chart>
@@ -32,6 +39,10 @@ export class DocsChartPage extends LitElement {
       <section>
         <h2>Three series: legend and direct labels</h2>
         <lit-material-line-chart label="Requests per second by route" unit="req/s" .series=${three} .formatX=${time}></lit-material-line-chart>
+      </section>
+      <section>
+        <h2>Bar chart with one highlighted item</h2>
+        <lit-material-bar-chart label="Requests per second, higher is better" unit="req/s" highlight="rws" sort="desc" .data=${bars}></lit-material-bar-chart>
       </section>
       <section>
         <h2>Sparkline</h2>

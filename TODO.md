@@ -113,14 +113,15 @@ Second pass (2026-10-31) over what rust-web-server's `site/`, `admin-ui/` and
 (deploy, rollout status, quotas) needs next. Ordered by how much existing
 consumer code each one replaces.
 
-- **Tab panels.** `lit-material-tabs` leaves panels to the page; the rws site
+- ~~**Tab panels.** `lit-material-tabs` leaves panels to the page; the rws site
   wrote `tab-panels.js` to show one by index on `change`. A
   `lit-material-tab-panel` (or tabs that own their panels) with
-  `aria-controls`/`aria-labelledby` wired up.
-- **Bar chart.** `@lit-material/chart` has line + sparkline only; the rws
+  `aria-controls`/`aria-labelledby` wired up.~~ Done: `lit-material-tab-panel` in
+  [`@lit-material/tabs`](packages/tabs).
+- ~~**Bar chart.** `@lit-material/chart` has line + sparkline only; the rws
   benchmarks page hand-wrote horizontal bars with one highlighted entity, a
   shared pointer/focus tooltip and focusable rows (`site/src/charts/bars.js`,
-  `chart-tooltip.js`).
+  `chart-tooltip.js`).~~ Done: `lit-material-bar-chart` in [`@lit-material/chart`](packages/chart).
 - **Colour-scheme switch.** Light / dark / system toggle plus a no-flash head
   snippet; the rws site wrote `theme-toggle.js` and an inline script.
 - **Confirm dialog.** Destructive actions (rws admin "Purge", kube-dc deletes)

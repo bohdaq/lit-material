@@ -70,7 +70,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Empty State](https://github.com/bohdaq/lit-material/tree/main/packages/empty-state): Headline, guidance and actions in place of a blank view.
 - [Log Viewer](https://github.com/bohdaq/lit-material/tree/main/packages/log-viewer): Monospace line stream that follows the newest line, with pause, highlighting and a line cap.
 - [Table](https://github.com/bohdaq/lit-material/tree/main/packages/table): Data-driven semantic `<table>`: caption, headers, numeric and monospace columns.
-- [Chart](https://github.com/bohdaq/lit-material/tree/main/packages/chart): Line chart and sparkline: crosshair tooltip, keyboard access, screen-reader table.
+- [Chart](https://github.com/bohdaq/lit-material/tree/main/packages/chart): Line chart, bar chart (with one highlighted item) and sparkline: crosshair tooltip, keyboard access, screen-reader table.
 
 ## App shell
 
