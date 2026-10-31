@@ -136,7 +136,7 @@ consumer code each one replaces.
   alert (radius) through `::part`; expose these as custom properties.~~ Done:
   `--lit-material-button-shape`, `-button-pressed-scale`,
   `-code-block-{shape,container-color,font,font-size,line-height,label-font}`,
-  `-alert-shape`, `-stat-value-font`. rws `site/src/theme.css` can switch once released.
+  `-alert-shape`, `-stat-value-font`. rws site switched in rust-web-server 4eb755c4 (one `::part(label)` left: label size has no token).
 - ~~**Icon set helper.** Every app hand-wires inline Phosphor SVGs in an
   `icons.js`; a small helper/registry for SVG sets.~~ Done: `registerIcons()` + `name` / `icon()` in
   [`@lit-material/icon`](packages/icon).
