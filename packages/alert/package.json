@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/alert",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Material Design 3-styled alert web component (lit-material-alert) — a persistent inline/page-level banner, distinct from the snackbar toast.",
   "license": "MIT",
   "author": {

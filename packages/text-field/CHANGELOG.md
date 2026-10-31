@@ -1,5 +1,15 @@
 # @lit-material/text-field
 
+## 0.2.0
+
+### Minor Changes
+
+- d7e23d1: `lit-material-number-field`: a number with −/+ buttons, arrow-key stepping, min/max/step without float drift, a unit suffix and range errors in words.
+
+### Patch Changes
+
+- dc110c6: `--lit-material-text-field-min-width` (default `210px`) so a grid or flex cell can make a field narrower.
+
 ## 0.1.2
 
 ### Patch Changes
