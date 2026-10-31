@@ -147,7 +147,8 @@ consumer code each one replaces.
   [`@lit-material/progress`](packages/progress).
 - ~~**Key/value editor** — labels, env vars, annotations.~~ Done:
   [`@lit-material/key-value`](packages/key-value).
-- **Editable code field** — YAML/JSON editing; `code-block` is read-only.
+- ~~**Editable code field** — YAML/JSON editing; `code-block` is read-only.~~ Done:
+  `lit-material-code-field` in [`@lit-material/code-block`](packages/code-block).
 - **Number input**, **Input group** (also above).
 - **rws `starters/fullstack` frontend** (lives in rust-web-server) uses raw
   `<input>`/`<ul>` and only `button`; agents copy it when deploying to kube-dc,

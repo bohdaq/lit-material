@@ -63,6 +63,38 @@ and `copyable="false"` together mean no header at all, not an empty band.
 hiding it outright — useful for long snippets where you want a compact default without losing the
 option to see everything.
 
+## Code field
+
+`lit-material-code-field` is the editable counterpart: a plain-text editor for YAML, JSON, a
+script or a Dockerfile, with line numbers, no wrapping or spell-check.
+
+```html
+<lit-material-code-field label="values.json" language="json"></lit-material-code-field>
+```
+
+- Tab indents the caret or the selected lines, Shift+Tab outdents, Enter keeps the line's
+  indentation. Escape releases Tab, so the next Tab moves focus: the keyboard is never trapped.
+- `language="json"` validates as you type and shows "Line N: …" under the field; the host gets
+  `invalid` and the textarea `aria-invalid` + `aria-describedby`. For YAML or anything else set
+  `validator` to `(text) => message` (empty when valid), e.g. wrapping your YAML parser.
+- No syntax highlighting: reach for CodeMirror or Monaco when you need it.
+
+| Property     | Attribute     | Type                       | Default |
+| ------------ | ------------- | -------------------------- | ------- |
+| `value`      | `value`       | `string`                   | `""`    |
+| `label`      | `label`       | `string`                   | `""`    |
+| `language`   | `language`    | `string` (`"json"` checks) | `""`    |
+| `validator`  | —             | `(text: string) => string` | —       |
+| `indentSize` | `indent-size` | `number`                   | `2`     |
+| `disabled`   | `disabled`    | `boolean`                  | `false` |
+| `readonly`   | `readonly`    | `boolean`                  | `false` |
+| `invalid`    | `invalid` (reflected, read it) | `boolean` | `false` |
+
+`validationMessage` holds the current error, `checkValidity()` re-runs the check, and
+`validateJson(text)` is exported. Events: `input`, `change`. Custom properties:
+`--lit-material-code-field-font`, `-font-size`, `-min-height` (default `8lh`), `-max-height`
+(default `24lh`). Parts: `field`, `gutter`, `textarea`, `error`.
+
 ## Styling
 
 Theme the component through custom properties rather than `::part`:

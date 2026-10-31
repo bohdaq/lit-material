@@ -106,7 +106,7 @@ components as you like.
 | [`@lit-material/data-list`](packages/data-list) | Flexible, multi-cell rows, optionally expandable. |
 | [`@lit-material/simple-list`](packages/simple-list) | Plain, lightweight list of links or buttons. |
 | [`@lit-material/alert`](packages/alert) | Persistent inline/page-level banner — distinct from the snackbar toast. |
-| [`@lit-material/code-block`](packages/code-block) | Monospace code container with a copy button and optional truncation. |
+| [`@lit-material/code-block`](packages/code-block) | Monospace code container with a copy button and optional truncation; editable code field with JSON check. |
 | [`@lit-material/file-upload`](packages/file-upload) | Drag-and-drop or click-to-browse file picking, single or multiple. |
 | [`@lit-material/timestamp`](packages/timestamp) | Absolute or live-updating relative date/time display. |
 | [`@lit-material/popover`](packages/popover) | Richer, click-triggered overlay content — distinct from the tooltip. |

@@ -59,7 +59,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Data List](https://github.com/bohdaq/lit-material/tree/main/packages/data-list): Flexible, multi-cell rows, optionally expandable.
 - [Simple List](https://github.com/bohdaq/lit-material/tree/main/packages/simple-list): Plain, lightweight list of links or buttons.
 - [Alert](https://github.com/bohdaq/lit-material/tree/main/packages/alert): Persistent inline/page-level banner — distinct from the snackbar toast.
-- [Code Block](https://github.com/bohdaq/lit-material/tree/main/packages/code-block): Monospace code container with a copy button and optional truncation.
+- [Code Block](https://github.com/bohdaq/lit-material/tree/main/packages/code-block): Monospace code container with a copy button and optional truncation; `lit-material-code-field` edits YAML/JSON (line numbers, Tab indent, `language="json"` or `validator` check).
 - [File Upload](https://github.com/bohdaq/lit-material/tree/main/packages/file-upload): Drag-and-drop or click-to-browse file picking, single or multiple.
 - [Timestamp](https://github.com/bohdaq/lit-material/tree/main/packages/timestamp): Absolute or live-updating relative date/time display.
 - [Popover](https://github.com/bohdaq/lit-material/tree/main/packages/popover): Richer, click-triggered overlay content — distinct from the tooltip.

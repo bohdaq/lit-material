@@ -33,6 +33,12 @@ function markup(state: PlaygroundState): string {
   return `<lit-material-code-block ${attrs}>\n  ${SNIPPET.replace(/\n/g, "\n  ")}\n</lit-material-code-block>`;
 }
 
+const JSON_SAMPLE = `{
+  "replicas": 2,
+  "image": "ghcr.io/acme/web:1.4.0",
+  "resources": { "cpu": "500m", "memory": "512Mi" }
+}`;
+
 @customElement("docs-code-block-page")
 export class DocsCodeBlockPage extends LitElement {
   static override styles = [pageStyles];
@@ -47,6 +53,15 @@ export class DocsCodeBlockPage extends LitElement {
       <section>
         <h2>Expandable</h2>
         <lit-material-code-block label="log.ts" expandable style="width: 420px;">${LONG_SNIPPET}</lit-material-code-block>
+      </section>
+
+      <section>
+        <h2>Editable: code field</h2>
+        <p>
+          <code>lit-material-code-field</code> edits YAML, JSON or a script: line numbers, Tab indents (Escape, then Tab, to
+          leave), Enter keeps the indent. <code>language="json"</code> checks the text and names the line of an error.
+        </p>
+        <lit-material-code-field label="values.json" language="json" .value=${JSON_SAMPLE}></lit-material-code-field>
       </section>
     `;
   }
