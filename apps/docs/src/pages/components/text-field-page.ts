@@ -109,6 +109,18 @@ export class DocsTextFieldPage extends LitElement {
         <h2>Error</h2>
         <lit-material-textarea variant="outlined" label="Comments" required error error-text="Required"></lit-material-textarea>
       </section>
+
+      <h2>Number field</h2>
+      <section>
+        <p>
+          <code>lit-material-number-field</code>: − and + beside the field, arrow keys step, range errors in words.
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+          <lit-material-number-field label="Replicas" value="2" min="1" max="10"></lit-material-number-field>
+          <lit-material-number-field label="Disk" unit="GiB" value="20" min="10" step="10"></lit-material-number-field>
+          <lit-material-number-field label="CPU" unit="cores" value="0.5" min="0.25" max="8" step="0.25"></lit-material-number-field>
+        </div>
+      </section>
     `;
   }
 }

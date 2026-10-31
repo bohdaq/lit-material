@@ -95,6 +95,37 @@ Slots: `leading-icon`, `trailing-icon`.
 No slots — a multi-line body-text field has no natural place for inline icons or prefix/suffix
 text the way a single-line one does.
 
+## `lit-material-number-field`
+
+A number with − and + buttons beside it, for replicas, cores, gigabytes:
+
+```html
+<lit-material-number-field label="Disk" unit="GiB" value="20" min="10" max="500" step="10"></lit-material-number-field>
+```
+
+ArrowUp/ArrowDown step, PageUp/PageDown step by ten, Home/End jump to `min`/`max`. The buttons
+disable at the ends of the range. Text that isn't a number, or is out of range, shows "Enter a
+number", "At least 10" or "At most 500" under the field; `value` keeps the last good number and
+is `null` while the field is empty. Steps don't drift (`0.1` + `0.2` is `0.3`). From an empty
+field the first step lands on `min` (or `0`).
+
+| Property         | Attribute         | Type                      | Default      |
+| ---------------- | ----------------- | ------------------------- | ------------ |
+| `value`          | `value`           | `number \| null`          | `null`       |
+| `min`, `max`     | `min`, `max`      | `number`                  | —            |
+| `step`           | `step`            | `number`                  | `1`          |
+| `label`          | `label`           | `string`                  | `""`         |
+| `unit`           | `unit`            | `string` (field suffix)   | `""`         |
+| `variant`        | `variant`         | `"filled" \| "outlined"`  | `"outlined"` |
+| `supportingText` | `supporting-text` | `string`                  | `""`         |
+| `errorText`      | `error-text`      | `string` (your own error) | `""`         |
+| `name`, `required`, `disabled`, `readonly` | same | — | — |
+
+Methods: `stepBy(count)`, `checkValidity()`; `validationMessage` holds the field's own error.
+Events: `input` while typing a number, `change` after a step or a committed edit. Parts:
+`field`, `decrement`, `increment`. `--lit-material-number-field-width` sets the field's
+smallest width (default `8ch`).
+
 ## Behavior
 
 The label floats when the field is focused, holds a value, or has a placeholder. A character

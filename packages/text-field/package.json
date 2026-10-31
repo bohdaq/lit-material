@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/text-field",
   "version": "0.1.2",
-  "description": "Material Design 3 text field web components: lit-material-text-field (single-line) and lit-material-textarea (multi-line) — filled + outlined, validation states.",
+  "description": "Material Design 3 text field web components: lit-material-text-field (single-line) and lit-material-textarea (multi-line) \u2014 filled + outlined, validation states.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "@lit-material/core": "workspace:*",
+    "@lit-material/icon-button": "workspace:*",
     "@lit-material/tokens": "workspace:*",
     "lit": "^3.2.0"
   },

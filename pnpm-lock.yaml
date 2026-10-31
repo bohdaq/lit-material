@@ -2499,6 +2499,9 @@ importers:
       '@lit-material/core':
         specifier: workspace:*
         version: link:../core
+      '@lit-material/icon-button':
+        specifier: workspace:*
+        version: link:../icon-button
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens

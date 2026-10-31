@@ -149,7 +149,9 @@ consumer code each one replaces.
   [`@lit-material/key-value`](packages/key-value).
 - ~~**Editable code field** — YAML/JSON editing; `code-block` is read-only.~~ Done:
   `lit-material-code-field` in [`@lit-material/code-block`](packages/code-block).
-- **Number input**, **Input group** (also above).
+- ~~**Number input**~~ Done: `lit-material-number-field` in [`@lit-material/text-field`](packages/text-field).
+  **Input group** (also above) still open: joining a field to a button or select needs
+  text-field to expose its outline corners; `prefix`/`suffix` cover the text-only cases.
 - **rws `starters/fullstack` frontend** (lives in rust-web-server) uses raw
   `<input>`/`<ul>` and only `button`; agents copy it when deploying to kube-dc,
   so it should show text-field, list, empty-state, snackbar.
