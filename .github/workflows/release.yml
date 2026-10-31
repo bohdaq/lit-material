@@ -2,7 +2,8 @@ name: Release
 
 # Publishes to npm with trusted publishing (OIDC): no npm token is stored in
 # GitHub. Each package trusts this workflow file on npmjs.com, set up once
-# with tools/trust-publishing.sh.
+# with tools/trust-publishing.sh. A new trust expires after 48 h unless a
+# publish uses it, so an E404 on PUT usually means a missing or expired trust.
 #
 # On every push to main: unreleased changesets are applied (versions and
 # CHANGELOGs) and committed to main as "Version packages", then every package

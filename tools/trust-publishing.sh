@@ -4,6 +4,9 @@
 # packages: `npm login` first. npm asks for 2FA approval per change.
 # New packages: run again after their first publish (a package must exist on
 # npm before it can trust a workflow); existing trusts are skipped.
+# A trust expires 48 h after creation unless a publish uses it, so run the
+# release workflow within 48 h (`gh workflow run release.yml`). An expired
+# trust is still listed and skipped here: recreate it with `npm trust github`.
 #
 #   tools/trust-publishing.sh            all packages
 #   tools/trust-publishing.sh chart      one package (by directory name)
