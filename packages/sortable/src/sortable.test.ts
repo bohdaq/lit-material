@@ -199,12 +199,17 @@ describe("lit-material-sortable layout=grid", () => {
   });
 
   it("drops at the end of a row from past its last card", async () => {
-    const { order, card } = await grid();
+    const { el, order, card } = await grid();
     const a = card("A").getBoundingClientRect();
     const c = card("C").getBoundingClientRect();
     pointer("pointerdown", card("A"), a.left + 5, a.top + 5);
     pointer("pointermove", document, a.left + 20, a.top + 5);
     pointer("pointermove", document, c.right + 2, c.top + 20);
+    await el.updateComplete;
+    // The line stands after C, on the pointer's row, not before D.
+    const line = el.shadowRoot!.querySelector<HTMLElement>(".indicator.between")!.getBoundingClientRect();
+    expect(line.top).to.equal(c.top);
+    expect(line.left).to.be.within(c.right - 2, c.right + 1);
     pointer("pointerup", document, c.right + 2, c.top + 20);
     await frames();
     expect(order()).to.deep.equal(["B", "C", "A", "D", "E", "F"]);

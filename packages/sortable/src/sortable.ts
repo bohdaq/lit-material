@@ -105,6 +105,9 @@ export class LitMaterialSortable extends LitElement {
   /** Where a dragged item would land (index among the other items), or `null`. */
   @state() private dropIndex: number | null = null;
 
+  /** The pointer's y over this list while dragging: picks the row for a grid drop line. */
+  private dropY = 0;
+
   @state() private announcement = "";
 
   private drag?: {
@@ -218,7 +221,10 @@ export class LitMaterialSortable extends LitElement {
     const target = this.listAt(event.clientX, event.clientY);
     if (drag.target && drag.target !== target) drag.target.dropIndex = null;
     drag.target = target;
-    if (target) target.dropIndex = target.indexAt(event.clientY, drag.item, event.clientX);
+    if (target) {
+      target.dropY = event.clientY;
+      target.dropIndex = target.indexAt(event.clientY, drag.item, event.clientX);
+    }
   };
 
   private readonly onPointerUp = (event: PointerEvent): void => {
@@ -311,9 +317,11 @@ export class LitMaterialSortable extends LitElement {
     const trail = (box: DOMRect) => (rtl ? box.left : box.right);
     const n = next?.getBoundingClientRect();
     const p = prev?.getBoundingClientRect();
-    // Between two items of one row: halfway across the gap.
-    const box = n ?? p!;
-    let x = n ? lead(n) : trail(p!);
+    // Between two items of one row: halfway across the gap. Where the slot
+    // spans two rows (end of one, start of the next): on the pointer's row.
+    const atRowEnd = p && (!n || (Math.abs(n.top - p.top) >= 1 && this.dropY <= p.bottom));
+    const box = atRowEnd ? p! : (n ?? p!);
+    let x = atRowEnd ? trail(p!) : lead(n!);
     if (n && p && Math.abs(n.top - p.top) < 1) x = (trail(p) + lead(n)) / 2;
     // `left` is applied as inset-inline-start, so measure from the start edge.
     const left = rtl ? host.right - x : x - host.left;
