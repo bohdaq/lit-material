@@ -1,5 +1,11 @@
 # @lit-material/chip
 
+## 0.1.0
+
+### Minor Changes
+
+- 8ffcfc5: `lit-material-chip-input`: turn typed or pasted values into removable chips, with validation and announcements. `lit-material-chip` gains `remove-label`.
+
 ## 0.0.3
 
 ### Patch Changes
