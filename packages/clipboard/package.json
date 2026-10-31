@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/clipboard",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Clipboard copy for lit-material: copyText() with a fallback for non-secure pages, a copy button, and a read-only value with copy (and optional masking).",
   "license": "MIT",
   "author": {

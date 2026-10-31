@@ -1,5 +1,11 @@
 # @lit-material/tabs
 
+## 0.1.0
+
+### Minor Changes
+
+- 6818704: Add `lit-material-tab-panel`: panels placed after `lit-material-tabs` are paired by index, shown for the selected tab, and wired with `aria-controls`/`aria-labelledby`.
+
 ## 0.0.3
 
 ### Patch Changes

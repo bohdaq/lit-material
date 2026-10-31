@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/color-scheme",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Light / dark / system colour-scheme switch for lit-material: a toggle, a persisted setter, and a no-flash boot snippet.",
   "license": "MIT",
   "author": {
