@@ -64,12 +64,12 @@ view, Accordion/Expandable section) aren't repeated here.
 - ~~**Description list**, **Data list**, **Simple list** — `list`/`data-table` don't cover these
   variants.~~ Done: [`@lit-material/description-list`](packages/description-list),
   [`@lit-material/data-list`](packages/data-list), [`@lit-material/simple-list`](packages/simple-list).
-- ~~**Number input**~~, ~~**Input group**~~ (done: [`@lit-material/text-field`](packages/text-field)), **Inline edit**, **Dual list selector**, ~~**Clipboard copy**~~ (done: [`@lit-material/clipboard`](packages/clipboard))
+- ~~**Number input**~~, ~~**Input group**~~ (done: [`@lit-material/text-field`](packages/text-field)), ~~**Inline edit**~~, ~~**Dual list selector**~~ (done: [`@lit-material/inline-edit`](packages/inline-edit), [`@lit-material/dual-list`](packages/dual-list)), ~~**Clipboard copy**~~ (done: [`@lit-material/clipboard`](packages/clipboard))
 - ~~**Drawer** / **Notification drawer** — persistent panel, distinct from `sheet`.~~ Done:
   [`@lit-material/drawer`](packages/drawer).
 - **Application launcher**, **Jump links**, **Action list**
 - ~~**Overflow menu**~~ Done: [`@lit-material/overflow-menu`](packages/overflow-menu).
-- **Title**/**Content** (typography primitives), **Truncate**, **Back to top**, **About modal**
+- **Title**/**Content** (typography primitives), ~~**Truncate**~~ (done: [`@lit-material/truncate`](packages/truncate)), **Back to top**, **About modal**
 - ~~standalone **Icon**~~ Done: [`@lit-material/icon`](packages/icon).
 - ~~**Timestamp**~~ Done: [`@lit-material/timestamp`](packages/timestamp).
 - ~~**Code block**~~ Done: [`@lit-material/code-block`](packages/code-block).

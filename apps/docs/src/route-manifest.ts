@@ -37,6 +37,9 @@ import "./pages/components/status-page.js";
 import "./pages/components/color-scheme-page.js";
 import "./pages/components/confirm-page.js";
 import "./pages/components/key-value-page.js";
+import "./pages/components/dual-list-page.js";
+import "./pages/components/inline-edit-page.js";
+import "./pages/components/truncate-page.js";
 import "./pages/components/clipboard-page.js";
 import "./pages/components/stat-page.js";
 import "./pages/components/empty-state-page.js";
@@ -487,6 +490,24 @@ export const navEntries: NavEntry[] = [
     label: "Key/value editor",
     group: "components",
     render: () => html`<docs-key-value-page></docs-key-value-page>`,
+  },
+  {
+    path: "/components/dual-list",
+    label: "Dual list selector",
+    group: "components",
+    render: () => html`<docs-dual-list-page></docs-dual-list-page>`,
+  },
+  {
+    path: "/components/inline-edit",
+    label: "Inline edit",
+    group: "components",
+    render: () => html`<docs-inline-edit-page></docs-inline-edit-page>`,
+  },
+  {
+    path: "/components/truncate",
+    label: "Truncate",
+    group: "components",
+    render: () => html`<docs-truncate-page></docs-truncate-page>`,
   },
   {
     path: "/components/status",
