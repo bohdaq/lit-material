@@ -1,5 +1,11 @@
 # @lit-material/color-scheme
 
+## 0.1.3
+
+### Patch Changes
+
+- eb88ae2: The toggle hydrates without a mismatch in dark mode: it reads the page's scheme after its first render instead of before, so that render matches the server's.
+
 ## 0.1.2
 
 ### Patch Changes

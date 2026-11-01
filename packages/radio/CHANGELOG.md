@@ -1,5 +1,11 @@
 # @lit-material/radio
 
+## 0.0.5
+
+### Patch Changes
+
+- eb88ae2: A radio with a `name` renders on the server: looking up its group threw there, since the server's DOM shim has no tree to search.
+
 ## 0.0.4
 
 ### Patch Changes

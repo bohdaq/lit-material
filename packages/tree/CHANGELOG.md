@@ -1,5 +1,11 @@
 # @lit-material/tree
 
+## 0.1.1
+
+### Patch Changes
+
+- eb88ae2: Hydrate without a mismatch: a carousel item's label overlay and a tree item's chevron no longer depend on reading light DOM children during render (the server can't see them, so the first browser render differed and Lit threw).
+
 ## 0.1.0
 
 ### Minor Changes
