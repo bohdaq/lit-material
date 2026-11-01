@@ -1,6 +1,6 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { FocusRingController, RippleController } from "@lit-material/core";
+import { FocusRingController, RippleController, setAriaElements } from "@lit-material/core";
 import { styles } from "./fab-styles.js";
 
 export type FabSize = "small" | "regular" | "large";
@@ -93,6 +93,11 @@ export class LitMaterialFab extends LitElement {
     `;
   }
 
+  protected override updated(): void {
+    // A user-given id can't be referenced from inside the shadow root.
+    setAriaElements(this.renderRoot.querySelector(".button"), "ariaLabelledByElements", this.ariaLabelledBy, this);
+  }
+
   override render() {
     if (this.href) {
       return html`
@@ -104,7 +109,6 @@ export class LitMaterialFab extends LitElement {
           rel=${this.target === "_blank" ? "noopener noreferrer" : nothing}
           aria-disabled=${this.disabled ? "true" : nothing}
           aria-label=${this.ariaLabel || nothing}
-          aria-labelledby=${this.ariaLabelledBy || nothing}
           tabindex=${this.disabled ? "-1" : "0"}
           @click=${this.handleLinkClick}
         >
@@ -122,7 +126,6 @@ export class LitMaterialFab extends LitElement {
         name=${this.name || nothing}
         value=${this.value || nothing}
         aria-label=${this.ariaLabel || nothing}
-        aria-labelledby=${this.ariaLabelledBy || nothing}
         @click=${this.handleClick}
       >
         ${this.content}

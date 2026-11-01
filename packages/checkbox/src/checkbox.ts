@@ -1,6 +1,6 @@
 import { html, LitElement, nothing, svg } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { FocusRingController, RippleController } from "@lit-material/core";
+import { FocusRingController, RippleController, setAriaElements } from "@lit-material/core";
 import { styles } from "./checkbox-styles.js";
 
 /**
@@ -66,6 +66,8 @@ export class LitMaterialCheckbox extends LitElement {
   }
 
   protected override updated(changed: Map<string, unknown>): void {
+    // A user-given id can't be referenced from inside the shadow root.
+    setAriaElements(this.renderRoot.querySelector(".native-control"), "ariaLabelledByElements", this.ariaLabelledBy, this);
     if (changed.has("checked") || changed.has("required") || changed.has("error")) {
       this.syncInternals();
     }
@@ -113,7 +115,6 @@ export class LitMaterialCheckbox extends LitElement {
           value=${this.value || nothing}
           aria-invalid=${this.error ? "true" : nothing}
           aria-label=${this.ariaLabel || nothing}
-          aria-labelledby=${this.ariaLabelledBy || nothing}
           @change=${this.handleChange}
         />
       </div>

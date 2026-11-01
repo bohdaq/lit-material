@@ -28,19 +28,19 @@ export const wizardSteps: WizardStepConfig[] = [
     id: "install",
     title: "Install",
     content: () => html`
-      <pre><code>${installCode}</code></pre>
+      <pre tabindex="0"><code>${installCode}</code></pre>
       <p>Add <code>@lit/localize</code> too if you're using the i18n step later on.</p>
       <p>
         The entry point is tiny — <code>main.ts</code> loads the design tokens, then the app shell:
       </p>
-      <pre><code>${mainSource.trim()}</code></pre>
+      <pre tabindex="0"><code>${mainSource.trim()}</code></pre>
       <p>
         Deploying under a sub-path (a GitHub Pages project site, for instance, not a domain root) needs one
         more line before anything reads the current URL — <code>@lit-material/router</code>'s
         <code>setBasePath()</code>. The demo above is served under exactly that kind of nested path, so it
         needs this too:
       </p>
-      <pre><code>${bootstrapRouterSource.trim()}</code></pre>
+      <pre tabindex="0"><code>${bootstrapRouterSource.trim()}</code></pre>
       <p>Skip this file entirely if your app is deployed at a domain root.</p>
       <p>The next steps walk through the rest of that demo's source, one file at a time.</p>
     `,
@@ -53,7 +53,7 @@ export const wizardSteps: WizardStepConfig[] = [
         Start with state that outlives any single page: a plain module-level <code>@lit-material/store</code>
         instance, the same Redux-shaped reducer pattern regardless of what reads or writes it later.
       </p>
-      <pre><code>${storeSource.trim()}</code></pre>
+      <pre tabindex="0"><code>${storeSource.trim()}</code></pre>
       <p>
         On its own this is just state and a dispatcher — no UI reads it yet. That's deliberate: state and UI
         are separate concerns here, wired together next.
@@ -69,10 +69,10 @@ export const wizardSteps: WizardStepConfig[] = [
         (and, later, <code>localeContext</code> — already in this file, unused until the i18n step). This is
         the complete, current <code>app-shell.ts</code>:
       </p>
-      <pre><code>${appShellSource.trim()}</code></pre>
+      <pre tabindex="0"><code>${appShellSource.trim()}</code></pre>
       <p>Two of its pages read the store and the theme context:</p>
-      <pre><code>${counterPageSource.trim()}</code></pre>
-      <pre><code>${aboutPageSource.trim()}</code></pre>
+      <pre tabindex="0"><code>${counterPageSource.trim()}</code></pre>
+      <pre tabindex="0"><code>${aboutPageSource.trim()}</code></pre>
       <p>
         Any same-origin <code>&lt;a href="/counter"&gt;</code> navigates via the outlet automatically; use
         <code>navigate("/counter")</code> from <code>@lit-material/router</code> for programmatic navigation
@@ -90,7 +90,7 @@ export const wizardSteps: WizardStepConfig[] = [
     title: "Data fetching",
     content: () => html`
       <p>A route keyed by its own local state:</p>
-      <pre><code>${dataPageSource.trim()}</code></pre>
+      <pre tabindex="0"><code>${dataPageSource.trim()}</code></pre>
       <p>
         <code>TaskController</code> re-runs <code>task</code> automatically whenever <code>args()</code>
         returns a shallowly different value (checked before every render), aborting a superseded run via the
@@ -109,7 +109,7 @@ export const wizardSteps: WizardStepConfig[] = [
     id: "form",
     title: "Form validation",
     content: () => html`
-      <pre><code>${settingsPageSource.trim()}</code></pre>
+      <pre tabindex="0"><code>${settingsPageSource.trim()}</code></pre>
       <p>
         <code>form.checkValidity()</code>/<code>reportValidity()</code> already aggregate across native
         inputs and any form-associated <code>lit-material</code> component (Text Field, Checkbox, Radio,
@@ -139,9 +139,9 @@ export const wizardSteps: WizardStepConfig[] = [
         here. Swap in <code>@lit/localize</code>'s <code>configureLocalization()</code>/<code>msg()</code> for
         the production-grade version.
       </p>
-      <pre><code>${i18nSource.trim()}</code></pre>
+      <pre tabindex="0"><code>${i18nSource.trim()}</code></pre>
       <p>And the complete, current <code>home-page.ts</code> — its top line reads that dictionary:</p>
-      <pre><code>${homePageSource.trim()}</code></pre>
+      <pre tabindex="0"><code>${homePageSource.trim()}</code></pre>
       <p>
         RTL (<code>dir="rtl"</code>): every component uses logical CSS properties
         (<code>margin-inline-start</code>, <code>padding-inline</code>, etc.), which flip automatically with

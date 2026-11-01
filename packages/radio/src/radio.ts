@@ -1,6 +1,6 @@
 import { html, LitElement, nothing, svg } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { FocusRingController, RippleController } from "@lit-material/core";
+import { FocusRingController, RippleController, setAriaElements } from "@lit-material/core";
 import { styles } from "./radio-styles.js";
 
 /**
@@ -72,6 +72,8 @@ export class LitMaterialRadio extends LitElement {
   }
 
   protected override updated(changed: Map<string, unknown>): void {
+    // A user-given id can't be referenced from inside the shadow root.
+    setAriaElements(this.renderRoot.querySelector(".native-control"), "ariaLabelledByElements", this.ariaLabelledBy, this);
     if (changed.has("checked") || changed.has("required") || changed.has("error")) {
       this.syncInternals();
     }
@@ -141,7 +143,6 @@ export class LitMaterialRadio extends LitElement {
           aria-required=${this.required ? "true" : nothing}
           aria-invalid=${this.error ? "true" : nothing}
           aria-label=${this.ariaLabel || nothing}
-          aria-labelledby=${this.ariaLabelledBy || nothing}
           @change=${this.handleChange}
           @keydown=${this.handleKeydown}
         />

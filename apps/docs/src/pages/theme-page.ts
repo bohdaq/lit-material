@@ -82,7 +82,7 @@ export class DocsThemePage extends LitElement {
         font-weight: 600;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        opacity: 0.6;
+        opacity: 0.75;
       }
       .row {
         display: flex;
@@ -139,10 +139,10 @@ export class DocsThemePage extends LitElement {
       </p>
 
       <div class="toolbar">
-        <div class="swatch-input">
+        <label class="swatch-input">
           <span>Seed</span>
           <input type="color" .value=${this.seed} @input=${this.handleSeedChange} />
-        </div>
+        </label>
         <lit-material-button variant="filled" @click=${this.handleCopy}>
           ${this.copied ? "Copied!" : "Copy CSS"}
         </lit-material-button>
@@ -157,7 +157,7 @@ export class DocsThemePage extends LitElement {
                 <lit-material-button variant="filled">Filled</lit-material-button>
                 <lit-material-button variant="outlined">Outlined</lit-material-button>
                 <lit-material-chip>Chip</lit-material-chip>
-                <lit-material-switch checked></lit-material-switch>
+                <lit-material-switch checked aria-label="Sample switch"></lit-material-switch>
               </div>
               <lit-material-card variant="filled" style="width: 220px;">
                 <strong>Card</strong>
@@ -175,7 +175,7 @@ export class DocsThemePage extends LitElement {
       </div>
 
       <h2>Generated CSS</h2>
-      <pre>${copyCss(scheme)}</pre>
+      <pre tabindex="0">${copyCss(scheme)}</pre>
     `;
   }
 }

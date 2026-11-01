@@ -71,6 +71,21 @@ app's own concern. Combine `localeContext` with
 translation tool) for the translated strings themselves — see the docs app's "Building apps" guide
 (`apps/docs`, `/guide/building-apps`) for a worked example wiring both together.
 
+## `setAriaElements`
+
+Points a control inside a shadow root at elements in the page, by ids given to the host. An id
+copied onto the inner control (`aria-labelledby="name-label"`) resolves to nothing there, because
+ids resolve within one tree; ARIA element reflection can reach the host's trees.
+
+```ts
+protected override updated(): void {
+  setAriaElements(this.renderRoot.querySelector("input"), "ariaLabelledByElements", this.ariaLabelledBy, this);
+}
+```
+
+`property` is `ariaLabelledByElements`, `ariaDescribedByElements` or `ariaControlsElements`; `ids` is
+space-separated. In browsers without element reflection it does nothing.
+
 ## License
 
 MIT

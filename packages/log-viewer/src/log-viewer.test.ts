@@ -68,6 +68,7 @@ describe("lit-material-log-viewer", () => {
     expect(rendered[0].className.trim()).to.equal("line");
     expect(rendered[1].classList.contains("warning")).to.be.true;
     expect(rendered[2].querySelector(".mark")!.getAttribute("aria-label")).to.equal("error");
+    expect(rendered[2].querySelector(".mark")!.getAttribute("role")).to.equal("img");
   });
 
   it("clear() empties it", async () => {

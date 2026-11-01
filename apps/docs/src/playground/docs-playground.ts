@@ -154,7 +154,7 @@ export class DocsPlayground extends LitElement {
         <span>Markup</span>
         <div class="dots"><i></i><i></i><i></i></div>
       </div>
-      <pre>${this.markup(values)}</pre>
+      <pre tabindex="0">${this.markup(values)}</pre>
     `;
   }
 

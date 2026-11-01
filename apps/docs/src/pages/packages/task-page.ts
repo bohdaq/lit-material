@@ -46,12 +46,12 @@ export class DocsTaskPage extends LitElement {
 
       <section class="doc-section">
         <h2>Install</h2>
-        <pre><code>npm install @lit-material/task</code></pre>
+        <pre tabindex="0"><code>npm install @lit-material/task</code></pre>
       </section>
 
       <section class="doc-section">
         <h2>Usage</h2>
-        <pre><code>${usageCode}</code></pre>
+        <pre tabindex="0"><code>${usageCode}</code></pre>
       </section>
 
       <section class="doc-section">

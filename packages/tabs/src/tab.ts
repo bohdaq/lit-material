@@ -1,6 +1,6 @@
-import { html, LitElement, nothing } from "lit";
+import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { FocusRingController, RippleController } from "@lit-material/core";
+import { FocusRingController, RippleController, setAriaElements } from "@lit-material/core";
 import { styles } from "./tab-styles.js";
 
 /**
@@ -31,6 +31,11 @@ export class LitMaterialTab extends LitElement {
 
   @property({ type: Boolean, reflect: true }) selected = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
+  /**
+   * Id of the panel this tab shows. The button lives in this element's shadow
+   * root, where an id can't reach the page, so the panel is linked through
+   * ARIA element reflection (`ariaControlsElements`) where the browser has it.
+   */
   @property({ attribute: "aria-controls" }) ariaControls: string | null = null;
 
   private readonly ripple = new RippleController(this);
@@ -41,6 +46,10 @@ export class LitMaterialTab extends LitElement {
     if (stateLayer) this.ripple.attach(stateLayer);
   }
 
+  protected override updated(): void {
+    setAriaElements(this.shadowRoot!.querySelector("button"), "ariaControlsElements", this.ariaControls, this);
+  }
+
   override render() {
     return html`
       <button
@@ -49,7 +58,6 @@ export class LitMaterialTab extends LitElement {
         type="button"
         role="tab"
         aria-selected=${this.selected ? "true" : "false"}
-        aria-controls=${this.ariaControls || nothing}
         tabindex=${this.selected ? "0" : "-1"}
         ?disabled=${this.disabled}
       >

@@ -33,7 +33,7 @@ export class DocsCliPage extends LitElement {
 
       <section class="doc-section">
         <h2>Usage</h2>
-        <pre><code>npm create lit-material-app my-app
+        <pre tabindex="0"><code>npm create lit-material-app my-app
 cd my-app
 npm install
 npm run dev</code></pre>
@@ -42,7 +42,7 @@ npm run dev</code></pre>
 
       <section class="doc-section">
         <h2>What you get</h2>
-        <pre><code>${scaffoldTree}</code></pre>
+        <pre tabindex="0"><code>${scaffoldTree}</code></pre>
         <p>
           A real, buildable Vite project depending on the actual published <code>@lit-material/*</code>
           packages (not <code>workspace:*</code> — this isn't part of the lit-material monorepo, it's a

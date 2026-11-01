@@ -210,4 +210,14 @@ describe("lit-material-icon-button", () => {
     const stateLayer = el.shadowRoot!.querySelector(".state-layer")!;
     expect(stateLayer.hasAttribute("data-pressed")).to.be.true;
   });
+
+  it("is labelled by an element in the page through aria-labelledby", async () => {
+    const host = await fixture<HTMLDivElement>(html`<div><span id="outside-label">Wi-Fi</span><lit-material-icon-button aria-labelledby="outside-label">x</lit-material-icon-button></div>`);
+    const el = host.querySelector("lit-material-icon-button") as LitMaterialIconButton;
+    await el.updateComplete;
+    const inner = el.shadowRoot!.querySelector(".button") as HTMLElement & { ariaLabelledByElements?: Element[] | null };
+    // The id can't resolve from inside the shadow root, so it isn't copied there.
+    expect(inner.getAttribute("aria-labelledby") ?? "").to.equal("");
+    if ("ariaLabelledByElements" in inner) expect(inner.ariaLabelledByElements).to.deep.equal([host.querySelector("#outside-label")]);
+  });
 });

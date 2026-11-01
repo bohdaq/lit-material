@@ -30,7 +30,7 @@ export class DocsKeyValuePage extends LitElement {
           .entries=${this.labels}
           @change=${(e: CustomEvent<{ entries: KeyValueEntry[] }>) => (this.labels = e.detail.entries)}
         ></lit-material-key-value-editor>
-        <pre>${JSON.stringify(Object.fromEntries(this.labels.map((l) => [l.key, l.value])), null, 2)}</pre>
+        <pre tabindex="0">${JSON.stringify(Object.fromEntries(this.labels.map((l) => [l.key, l.value])), null, 2)}</pre>
       </section>
       <section>
         <h2>Secret values</h2>

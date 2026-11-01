@@ -19,7 +19,7 @@ const controls: PlaygroundControl[] = [
 function preview(state: PlaygroundState) {
   return html`
     <lit-material-panel variant=${state.variant as string} style="width: 280px;">
-      <h3 slot="header">Filters</h3>
+      <h2 slot="header">Filters</h2>
       <p>Panel content goes here.</p>
       <div slot="footer">
         <lit-material-button variant="text">Apply</lit-material-button>
@@ -29,7 +29,7 @@ function preview(state: PlaygroundState) {
 }
 
 function markup(state: PlaygroundState): string {
-  return `<lit-material-panel variant="${state.variant}">\n  <h3 slot="header">Filters</h3>\n  <p>Panel content goes here.</p>\n  <div slot="footer">\n    <lit-material-button variant="text">Apply</lit-material-button>\n  </div>\n</lit-material-panel>`;
+  return `<lit-material-panel variant="${state.variant}">\n  <h2 slot="header">Filters</h2>\n  <p>Panel content goes here.</p>\n  <div slot="footer">\n    <lit-material-button variant="text">Apply</lit-material-button>\n  </div>\n</lit-material-panel>`;
 }
 
 @customElement("docs-panel-page")

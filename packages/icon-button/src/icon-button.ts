@@ -1,6 +1,6 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { FocusRingController, RippleController } from "@lit-material/core";
+import { FocusRingController, RippleController, setAriaElements } from "@lit-material/core";
 import { styles } from "./icon-button-styles.js";
 
 export type IconButtonVariant = "standard" | "filled" | "tonal" | "outlined";
@@ -64,6 +64,11 @@ export class LitMaterialIconButton extends LitElement {
     }
   }
 
+  protected override updated(): void {
+    // A user-given id can't be referenced from inside the shadow root.
+    setAriaElements(this.renderRoot.querySelector(".button"), "ariaLabelledByElements", this.ariaLabelledBy, this);
+  }
+
   override render() {
     // Off state accepts icon content either way: `slot="icon"` (the documented contract, needed to
     // distinguish it from `selected-icon` on a toggle button) or no slot attribute at all (the simpler
@@ -91,7 +96,6 @@ export class LitMaterialIconButton extends LitElement {
           rel=${this.target === "_blank" ? "noopener noreferrer" : nothing}
           aria-disabled=${this.disabled ? "true" : nothing}
           aria-label=${this.ariaLabel || nothing}
-          aria-labelledby=${this.ariaLabelledBy || nothing}
           tabindex=${this.disabled ? "-1" : "0"}
           @click=${this.handleLinkClick}
         >
@@ -110,7 +114,6 @@ export class LitMaterialIconButton extends LitElement {
         value=${this.value || nothing}
         aria-pressed=${this.toggle ? this.selected : nothing}
         aria-label=${this.ariaLabel || nothing}
-        aria-labelledby=${this.ariaLabelledBy || nothing}
         @click=${this.handleClick}
       >
         ${content}

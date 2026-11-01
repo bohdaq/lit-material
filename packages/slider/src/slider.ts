@@ -1,6 +1,6 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { FocusRingController, RippleController } from "@lit-material/core";
+import { FocusRingController, RippleController, setAriaElements } from "@lit-material/core";
 import { styles } from "./slider-styles.js";
 
 /**
@@ -75,6 +75,8 @@ export class LitMaterialSlider extends LitElement {
   }
 
   protected override updated(changed: Map<string, unknown>): void {
+    // A user-given id can't be referenced from inside the shadow root.
+    setAriaElements(this.renderRoot.querySelector(".native-control"), "ariaLabelledByElements", this.ariaLabelledBy, this);
     if (changed.has("value") || changed.has("min") || changed.has("max")) {
       this.syncInternals();
     }
@@ -113,7 +115,6 @@ export class LitMaterialSlider extends LitElement {
           ?disabled=${this.disabled}
           name=${this.name || nothing}
           aria-label=${this.ariaLabel || nothing}
-          aria-labelledby=${this.ariaLabelledBy || nothing}
           @input=${this.handleInput}
           @change=${this.handleChange}
           @pointerdown=${this.handleInteractStart}

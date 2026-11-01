@@ -139,7 +139,7 @@ export class LitMaterialLogViewer extends LitElement {
           ${repeat(
             this.entries,
             (l) => l.id,
-            (l) => html`<div class="line ${l.level ?? ""}" part="line">${l.level ? html`<span class="mark" aria-label=${l.level}></span>` : nothing}${l.text}</div>`,
+            (l) => html`<div class="line ${l.level ?? ""}" part="line">${l.level ? html`<span class="mark" role="img" aria-label=${l.level}></span>` : nothing}${l.text}</div>`,
           )}
         </div>
         ${this.unseen > 0

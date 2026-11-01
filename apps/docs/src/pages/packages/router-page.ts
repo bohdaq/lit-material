@@ -76,20 +76,20 @@ export class DocsRouterPage extends LitElement {
 
       <section class="doc-section">
         <h2>Install</h2>
-        <pre><code>npm install @lit-material/router</code></pre>
+        <pre tabindex="0"><code>npm install @lit-material/router</code></pre>
       </section>
 
       <section class="doc-section">
         <h2>Usage</h2>
-        <pre><code>${usageCode}</code></pre>
-        <pre><code>&lt;lit-material-router-outlet .routes=\${routes}&gt;&lt;/lit-material-router-outlet&gt;</code></pre>
+        <pre tabindex="0"><code>${usageCode}</code></pre>
+        <pre tabindex="0"><code>&lt;lit-material-router-outlet .routes=\${routes}&gt;&lt;/lit-material-router-outlet&gt;</code></pre>
         <p>
           Any same-origin <code>&lt;a href="/users/42"&gt;</code> anywhere on the page — including inside
           another component's shadow root — becomes an SPA navigation automatically; no need to call anything
           yourself for plain links. Use <code>navigate()</code> for programmatic navigation (redirects,
           post-submit routing):
         </p>
-        <pre><code>${navigateCode}</code></pre>
+        <pre tabindex="0"><code>${navigateCode}</code></pre>
       </section>
 
       <section class="doc-section">
@@ -101,7 +101,7 @@ export class DocsRouterPage extends LitElement {
           child's content (or <code>null</code> if none matched); call it wherever the nested content should
           appear in the parent's own template:
         </p>
-        <pre><code>${nestedCode}</code></pre>
+        <pre tabindex="0"><code>${nestedCode}</code></pre>
         <ul>
           <li><code>/dashboard/settings</code> renders the shell with the settings child in place of <code>outlet()</code>.</li>
           <li>
@@ -126,7 +126,7 @@ export class DocsRouterPage extends LitElement {
           <code>NavigationRail</code>) but doesn't render the routed content itself, use
           <code>RouteController</code> directly:
         </p>
-        <pre><code>${routeControllerCode}</code></pre>
+        <pre tabindex="0"><code>${routeControllerCode}</code></pre>
       </section>
 
       <section class="doc-section">

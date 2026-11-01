@@ -76,7 +76,6 @@ export class DocsAppShell extends LitElement {
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--md-sys-color-on-surface-variant);
-      opacity: 0.65;
       margin: 1.75rem 0.6rem 0.5rem;
     }
     .sidebar h2:first-child {
@@ -141,7 +140,7 @@ export class DocsAppShell extends LitElement {
         <lit-material-color-scheme-toggle cycle></lit-material-color-scheme-toggle>
       </header>
       <div class="layout">
-        <nav class="sidebar">
+        <nav class="sidebar" aria-label="Documentation">
           ${groupOrder.map((group) => {
             const entries = navEntries.filter((entry) => entry.group === group);
             if (entries.length === 0) return null;

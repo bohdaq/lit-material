@@ -52,12 +52,12 @@ export class DocsFormPage extends LitElement {
 
       <section class="doc-section">
         <h2>Install</h2>
-        <pre><code>npm install @lit-material/form</code></pre>
+        <pre tabindex="0"><code>npm install @lit-material/form</code></pre>
       </section>
 
       <section class="doc-section">
         <h2>Usage</h2>
-        <pre><code>${usageCode}</code></pre>
+        <pre tabindex="0"><code>${usageCode}</code></pre>
       </section>
 
       <section class="doc-section">

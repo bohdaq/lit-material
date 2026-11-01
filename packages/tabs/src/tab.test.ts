@@ -30,11 +30,17 @@ describe("lit-material-tab", () => {
     expect(el.shadowRoot!.querySelector("button")!.disabled).to.be.true;
   });
 
-  it("forwards aria-controls to the inner button", async () => {
-    const el = await fixture<LitMaterialTab>(
-      html`<lit-material-tab aria-controls="panel-1">One</lit-material-tab>`,
+  it("links the inner button to its panel by element, not by an id it can't reach", async () => {
+    const host = await fixture<HTMLDivElement>(
+      html`<div><lit-material-tab aria-controls="panel-1">One</lit-material-tab><div id="panel-1">Panel</div></div>`,
     );
-    expect(el.shadowRoot!.querySelector("button")!.getAttribute("aria-controls")).to.equal("panel-1");
+    const el = host.querySelector("lit-material-tab") as LitMaterialTab;
+    await el.updateComplete;
+    const button = el.shadowRoot!.querySelector("button") as HTMLButtonElement & { ariaControlsElements?: Element[] | null };
+    // An id from inside the shadow root names nothing, so none is set (element
+    // reflection leaves the attribute empty).
+    expect(button.getAttribute("aria-controls") ?? "").to.equal("");
+    if ("ariaControlsElements" in button) expect(button.ariaControlsElements).to.deep.equal([host.querySelector("#panel-1")]);
   });
 
   it("marks the state layer as pressed on pointerdown", async () => {

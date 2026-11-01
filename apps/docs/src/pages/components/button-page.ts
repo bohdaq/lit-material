@@ -77,11 +77,11 @@ export class DocsButtonPage extends LitElement {
       <section>
         <h2>Form participation</h2>
         <form @submit=${this.handleSubmit}>
-          <input name="example" value="hello" />
+          <input name="example" value="hello" aria-label="Example value" />
           <lit-material-button type="submit" variant="filled">Submit</lit-material-button>
           <lit-material-button type="reset" variant="text">Reset</lit-material-button>
         </form>
-        <pre>${this.submitLog}</pre>
+        <pre tabindex="0">${this.submitLog}</pre>
       </section>
     `;
   }

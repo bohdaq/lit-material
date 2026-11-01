@@ -71,7 +71,7 @@ export class DocsCorePage extends LitElement {
           and consume it with <code>@lit/context</code>'s own API directly (<code>npm install @lit/context</code>
           alongside this package):
         </p>
-        <pre><code>${themeCode}</code></pre>
+        <pre tabindex="0"><code>${themeCode}</code></pre>
         <p>
           The <code>@provide</code>/<code>@consume</code> decorators from <code>@lit/context</code> work the
           same way, if you prefer decorators over explicit controllers.
@@ -86,7 +86,7 @@ export class DocsCorePage extends LitElement {
           components that need to format a date or render a <code>dir</code>-aware layout can read it without
           prop drilling.
         </p>
-        <pre><code>${localeCode}</code></pre>
+        <pre tabindex="0"><code>${localeCode}</code></pre>
         <p>
           <code>@lit-material/core</code> only defines the key and the <code>LocaleState</code> shape
           (<code>{ locale: string; direction?: "ltr" | "rtl" }</code>) — none of lit-material's own components
