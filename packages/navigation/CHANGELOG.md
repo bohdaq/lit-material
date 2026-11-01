@@ -1,5 +1,11 @@
 # @lit-material/navigation
 
+## 0.1.2
+
+### Patch Changes
+
+- 03c3708: Navigation bar items shrink below the 64px indicator pill, so a bar with more than five destinations (the adaptive navigation's phone layout) fits a narrow screen instead of overflowing it.
+
 ## 0.1.1
 
 ### Patch Changes

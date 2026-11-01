@@ -1,5 +1,11 @@
 # @lit-material/button
 
+## 0.2.0
+
+### Minor Changes
+
+- 7fd75e0: `lit-material-action-list`: a row of actions with consistent spacing, alignment (`start`, `end`, `between`), nested groups and an optional group label.
+
 ## 0.1.3
 
 ### Patch Changes
