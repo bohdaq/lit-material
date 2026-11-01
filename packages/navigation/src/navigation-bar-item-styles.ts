@@ -4,6 +4,8 @@ export const styles = css`
   :host {
     display: block;
     flex: 1;
+    /* Shrink below the pill's 64px so more than five destinations fit a phone. */
+    min-width: 0;
     height: 100%;
     outline: none;
     -webkit-tap-highlight-color: transparent;
@@ -51,7 +53,7 @@ export const styles = css`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 64px;
+    width: min(64px, 100%);
     height: 32px;
     border-radius: var(--md-sys-shape-corner-full, 16px);
     transition: background-color 150ms var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));

@@ -69,6 +69,21 @@ describe("lit-material-navigation-bar", () => {
     expect(changed).to.be.false;
   });
 
+  it("fits seven destinations in a phone's width", async () => {
+    const host = await fixture<HTMLDivElement>(html`<div style="width: 360px">
+      <lit-material-navigation-bar>
+        ${["Overview", "Traffic", "Upstreams", "Certificates", "Controls", "Config", "Logs"].map(
+          (label) => html`<lit-material-navigation-bar-item>${label}</lit-material-navigation-bar-item>`,
+        )}
+      </lit-material-navigation-bar>
+    </div>`);
+    const items = Array.from(host.querySelectorAll("lit-material-navigation-bar-item"));
+    await Promise.all(items.map((item) => item.updateComplete));
+    const last = items.at(-1)!.getBoundingClientRect();
+    expect(last.right).to.be.at.most(host.getBoundingClientRect().right + 0.5);
+    expect(items[0]!.getBoundingClientRect().width).to.be.closeTo(360 / 7, 1);
+  });
+
   it("passes axe accessibility checks", async () => {
     const { el } = await barFixture();
     await expect(el).to.be.accessible();
