@@ -12,7 +12,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 
 ## Components
 
-- [Button](https://github.com/bohdaq/lit-material/tree/main/packages/button): Filled, outlined, text, elevated, tonal.
+- [Button](https://github.com/bohdaq/lit-material/tree/main/packages/button): Filled, outlined, text, elevated, tonal. `lit-material-action-list` — `align="start|end|between"`, `compact`, `label` (role=group); nest for groups.
 - [Icon Button](https://github.com/bohdaq/lit-material/tree/main/packages/icon-button): Standard + toggle variants.
 - [FAB](https://github.com/bohdaq/lit-material/tree/main/packages/fab): Floating action button.
 - [Text Field](https://github.com/bohdaq/lit-material/tree/main/packages/text-field): Single-line + `lit-material-textarea` multi-line, filled + outlined, validation states; `lit-material-number-field` (−/+ steppers, min/max/step, unit, range errors in words); `lit-material-input-group` joins outlined fields, selects and buttons.
@@ -30,7 +30,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Badge](https://github.com/bohdaq/lit-material/tree/main/packages/badge): Small dot or large numeric/text badge.
 - [Divider](https://github.com/bohdaq/lit-material/tree/main/packages/divider): Horizontal or vertical, optionally inset.
 - [Tooltip](https://github.com/bohdaq/lit-material/tree/main/packages/tooltip): Plain tooltip, built on the native Popover API.
-- [Dialog](https://github.com/bohdaq/lit-material/tree/main/packages/dialog): Built on the native `<dialog>` element.
+- [Dialog](https://github.com/bohdaq/lit-material/tree/main/packages/dialog): Built on the native `<dialog>` element. `lit-material-about-dialog` — `product-name`, slots `logo`/default (details)/`legal`, `show()`/`close()`.
 - [Sheet](https://github.com/bohdaq/lit-material/tree/main/packages/sheet): Side sheet and bottom sheet; same native `<dialog>` foundation.
 - [Menu](https://github.com/bohdaq/lit-material/tree/main/packages/menu): Built on the native Popover API.
 - [Search](https://github.com/bohdaq/lit-material/tree/main/packages/search): Search bar and docked search view; view built on the native Popover API.
@@ -74,6 +74,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Sortable](https://github.com/bohdaq/lit-material/tree/main/packages/sortable): `lit-material-sortable` — wraps items (`data-sort-id`, `[data-sort-handle]`); fires `sort` `{from, to, fromList, toList}`, app reorders data; `group` for cross-list; `layout="grid"` for card grids/rows; keyboard Space/arrows.
 - [Jump links](https://github.com/bohdaq/lit-material/tree/main/packages/jump-links): `lit-material-jump-links` — `links` `{id,text,depth?}[]` (property, or JSON attribute for SSR) or `for="<container id>"`; anchors + `aria-current="location"` scrollspy; `offset` for sticky headers.
 - [Truncate](https://github.com/bohdaq/lit-material/tree/main/packages/truncate): `lit-material-truncate` — `value`, `position="end|middle"`, `tail-length`; reflects `truncated`, sets `title` while cut.
+- [Back to top](https://github.com/bohdaq/lit-material/tree/main/packages/back-to-top): `lit-material-back-to-top` — `threshold`, `target` (id: link + scroll + focus), `label`; reflects `visible`; reduced-motion aware.
 - [Inline edit](https://github.com/bohdaq/lit-material/tree/main/packages/inline-edit): `lit-material-inline-edit` — `value`, `label`, `.save` (async, return/throw a message to stay open), `.validator`, `change` `{value, previous}`.
 - [Dual list selector](https://github.com/bohdaq/lit-material/tree/main/packages/dual-list): `lit-material-dual-list-selector` — `.items` `{value,label,disabled?}[]`, `.selected`, `filterable`, `change` `{selected}`; listbox keyboard support.
 - [Status](https://github.com/bohdaq/lit-material/tree/main/packages/status): Icon + label coloured by state (ok, warning, error, info, neutral) — never colour alone.

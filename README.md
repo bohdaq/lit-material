@@ -59,7 +59,7 @@ components as you like.
 
 | Package | |
 | --- | --- |
-| [`@lit-material/button`](packages/button) | Filled, outlined, text, elevated, tonal. |
+| [`@lit-material/button`](packages/button) | Filled, outlined, text, elevated, tonal; action list for rows of actions. |
 | [`@lit-material/icon-button`](packages/icon-button) | Standard + toggle variants. |
 | [`@lit-material/fab`](packages/fab) | Floating action button. |
 | [`@lit-material/text-field`](packages/text-field) | Single-line + `lit-material-textarea` multi-line, filled + outlined, validation states; number field with −/+ steppers; input group. |
@@ -77,7 +77,7 @@ components as you like.
 | [`@lit-material/badge`](packages/badge) | Small dot or large numeric/text badge. |
 | [`@lit-material/divider`](packages/divider) | Horizontal or vertical, optionally inset. |
 | [`@lit-material/tooltip`](packages/tooltip) | Plain tooltip, built on the native Popover API. |
-| [`@lit-material/dialog`](packages/dialog) | Built on the native `<dialog>` element. |
+| [`@lit-material/dialog`](packages/dialog) | Built on the native `<dialog>` element; about dialog for name, version and legal lines. |
 | [`@lit-material/sheet`](packages/sheet) | Side sheet and bottom sheet; same native `<dialog>` foundation. |
 | [`@lit-material/menu`](packages/menu) | Built on the native Popover API. |
 | [`@lit-material/search`](packages/search) | Search bar and docked search view; view built on the native Popover API. |
@@ -116,6 +116,7 @@ components as you like.
 | [`@lit-material/clipboard`](packages/clipboard) | `copyText()` with a plain-http fallback, copy button, read-only value with copy (optionally masked). |
 | [`@lit-material/confirm`](packages/confirm) | `await confirm({...})`: destructive style, optional type-the-name-to-confirm. |
 | [`@lit-material/truncate`](packages/truncate) | End or middle ellipsis for long IDs, hashes and paths; full text kept for copy and screen readers. |
+| [`@lit-material/back-to-top`](packages/back-to-top) | Appears after scrolling; returns to the top and moves focus there. |
 | [`@lit-material/inline-edit`](packages/inline-edit) | Click-to-edit value: Enter saves, Escape cancels, async save with errors. |
 | [`@lit-material/dual-list`](packages/dual-list) | Move items between available and chosen lists, with filters and full keyboard support. |
 | [`@lit-material/sortable`](packages/sortable) | Reorder by pointer, touch or keyboard, within or between lists; announced to screen readers. |

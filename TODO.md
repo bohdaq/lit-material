@@ -50,7 +50,7 @@ view, Accordion/Expandable section) aren't repeated here.
 
 - ~~**Alert** — persistent inline/page-level banner; distinct from the `snackbar` toast.~~ Done:
   [`@lit-material/alert`](packages/alert).
-- **Spinner**, ~~**Empty state**~~ (done: [`@lit-material/empty-state`](packages/empty-state))
+- ~~**Spinner**~~ (covered: indeterminate `lit-material-circular-progress` in [`@lit-material/progress`](packages/progress)), ~~**Empty state**~~ (done: [`@lit-material/empty-state`](packages/empty-state))
 - ~~**Textarea** — currently only single-line via `text-field`.~~ Done: `lit-material-textarea` in
   [`@lit-material/text-field`](packages/text-field).
 - ~~**File upload** (simple + multiple) — no package covers this at all.~~ Done:
@@ -67,9 +67,9 @@ view, Accordion/Expandable section) aren't repeated here.
 - ~~**Number input**~~, ~~**Input group**~~ (done: [`@lit-material/text-field`](packages/text-field)), ~~**Inline edit**~~, ~~**Dual list selector**~~ (done: [`@lit-material/inline-edit`](packages/inline-edit), [`@lit-material/dual-list`](packages/dual-list)), ~~**Clipboard copy**~~ (done: [`@lit-material/clipboard`](packages/clipboard))
 - ~~**Drawer** / **Notification drawer** — persistent panel, distinct from `sheet`.~~ Done:
   [`@lit-material/drawer`](packages/drawer).
-- **Application launcher**, ~~**Jump links**~~ (done: [`@lit-material/jump-links`](packages/jump-links)), **Action list**
+- **Application launcher**, ~~**Jump links**~~ (done: [`@lit-material/jump-links`](packages/jump-links)), ~~**Action list**~~ (done: `lit-material-action-list` in [`@lit-material/button`](packages/button))
 - ~~**Overflow menu**~~ Done: [`@lit-material/overflow-menu`](packages/overflow-menu).
-- **Title**/**Content** (typography primitives), ~~**Truncate**~~ (done: [`@lit-material/truncate`](packages/truncate)), **Back to top**, **About modal**
+- **Title**/**Content** (typography primitives), ~~**Truncate**~~ (done: [`@lit-material/truncate`](packages/truncate)), ~~**Back to top**~~ (done: [`@lit-material/back-to-top`](packages/back-to-top)), ~~**About modal**~~ (done: `lit-material-about-dialog` in [`@lit-material/dialog`](packages/dialog))
 - ~~standalone **Icon**~~ Done: [`@lit-material/icon`](packages/icon).
 - ~~**Timestamp**~~ Done: [`@lit-material/timestamp`](packages/timestamp).
 - ~~**Code block**~~ Done: [`@lit-material/code-block`](packages/code-block).

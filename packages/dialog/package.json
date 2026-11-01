@@ -47,6 +47,7 @@
     "analyze": "custom-elements-manifest analyze --litelement --globs \"src/**/*.ts\" --exclude \"src/**/*.test.ts\" --exclude \"src/**/*.ssr.test.ts\""
   },
   "dependencies": {
+    "@lit-material/button": "workspace:*",
     "@lit-material/tokens": "workspace:*",
     "lit": "^3.2.0"
   },

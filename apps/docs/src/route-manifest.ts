@@ -44,6 +44,9 @@ import "./pages/components/sortable-page.js";
 import "./pages/components/dual-list-page.js";
 import "./pages/components/inline-edit-page.js";
 import "./pages/components/truncate-page.js";
+import "./pages/components/back-to-top-page.js";
+import "./pages/components/action-list-page.js";
+import "./pages/components/about-dialog-page.js";
 import "./pages/components/clipboard-page.js";
 import "./pages/components/stat-page.js";
 import "./pages/components/empty-state-page.js";
@@ -536,6 +539,24 @@ export const navEntries: NavEntry[] = [
     label: "Truncate",
     group: "components",
     render: () => html`<docs-truncate-page></docs-truncate-page>`,
+  },
+  {
+    path: "/components/back-to-top",
+    label: "Back to top",
+    group: "components",
+    render: () => html`<docs-back-to-top-page></docs-back-to-top-page>`,
+  },
+  {
+    path: "/components/action-list",
+    label: "Action list",
+    group: "components",
+    render: () => html`<docs-action-list-page></docs-action-list-page>`,
+  },
+  {
+    path: "/components/about-dialog",
+    label: "About dialog",
+    group: "components",
+    render: () => html`<docs-about-dialog-page></docs-about-dialog-page>`,
   },
   {
     path: "/components/status",

@@ -80,6 +80,32 @@ dialog.
 | `cancel` | Yes        | On Escape, before the dialog closes.                              |
 | `close`  | No         | After the dialog closes (via `close()`, Escape, backdrop click, or a `method="dialog"` form submit). |
 
+## About dialog
+
+`lit-material-about-dialog` is what a Help → About menu item opens: the product's name and logo,
+version and build details, and legal lines, with a Close button. It also depends on
+`@lit-material/button`.
+
+```html
+<lit-material-about-dialog product-name="Acme Console">
+  <img slot="logo" src="logo.svg" alt="" />
+  <dl>
+    <dt>Version</dt><dd>2.4.1</dd>
+    <dt>Build</dt><dd>2026-11-01 · 03c3708</dd>
+  </dl>
+  <span slot="legal">© 2026 Acme. MIT license.</span>
+</lit-material-about-dialog>
+```
+
+| Property      | Attribute      | Type      | Default   |
+| ------------- | -------------- | --------- | --------- |
+| `productName` | `product-name` | `string` (the heading) | `""` |
+| `open`        | `open` (reflected) | `boolean` | `false` |
+| `closeLabel`  | `close-label`  | `string`  | `"Close"` |
+
+`show()` and `close()` open and close it; `close` fires after it closes (Close, Escape or a click
+outside). Slots: `logo`, default (details), `legal`.
+
 ## License
 
 MIT

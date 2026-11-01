@@ -42,6 +42,28 @@ Slots: default (label), `icon` (leading icon).
 `type="submit"` and `type="reset"` participate in an ancestor `<form>` via
 `ElementInternals`; setting `href` renders an `<a>` instead of a `<button>`.
 
+## Action list
+
+`lit-material-action-list` lays out a row of actions with consistent spacing — a form's Cancel and
+Save, a toolbar, a card's links — wrapping when it runs out of room.
+
+```html
+<lit-material-action-list align="end" label="Form actions">
+  <lit-material-button variant="text">Cancel</lit-material-button>
+  <lit-material-button>Save</lit-material-button>
+</lit-material-action-list>
+```
+
+| Property  | Attribute | Type | Default |
+| --------- | --------- | ---- | ------- |
+| `align`   | `align` (reflected) | `"start" \| "end" \| "between"` | `"start"` |
+| `compact` | `compact` (reflected) | `boolean` (4px gaps, for icon buttons) | `false` |
+| `label`   | `label`   | `string` (names the row; it becomes `role="group"`) | `""` |
+
+Nest action lists to group actions: groups sit 16px apart, actions in a group 8px. `end` and
+`between` take the full width (or the rest of a flex row) so there is room to align in.
+`--lit-material-action-list-gap` overrides the spacing.
+
 ## Styling
 
 Theme the component through custom properties rather than `::part`:
