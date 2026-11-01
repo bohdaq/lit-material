@@ -14,7 +14,7 @@ ssh_cmd=(ssh -p "$port" -o BatchMode=yes)
 (cd "$repo" && corepack pnpm turbo run build analyze --filter='./packages/*')
 (cd "$here/.." && corepack pnpm run build:site)
 
-rsync -az --delete -e "${ssh_cmd[*]}" "$here/install.sh" "$here/../dist" "$dest:lit-deploy/"
+rsync -az --delete -e "${ssh_cmd[*]}" "$here/install.sh" "$here/enable.sh" "$here/rws-routes.toml" "$here/../dist" "$dest:lit-deploy/"
 "${ssh_cmd[@]}" "$dest" 'bash -s' <<'REMOTE'
 set -euo pipefail
 ~/lit-deploy/install.sh

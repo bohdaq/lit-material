@@ -8,15 +8,13 @@ rws on bohdan-prod-donotdelete serves from `/var/www/lit` with a `static` route.
 | `deploy.sh [user@host] [port]` | Builds the packages and the site, copies `dist/` to the host, runs `install.sh`, checks the pages |
 | `install.sh` | On the host: backs up `/var/www/lit`, installs the new `dist/` there |
 | `rws-routes.toml` | The two routes added once to `/etc/rws/rws.config.toml` |
+| `enable.sh` | On the host, as root: adds the routes and the site's names to the shared certificate, checks every site and mail, rolls back on failure |
 
 ## One-time setup (owner)
 
-1. Add the routes in `rws-routes.toml` to `/etc/rws/rws.config.toml` above the
-   `old-docs-*` routes, and `"lit.168-119-17-57.sslip.io"` to `[acme] domains`.
-   Back the file up, `rws --check=` it, restart rws (see the command block in the
-   lit-material session notes for the certificate step).
-2. Install the files: `./deploy.sh ubuntu@127.0.0.1 <tunnel port>`.
-3. Add a DNS A record `lit.rws8.tech → 168.119.17.57`, then append
-   `"lit.rws8.tech"` to `[acme] domains` the same way.
-4. Point the old GitHub Pages docs at the new site: `.github/workflows/deploy-docs.yml`
-   then publishes a redirect page instead of the old docs.
+1. Add a DNS A record `lit.rws8.tech → 168.119.17.57`.
+2. `./deploy.sh ubuntu@127.0.0.1 <tunnel port>` copies the files (and this folder) to `~/lit-deploy`.
+3. On the host: `sudo bash ~/lit-deploy/enable.sh`. Without the DNS record it adds only
+   `lit.168-119-17-57.sslip.io`; run it again once the record resolves.
+4. Point the old GitHub Pages docs at the new site (`.github/workflows/deploy-docs.yml`
+   then publishes a redirect page instead of the old docs).
