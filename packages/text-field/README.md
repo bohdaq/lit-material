@@ -40,6 +40,10 @@ npm install @lit-material/text-field @lit-material/tokens
 <lit-material-textarea variant="outlined" label="Comments" rows="4" maxlength="280"></lit-material-textarea>
 ```
 
+Importing the package registers all four elements (text field, textarea, number field, input
+group). To ship only what you use, import each one's entry point:
+`@lit-material/text-field/text-field.js`, `/textarea.js`, `/number-field.js`, `/input-group.js`.
+
 ## `lit-material-text-field` API
 
 | Property          | Attribute          | Type                 | Default    |

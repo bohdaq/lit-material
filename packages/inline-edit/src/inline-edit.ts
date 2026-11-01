@@ -1,7 +1,7 @@
 import { css, html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import "@lit-material/icon-button";
-import "@lit-material/text-field";
+import "@lit-material/text-field/text-field.js";
 
 // Material icons edit, check, close (Apache 2.0).
 const svg = (d: string) => html`<svg viewBox="0 0 24 24" aria-hidden="true"><path d=${d}></path></svg>`;

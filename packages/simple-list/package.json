@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/simple-list",
   "version": "0.0.3",
-  "description": "Material Design 3-styled simple list web components (lit-material-simple-list, lit-material-simple-list-item) — a plain, lightweight list of links, no ripple or leading/trailing icons.",
+  "description": "Material Design 3-styled simple list web components (lit-material-simple-list, lit-material-simple-list-item) \u2014 a plain, lightweight list of links, no ripple or leading/trailing icons.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
@@ -31,6 +31,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./simple-list-item.js": {
+      "types": "./dist/simple-list-item.d.ts",
+      "default": "./dist/simple-list-item.js"
+    },
+    "./simple-list.js": {
+      "types": "./dist/simple-list.d.ts",
+      "default": "./dist/simple-list.js"
     }
   },
   "files": [

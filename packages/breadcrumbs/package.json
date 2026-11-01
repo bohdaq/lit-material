@@ -31,6 +31,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./breadcrumb-item.js": {
+      "types": "./dist/breadcrumb-item.d.ts",
+      "default": "./dist/breadcrumb-item.js"
+    },
+    "./breadcrumbs.js": {
+      "types": "./dist/breadcrumbs.d.ts",
+      "default": "./dist/breadcrumbs.js"
     }
   },
   "files": [

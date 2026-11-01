@@ -32,6 +32,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./search-bar.js": {
+      "types": "./dist/search-bar.d.ts",
+      "default": "./dist/search-bar.js"
+    },
+    "./search-view.js": {
+      "types": "./dist/search-view.d.ts",
+      "default": "./dist/search-view.js"
     }
   },
   "files": [

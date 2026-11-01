@@ -1,6 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import "@lit-material/button";
+import "@lit-material/button/button.js";
 import "./dialog.js";
 
 /**

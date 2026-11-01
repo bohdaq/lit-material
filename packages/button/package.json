@@ -30,6 +30,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./button.js": {
+      "types": "./dist/button.d.ts",
+      "default": "./dist/button.js"
+    },
+    "./action-list.js": {
+      "types": "./dist/action-list.d.ts",
+      "default": "./dist/action-list.js"
     }
   },
   "files": [

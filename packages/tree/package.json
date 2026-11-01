@@ -32,6 +32,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./tree-item.js": {
+      "types": "./dist/tree-item.d.ts",
+      "default": "./dist/tree-item.js"
+    },
+    "./tree.js": {
+      "types": "./dist/tree.d.ts",
+      "default": "./dist/tree.js"
     }
   },
   "files": [

@@ -31,6 +31,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./about-dialog.js": {
+      "types": "./dist/about-dialog.d.ts",
+      "default": "./dist/about-dialog.js"
+    },
+    "./dialog.js": {
+      "types": "./dist/dialog.d.ts",
+      "default": "./dist/dialog.js"
     }
   },
   "files": [

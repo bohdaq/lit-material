@@ -33,6 +33,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./select-option.js": {
+      "types": "./dist/select-option.d.ts",
+      "default": "./dist/select-option.js"
+    },
+    "./select.js": {
+      "types": "./dist/select.d.ts",
+      "default": "./dist/select.js"
     }
   },
   "files": [

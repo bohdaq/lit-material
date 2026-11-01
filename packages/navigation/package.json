@@ -32,6 +32,34 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./adaptive-navigation.js": {
+      "types": "./dist/adaptive-navigation.d.ts",
+      "default": "./dist/adaptive-navigation.js"
+    },
+    "./navigation-bar-item.js": {
+      "types": "./dist/navigation-bar-item.d.ts",
+      "default": "./dist/navigation-bar-item.js"
+    },
+    "./navigation-bar.js": {
+      "types": "./dist/navigation-bar.d.ts",
+      "default": "./dist/navigation-bar.js"
+    },
+    "./navigation-drawer-item.js": {
+      "types": "./dist/navigation-drawer-item.d.ts",
+      "default": "./dist/navigation-drawer-item.js"
+    },
+    "./navigation-drawer.js": {
+      "types": "./dist/navigation-drawer.d.ts",
+      "default": "./dist/navigation-drawer.js"
+    },
+    "./navigation-rail-item.js": {
+      "types": "./dist/navigation-rail-item.d.ts",
+      "default": "./dist/navigation-rail-item.js"
+    },
+    "./navigation-rail.js": {
+      "types": "./dist/navigation-rail.d.ts",
+      "default": "./dist/navigation-rail.js"
     }
   },
   "files": [

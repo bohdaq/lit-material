@@ -32,6 +32,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./step.js": {
+      "types": "./dist/step.d.ts",
+      "default": "./dist/step.js"
+    },
+    "./stepper.js": {
+      "types": "./dist/stepper.d.ts",
+      "default": "./dist/stepper.js"
     }
   },
   "files": [

@@ -32,6 +32,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./speed-dial-action.js": {
+      "types": "./dist/speed-dial-action.d.ts",
+      "default": "./dist/speed-dial-action.js"
+    },
+    "./speed-dial.js": {
+      "types": "./dist/speed-dial.d.ts",
+      "default": "./dist/speed-dial.js"
     }
   },
   "files": [

@@ -35,6 +35,18 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./circular-progress.js": {
+      "types": "./dist/circular-progress.d.ts",
+      "default": "./dist/circular-progress.js"
+    },
+    "./linear-progress.js": {
+      "types": "./dist/linear-progress.d.ts",
+      "default": "./dist/linear-progress.js"
+    },
+    "./usage-meter.js": {
+      "types": "./dist/usage-meter.d.ts",
+      "default": "./dist/usage-meter.js"
     }
   },
   "files": [

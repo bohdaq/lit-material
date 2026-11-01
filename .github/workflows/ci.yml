@@ -35,6 +35,8 @@ jobs:
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm build
+      # Each package bundled alone and gzipped against tools/size-limits.json.
+      - run: pnpm size
 
       # Each package's web-test-runner binds a fixed dev-server port, so test tasks can't run
       # turbo's default full parallelism without colliding — keep this sequential.

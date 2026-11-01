@@ -35,6 +35,14 @@
     "./copy-text.js": {
       "types": "./dist/copy-text.d.ts",
       "default": "./dist/copy-text.js"
+    },
+    "./clipboard-copy.js": {
+      "types": "./dist/clipboard-copy.d.ts",
+      "default": "./dist/clipboard-copy.js"
+    },
+    "./copy-button.js": {
+      "types": "./dist/copy-button.d.ts",
+      "default": "./dist/copy-button.js"
     }
   },
   "files": [

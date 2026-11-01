@@ -2,7 +2,7 @@ import { css, html, LitElement, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import "@lit-material/icon-button";
-import "@lit-material/text-field";
+import "@lit-material/text-field/text-field.js";
 
 export interface DualListItem {
   value: string;

@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/data-list",
   "version": "0.0.3",
-  "description": "Material Design 3-styled data list web components (lit-material-data-list, lit-material-data-list-item, lit-material-data-list-cell) — flexible multi-cell rows, optionally expandable.",
+  "description": "Material Design 3-styled data list web components (lit-material-data-list, lit-material-data-list-item, lit-material-data-list-cell) \u2014 flexible multi-cell rows, optionally expandable.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
@@ -30,6 +30,18 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./data-list-cell.js": {
+      "types": "./dist/data-list-cell.d.ts",
+      "default": "./dist/data-list-cell.js"
+    },
+    "./data-list-item.js": {
+      "types": "./dist/data-list-item.d.ts",
+      "default": "./dist/data-list-item.js"
+    },
+    "./data-list.js": {
+      "types": "./dist/data-list.d.ts",
+      "default": "./dist/data-list.js"
     }
   },
   "files": [

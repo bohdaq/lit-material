@@ -32,6 +32,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./app-launcher.js": {
+      "types": "./dist/app-launcher.d.ts",
+      "default": "./dist/app-launcher.js"
+    },
+    "./menu.js": {
+      "types": "./dist/menu.d.ts",
+      "default": "./dist/menu.js"
     }
   },
   "files": [

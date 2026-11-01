@@ -33,6 +33,18 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./bar-chart.js": {
+      "types": "./dist/bar-chart.d.ts",
+      "default": "./dist/bar-chart.js"
+    },
+    "./line-chart.js": {
+      "types": "./dist/line-chart.d.ts",
+      "default": "./dist/line-chart.js"
+    },
+    "./sparkline.js": {
+      "types": "./dist/sparkline.d.ts",
+      "default": "./dist/sparkline.js"
     }
   },
   "files": [

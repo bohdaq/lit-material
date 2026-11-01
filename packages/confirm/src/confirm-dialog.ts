@@ -1,8 +1,8 @@
 import { css, html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import "@lit-material/button";
+import "@lit-material/button/button.js";
 import "@lit-material/dialog";
-import "@lit-material/text-field";
+import "@lit-material/text-field/text-field.js";
 import type { LitMaterialDialog } from "@lit-material/dialog";
 
 /**

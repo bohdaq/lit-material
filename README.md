@@ -24,6 +24,10 @@ diffs rather than a virtual DOM — closer to what the browser is already doing 
 
 - **One package per component.** Install `@lit-material/button`, not a components library that happens to
   contain a button. No shared mega-bundle, no tree-shaking required to avoid shipping code you don't use.
+  A package with several elements (text field, textarea and number field; the chart types; the navigation
+  variants) also has one entry point per element — `import "@lit-material/text-field/text-field.js"` — since
+  an element registers itself when imported and a bundler can't drop it. CI holds every package to a size
+  budget (`pnpm size`, `tools/size-limits.json`).
 - **No required adapter layer.** Because these are just Custom Elements, there's no React/Vue/Angular wrapper
   package standing between you and the component — use it directly from any of them.
 - **SSR-tested, not just browser-tested.** Every component has a real test asserting its

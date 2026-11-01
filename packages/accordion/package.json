@@ -32,6 +32,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./accordion-panel.js": {
+      "types": "./dist/accordion-panel.d.ts",
+      "default": "./dist/accordion-panel.js"
+    },
+    "./accordion.js": {
+      "types": "./dist/accordion.d.ts",
+      "default": "./dist/accordion.js"
     }
   },
   "files": [

@@ -30,6 +30,18 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./tab-panel.js": {
+      "types": "./dist/tab-panel.d.ts",
+      "default": "./dist/tab-panel.js"
+    },
+    "./tab.js": {
+      "types": "./dist/tab.d.ts",
+      "default": "./dist/tab.js"
+    },
+    "./tabs.js": {
+      "types": "./dist/tabs.d.ts",
+      "default": "./dist/tabs.js"
     }
   },
   "files": [

@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/text-field",
   "version": "0.3.1",
-  "description": "Material Design 3 text field web components: lit-material-text-field (single-line) and lit-material-textarea (multi-line) — filled + outlined, validation states.",
+  "description": "Material Design 3 text field web components: lit-material-text-field (single-line) and lit-material-textarea (multi-line) \u2014 filled + outlined, validation states.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
@@ -33,6 +33,22 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./text-field.js": {
+      "types": "./dist/text-field.d.ts",
+      "default": "./dist/text-field.js"
+    },
+    "./textarea.js": {
+      "types": "./dist/textarea.d.ts",
+      "default": "./dist/textarea.js"
+    },
+    "./number-field.js": {
+      "types": "./dist/number-field.d.ts",
+      "default": "./dist/number-field.js"
+    },
+    "./input-group.js": {
+      "types": "./dist/input-group.d.ts",
+      "default": "./dist/input-group.js"
     }
   },
   "files": [

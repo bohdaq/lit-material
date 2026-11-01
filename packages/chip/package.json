@@ -30,6 +30,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./chip-input.js": {
+      "types": "./dist/chip-input.d.ts",
+      "default": "./dist/chip-input.js"
+    },
+    "./chip.js": {
+      "types": "./dist/chip.d.ts",
+      "default": "./dist/chip.js"
     }
   },
   "files": [

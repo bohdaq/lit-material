@@ -31,6 +31,22 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./data-table-cell.js": {
+      "types": "./dist/data-table-cell.d.ts",
+      "default": "./dist/data-table-cell.js"
+    },
+    "./data-table-pagination.js": {
+      "types": "./dist/data-table-pagination.d.ts",
+      "default": "./dist/data-table-pagination.js"
+    },
+    "./data-table-row.js": {
+      "types": "./dist/data-table-row.d.ts",
+      "default": "./dist/data-table-row.js"
+    },
+    "./data-table.js": {
+      "types": "./dist/data-table.d.ts",
+      "default": "./dist/data-table.js"
     }
   },
   "files": [
