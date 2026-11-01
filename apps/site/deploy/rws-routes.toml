@@ -1,0 +1,34 @@
+# Added to /etc/rws/rws.config.toml on bohdan-prod-donotdelete, ABOVE the
+# old-docs-* redirect routes (those match any host). Nothing existing changes.
+#
+# [acme] domains: append "lit.168-119-17-57.sslip.io" first. Append
+# "lit.rws8.tech" only after its DNS A record points at 168.119.17.57: every
+# name shares one certificate (mail.rws8.tech too), so a name that fails
+# validation fails the whole order.
+
+[[route]]
+  name = "lit-site"
+
+  [route.match]
+  host = "lit.rws8.tech"
+  path = "/*"
+
+  [route.action]
+  type = "static"
+
+  [route.action.static]
+  root = "/var/www/lit"
+
+# The same route for the staging name, used to test before DNS moves.
+[[route]]
+  name = "lit-site-staging"
+
+  [route.match]
+  host = "lit.168-119-17-57.sslip.io"
+  path = "/*"
+
+  [route.action]
+  type = "static"
+
+  [route.action.static]
+  root = "/var/www/lit"

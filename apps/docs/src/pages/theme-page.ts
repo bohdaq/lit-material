@@ -77,7 +77,7 @@ export class DocsThemePage extends LitElement {
         border: 1px solid var(--panel-outline-variant);
       }
       .panel .mode-label {
-        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-family: var(--font-mono, "Geist Mono Variable", ui-monospace, monospace);
         font-size: 0.7rem;
         font-weight: 600;
         letter-spacing: 0.06em;

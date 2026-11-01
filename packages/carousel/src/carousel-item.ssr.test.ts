@@ -15,14 +15,14 @@ describe("lit-material-carousel-item (SSR)", () => {
     assert.doesNotThrow(() => new LitMaterialCarouselItem());
   });
 
-  it("renders a declarative shadow root with the item container, no label container without label content", async () => {
+  it("renders a declarative shadow root with the item container and a hidden label container", async () => {
     const out = await renderToString(html`<lit-material-carousel-item>Content</lit-material-carousel-item>`);
     assert.match(out, /shadowrootmode="open"/);
     assert.match(out, /class="item"/);
-    assert.doesNotMatch(out, /class="label"/);
+    assert.match(out, /class="label" part="label" hidden/);
   });
 
-  it("still omits the label container during SSR even with label content, since the check needs querySelector", async () => {
+  it("keeps the label container hidden on the server, as the first browser render does", async () => {
     // @lit-labs/ssr's light-DOM shim doesn't implement querySelector on the
     // host at all (same limitation lit-material-tabs's own querySelectorAll
     // guard documents) — this is a known, accepted SSR gap: a real browser
@@ -34,7 +34,7 @@ describe("lit-material-carousel-item (SSR)", () => {
         <span slot="label">Caption</span>
       </lit-material-carousel-item>
     `);
-    assert.doesNotMatch(out, /class="label"/);
+    assert.match(out, /class="label" part="label" hidden/);
   });
 
   it("reflects role=group and aria-roledescription=slide onto the host tag", async () => {

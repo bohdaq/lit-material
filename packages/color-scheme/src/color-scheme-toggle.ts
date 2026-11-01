@@ -87,6 +87,12 @@ export class LitMaterialColorSchemeToggle extends LitElement {
     document.addEventListener(COLOR_SCHEME_EVENT, this.sync);
     this.media = typeof matchMedia === "function" ? matchMedia("(prefers-color-scheme: dark)") : undefined;
     this.media?.addEventListener("change", this.sync);
+    // The first render must match the server's (which can't know the scheme),
+    // so a fresh element reads it after rendering; a reconnected one at once.
+    if (this.hasUpdated) this.sync();
+  }
+
+  protected override firstUpdated(): void {
     this.sync();
   }
 

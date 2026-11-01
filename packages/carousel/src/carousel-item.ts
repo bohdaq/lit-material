@@ -1,5 +1,5 @@
-import { html, LitElement, nothing } from "lit";
-import { customElement } from "lit/decorators.js";
+import { html, LitElement } from "lit";
+import { customElement, state } from "lit/decorators.js";
 import { styles } from "./carousel-item-styles.js";
 
 /**
@@ -46,21 +46,22 @@ export class LitMaterialCarouselItem extends LitElement {
     if (!this.hasAttribute("aria-roledescription")) this.setAttribute("aria-roledescription", "slide");
   }
 
+  /**
+   * Whether a `slot="label"` child is present. Starts false and follows the
+   * label slot, so the first browser render matches the server's (which can't
+   * see light DOM children); reading them during render broke hydration.
+   */
+  @state() private hasLabel = false;
+
   override render() {
-    // A named slot's assignment can't be read via CSS (`:empty` only ever
-    // sees a slot's own fallback content, never what's actually assigned to
-    // it), so the scrim/label container is only rendered at all when there's
-    // a real `slot="label"` light-DOM child, checked directly against the
-    // light DOM. @lit-labs/ssr's light-DOM shim doesn't implement
-    // querySelector on the host at all (same reasoning as
-    // lit-material-tabs's querySelectorAll guard) — degrade to "no label"
-    // rather than throwing; a real browser render (the overwhelming
-    // majority of usage) always has it.
-    const hasLabel = typeof this.querySelector === "function" && !!this.querySelector('[slot="label"]');
+    // The label container is always rendered, and hidden while empty: a named
+    // slot's content can't be detected from CSS.
     return html`
       <div class="item" part="item">
         <slot></slot>
-        ${hasLabel ? html`<div class="label" part="label"><slot name="label"></slot></div>` : nothing}
+        <div class="label" part="label" ?hidden=${!this.hasLabel}>
+          <slot name="label" @slotchange=${(e: Event) => (this.hasLabel = (e.target as HTMLSlotElement).assignedNodes().length > 0)}></slot>
+        </div>
       </div>
     `;
   }

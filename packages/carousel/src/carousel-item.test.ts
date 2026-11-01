@@ -11,7 +11,7 @@ describe("lit-material-carousel-item", () => {
 
   it("does not render the label overlay when no label slot content is provided", async () => {
     const el = await fixture<LitMaterialCarouselItem>(html`<lit-material-carousel-item>Content</lit-material-carousel-item>`);
-    expect(el.shadowRoot!.querySelector(".label")).to.not.exist;
+    expect(el.shadowRoot!.querySelector<HTMLElement>(".label")!.hidden).to.be.true;
   });
 
   it("renders the label overlay once the label slot has content", async () => {
@@ -21,7 +21,10 @@ describe("lit-material-carousel-item", () => {
         <span slot="label">Caption</span>
       </lit-material-carousel-item>
     `);
-    expect(el.shadowRoot!.querySelector(".label")).to.exist;
+    // slotchange arrives after the first render.
+    await new Promise((r) => requestAnimationFrame(r));
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector<HTMLElement>(".label")!.hidden).to.be.false;
     expect(el.querySelector('[slot="label"]')!.textContent).to.equal("Caption");
   });
 

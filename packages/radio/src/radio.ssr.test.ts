@@ -35,4 +35,11 @@ describe("lit-material-radio (SSR)", () => {
     assert.match(out, /<lit-material-radio[^>]*\berror\b/);
     assert.match(out, /aria-invalid="true"/);
   });
+
+  it("renders a named group on the server", async () => {
+    const out = await collectResult(
+      render(html`<lit-material-radio name="size" value="s" checked></lit-material-radio><lit-material-radio name="size" value="m"></lit-material-radio>`),
+    );
+    assert.match(out, /value="m"|lit-material-radio/);
+  });
 });

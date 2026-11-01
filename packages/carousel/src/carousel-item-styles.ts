@@ -45,4 +45,8 @@ export const styles = css`
     font-weight: var(--md-sys-typescale-title-medium-weight, 500);
     line-height: var(--md-sys-typescale-title-medium-line-height, 1.5rem);
   }
+
+  .label[hidden] {
+    display: none;
+  }
 `;

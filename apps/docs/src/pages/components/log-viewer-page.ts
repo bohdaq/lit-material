@@ -21,8 +21,10 @@ export class DocsLogViewerPage extends LitElement {
   private timer?: ReturnType<typeof setInterval>;
   private n = 0;
 
-  override firstUpdated(): void {
+  override async firstUpdated(): Promise<void> {
     if (!this.log) return;
+    // Feed the log only once it has hydrated, so its first render matches the server's.
+    await this.log.updateComplete;
     this.log.highlight = (line) => (/"status":5\d\d/.test(line) ? "error" : /"status":4\d\d/.test(line) ? "warning" : null);
     this.log.lines = Array.from({ length: 20 }, () => fakeLine(this.n++));
     this.timer = setInterval(() => this.log?.appendLines(fakeLine(this.n++)), 700);

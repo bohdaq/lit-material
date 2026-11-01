@@ -83,6 +83,8 @@ export class LitMaterialRadio extends LitElement {
   private groupMembers(): LitMaterialRadio[] {
     if (!this.name) return [this];
     const root = this.getRootNode() as ParentNode;
+    // The server's DOM shim has no tree to search: the radio is on its own there.
+    if (typeof root.querySelectorAll !== "function") return [this];
     return Array.from(root.querySelectorAll<LitMaterialRadio>("lit-material-radio")).filter(
       (el) => el.name === this.name && el.internals.form === this.internals.form,
     );

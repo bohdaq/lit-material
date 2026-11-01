@@ -1,5 +1,5 @@
 import { html, LitElement } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { customElement, property, query, state } from "lit/decorators.js";
 import { FocusRingController, RippleController } from "@lit-material/core";
 import { styles } from "./tree-item-styles.js";
 
@@ -60,6 +60,13 @@ export class LitMaterialTreeItem extends LitElement {
   @property({ type: Boolean, reflect: true }) selected = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
 
+  /**
+   * Whether to draw the chevron. Starts false and follows the default slot,
+   * so the first browser render matches the server's, which can't see light
+   * DOM children; reading them during render broke hydration.
+   */
+  @state() private showChevron = false;
+
   @query(".state-layer") private readonly stateLayerElement?: HTMLElement;
 
   private readonly focusRing = new FocusRingController(this);
@@ -85,6 +92,7 @@ export class LitMaterialTreeItem extends LitElement {
 
   protected override firstUpdated(): void {
     if (this.stateLayerElement) this.ripple.attach(this.stateLayerElement);
+    this.showChevron = this.hasChildren;
   }
 
   /** How many `lit-material-tree-item` ancestors this node has — 0 for a top-level node. */
@@ -113,7 +121,7 @@ export class LitMaterialTreeItem extends LitElement {
   }
 
   override render() {
-    const hasChildren = this.hasChildren;
+    const hasChildren = this.showChevron;
     return html`
       <div
         class="row ${this.selected ? "selected" : ""}"
@@ -143,7 +151,7 @@ export class LitMaterialTreeItem extends LitElement {
         <span class="label" part="label"><slot name="label"></slot></span>
       </div>
       <div class="group" part="group" role="group" ?hidden=${!this.expanded}>
-        <slot></slot>
+        <slot @slotchange=${() => (this.showChevron = this.hasChildren)}></slot>
       </div>
     `;
   }

@@ -43,7 +43,7 @@ export class DocsStatPage extends LitElement {
           <lit-material-stat label="Requests" value="1,284" caption="last 5 minutes"></lit-material-stat>
           <lit-material-stat label="Open connections" value="37"></lit-material-stat>
           <lit-material-stat label="p95 latency" value="42 ms">
-            <lit-material-sparkline slot="caption" label="p95 latency" .values=${[40, 44, 41, 47, 42, 39, 42]}></lit-material-sparkline>
+            <lit-material-sparkline slot="caption" label="p95 latency" values="[40,44,41,47,42,39,42]"></lit-material-sparkline>
           </lit-material-stat>
         </div>
       </section>

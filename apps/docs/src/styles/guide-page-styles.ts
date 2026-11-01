@@ -16,7 +16,7 @@ export const guidePageStyles = css`
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.72rem;
+    font-size: var(--text-xs, 0.75rem);
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -32,7 +32,8 @@ export const guidePageStyles = css`
   }
 
   .lede {
-    font-size: 1.1rem;
+    font-size: var(--text-lg, 1.125rem);
+    line-height: var(--leading-lg, 1.75rem);
     max-width: 62ch;
   }
 
@@ -43,15 +44,16 @@ export const guidePageStyles = css`
   }
   .doc-section h2 {
     text-transform: none;
-    font-size: 1.3rem;
-    font-weight: 800;
+    font-size: var(--text-xl, 1.25rem);
+    line-height: var(--leading-xl, 1.75rem);
+    font-weight: 700;
     letter-spacing: -0.01em;
     color: var(--md-sys-color-on-background);
     margin-bottom: 0.75rem;
   }
   .doc-section h3 {
-    font-size: 0.95rem;
-    font-weight: 700;
+    font-size: var(--text-base, 1rem);
+    font-weight: 600;
     letter-spacing: -0.005em;
     color: var(--md-sys-color-on-background);
     margin: 1.25rem 0 0.5rem;
@@ -60,8 +62,8 @@ export const guidePageStyles = css`
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem;
-    margin-bottom: 1rem;
+    font-size: var(--text-sm, 0.875rem);
+    margin-bottom: var(--space-200, 16px);
   }
   th,
   td {
@@ -71,8 +73,8 @@ export const guidePageStyles = css`
     border-bottom: 1px solid var(--md-sys-color-outline-variant);
   }
   th {
-    font-size: 0.68rem;
-    font-weight: 700;
+    font-size: var(--text-xs, 0.75rem);
+    font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--md-sys-color-on-surface-variant);

@@ -14,7 +14,7 @@ export class DocsPlayground extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      font-family: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+      font-family: var(--font-sans, "Geist Variable", system-ui, sans-serif);
       border: 1px solid var(--md-sys-color-outline-variant);
       border-radius: 14px;
       overflow: hidden;
@@ -118,7 +118,7 @@ export class DocsPlayground extends LitElement {
       padding: 1rem 1.25rem 1.25rem;
       background: var(--md-sys-color-surface-container-highest);
       color: var(--md-sys-color-on-surface);
-      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-family: var(--font-mono, "Geist Mono Variable", ui-monospace, monospace);
       font-size: 0.82rem;
       line-height: 1.6;
       overflow-x: auto;

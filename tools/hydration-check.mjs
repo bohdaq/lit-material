@@ -46,6 +46,9 @@ cases.push(
   ["dual-list items", html`<lit-material-dual-list-selector items=${j([{ value: "a", label: "Apples" }])} selected=${j(["a"])}></lit-material-dual-list-selector>`],
   ["table rows", html`<lit-material-table caption="People" columns=${j([{ key: "name", label: "Name" }])} rows=${j([{ name: "Ada" }])}></lit-material-table>`],
   ["jump-links links", html`<lit-material-jump-links links=${j([{ id: "a", text: "Install" }])}></lit-material-jump-links>`],
+  // Elements whose template depends on their light DOM children.
+  ["carousel-item label", html`<lit-material-carousel><lit-material-carousel-item>One<span slot="label">First</span></lit-material-carousel-item></lit-material-carousel>`],
+  ["tree nested items", html`<lit-material-tree><lit-material-tree-item expanded><span slot="label">src</span><lit-material-tree-item><span slot="label">main.ts</span></lit-material-tree-item></lit-material-tree-item></lit-material-tree>`],
 );
 
 const failures = [];
