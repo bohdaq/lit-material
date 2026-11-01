@@ -34,6 +34,10 @@ export class LitMaterialClipboardCopy extends LitElement {
       background: var(--md-sys-color-surface-container-low, light-dark(#f7f2fa, #1d1b20));
       color: var(--md-sys-color-on-surface, light-dark(#1d1b20, #e6e0e9));
     }
+
+    :host([hidden]) {
+      display: none;
+    }
     input {
       flex: 1;
       min-width: 0;

@@ -11,6 +11,10 @@ export const styles = css`
     --lit-material-rating-icon-empty-color: var(--md-sys-color-outline-variant, #cac4d0);
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   :host([disabled]) {
     pointer-events: none;
   }

@@ -23,6 +23,10 @@ export class LitMaterialCopyButton extends LitElement {
       display: inline-flex;
       position: relative;
     }
+
+    :host([hidden]) {
+      display: none;
+    }
     svg {
       width: 100%;
       height: 100%;

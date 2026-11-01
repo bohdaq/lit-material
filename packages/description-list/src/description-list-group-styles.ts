@@ -9,6 +9,10 @@ export const styles = css`
     display: contents;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   /* Both start with padding-block-start: 0 and the same line-height —
      deliberately, not just incidentally. In horizontal mode, term and
      description land in the same CSS grid row (see

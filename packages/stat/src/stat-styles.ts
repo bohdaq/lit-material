@@ -6,6 +6,10 @@ export const styles = css`
     min-width: 0;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .stat {
     box-sizing: border-box;
     height: 100%;

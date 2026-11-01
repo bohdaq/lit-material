@@ -15,6 +15,10 @@ export class LitMaterialToolbarSpacer extends LitElement {
       display: block;
       flex: 1 1 auto;
     }
+
+    :host([hidden]) {
+      display: none;
+    }
   `;
 }
 

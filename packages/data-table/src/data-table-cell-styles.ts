@@ -13,6 +13,10 @@ export const styles = css`
     text-align: start;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   :host([numeric]) {
     text-align: end;
     font-variant-numeric: tabular-nums;

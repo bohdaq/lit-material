@@ -1,0 +1,256 @@
+/*
+ * Opt-in typography for plain HTML, on the M3 type scale. Not part of
+ * index.css: import it where you want it.
+ *
+ *   .md-typescale-<role>-<size>  one M3 text style (display, headline, title,
+ *                                body, label × large, medium, small), so a
+ *                                heading's level and its size are separate:
+ *                                <h2 class="md-typescale-title-large">.
+ *   .lit-material-content        prose: headings, paragraphs, lists,
+ *                                definition lists, quotes, code, rules and
+ *                                links inside it get M3 styles and spacing.
+ *
+ * Values come from the --md-sys-typescale-* tokens, with M3's baseline as the
+ * fallback for any role the tokens don't define.
+ */
+
+.md-typescale-display-large {
+  font-family: var(--md-sys-typescale-display-large-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-display-large-size, 3.5625rem);
+  font-weight: var(--md-sys-typescale-display-large-weight, 400);
+  line-height: var(--md-sys-typescale-display-large-line-height, 4rem);
+  letter-spacing: var(--md-sys-typescale-display-large-tracking, -0.015625rem);
+}
+
+.md-typescale-display-medium {
+  font-family: var(--md-sys-typescale-display-medium-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-display-medium-size, 2.8125rem);
+  font-weight: var(--md-sys-typescale-display-medium-weight, 400);
+  line-height: var(--md-sys-typescale-display-medium-line-height, 3.25rem);
+  letter-spacing: var(--md-sys-typescale-display-medium-tracking, 0rem);
+}
+
+.md-typescale-display-small {
+  font-family: var(--md-sys-typescale-display-small-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-display-small-size, 2.25rem);
+  font-weight: var(--md-sys-typescale-display-small-weight, 400);
+  line-height: var(--md-sys-typescale-display-small-line-height, 2.75rem);
+  letter-spacing: var(--md-sys-typescale-display-small-tracking, 0rem);
+}
+
+.md-typescale-headline-large {
+  font-family: var(--md-sys-typescale-headline-large-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-headline-large-size, 2rem);
+  font-weight: var(--md-sys-typescale-headline-large-weight, 400);
+  line-height: var(--md-sys-typescale-headline-large-line-height, 2.5rem);
+  letter-spacing: var(--md-sys-typescale-headline-large-tracking, 0rem);
+}
+
+.md-typescale-headline-medium {
+  font-family: var(--md-sys-typescale-headline-medium-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-headline-medium-size, 1.75rem);
+  font-weight: var(--md-sys-typescale-headline-medium-weight, 400);
+  line-height: var(--md-sys-typescale-headline-medium-line-height, 2.25rem);
+  letter-spacing: var(--md-sys-typescale-headline-medium-tracking, 0rem);
+}
+
+.md-typescale-headline-small {
+  font-family: var(--md-sys-typescale-headline-small-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-headline-small-size, 1.5rem);
+  font-weight: var(--md-sys-typescale-headline-small-weight, 400);
+  line-height: var(--md-sys-typescale-headline-small-line-height, 2rem);
+  letter-spacing: var(--md-sys-typescale-headline-small-tracking, 0rem);
+}
+
+.md-typescale-title-large {
+  font-family: var(--md-sys-typescale-title-large-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-title-large-size, 1.375rem);
+  font-weight: var(--md-sys-typescale-title-large-weight, 400);
+  line-height: var(--md-sys-typescale-title-large-line-height, 1.75rem);
+  letter-spacing: var(--md-sys-typescale-title-large-tracking, 0rem);
+}
+
+.md-typescale-title-medium {
+  font-family: var(--md-sys-typescale-title-medium-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-title-medium-size, 1rem);
+  font-weight: var(--md-sys-typescale-title-medium-weight, 500);
+  line-height: var(--md-sys-typescale-title-medium-line-height, 1.5rem);
+  letter-spacing: var(--md-sys-typescale-title-medium-tracking, 0.009375rem);
+}
+
+.md-typescale-title-small {
+  font-family: var(--md-sys-typescale-title-small-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-title-small-size, 0.875rem);
+  font-weight: var(--md-sys-typescale-title-small-weight, 500);
+  line-height: var(--md-sys-typescale-title-small-line-height, 1.25rem);
+  letter-spacing: var(--md-sys-typescale-title-small-tracking, 0.00625rem);
+}
+
+.md-typescale-body-large {
+  font-family: var(--md-sys-typescale-body-large-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-body-large-size, 1rem);
+  font-weight: var(--md-sys-typescale-body-large-weight, 400);
+  line-height: var(--md-sys-typescale-body-large-line-height, 1.5rem);
+  letter-spacing: var(--md-sys-typescale-body-large-tracking, 0.03125rem);
+}
+
+.md-typescale-body-medium {
+  font-family: var(--md-sys-typescale-body-medium-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-body-medium-size, 0.875rem);
+  font-weight: var(--md-sys-typescale-body-medium-weight, 400);
+  line-height: var(--md-sys-typescale-body-medium-line-height, 1.25rem);
+  letter-spacing: var(--md-sys-typescale-body-medium-tracking, 0.015625rem);
+}
+
+.md-typescale-body-small {
+  font-family: var(--md-sys-typescale-body-small-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-body-small-size, 0.75rem);
+  font-weight: var(--md-sys-typescale-body-small-weight, 400);
+  line-height: var(--md-sys-typescale-body-small-line-height, 1rem);
+  letter-spacing: var(--md-sys-typescale-body-small-tracking, 0.025rem);
+}
+
+.md-typescale-label-large {
+  font-family: var(--md-sys-typescale-label-large-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-label-large-size, 0.875rem);
+  font-weight: var(--md-sys-typescale-label-large-weight, 500);
+  line-height: var(--md-sys-typescale-label-large-line-height, 1.25rem);
+  letter-spacing: var(--md-sys-typescale-label-large-tracking, 0.00625rem);
+}
+
+.md-typescale-label-medium {
+  font-family: var(--md-sys-typescale-label-medium-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-label-medium-size, 0.75rem);
+  font-weight: var(--md-sys-typescale-label-medium-weight, 500);
+  line-height: var(--md-sys-typescale-label-medium-line-height, 1rem);
+  letter-spacing: var(--md-sys-typescale-label-medium-tracking, 0.03125rem);
+}
+
+.md-typescale-label-small {
+  font-family: var(--md-sys-typescale-label-small-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-label-small-size, 0.6875rem);
+  font-weight: var(--md-sys-typescale-label-small-weight, 500);
+  line-height: var(--md-sys-typescale-label-small-line-height, 1rem);
+  letter-spacing: var(--md-sys-typescale-label-small-tracking, 0.03125rem);
+}
+
+.lit-material-content {
+  font-family: var(--md-sys-typescale-body-large-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-body-large-size, 1rem);
+  font-weight: var(--md-sys-typescale-body-large-weight, 400);
+  line-height: var(--md-sys-typescale-body-large-line-height, 1.5rem);
+  letter-spacing: var(--md-sys-typescale-body-large-tracking, 0.03125rem);
+  color: var(--md-sys-color-on-surface, light-dark(#1d1b20, #e6e0e9));
+}
+
+.lit-material-content h1 {
+  font-family: var(--md-sys-typescale-headline-large-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-headline-large-size, 2rem);
+  font-weight: var(--md-sys-typescale-headline-large-weight, 400);
+  line-height: var(--md-sys-typescale-headline-large-line-height, 2.5rem);
+  letter-spacing: var(--md-sys-typescale-headline-large-tracking, 0rem);
+  margin: 1.5em 0 0.5em;
+}
+
+.lit-material-content h2 {
+  font-family: var(--md-sys-typescale-headline-small-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-headline-small-size, 1.5rem);
+  font-weight: var(--md-sys-typescale-headline-small-weight, 400);
+  line-height: var(--md-sys-typescale-headline-small-line-height, 2rem);
+  letter-spacing: var(--md-sys-typescale-headline-small-tracking, 0rem);
+  margin: 1.5em 0 0.5em;
+}
+
+.lit-material-content h3 {
+  font-family: var(--md-sys-typescale-title-large-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-title-large-size, 1.375rem);
+  font-weight: var(--md-sys-typescale-title-large-weight, 400);
+  line-height: var(--md-sys-typescale-title-large-line-height, 1.75rem);
+  letter-spacing: var(--md-sys-typescale-title-large-tracking, 0rem);
+  margin: 1.5em 0 0.5em;
+}
+
+.lit-material-content h4 {
+  font-family: var(--md-sys-typescale-title-medium-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-title-medium-size, 1rem);
+  font-weight: var(--md-sys-typescale-title-medium-weight, 500);
+  line-height: var(--md-sys-typescale-title-medium-line-height, 1.5rem);
+  letter-spacing: var(--md-sys-typescale-title-medium-tracking, 0.009375rem);
+  margin: 1.5em 0 0.5em;
+}
+
+.lit-material-content h5 {
+  font-family: var(--md-sys-typescale-title-small-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-title-small-size, 0.875rem);
+  font-weight: var(--md-sys-typescale-title-small-weight, 500);
+  line-height: var(--md-sys-typescale-title-small-line-height, 1.25rem);
+  letter-spacing: var(--md-sys-typescale-title-small-tracking, 0.00625rem);
+  margin: 1.5em 0 0.5em;
+}
+
+.lit-material-content h6 {
+  font-family: var(--md-sys-typescale-label-large-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-label-large-size, 0.875rem);
+  font-weight: var(--md-sys-typescale-label-large-weight, 500);
+  line-height: var(--md-sys-typescale-label-large-line-height, 1.25rem);
+  letter-spacing: var(--md-sys-typescale-label-large-tracking, 0.00625rem);
+  margin: 1.5em 0 0.5em;
+}
+
+.lit-material-content :is(h1, h2, h3, h4, h5, h6):first-child {
+  margin-top: 0;
+}
+.lit-material-content :is(p, ul, ol, dl, blockquote, pre, table) {
+  margin: 0 0 1em;
+}
+.lit-material-content :is(ul, ol) {
+  padding-inline-start: 1.5em;
+}
+.lit-material-content li + li {
+  margin-top: 0.25em;
+}
+.lit-material-content dt {
+  font-weight: 500;
+}
+.lit-material-content dd {
+  margin: 0 0 0.5em;
+  margin-inline-start: 1.5em;
+}
+.lit-material-content blockquote {
+  padding-inline-start: 1em;
+  border-inline-start: 3px solid var(--md-sys-color-outline-variant, light-dark(#cac4d0, #49454f));
+  color: var(--md-sys-color-on-surface-variant, light-dark(#49454f, #cac4d0));
+}
+.lit-material-content :is(code, kbd, samp) {
+  padding: 0.1em 0.3em;
+  border-radius: var(--md-sys-shape-corner-extra-small, 4px);
+  background: var(--md-sys-color-surface-container-high, light-dark(#ece6f0, #2b2930));
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+}
+.lit-material-content pre {
+  overflow-x: auto;
+  padding: 0.75em 1em;
+  border-radius: var(--md-sys-shape-corner-small, 8px);
+  background: var(--md-sys-color-surface-container-high, light-dark(#ece6f0, #2b2930));
+}
+.lit-material-content pre code {
+  padding: 0;
+  background: none;
+}
+.lit-material-content a {
+  color: var(--md-sys-color-primary, light-dark(#6750a4, #d0bcff));
+  text-underline-offset: 0.15em;
+}
+.lit-material-content hr {
+  margin: 1.5em 0;
+  border: 0;
+  border-top: 1px solid var(--md-sys-color-outline-variant, light-dark(#cac4d0, #49454f));
+}
+.lit-material-content small {
+  font-family: var(--md-sys-typescale-body-small-font, Roboto, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-body-small-size, 0.75rem);
+  font-weight: var(--md-sys-typescale-body-small-weight, 400);
+  line-height: var(--md-sys-typescale-body-small-line-height, 1rem);
+  letter-spacing: var(--md-sys-typescale-body-small-tracking, 0.025rem);
+}

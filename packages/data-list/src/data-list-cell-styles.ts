@@ -8,6 +8,10 @@ export const styles = css`
     flex: 0 0 auto;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   :host([fill]) {
     flex: 1 1 0;
   }

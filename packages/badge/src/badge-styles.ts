@@ -6,6 +6,10 @@ export const styles = css`
     vertical-align: top;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   /* Small (default): a plain dot, no content. */
   .badge {
     display: inline-flex;

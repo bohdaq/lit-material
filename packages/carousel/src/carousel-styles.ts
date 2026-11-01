@@ -7,6 +7,10 @@ export const styles = css`
     height: var(--lit-material-carousel-height, 220px);
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .track {
     display: flex;
     align-items: stretch;

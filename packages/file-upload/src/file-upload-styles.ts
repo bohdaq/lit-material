@@ -6,6 +6,10 @@ export const styles = css`
     outline: none;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   :host([disabled]) {
     pointer-events: none;
   }

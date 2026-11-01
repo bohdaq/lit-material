@@ -10,6 +10,10 @@ export const styles = css`
     background-color: var(--md-sys-color-surface, #fffbfe);
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .table {
     display: table;
     width: 100%;

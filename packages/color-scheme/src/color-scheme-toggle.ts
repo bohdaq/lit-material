@@ -51,6 +51,10 @@ export class LitMaterialColorSchemeToggle extends LitElement {
     :host {
       display: inline-flex;
     }
+
+    :host([hidden]) {
+      display: none;
+    }
     svg {
       width: 100%;
       height: 100%;

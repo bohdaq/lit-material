@@ -41,6 +41,10 @@ export class LitMaterialAdaptiveNavigation extends LitElement {
     :host {
       display: block;
     }
+
+    :host([hidden]) {
+      display: none;
+    }
     .bar,
     .rail,
     .drawer {

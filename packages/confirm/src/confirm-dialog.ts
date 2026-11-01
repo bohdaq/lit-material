@@ -30,6 +30,10 @@ export class LitMaterialConfirmDialog extends LitElement {
     :host {
       display: contents;
     }
+
+    :host([hidden]) {
+      display: none;
+    }
     form {
       display: grid;
       gap: 16px;

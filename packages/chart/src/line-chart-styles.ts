@@ -11,6 +11,10 @@ export const styles = [
       color: var(--chart-text);
       font-family: var(--md-sys-typescale-body-medium-font, Roboto, system-ui, sans-serif);
     }
+
+    :host([hidden]) {
+      display: none;
+    }
     .chart {
       position: relative;
     }

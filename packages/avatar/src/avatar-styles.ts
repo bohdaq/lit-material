@@ -8,6 +8,10 @@ export const styles = css`
     --lit-material-avatar-size: 40px;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   :host([size="small"]) {
     --lit-material-avatar-size: 24px;
   }

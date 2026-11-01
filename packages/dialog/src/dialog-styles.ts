@@ -5,6 +5,10 @@ export const styles = css`
     display: contents;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   /* The dialog element itself is transparent and fills the viewport (rather
      than shrink-wrapping the visible card) so a click landing outside
      .container still has its event target equal to the dialog element —

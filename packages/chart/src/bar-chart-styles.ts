@@ -17,6 +17,10 @@ export const styles = [
       line-height: var(--md-sys-typescale-body-small-line-height, 1rem);
       --accent: var(--lit-material-chart-series-1, light-dark(#2a78d6, #3987e5));
     }
+
+    :host([hidden]) {
+      display: none;
+    }
     .chart {
       position: relative;
       display: grid;

@@ -5,6 +5,10 @@ export const styles = css`
     display: block;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   :host(:not(:last-of-type)) .row {
     border-bottom: 1px solid var(--md-sys-color-outline-variant, #cac4d0);
   }

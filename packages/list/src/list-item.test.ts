@@ -157,4 +157,9 @@ describe("lit-material-list-item", () => {
     );
     expect(getComputedStyle(el.querySelector("span")!).pointerEvents).to.equal("none");
   });
+
+  it("hides with the hidden attribute", async () => {
+    const el = await fixture(html`<lit-material-list-item hidden>Gone</lit-material-list-item>`);
+    expect(getComputedStyle(el).display).to.equal("none");
+  });
 });

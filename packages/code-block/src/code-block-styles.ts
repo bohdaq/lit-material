@@ -5,6 +5,10 @@ export const styles = css`
     display: block;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .code-block {
     box-sizing: border-box;
     border-radius: var(--lit-material-code-block-shape, var(--md-sys-shape-corner-small, 8px));

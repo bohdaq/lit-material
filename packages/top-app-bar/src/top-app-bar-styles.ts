@@ -6,6 +6,10 @@ export const styles = css`
     box-sizing: border-box;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .bar {
     display: flex;
     box-sizing: border-box;

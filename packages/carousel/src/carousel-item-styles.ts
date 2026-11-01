@@ -11,6 +11,10 @@ export const styles = css`
     scroll-snap-stop: always;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .item {
     position: relative;
     box-sizing: border-box;

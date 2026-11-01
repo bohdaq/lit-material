@@ -6,6 +6,10 @@ export const styles = css`
     -webkit-tap-highlight-color: transparent;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   :host([disabled]) {
     pointer-events: none;
   }

@@ -5,6 +5,10 @@ export const styles = css`
     display: contents;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .dialog {
     margin: 0;
     padding: 0;

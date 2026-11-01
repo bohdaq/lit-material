@@ -74,6 +74,32 @@ Because items carry `role="listitem"` (not `menuitem`), the menu itself takes `r
 than the ARIA `menu` role — this is a floating, keyboard-navigable list built from
 `lit-material-list-item`, not a strict ARIA menu/menuitem widget.
 
+## App launcher
+
+`lit-material-app-launcher` is a grid button for a top bar that opens a menu of the other apps a
+person can go to. Items are `lit-material-list-item`s with `href`.
+
+```html
+<lit-material-app-launcher searchable>
+  <lit-material-list-item href="https://grafana.example.com">Grafana
+    <span slot="supporting-text">Dashboards and alerts</span></lit-material-list-item>
+  <lit-material-list-item href="/billing">Billing portal</lit-material-list-item>
+</lit-material-app-launcher>
+```
+
+| Property      | Attribute      | Type      | Default                   |
+| ------------- | -------------- | --------- | ------------------------- |
+| `label`       | `label`        | `string` (names the button and menu) | `"Applications"` |
+| `searchable`  | `searchable` (reflected) | `boolean` (a filter field at the top) | `false` |
+| `searchLabel` | `search-label` | `string`  | `"Search applications"`   |
+| `emptyText`   | `empty-text`   | `string` (shown when nothing matches) | `"No applications match"` |
+| `open`        | `open` (reflected) | `boolean` | `false` |
+
+`show()`/`close()`; `close` fires after it closes. Slot `icon` replaces the grid icon; parts
+`button`, `menu`, `search`. The filter matches an item's text and hides the rest (arrow keys skip
+them); it resets when the menu closes. Since this release `lit-material-menu` also finds items
+passed through nested slots and skips hidden ones.
+
 ## License
 
 MIT

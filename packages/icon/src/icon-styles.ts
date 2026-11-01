@@ -22,6 +22,10 @@ export const styles = css`
     --lit-material-icon-warning-color: light-dark(#7a4d00, #ffb945);
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   :host([size="small"]) {
     width: 18px;
     height: 18px;

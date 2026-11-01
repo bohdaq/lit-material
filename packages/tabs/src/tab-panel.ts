@@ -22,6 +22,10 @@ export class LitMaterialTabPanel extends LitElement {
       display: block;
     }
 
+    :host([hidden]) {
+      display: none;
+    }
+
     :host(:not([selected])) {
       display: none;
     }

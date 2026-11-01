@@ -99,11 +99,20 @@ export class LitMaterialMenu extends LitElement {
     return html`<slot part="menu"></slot>`;
   }
 
-  /** Interactive, non-disabled `lit-material-list-item` children, in document order. */
+  /**
+   * Interactive, non-disabled, shown `lit-material-list-item`s, in document
+   * order — through nested slots too, so another component can pass its own
+   * children into a menu it renders.
+   */
   private get items(): HTMLElement[] {
-    return Array.from(this.querySelectorAll("lit-material-list-item")).filter(
-      (el) => !el.hasAttribute("disabled") && (el.hasAttribute("interactive") || el.hasAttribute("href")),
-    ) as HTMLElement[];
+    const slot = this.shadowRoot?.querySelector("slot");
+    const roots = slot ? slot.assignedElements({ flatten: true }) : Array.from(this.children);
+    return roots
+      .flatMap((el) => (el.localName === "lit-material-list-item" ? [el] : Array.from(el.querySelectorAll("lit-material-list-item"))))
+      .filter(
+        (el) =>
+          !el.hasAttribute("disabled") && !(el as HTMLElement).hidden && (el.hasAttribute("interactive") || el.hasAttribute("href")),
+      ) as HTMLElement[];
   }
 
   private updatePosition(): void {

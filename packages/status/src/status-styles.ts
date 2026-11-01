@@ -6,6 +6,10 @@ export const styles = css`
     vertical-align: middle;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .status {
     display: inline-flex;
     align-items: center;

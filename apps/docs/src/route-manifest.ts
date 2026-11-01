@@ -47,6 +47,8 @@ import "./pages/components/truncate-page.js";
 import "./pages/components/back-to-top-page.js";
 import "./pages/components/action-list-page.js";
 import "./pages/components/about-dialog-page.js";
+import "./pages/components/app-launcher-page.js";
+import "./pages/typography-page.js";
 import "./pages/components/clipboard-page.js";
 import "./pages/components/stat-page.js";
 import "./pages/components/empty-state-page.js";
@@ -114,6 +116,7 @@ export const navEntries: NavEntry[] = [
     render: () => html`<docs-building-apps-page></docs-building-apps-page>`,
   },
   { path: "/theme", label: "Theme builder", group: "theme", render: () => html`<docs-theme-page></docs-theme-page>` },
+  { path: "/theme/typography", label: "Typography", group: "theme", render: () => html`<docs-typography-page></docs-typography-page>` },
   {
     path: "/packages/router",
     label: "Router",
@@ -557,6 +560,12 @@ export const navEntries: NavEntry[] = [
     label: "About dialog",
     group: "components",
     render: () => html`<docs-about-dialog-page></docs-about-dialog-page>`,
+  },
+  {
+    path: "/components/app-launcher",
+    label: "App launcher",
+    group: "components",
+    render: () => html`<docs-app-launcher-page></docs-app-launcher-page>`,
   },
   {
     path: "/components/status",

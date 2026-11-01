@@ -7,6 +7,10 @@ export const styles = css`
     transition: background-color 150ms var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   :host([flex]) {
     display: flex;
     box-sizing: border-box;

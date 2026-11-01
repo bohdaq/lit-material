@@ -15,6 +15,10 @@ export const styles = css`
     font-size: var(--md-sys-typescale-body-medium-size, 0.875rem);
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .page-size {
     display: flex;
     align-items: center;

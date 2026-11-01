@@ -9,6 +9,10 @@ export const styles = css`
     background-color: var(--md-sys-color-outline-variant, #cac4d0);
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   /* Inset: indented from the axis perpendicular to the line itself — the
      inline (left/right) axis for a horizontal divider. */
   :host([inset-start]) {

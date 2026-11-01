@@ -32,7 +32,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Tooltip](https://github.com/bohdaq/lit-material/tree/main/packages/tooltip): Plain tooltip, built on the native Popover API.
 - [Dialog](https://github.com/bohdaq/lit-material/tree/main/packages/dialog): Built on the native `<dialog>` element. `lit-material-about-dialog` — `product-name`, slots `logo`/default (details)/`legal`, `show()`/`close()`.
 - [Sheet](https://github.com/bohdaq/lit-material/tree/main/packages/sheet): Side sheet and bottom sheet; same native `<dialog>` foundation.
-- [Menu](https://github.com/bohdaq/lit-material/tree/main/packages/menu): Built on the native Popover API.
+- [Menu](https://github.com/bohdaq/lit-material/tree/main/packages/menu): Built on the native Popover API. `lit-material-app-launcher` — grid button + menu of `lit-material-list-item href` apps; `searchable`, `label`.
 - [Search](https://github.com/bohdaq/lit-material/tree/main/packages/search): Search bar and docked search view; view built on the native Popover API.
 - [Snackbar](https://github.com/bohdaq/lit-material/tree/main/packages/snackbar): Built on the native Popover API.
 - [Tabs](https://github.com/bohdaq/lit-material/tree/main/packages/tabs): `lit-material-tabs` + `lit-material-tab`, optional `lit-material-tab-panel` siblings paired by index.
@@ -92,7 +92,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Task](https://github.com/bohdaq/lit-material/tree/main/packages/task): A reactive controller for async work (data fetching).
 - [Form](https://github.com/bohdaq/lit-material/tree/main/packages/form): A reactive controller tracking a `<form>`'s aggregate validity.
 - [create-lit-material-app](https://github.com/bohdaq/lit-material/tree/main/packages/create-lit-material-app): `npm create lit-material-app` — a scaffolded starting point with the above wired together.
-- [Tokens](https://github.com/bohdaq/lit-material/tree/main/packages/tokens): Color, type, shape, elevation, and motion design tokens every component reads from.
+- [Tokens](https://github.com/bohdaq/lit-material/tree/main/packages/tokens): Color, type, shape, elevation, and motion design tokens every component reads from. Opt-in `css/typography.css`: `.md-typescale-<role>-<size>` classes and `.lit-material-content` prose (include via `unsafeCSS` inside shadow roots).
 
 ## Guides
 

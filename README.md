@@ -79,7 +79,7 @@ components as you like.
 | [`@lit-material/tooltip`](packages/tooltip) | Plain tooltip, built on the native Popover API. |
 | [`@lit-material/dialog`](packages/dialog) | Built on the native `<dialog>` element; about dialog for name, version and legal lines. |
 | [`@lit-material/sheet`](packages/sheet) | Side sheet and bottom sheet; same native `<dialog>` foundation. |
-| [`@lit-material/menu`](packages/menu) | Built on the native Popover API. |
+| [`@lit-material/menu`](packages/menu) | Built on the native Popover API; app launcher for a top bar. |
 | [`@lit-material/search`](packages/search) | Search bar and docked search view; view built on the native Popover API. |
 | [`@lit-material/snackbar`](packages/snackbar) | Built on the native Popover API. |
 | [`@lit-material/tabs`](packages/tabs) | `lit-material-tabs` + `lit-material-tab`. |
@@ -130,7 +130,7 @@ components as you like.
 | [`@lit-material/log-viewer`](packages/log-viewer) | Monospace line stream that follows the newest line, with pause, highlighting and a line cap. |
 | [`@lit-material/table`](packages/table) | Data-driven semantic `<table>`: caption, headers, numeric and monospace columns. |
 | [`@lit-material/chart`](packages/chart) | Line chart, bar chart and sparkline: crosshair tooltip, keyboard access, screen-reader table. |
-| [`@lit-material/tokens`](packages/tokens) | Color, type, shape, elevation, and motion design tokens. |
+| [`@lit-material/tokens`](packages/tokens) | Color, type, shape, elevation, and motion design tokens; opt-in typography classes for plain HTML. |
 
 ## Building a whole app
 

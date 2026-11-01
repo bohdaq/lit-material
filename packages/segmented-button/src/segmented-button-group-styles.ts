@@ -12,6 +12,10 @@ export const styles = css`
     outline: none;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   ::slotted(lit-material-segmented-button) {
     flex: 1;
   }

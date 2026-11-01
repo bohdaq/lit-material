@@ -11,6 +11,10 @@ export const styles = css`
     overflow: hidden;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .track {
     position: absolute;
     inset: 0;

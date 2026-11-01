@@ -14,6 +14,10 @@ export const styles = css`
     color: var(--md-sys-color-on-surface, #1c1b1f);
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .header {
     grid-area: header;
   }

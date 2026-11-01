@@ -6,6 +6,10 @@ export const styles = css`
     align-items: center;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   :host(:not(:last-of-type))::after {
     content: var(--lit-material-breadcrumb-separator, "/");
     margin-inline: 8px;

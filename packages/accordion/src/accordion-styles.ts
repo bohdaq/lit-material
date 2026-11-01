@@ -5,6 +5,10 @@ export const styles = css`
     display: block;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .accordion {
     display: flex;
     flex-direction: column;

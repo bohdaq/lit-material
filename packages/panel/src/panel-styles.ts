@@ -14,6 +14,10 @@ export const styles = css`
     line-height: var(--md-sys-typescale-body-medium-line-height, 1.25rem);
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   :host([variant="bordered"]) {
     background-color: var(--md-sys-color-surface, #fffbfe);
     border: 1px solid var(--md-sys-color-outline-variant, #cac4d0);

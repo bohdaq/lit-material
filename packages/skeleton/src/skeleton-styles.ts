@@ -24,6 +24,10 @@ export const styles = css`
     display: block;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .skeleton {
     position: relative;
     display: block;

@@ -25,6 +25,10 @@ export class LitMaterialSparkline extends LitElement {
         height: var(--lit-material-sparkline-height, 24px);
         vertical-align: middle;
       }
+
+      :host([hidden]) {
+        display: none;
+      }
       svg {
         display: block;
         width: 100%;

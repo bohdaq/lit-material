@@ -11,6 +11,10 @@ export const styles = css`
     color: var(--md-sys-color-on-surface, #1c1b1f);
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   :host([dense]) {
     gap: 4px;
     padding: 4px 8px;

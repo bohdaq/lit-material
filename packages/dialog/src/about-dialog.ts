@@ -26,6 +26,10 @@ export class LitMaterialAboutDialog extends LitElement {
     :host {
       display: contents;
     }
+
+    :host([hidden]) {
+      display: none;
+    }
     .logo::slotted(*) {
       display: block;
       max-width: 100%;

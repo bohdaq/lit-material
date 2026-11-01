@@ -9,6 +9,10 @@ export const styles = css`
     --notch-color: var(--lit-material-text-field-notch-color, var(--md-sys-color-surface, #fffbfe));
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   :host([disabled]) {
     pointer-events: none;
   }

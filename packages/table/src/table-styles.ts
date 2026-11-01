@@ -5,6 +5,10 @@ export const styles = css`
     display: block;
     min-width: 0;
   }
+
+  :host([hidden]) {
+    display: none;
+  }
   .container {
     overflow: auto;
     max-height: inherit;

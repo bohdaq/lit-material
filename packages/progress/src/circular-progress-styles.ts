@@ -7,6 +7,10 @@ export const styles = css`
     line-height: 0;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   svg {
     display: block;
   }

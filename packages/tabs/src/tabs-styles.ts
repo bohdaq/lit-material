@@ -6,6 +6,10 @@ export const styles = css`
     outline: none;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .tablist {
     position: relative;
     display: flex;

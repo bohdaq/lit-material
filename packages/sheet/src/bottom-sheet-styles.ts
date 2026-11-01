@@ -5,6 +5,10 @@ export const styles = css`
     display: contents;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .sheet {
     display: flex;
     flex-direction: column;

@@ -5,6 +5,10 @@ export const styles = css`
     display: inline;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   time {
     font-family: var(--md-sys-typescale-body-medium-font, Roboto, system-ui, sans-serif);
     font-size: var(--md-sys-typescale-body-medium-size, 0.875rem);

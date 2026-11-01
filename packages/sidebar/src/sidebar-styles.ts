@@ -10,6 +10,10 @@ export const styles = css`
     container-type: inline-size;
   }
 
+  :host([hidden]) {
+    display: none;
+  }
+
   .layout {
     display: flex;
     flex-direction: row;

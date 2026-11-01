@@ -4,6 +4,10 @@ export const styles = css`
   :host {
     display: block;
   }
+
+  :host([hidden]) {
+    display: none;
+  }
   .box {
     position: relative;
   }
