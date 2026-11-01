@@ -37,6 +37,10 @@ jobs:
       - run: pnpm build
       # Each package bundled alone and gzipped against tools/size-limits.json.
       - run: pnpm size
+      # Every element server-rendered, then hydrated in Chromium: fails when hydration
+      # throws or changes what an element shows (reads the custom-elements manifests).
+      - run: pnpm analyze
+      - run: pnpm hydration
 
       # Each package's web-test-runner binds a fixed dev-server port, so test tasks can't run
       # turbo's default full parallelism without colliding — keep this sequential.

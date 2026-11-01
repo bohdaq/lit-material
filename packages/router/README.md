@@ -9,8 +9,9 @@ There's no `screenshot.png` here — the outlet itself renders nothing but the m
 so there's nothing package-specific to capture; see whatever component is used *inside* a route for its own
 screenshot.
 
-**Client-side only.** Routing depends on `window.history`/`location`, so — unlike every other
-`@lit-material/*` package — this one isn't safe to import from an SSR entry point.
+**Client-side routing.** Routing depends on `window.history`/`location`. On the server there's no
+location, so `lit-material-router-outlet` renders empty there (the page around it still renders)
+and the browser fills it in after hydration.
 
 ## Install
 

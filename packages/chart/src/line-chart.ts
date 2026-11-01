@@ -51,7 +51,7 @@ const TABLE_ROWS = 200;
 export class LitMaterialLineChart extends LitElement {
   static override styles = styles;
 
-  @property({ attribute: false }) series: ChartSeries[] = [];
+  @property({ type: Array }) series: ChartSeries[] = [];
 
   /** The chart's accessible name, e.g. "Requests per second, last 10 minutes". */
   @property() label = "";

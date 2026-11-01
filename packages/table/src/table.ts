@@ -37,9 +37,9 @@ export interface TableColumn<Row = Record<string, unknown>> {
 export class LitMaterialTable<Row = Record<string, unknown>> extends LitElement {
   static override styles = styles;
 
-  @property({ attribute: false }) columns: TableColumn<Row>[] = [];
+  @property({ type: Array }) columns: TableColumn<Row>[] = [];
 
-  @property({ attribute: false }) rows: Row[] = [];
+  @property({ type: Array }) rows: Row[] = [];
 
   /** Describes the table; read by screen readers. */
   @property() caption = "";

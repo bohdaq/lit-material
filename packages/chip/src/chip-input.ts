@@ -91,7 +91,7 @@ export class LitMaterialChipInput extends LitElement {
   `;
 
   /** The chips' values. */
-  @property({ attribute: false }) values: string[] = [];
+  @property({ type: Array }) values: string[] = [];
 
   /** Visible label above the field; also names the input. */
   @property() label = "";

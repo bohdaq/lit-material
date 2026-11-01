@@ -22,11 +22,13 @@
     "changeset": "changeset",
     "version": "changeset version",
     "release": "pnpm build && pnpm analyze && changeset publish",
-    "size": "node tools/size-check.mjs"
+    "size": "node tools/size-check.mjs",
+    "hydration": "node tools/hydration-check.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
     "@custom-elements-manifest/analyzer": "^0.11.0",
+    "@lit-labs/ssr-client": "1.1.8",
     "esbuild": "0.28.1",
     "eslint": "^10.7.0",
     "eslint-plugin-chai-friendly": "^1.2.1",

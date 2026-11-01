@@ -59,6 +59,8 @@ action triggers, removable tags), not a value a `<form>` submits, matching how M
 itself treats chips. Track a `filter` chip set's selection or an `input` chip list by listening for
 `change`/`remove` rather than reading `FormData`.
 
+The array properties above also take a JSON attribute, so markup rendered on the server carries the data and hydrates to the same output.
+
 ## `lit-material-chip-input`
 
 A field that turns what you type into chips: tags, labels, email addresses, allowed hosts.
@@ -75,7 +77,7 @@ A field that turns what you type into chips: tags, labels, email addresses, allo
 
 | Property          | Attribute          | Type                  | Default |
 | ----------------- | ------------------ | --------------------- | ------- |
-| `values`          | —                  | `string[]`            | `[]`    |
+| `values`          | `values` (JSON)                  | `string[]`            | `[]`    |
 | `label`           | `label`            | `string`              | `""`    |
 | `placeholder`     | `placeholder`      | `string`              | `""`    |
 | `supportingText`  | `supporting-text`  | `string`              | `""`    |

@@ -12,4 +12,10 @@ describe("lit-material-chip-input (SSR)", () => {
     assert.equal(out.match(/<lit-material-chip[\s>]/g)?.length, 2);
     assert.match(out, /<input/);
   });
+
+  it("renders values given as a JSON attribute", async () => {
+    const out = await collectResult(render(html`<lit-material-chip-input label="Tags" values=${JSON.stringify(["alpha", "beta"])}></lit-material-chip-input>`));
+    assert.match(out, /alpha/);
+    assert.match(out, /beta/);
+  });
 });

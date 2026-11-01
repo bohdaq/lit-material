@@ -20,4 +20,9 @@ describe("lit-material-table (SSR)", () => {
     assert.match(out, /scope="col"/);
     assert.match(out, /beta/);
   });
+
+  it("renders columns and rows given as JSON attributes", async () => {
+    const out = await collectResult(render(html`<lit-material-table caption="People" columns=${JSON.stringify([{ key: "name", label: "Name" }])} rows=${JSON.stringify([{ name: "Ada" }])}></lit-material-table>`));
+    assert.match(out, /Ada/);
+  });
 });

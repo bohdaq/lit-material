@@ -29,8 +29,8 @@ npm install @lit-material/dual-list @lit-material/tokens
 
 | Property         | Attribute         | Type                                     | Default       |
 | ---------------- | ----------------- | ---------------------------------------- | ------------- |
-| `items`          | —                 | `{ value, label, disabled? }[]`          | `[]`          |
-| `selected`       | —                 | `string[]` (chosen values)               | `[]`          |
+| `items`          | `items` (JSON)                 | `{ value, label, disabled? }[]`          | `[]`          |
+| `selected`       | `selected` (JSON)                 | `string[]` (chosen values)               | `[]`          |
 | `availableLabel` | `available-label` | `string`                                 | `"Available"` |
 | `chosenLabel`    | `chosen-label`    | `string`                                 | `"Chosen"`    |
 | `filterable`     | `filterable`      | `boolean`                                | `false`       |
@@ -38,6 +38,8 @@ npm install @lit-material/dual-list @lit-material/tokens
 
 Method: `move(side, values)`. Event: `change` (`detail: { selected }`, in `items` order). Parts:
 `pane`, `list`, `option`. `--lit-material-dual-list-height` sets each list's height (default `16rem`).
+
+The array properties above also take a JSON attribute, so markup rendered on the server carries the data and hydrates to the same output.
 
 ## Behavior
 

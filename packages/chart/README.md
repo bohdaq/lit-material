@@ -39,7 +39,7 @@ npm install @lit-material/chart @lit-material/tokens
 
 | Property | Attribute | Type | Default |
 | -------- | --------- | ---- | ------- |
-| `series` | — | `{ name: string; points: { x: number; y: number }[] }[]` (up to 8 drawn) | `[]` |
+| `series` | `series` (JSON) | `{ name: string; points: { x: number; y: number }[] }[]` (up to 8 drawn) | `[]` |
 | `label` | `label` | `string` | `""` |
 | `height` | `height` | `number` (px) | `240` |
 | `yMin` | `y-min` | `number \| undefined` | 0, or the data's minimum if negative |
@@ -69,7 +69,7 @@ bars.data = [
 
 | Property | Attribute | Type | Default |
 | -------- | --------- | ---- | ------- |
-| `data` | — | `{ name: string; value: number }[]` | `[]` |
+| `data` | `data` (JSON) | `{ name: string; value: number }[]` | `[]` |
 | `label` | `label` | `string` | `""` |
 | `highlight` | `highlight` | `string` (an item's name) | `""` |
 | `sort` | `sort` | `"" \| "desc" \| "asc"` | `""` (given order) |
@@ -84,7 +84,7 @@ default), `--lit-material-bar-chart-highlight`, `--lit-material-bar-chart-muted`
 
 | Property | Attribute | Type | Default |
 | -------- | --------- | ---- | ------- |
-| `values` | — | `number[]` | `[]` |
+| `values` | `values` (JSON) | `number[]` | `[]` |
 | `label` | `label` | `string` | `""` |
 | `showLast` | `show-last` | `boolean` | `false` |
 | `format` | — | `(n: number) => string` | compact numbers |
@@ -98,6 +98,8 @@ the categorical one validated for colour-vision deficiency on adjacent pairs; se
 four are also labelled at the end of their line. Past eight, fold the rest into "Other" or use small
 multiples: extra series aren't drawn (with a console warning). It's laid out at its container's
 width (640px until measured, and on the server).
+
+The array properties above also take a JSON attribute, so markup rendered on the server carries the data and hydrates to the same output.
 
 ## Accessibility
 

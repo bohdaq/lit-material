@@ -38,7 +38,7 @@ export class LitMaterialDataTablePagination extends LitElement {
   @property({ attribute: "page-size", type: Number }) pageSize = 10;
   /** Total row count across every page — this control has no idea what a "row" is beyond this number. */
   @property({ type: Number }) total = 0;
-  @property({ attribute: false }) pageSizeOptions: readonly number[] = [10, 25, 50];
+  @property({ type: Array, attribute: "page-size-options" }) pageSizeOptions: readonly number[] = [10, 25, 50];
   /** The total isn't known (cursor paging): `total` is ignored, `has-more` drives Next. */
   @property({ attribute: "unknown-total", type: Boolean }) unknownTotal = false;
   /** With `unknown-total`: there is a page after this one. */

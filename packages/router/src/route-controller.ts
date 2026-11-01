@@ -58,7 +58,10 @@ export class RouteController<T = unknown> implements ReactiveController {
   }
 
   private match(): CurrentRoute<T> {
-    const path = stripBasePath(window.location.pathname);
+    // No location when rendering on the server: match nothing, so an outlet
+    // renders empty there and the browser fills it in.
+    if (typeof location === "undefined") return { path: "", params: {}, content: null };
+    const path = stripBasePath(location.pathname);
     const matched = matchRouteTree(this.getRoutes(), path);
     if (matched) {
       return { path, params: matched.params, content: matched.content };

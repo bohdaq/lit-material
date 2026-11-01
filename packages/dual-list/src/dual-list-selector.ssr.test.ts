@@ -14,4 +14,11 @@ describe("lit-material-dual-list-selector (SSR)", () => {
     assert.match(out, /Alpha/);
     assert.match(out, /Beta/);
   });
+
+  it("renders items given as JSON attributes", async () => {
+    const items = JSON.stringify([{ value: "a", label: "Apples" }, { value: "b", label: "Bananas" }]);
+    const out = await collectResult(render(html`<lit-material-dual-list-selector items=${items} selected=${JSON.stringify(["b"])}></lit-material-dual-list-selector>`));
+    assert.match(out, /Apples/);
+    assert.match(out, /Bananas/);
+  });
 });

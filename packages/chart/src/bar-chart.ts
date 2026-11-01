@@ -37,7 +37,7 @@ export class LitMaterialBarChart extends LitElement {
   static override styles = styles;
 
   /** The bars, drawn in this order unless `sort` is set. Non-finite values are skipped; negatives draw as zero. */
-  @property({ attribute: false }) data: BarDatum[] = [];
+  @property({ type: Array }) data: BarDatum[] = [];
 
   /** The chart's accessible name, e.g. "Requests per second, higher is better". */
   @property() label = "";

@@ -40,8 +40,8 @@ npm install @lit-material/table @lit-material/tokens
 
 | Property | Attribute | Type | Default |
 | -------- | --------- | ---- | ------- |
-| `columns` | — | `TableColumn[]` | `[]` |
-| `rows` | — | `Row[]` | `[]` |
+| `columns` | `columns` (JSON) | `TableColumn[]` | `[]` |
+| `rows` | `rows` (JSON) | `Row[]` | `[]` |
 | `caption` | `caption` | `string` | `""` |
 | `captionHidden` | `caption-hidden` | `boolean` | `false` |
 | `density` | `density` (reflected) | `"standard" \| "compact"` | `"standard"` |
@@ -53,6 +53,8 @@ npm install @lit-material/table @lit-material/tokens
 For sorting, selection, pagination or column resizing, use
 [`@lit-material/data-table`](https://github.com/bohdaq/lit-material/tree/main/packages/data-table).
 This one shows rows plainly, as a real table.
+
+The array properties above also take a JSON attribute, so markup rendered on the server carries the data and hydrates to the same output.
 
 ## Accessibility
 

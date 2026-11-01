@@ -168,6 +168,8 @@ for why). `min-width` floors how narrow a drag can make it. `flex`/`width` are f
 
 Fires `column-resize` (`detail: { width: number }`) while dragging a `resizable` cell's handle.
 
+The array properties above also take a JSON attribute, so markup rendered on the server carries the data and hydrates to the same output.
+
 ## Accessibility
 
 Built entirely on ARIA `table`/`row`/`columnheader`/`cell` roles (set automatically — the
@@ -196,7 +198,7 @@ range, and button disabled-state itself:
 | `page`             | `page`       | `number`                | `0` (0-based)  |
 | `pageSize`         | `page-size`  | `number`                | `10`           |
 | `total`            | `total`      | `number`                | `0`            |
-| `pageSizeOptions`  | —            | `readonly number[]`     | `[10, 25, 50]` |
+| `pageSizeOptions`  | `page-size-options` (JSON)            | `readonly number[]`     | `[10, 25, 50]` |
 | `unknownTotal`     | `unknown-total` | `boolean`            | `false`        |
 | `hasMore`          | `has-more`   | `boolean`               | `false`        |
 | `disabled`         | `disabled` (reflected) | `boolean`     | `false`        |

@@ -25,4 +25,9 @@ describe("lit-material-data-table-pagination (SSR)", () => {
     // this can't be a single contiguous substring match — allow anything between the pieces.
     assert.match(out, /class="range"[\s\S]*?1–10 of 97</);
   });
+
+  it("renders page sizes given as a JSON attribute", async () => {
+    const out = await collectResult(render(html`<lit-material-data-table-pagination page-size-options=${JSON.stringify([5, 20])}></lit-material-data-table-pagination>`));
+    assert.match(out, />\s*20\s*</);
+  });
 });

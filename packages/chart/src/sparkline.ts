@@ -53,7 +53,7 @@ export class LitMaterialSparkline extends LitElement {
     `,
   ];
 
-  @property({ attribute: false }) values: number[] = [];
+  @property({ type: Array }) values: number[] = [];
 
   /** What the line shows, e.g. "Requests per second". */
   @property() label = "";

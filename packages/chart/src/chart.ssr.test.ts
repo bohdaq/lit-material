@@ -34,4 +34,13 @@ describe("chart (SSR)", () => {
     assert.match(out, /--f: 0.5000/);
     assert.match(out, /aria-label="L. a: 1; b: 2"/);
   });
+
+  it("renders data given as JSON attributes", async () => {
+    const bars = await collectResult(render(html`<lit-material-bar-chart label="Requests" data=${JSON.stringify([{ name: "api", value: 30 }])}></lit-material-bar-chart>`));
+    assert.match(bars, /api/);
+    const lines = await collectResult(render(html`<lit-material-line-chart label="Load" series=${JSON.stringify([{ name: "cpu", points: [{ x: 0, y: 1 }, { x: 1, y: 3 }] }])}></lit-material-line-chart>`));
+    assert.match(lines, /cpu/);
+    const spark = await collectResult(render(html`<lit-material-sparkline label="Trend" values=${JSON.stringify([1, 4, 2])}></lit-material-sparkline>`));
+    assert.match(spark, /<polyline points="0/);
+  });
 });

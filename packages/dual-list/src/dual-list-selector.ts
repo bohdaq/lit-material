@@ -159,10 +159,10 @@ export class LitMaterialDualListSelector extends LitElement {
   `;
 
   /** Every item, in display order. */
-  @property({ attribute: false }) items: DualListItem[] = [];
+  @property({ type: Array }) items: DualListItem[] = [];
 
   /** The chosen values. */
-  @property({ attribute: false }) selected: string[] = [];
+  @property({ type: Array }) selected: string[] = [];
 
   @property({ attribute: "available-label" }) availableLabel = "Available";
 
