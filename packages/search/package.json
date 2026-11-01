@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/search",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Material Design 3 search bar and search view web components (lit-material-search-bar, lit-material-search-view).",
   "license": "MIT",
   "author": {

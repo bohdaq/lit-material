@@ -1,5 +1,12 @@
 # @lit-material/split-panel
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [4d0b41a]
+  - @lit-material/tokens@0.1.0
+
 ## 0.1.1
 
 ### Patch Changes

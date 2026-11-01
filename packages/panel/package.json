@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/panel",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Material Design 3-styled panel web component (lit-material-panel) — a bordered/raised content container with optional header and footer.",
   "license": "MIT",
   "author": {

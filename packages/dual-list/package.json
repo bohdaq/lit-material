@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/dual-list",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Dual list selector for lit-material: move items between available and chosen lists, with filters and full keyboard support.",
   "license": "MIT",
   "author": {

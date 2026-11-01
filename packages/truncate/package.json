@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/truncate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Truncated text for lit-material: end or middle ellipsis for long IDs, hashes, paths and URLs, full text kept for copy, search and screen readers.",
   "license": "MIT",
   "author": {

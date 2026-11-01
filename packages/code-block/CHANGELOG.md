@@ -1,5 +1,15 @@
 # @lit-material/code-block
 
+## 0.1.3
+
+### Patch Changes
+
+- 4d0b41a: `hidden` hides the element. Components that set a `display` on their host overrode the browser's own `[hidden]` rule, so `hidden` did nothing on them; each now has `:host([hidden]) { display: none }`.
+- Updated dependencies [4d0b41a]
+- Updated dependencies [4d0b41a]
+  - @lit-material/clipboard@0.1.2
+  - @lit-material/tokens@0.1.0
+
 ## 0.1.2
 
 ### Patch Changes

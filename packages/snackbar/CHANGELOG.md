@@ -1,5 +1,12 @@
 # @lit-material/snackbar
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [4d0b41a]
+  - @lit-material/tokens@0.1.0
+
 ## 0.0.4
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @lit-material/text-field
 
+## 0.3.1
+
+### Patch Changes
+
+- 4d0b41a: `hidden` hides the element. Components that set a `display` on their host overrode the browser's own `[hidden]` rule, so `hidden` did nothing on them; each now has `:host([hidden]) { display: none }`.
+- Updated dependencies [50e5698]
+- Updated dependencies [4d0b41a]
+- Updated dependencies [4d0b41a]
+  - @lit-material/core@0.1.0
+  - @lit-material/icon-button@0.0.5
+  - @lit-material/tokens@0.1.0
+
 ## 0.3.0
 
 ### Minor Changes

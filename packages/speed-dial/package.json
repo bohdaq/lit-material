@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/speed-dial",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Material Design 3-styled speed dial web components (lit-material-speed-dial, lit-material-speed-dial-action): an expandable FAB menu.",
   "license": "MIT",
   "author": {

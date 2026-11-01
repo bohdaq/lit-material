@@ -1,5 +1,12 @@
 # @lit-material/sortable
 
+## 0.2.2
+
+### Patch Changes
+
+- Updated dependencies [4d0b41a]
+  - @lit-material/tokens@0.1.0
+
 ## 0.2.1
 
 ### Patch Changes

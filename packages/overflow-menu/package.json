@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/overflow-menu",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Material Design 3-styled overflow menu web component (lit-material-overflow-menu) — a responsive action row that collapses overflowing items into a kebab menu.",
   "license": "MIT",
   "author": {

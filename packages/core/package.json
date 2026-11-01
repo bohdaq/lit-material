@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/core",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Shared reactive controllers and helpers (ripple, focus-ring, theme context) for lit-material components.",
   "license": "MIT",
   "author": {
