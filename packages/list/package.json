@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/list",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Material Design 3 list web components (lit-material-list, lit-material-list-item).",
   "license": "MIT",
   "author": {

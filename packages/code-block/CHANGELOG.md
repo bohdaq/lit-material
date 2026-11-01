@@ -1,5 +1,16 @@
 # @lit-material/code-block
 
+## 0.2.0
+
+### Minor Changes
+
+- 13debbc: One entry point per element in packages that hold several (`@lit-material/text-field/text-field.js`, `@lit-material/chart/line-chart.js`, …), so an app can import only the elements it uses: an element registers itself on import, so a bundler can't drop the unused ones. Confirm, dual list, inline edit and key-value now import only the text field and button they use — 25–35% smaller gzipped.
+
+### Patch Changes
+
+- Updated dependencies [13debbc]
+  - @lit-material/clipboard@0.2.0
+
 ## 0.1.3
 
 ### Patch Changes

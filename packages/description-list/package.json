@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/description-list",
-  "version": "0.0.3",
-  "description": "Material Design 3-styled description list web components (lit-material-description-list, lit-material-description-list-group) \u2014 term/description pairs.",
+  "version": "0.1.0",
+  "description": "Material Design 3-styled description list web components (lit-material-description-list, lit-material-description-list-group) — term/description pairs.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",

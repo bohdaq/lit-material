@@ -1,5 +1,11 @@
 # @lit-material/data-list
 
+## 0.1.0
+
+### Minor Changes
+
+- 13debbc: One entry point per element in packages that hold several (`@lit-material/text-field/text-field.js`, `@lit-material/chart/line-chart.js`, …), so an app can import only the elements it uses: an element registers itself on import, so a bundler can't drop the unused ones. Confirm, dual list, inline edit and key-value now import only the text field and button they use — 25–35% smaller gzipped.
+
 ## 0.0.3
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/table",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Data-driven semantic table web component: a real <table> with header row, numeric and monospace columns, captions and a scroll container.",
   "license": "MIT",
   "author": {
