@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lit-material moved to lit.rws8.tech</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://lit.rws8.tech/">
+<meta http-equiv="refresh" content="3; url=https://lit.rws8.tech/">
+<script>
+  // GitHub Pages can't send a 301 for a project site, so this page (also
+  // served as 404.html, for every old URL) maps the old path to the new site.
+  (function () {
+    var old = location.pathname.replace(/^\/lit-material/, "").replace(/\/+$/, "");
+    var map = {
+      "": "/",
+      "/theme": "/guides/theming/",
+      "/theme/typography": "/guides/typography/",
+      "/guide/building-apps": "/guides/building-apps/",
+      "/packages/router": "/guides/router/",
+      "/packages/store": "/guides/store/",
+      "/packages/core": "/guides/core/",
+      "/packages/task": "/guides/task/",
+      "/packages/form": "/guides/form/",
+      "/packages/cli": "/guides/create-app/"
+    };
+    var next = map[old] || (/^\/components\/[a-z0-9-]+$/.test(old) ? old + "/" : "/");
+    location.replace("https://lit.rws8.tech" + next + location.hash);
+  })();
+</script>
+</head>
+<body>
+<p>lit-material's docs moved to <a href="https://lit.rws8.tech/">lit.rws8.tech</a>.</p>
+</body>
+</html>

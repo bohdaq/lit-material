@@ -1,5 +1,9 @@
 name: Deploy docs to GitHub Pages
 
+# The docs live at https://lit.rws8.tech (apps/site, deployed to the rws8.tech VM).
+# GitHub Pages now only serves tools/pages-redirect, which sends every old
+# bohdaq.github.io/lit-material/* URL to its page on the new site.
+
 on:
   push:
     branches: [main]
@@ -22,28 +26,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 11.10.0
-
-      # pnpm 11 requires Node >=22.13 (fails with ERR_UNKNOWN_BUILTIN_MODULE on node:sqlite otherwise) —
-      # keep in sync with the root package.json's engines.node.
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - run: pnpm install --frozen-lockfile
-
-      # `apps/docs` depends on every published package's build output (workspace:* deps), so this builds the
-      # whole graph, not just the docs app itself — turbo caches the rest.
-      - run: pnpm build
-
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/docs/dist
+          path: tools/pages-redirect
 
   deploy:
     needs: build

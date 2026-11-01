@@ -152,13 +152,14 @@ wired together in one example, including data fetching, form validation, and i18
 
 ## Docs site
 
-**[bohdaq.github.io/lit-material](https://bohdaq.github.io/lit-material/)** — every component's live playground
-and API table, the theme builder, and the guides above. Deployed on push to `main` via
-[`.github/workflows/deploy-docs.yml`](.github/workflows/deploy-docs.yml). Or run it locally:
+**[lit.rws8.tech](https://lit.rws8.tech/)**: every component's live demo, install line, gzipped size and
+API tables, the theme builder and the guides. The site is [`apps/site`](apps/site), prerendered with Lit SSR
+and served by rws; [`apps/site/deploy`](apps/site/deploy) has the deploy script. Old
+`bohdaq.github.io/lit-material/*` links redirect there. Run it locally:
 
 ```sh
-pnpm install
-pnpm --filter @lit-material/docs dev
+pnpm install && pnpm build && pnpm analyze
+pnpm --filter @lit-material/site run build:site && pnpm --filter @lit-material/site preview
 ```
 
 ## Development
