@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/sortable",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Sortable list for lit-material: reorder items by pointer, touch or keyboard, within a list or between lists, with screen reader announcements.",
   "license": "MIT",
   "author": {
