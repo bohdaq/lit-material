@@ -23,12 +23,12 @@ export class DocsCliPage extends LitElement {
 
   override render() {
     return html`
-      <div class="eyebrow">App shell · create-lit-material-app</div>
+      <div class="eyebrow">App shell · <code>create-lit-material-app</code></div>
       <h1>CLI starter</h1>
       <p class="lede">
-        Scaffolds a new app with lit-material, <a href=${withBase("/packages/router")}>the router</a>,
+        Scaffolds a new app with <code>lit-material</code>, <a href=${withBase("/packages/router")}>the router</a>,
         <a href=${withBase("/packages/store")}>the store</a>, and <a href=${withBase("/packages/core")}>core</a>'s
-        theme context already wired together — a runnable starting point, not just a components library.
+        theme context already wired together: a starting point that runs, not just a components library.
       </p>
 
       <section class="doc-section">
@@ -45,7 +45,7 @@ npm run dev</code></pre>
         <pre tabindex="0"><code>${scaffoldTree}</code></pre>
         <p>
           A real, buildable Vite project depending on the actual published <code>@lit-material/*</code>
-          packages (not <code>workspace:*</code> — this isn't part of the lit-material monorepo, it's a
+          packages (not <code>workspace:*</code>: this isn't part of the <code>lit-material</code> monorepo, it's a
           standalone app). Add more routes to <code>app-shell.ts</code>'s <code>routes</code> array, more
           reducer cases to <code>store.ts</code>, and more components with
           <code>npm install @lit-material/&lt;component&gt;</code> as you grow it. See the
@@ -56,12 +56,12 @@ npm run dev</code></pre>
       </section>
 
       <section class="doc-section">
-        <h2>Why hand-rolled instead of a scaffolding framework?</h2>
+        <h2>Why written by hand instead of a scaffolding framework?</h2>
         <p>
-          The same reasoning the router gives for hand-rolling its own path matching instead of depending on
-          <code>@lit-labs/router</code>: the actual need here — copy a template directory, substitute one
-          placeholder, print next steps — doesn't need <code>commander</code>/<code>inquirer</code>/a
-          templating engine. The CLI is Node built-ins only (<code>fs</code>/<code>path</code>/<code>url</code>).
+          The same reasoning the router gives for writing its own path matching instead of depending on
+          <code>@lit-labs/router</code>. The actual need here (copy a template directory, substitute one
+          placeholder, print next steps) doesn't need <code>commander</code>/<code>inquirer</code>/a
+          templating engine. The CLI uses only modules built into Node (<code>fs</code>/<code>path</code>/<code>url</code>).
         </p>
       </section>
     `;

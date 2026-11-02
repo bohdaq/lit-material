@@ -130,12 +130,12 @@ export class DocsThemePage extends LitElement {
     return html`
       <h1>Theme builder</h1>
       <p>
-        Pick a seed color to generate a full MD3 tonal color scheme — via
+        Pick a seed color to generate a full MD3 tonal color scheme. It comes from
         <a href="https://www.npmjs.com/package/@material/material-color-utilities" target="_blank"
-          >@material/material-color-utilities</a
-        >, Google's own HCT/tonal-palette library, not hand-rolled color math — preview it against a few
-        components, then copy a drop-in CSS override matching <code>@lit-material/tokens</code>' exact
-        property names.
+          ><code>@material/material-color-utilities</code></a
+        >, Google's own library for HCT tonal palettes, not color math written by hand. Preview it on a few
+        components, then copy a CSS override that uses the exact property names of
+        <code>@lit-material/tokens</code>.
       </p>
 
       <div class="toolbar">

@@ -1,0 +1,61 @@
+name: Site
+
+# Builds lit.rws8.tech (apps/site) on every push to main and attaches it to
+# the rolling GitHub release "site" as lit-site.tar.gz (+ .sha256, and
+# lit-site.commit with the commit it was built from). The VM installs it by
+# itself: apps/site/deploy/lit-site-update.sh, run by a timer, checks the
+# commit and swaps /var/www/lit. Nothing here can reach the VM.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: site
+  cancel-in-progress: true
+
+permissions:
+  contents: write  # upload to the "site" release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.10.0
+
+      # pnpm 11 requires Node >=22.13; keep in sync with the root package.json's engines.node.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # The site reads every package's build and custom-elements.json.
+      - run: pnpm build
+      - run: pnpm analyze
+      - run: pnpm --filter @lit-material/site run build:site
+
+      - name: Package
+        run: |
+          test -f apps/site/dist/index.html
+          tar -C apps/site/dist -czf lit-site.tar.gz .
+          sha256sum lit-site.tar.gz > lit-site.tar.gz.sha256
+          echo "$GITHUB_SHA" > lit-site.commit
+
+      - name: Upload to the "site" release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view site >/dev/null 2>&1; then
+            gh release create site --target "$GITHUB_SHA" --title "lit.rws8.tech" --latest=false --prerelease \
+              --notes "The built lit.rws8.tech site, replaced on every push to main. The VM installs it (apps/site/deploy/lit-site-update.sh)."
+          fi
+          # Archive and checksum first, the commit stamp last: the VM only acts once the stamp changes.
+          gh release upload site lit-site.tar.gz lit-site.tar.gz.sha256 --clobber
+          gh release upload site lit-site.commit --clobber

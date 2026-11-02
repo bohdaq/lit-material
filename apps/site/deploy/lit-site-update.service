@@ -1,0 +1,8 @@
+[Unit]
+Description=Install lit.rws8.tech from the newest lit-material site build
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/lit-site-update

@@ -12,17 +12,17 @@ const WRITTEN = {
     sections: [
       ["link-tokens", "Link the tokens once", html`
         <p>Every component reads its colours, type and shapes from CSS custom properties in <code>@lit-material/tokens</code>. Load the stylesheet once per page:</p>
-        <pre><code>npm install @lit-material/tokens</code></pre>
-        <pre><code>&lt;link rel="stylesheet" href="node_modules/@lit-material/tokens/css/index.css" /&gt;</code></pre>
+        <pre tabindex="0"><code>npm install @lit-material/tokens</code></pre>
+        <pre tabindex="0"><code>&lt;link rel="stylesheet" href="node_modules/@lit-material/tokens/css/index.css" /&gt;</code></pre>
         <p>With a bundler, import it from your entry file instead: <code>import "@lit-material/tokens/css/index.css";</code></p>`],
       ["install-components", "Install the components you use", html`
         <p>Each component is a package of its own, so you install a button without installing a component library:</p>
-        <pre><code>npm install @lit-material/button @lit-material/text-field</code></pre>
+        <pre tabindex="0"><code>npm install @lit-material/button @lit-material/text-field</code></pre>
         <p>A package that holds several elements also has one entry point per element. <code>@lit-material/text-field</code> registers the text field, textarea, number field and input group; <code>@lit-material/text-field/text-field.js</code> registers only the text field.</p>`],
       ["use-them", "Use them as HTML", html`
-        <pre><code>import "@lit-material/button";
+        <pre tabindex="0"><code>import "@lit-material/button";
 import "@lit-material/text-field/text-field.js";</code></pre>
-        <pre><code>&lt;lit-material-text-field label="Email" type="email" required&gt;&lt;/lit-material-text-field&gt;
+        <pre tabindex="0"><code>&lt;lit-material-text-field label="Email" type="email" required&gt;&lt;/lit-material-text-field&gt;
 &lt;lit-material-button variant="filled"&gt;Save&lt;/lit-material-button&gt;</code></pre>
         <p>Form fields take part in a surrounding <code>&lt;form&gt;</code> through <code>ElementInternals</code>, so <code>FormData</code>, validation and reset work as they do with native inputs.</p>`],
       ["dark-mode", "Light and dark mode", html`
@@ -37,7 +37,7 @@ import "@lit-material/text-field/text-field.js";</code></pre>
     sections: [
       ["render", "Render on the server", html`
         <p>Render a Lit template with <code>@lit-labs/ssr</code>. Each element's shadow DOM is written as a declarative shadow root, so the page is styled and readable before any script loads.</p>
-        <pre><code>import "@lit-labs/ssr/lib/install-global-dom-shim.js";
+        <pre tabindex="0"><code>import "@lit-labs/ssr/lib/install-global-dom-shim.js";
 import { render } from "@lit-labs/ssr";
 import { collectResult } from "@lit-labs/ssr/lib/render-result.js";
 import { html } from "lit";
@@ -46,11 +46,11 @@ import "@lit-material/button";
 const markup = await collectResult(render(html\`&lt;lit-material-button&gt;Save&lt;/lit-material-button&gt;\`));</code></pre>`],
       ["hydrate", "Hydrate in the browser", html`
         <p>Load the hydration support before Lit itself, then the same components. They take over the server's markup instead of rendering again.</p>
-        <pre><code>import "@lit-labs/ssr-client/lit-element-hydrate-support.js";
+        <pre tabindex="0"><code>import "@lit-labs/ssr-client/lit-element-hydrate-support.js";
 import "@lit-material/button";</code></pre>`],
       ["data", "Pass data as attributes", html`
         <p>A property set on the server never reaches the markup, so the browser would start without it and the first render would differ. Components that render arrays take them as JSON attributes too: chart <code>data</code>, <code>series</code> and <code>values</code>, table <code>columns</code> and <code>rows</code>, dual list <code>items</code>, chip input <code>values</code>, jump links <code>links</code>.</p>
-        <pre><code>html\`&lt;lit-material-table caption="People" columns=\${JSON.stringify(columns)} rows=\${JSON.stringify(rows)}&gt;&lt;/lit-material-table&gt;\`</code></pre>`],
+        <pre tabindex="0"><code>html\`&lt;lit-material-table caption="People" columns=\${JSON.stringify(columns)} rows=\${JSON.stringify(rows)}&gt;&lt;/lit-material-table&gt;\`</code></pre>`],
       ["client-only", "What stays in the browser", html`
         <p>The router outlet renders empty on the server (there is no location there) and fills in after hydration. Everything that measures the page, such as chart widths or the jump links' current section, settles once the browser has laid it out.</p>`],
       ["checked", "How it's checked", html`
@@ -63,20 +63,20 @@ import "@lit-material/button";</code></pre>`],
     sections: [
       ["react", "React", html`
         <p>React 19 sets properties on custom elements and listens to their events, so you can pass arrays and objects directly. On React 18, set object properties and add event listeners through a ref.</p>
-        <pre><code>import "@lit-material/table";
+        <pre tabindex="0"><code>import "@lit-material/table";
 
 export function People({ rows }) {
   return &lt;lit-material-table caption="People" columns={columns} rows={rows} /&gt;;
 }</code></pre>`],
       ["vue", "Vue", html`
         <p>Tell the compiler which tags are custom elements, then bind properties with <code>.prop</code> and listen with <code>@</code>.</p>
-        <pre><code>// vite.config.js
+        <pre tabindex="0"><code>// vite.config.js
 vue({ template: { compilerOptions: { isCustomElement: (tag) =&gt; tag.startsWith("lit-material-") } } })</code></pre>
-        <pre><code>&lt;lit-material-table caption="People" :columns.prop="columns" :rows.prop="rows" /&gt;
+        <pre tabindex="0"><code>&lt;lit-material-table caption="People" :columns.prop="columns" :rows.prop="rows" /&gt;
 &lt;lit-material-switch :checked="on" @change="on = $event.target.checked" /&gt;</code></pre>`],
       ["angular", "Angular", html`
         <p>Add <code>CUSTOM_ELEMENTS_SCHEMA</code> to the component, then bind properties with <code>[ ]</code> and events with <code>( )</code>.</p>
-        <pre><code>@Component({
+        <pre tabindex="0"><code>@Component({
   selector: "app-people",
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: \`&lt;lit-material-table caption="People" [columns]="columns" [rows]="rows"&gt;&lt;/lit-material-table&gt;\`,
@@ -119,7 +119,7 @@ export function guidePage(slug, entry) {
       docsLayout({
         path,
         content: html`
-          <article class="docs-article" data-pagefind-body>
+          <article class="docs-article" data-search-embed>
             <p class="breadcrumb"><a href="/guides/install/">Guides</a></p>
             <h1>${guide.label}</h1>
             <div class="demo guide-embed">${tag ? staticHtml`<${unsafeStatic(tag)} embedded></${unsafeStatic(tag)}>` : result}</div>

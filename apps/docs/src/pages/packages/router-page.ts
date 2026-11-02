@@ -60,18 +60,19 @@ export class DocsRouterPage extends LitElement {
 
   override render() {
     return html`
-      <div class="eyebrow">App shell · @lit-material/router</div>
+      <div class="eyebrow">App shell · <code>@lit-material/router</code></div>
       <h1>Router</h1>
       <p class="lede">
-        A tiny client-side router for building whole applications with lit-material — not just individual
-        components. Path matching (<code>/users/:id</code>-style, no regex/<code>URLPattern</code>
-        dependency), an SPA route outlet that intercepts same-origin <code>&lt;a&gt;</code> clicks, and a
-        reactive controller for reading the current route without owning an outlet.
+        A tiny router that runs in the browser, for building whole applications with <code>lit-material</code>,
+        not just individual components. Path matching in the <code>/users/:id</code> style (no regex or
+        <code>URLPattern</code> dependency), a route outlet that turns <code>&lt;a&gt;</code> clicks on the same
+        origin into page changes without a reload, and a reactive controller for reading the current route
+        without owning an outlet.
       </p>
       <p>
-        <strong>Client-side only.</strong> Routing depends on <code>window.history</code>/<code>location</code>,
-        so — unlike every other <code>@lit-material/*</code> package — this one isn't safe to import from an
-        SSR entry point.
+        <strong>Routing runs in the browser.</strong> It depends on <code>window.history</code>/<code>location</code>.
+        On the server there is no location, so the outlet renders empty there (the page around it still
+        renders) and the browser fills it in after hydration.
       </p>
 
       <section class="doc-section">
@@ -84,10 +85,9 @@ export class DocsRouterPage extends LitElement {
         <pre tabindex="0"><code>${usageCode}</code></pre>
         <pre tabindex="0"><code>&lt;lit-material-router-outlet .routes=\${routes}&gt;&lt;/lit-material-router-outlet&gt;</code></pre>
         <p>
-          Any same-origin <code>&lt;a href="/users/42"&gt;</code> anywhere on the page — including inside
-          another component's shadow root — becomes an SPA navigation automatically; no need to call anything
-          yourself for plain links. Use <code>navigate()</code> for programmatic navigation (redirects,
-          post-submit routing):
+          Any <code>&lt;a href="/users/42"&gt;</code> on the same origin, anywhere on the page (including inside
+          another component's shadow root), changes the page without a reload by itself; plain links need no
+          code. Use <code>navigate()</code> to navigate from code (redirects, routing after a form submit):
         </p>
         <pre tabindex="0"><code>${navigateCode}</code></pre>
       </section>
@@ -95,7 +95,7 @@ export class DocsRouterPage extends LitElement {
       <section class="doc-section">
         <h2>Nested routes</h2>
         <p>
-          A <code>RouteConfig</code> can declare <code>children</code> — nested routes matched against
+          A <code>RouteConfig</code> can declare <code>children</code>: nested routes matched against
           whatever's left of the path once the parent's own <code>path</code> is consumed. The parent's
           <code>render</code> gets a second argument, <code>outlet</code>, a function that returns the matched
           child's content (or <code>null</code> if none matched); call it wherever the nested content should
@@ -111,11 +111,11 @@ export class DocsRouterPage extends LitElement {
           </li>
           <li>
             <code>/dashboard/nope</code> (nothing under <code>children</code> matches) means the whole
-            branch doesn't match at all — falls through to the next sibling route. A parent never renders with
-            unaccounted-for path segments.
+            branch doesn't match at all, and matching moves on to the next sibling route. A parent never renders
+            with path segments left over.
           </li>
           <li>Params merge down the tree: a parent's <code>:param</code> is still in every descendant's <code>params</code>.</li>
-          <li>Existing zero/one-argument <code>render</code> functions keep working unchanged.</li>
+          <li><code>render</code> functions that take zero or one argument keep working unchanged.</li>
         </ul>
       </section>
 
@@ -141,19 +141,19 @@ export class DocsRouterPage extends LitElement {
           <tbody>
             <tr>
               <td><code>&lt;lit-material-router-outlet&gt;</code></td>
-              <td>Custom element. <code>.routes: RouteConfig[]</code> property; renders the matched route's content, intercepts same-origin link clicks.</td>
+              <td>Custom element. <code>.routes: RouteConfig[]</code> property; renders the matched route's content, handles link clicks on the same origin.</td>
             </tr>
             <tr>
               <td><code>RouteConfig&lt;T&gt;</code></td>
-              <td><code>{ path, render(params, outlet), children? }</code> — a route, optionally with nested routes.</td>
+              <td><code>{ path, render(params, outlet), children? }</code>: a route, optionally with nested routes.</td>
             </tr>
             <tr>
               <td><code>matchRoute(pattern, pathname)</code></td>
-              <td>Dependency-free path matcher. Returns <code>{ params }</code> or <code>null</code> if <code>pattern</code> doesn't match the whole <code>pathname</code>.</td>
+              <td>Path matcher with no dependencies. Returns <code>{ params }</code> or <code>null</code> if <code>pattern</code> doesn't match the whole <code>pathname</code>.</td>
             </tr>
             <tr>
               <td><code>matchRoutePrefix(pattern, pathname)</code></td>
-              <td>Like <code>matchRoute</code>, but only has to match a prefix — returns <code>{ params, remaining }</code>.</td>
+              <td>Like <code>matchRoute</code>, but only has to match a prefix. Returns <code>{ params, remaining }</code>.</td>
             </tr>
             <tr>
               <td><code>matchRouteTree(routes, pathname, parentParams?)</code></td>

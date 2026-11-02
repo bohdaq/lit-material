@@ -89,3 +89,16 @@
 
 .footer-family { margin: var(--space-200) 0 0; font-size: var(--text-sm); line-height: var(--leading-sm); color: var(--md-sys-color-on-surface-variant); }
 .footer-family a { color: inherit; }
+
+/* Phone width: grid children may shrink, and wide content scrolls in its own box. */
+.docs-main, .docs-article, .demo { min-width: 0; }
+.demo, .table-wrap { max-width: 100%; overflow-x: auto; }
+.prose pre { max-width: 100%; overflow-x: auto; padding: var(--space-100) var(--space-200); border: 1px solid var(--md-sys-color-outline-variant); border-radius: 12px; background: var(--md-sys-color-surface-container); font-size: var(--text-sm); line-height: var(--leading-sm); }
+.prose pre code { padding: 0; background: none; }
+.steps code, .component-page td code, .facts b { overflow-wrap: anywhere; }
+.api-table td:first-child code { white-space: normal; overflow-wrap: anywhere; }
+.steps code { white-space: normal; }
+.snippet { max-width: 100%; }
+.snippet code { white-space: pre-wrap; overflow-wrap: anywhere; }
+.component-page p, .component-page p code, .docs-lead code { overflow-wrap: anywhere; }
+@media (max-width: 479.98px) { .console-stats { grid-template-columns: minmax(0, 1fr); } .console { padding: var(--space-200); } }

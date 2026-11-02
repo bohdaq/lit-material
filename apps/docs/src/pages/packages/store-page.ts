@@ -48,11 +48,12 @@ export class DocsStorePage extends LitElement {
 
   override render() {
     return html`
-      <div class="eyebrow">App shell · @lit-material/store</div>
+      <div class="eyebrow">App shell · <code>@lit-material/store</code></div>
       <h1>Store</h1>
       <p class="lede">
-        A tiny, dependency-free state store for building whole applications with lit-material — not just
-        individual components. <code>createStore</code> has Redux's exact four-function shape
+        A tiny state store with no dependencies, for building whole applications with
+        <code>lit-material</code>, not just individual components. <code>createStore</code> has the exact
+        shape of Redux's four functions
         (<code>getState</code>/<code>dispatch</code>/<code>subscribe</code>, driven by a pure reducer) and
         works anywhere, including during SSR, since it has no dependency on the DOM or on Lit.
         <code>StoreController</code> is the Lit reactive controller that subscribes a component to a store and
@@ -111,14 +112,14 @@ export class DocsStorePage extends LitElement {
             </tr>
             <tr>
               <td><code>selector</code></td>
-              <td>Optional <code>(state: S) => V</code>. The host only re-renders when the selected value changes, not on every dispatch.</td>
+              <td>Optional <code>(state: S) => V</code>. The host renders again only when the selected value changes, not on every dispatch.</td>
             </tr>
           </tbody>
         </table>
         <p>
           Subscribes in <code>hostConnected()</code> and unsubscribes in <code>hostDisconnected()</code>, the
-          same reactive-controller lifecycle <code>RippleController</code>/<code>FocusRingController</code> in
-          <a href=${withBase("/packages/core")}>@lit-material/core</a> use.
+          same reactive controller lifecycle that <code>RippleController</code>/<code>FocusRingController</code> in
+          <a href=${withBase("/packages/core")}><code>@lit-material/core</code></a> use.
         </p>
       </section>
     `;

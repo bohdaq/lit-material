@@ -37,17 +37,17 @@ export class DocsFormPage extends LitElement {
 
   override render() {
     return html`
-      <div class="eyebrow">App shell · @lit-material/form</div>
+      <div class="eyebrow">App shell · <code>@lit-material/form</code></div>
       <h1>Form</h1>
       <p class="lede">
-        A reactive controller that tracks a native <code>&lt;form&gt;</code>'s aggregate validity for a Lit
-        host. <code>form.checkValidity()</code>/<code>reportValidity()</code> already aggregate across every
-        participant — native inputs and any form-associated custom element alike — every form-associated
-        lit-material component (Checkbox, Radio, Switch, Slider, Text Field) already implements that
-        correctly via <code>ElementInternals</code>. What's missing is <em>reactivity</em>: native form
-        validity isn't observable without wiring up your own event listeners — e.g. to reactively enable/
-        disable a submit button as the user types, instead of only finding out when they click it.
-        <code>FormController</code> is that listener, wired up once.
+        A reactive controller that tracks the overall validity of a native <code>&lt;form&gt;</code> for a
+        Lit host. <code>form.checkValidity()</code>/<code>reportValidity()</code> already cover every field,
+        native inputs and form associated custom elements alike, and every <code>lit-material</code> form
+        component (Checkbox, Radio, Switch, Slider, Text Field) supports them through
+        <code>ElementInternals</code>. What's missing is <em>reactivity</em>: you can't observe native form
+        validity without your own event listeners, for example to enable or disable a submit button as the
+        user types instead of finding out only when they click it. <code>FormController</code> is that
+        listener, set up once.
       </p>
 
       <section class="doc-section">
@@ -63,32 +63,31 @@ export class DocsFormPage extends LitElement {
       <section class="doc-section">
         <h2>API</h2>
         <p>
-          <code>new FormController(host, getForm)</code> — <code>getForm: () => HTMLFormElement | null |
-          undefined</code> is called lazily (not just once at construction), so a <code>@query("form")</code>
-          reference that's still <code>undefined</code> during the host's very first
-          <code>hostConnected()</code> resolves correctly once that render completes.
+          <code>new FormController(host, getForm)</code>: <code>getForm: () => HTMLFormElement | null |
+          undefined</code> is called when needed, not once at construction, so a <code>@query("form")</code>
+          reference that's still <code>undefined</code> during the host's first <code>hostConnected()</code>
+          resolves once that render completes.
         </p>
         <ul>
           <li>
-            <code>valid: boolean</code> — the form's current aggregate validity. Starts <code>true</code>
+            <code>valid: boolean</code>: the form's current overall validity. Starts <code>true</code>
             until the controller's first successful check.
           </li>
           <li>
-            <code>checkValidity()</code> / <code>reportValidity()</code> — thin wrappers around the native
-            methods that also update <code>valid</code> and trigger a host re-render if it changed.
+            <code>checkValidity()</code> / <code>reportValidity()</code>: thin wrappers around the native
+            methods that also update <code>valid</code> and render the host again if it changed.
             <code>reportValidity()</code> additionally shows native validation UI for the first invalid field.
           </li>
-          <li><code>refresh()</code> — re-resolves <code>getForm()</code> and re-attaches, for a form reference that could change.</li>
+          <li><code>refresh()</code>: calls <code>getForm()</code> again and attaches to its result, for a form reference that can change.</li>
         </ul>
         <p>
-          Listens for <code>input</code>/<code>change</code> and the capturing-phase <code>invalid</code>
-          event (fired once per invalid field by <code>checkValidity()</code>/<code>reportValidity()</code>
-          themselves, or a submit attempt — it never bubbles, so a capture listener on an ancestor is the only
-          way to observe it). The <code>invalid</code> handler deliberately never calls
-          <code>checkValidity()</code>/<code>reportValidity()</code> again — since those two methods are what
-          dispatch <code>invalid</code> in the first place, doing so is circular and hangs the page in an
-          infinite loop for as long as any field stays invalid; the handler just records <code>false</code>
-          directly instead.
+          Listens for <code>input</code>/<code>change</code>, and for the <code>invalid</code> event in the
+          capture phase. <code>invalid</code> fires once per invalid field from
+          <code>checkValidity()</code>/<code>reportValidity()</code> themselves or a submit attempt, and it
+          never bubbles, so a capture listener on an ancestor is the only way to observe it. The
+          <code>invalid</code> handler never calls <code>checkValidity()</code>/<code>reportValidity()</code>
+          again: those methods are what dispatch <code>invalid</code>, so calling them would loop forever while
+          any field stays invalid. The handler records <code>false</code> directly instead.
         </p>
       </section>
     `;

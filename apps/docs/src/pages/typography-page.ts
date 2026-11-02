@@ -17,7 +17,7 @@ export class DocsTypographyPage extends LitElement {
       <section>
         <h2>Text styles</h2>
         <p>
-          <code>@lit-material/tokens/css/typography.css</code> (opt-in) has one class per M3 text style, so a heading's level and
+          <code>@lit-material/tokens/css/typography.css</code> (optional) has one class per M3 text style, so a heading's level and
           its size are separate: <code>&lt;h2 class="md-typescale-title-large"&gt;</code>.
         </p>
         <div style="display: grid; gap: 8px; width: 100%;">
@@ -41,7 +41,7 @@ export class DocsTypographyPage extends LitElement {
             <dt>Version</dt>
             <dd>0.0.2</dd>
           </dl>
-          <p><small>Small print uses body-small.</small></p>
+          <p><small>Small print uses <code>body-small</code>.</small></p>
         </div>
       </section>
     `;

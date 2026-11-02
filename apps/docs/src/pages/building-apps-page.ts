@@ -109,25 +109,25 @@ export class DocsBuildingAppsPage extends LitElement {
 
     return html`
       <div class="eyebrow">Guide</div>
-      <h1>Building apps with lit-material</h1>
+      <h1>Building apps with <code>lit-material</code></h1>
       <p class="lede">
         The component packages (button, dialog, navigation, …) are enough to build individual UI, but a whole
-        application typically also needs a router, a place for cross-cutting state, and a way to thread values
-        (like the current theme) down a component tree without prop drilling — the trio a React app usually
-        reaches for (router, context, Redux). This guide wires up the <code>lit-material</code> equivalents in
+        application typically also needs a router, a place for state shared across the app, and a way to pass values
+        (like the current theme) down a component tree without prop drilling: the three things a React app
+        usually reaches for (router, context, Redux). This guide wires up the <code>lit-material</code> equivalents in
         one minimal example, then extends it with data fetching, form validation, and i18n. See each package's
         own README for full API detail:
       </p>
       <ul class="packages">
-        <li><code>@lit-material/router</code> — SPA routing.</li>
-        <li><code>@lit-material/store</code> — a Redux-shaped state store.</li>
+        <li><code>@lit-material/router</code>: routing for a single page app.</li>
+        <li><code>@lit-material/store</code>: a state store shaped like Redux.</li>
         <li>
-          <code>@lit-material/core</code>'s <code>themeContext</code>/<code>localeContext</code> — built on the
-          standard <a href="https://www.npmjs.com/package/@lit/context" target="_blank">@lit/context</a>
+          <code>@lit-material/core</code>'s <code>themeContext</code>/<code>localeContext</code>: built on the
+          standard <a href="https://www.npmjs.com/package/@lit/context" target="_blank"><code>@lit/context</code></a>
           protocol.
         </li>
-        <li><code>@lit-material/task</code> — a reactive controller for async work (data fetching).</li>
-        <li><code>@lit-material/form</code> — a reactive controller tracking a form's aggregate validity.</li>
+        <li><code>@lit-material/task</code>: a reactive controller for async work (data fetching).</li>
+        <li><code>@lit-material/form</code>: a reactive controller that tracks a form's overall validity.</li>
       </ul>
 
       <div class="demo">
