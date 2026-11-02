@@ -98,7 +98,8 @@ describe("lit-material-sortable", () => {
     await sendKeys({ press: "Space" });
     expect(el.querySelector("[data-sort-grabbed]")).to.be.null;
     await frames();
-    expect(el.shadowRoot!.querySelector("[role=status]")!.textContent).to.include("dropped at position 3");
+    expect(document.querySelector("[data-lit-material-sortable-announcer]")!.textContent).to.include("dropped at position 3");
+    expect(el.shadowRoot!.querySelector("[role=status]")).to.be.null;
   });
 
   it("keeps keys pressed right after a move", async () => {
@@ -176,6 +177,20 @@ async function grid(dir = "ltr") {
   const card = (n: string) => el.querySelector<HTMLElement>(`[data-sort-id="${n}"]`)!;
   return { el, order: () => [...data], card };
 }
+
+describe("lit-material-sortable as a list", () => {
+  it("has only listitems inside role=list (axe aria-required-children)", async () => {
+    const el = await fixture<LitMaterialSortable>(html`<lit-material-sortable role="list" label="Requests">
+      <div role="listitem" data-sort-id="a"><button data-sort-handle aria-label="Reorder A">⋮</button>A</div>
+      <div role="listitem" data-sort-id="b"><button data-sort-handle aria-label="Reorder B">⋮</button>B</div>
+    </lit-material-sortable>`);
+    handle(el, "A").focus();
+    await sendKeys({ press: "Space" });
+    await frames();
+    await expect(el).to.be.accessible();
+    await sendKeys({ press: "Escape" });
+  });
+});
 
 describe("lit-material-sortable layout=grid", () => {
   it("drops in reading order and stands the line between cards", async () => {

@@ -56,7 +56,8 @@ default the text), `data-sort-handle` on the handle (default: the item). While d
   list itself the grid or flex container. The drop slot follows reading order (right to left too),
   the drop line stands between items, and from the keyboard ←/→ move one place and ↑/↓ a row.
 - Handles get `aria-description="Press Space to reorder"` unless they have one; pick-up, moves and
-  drops are announced from a live region.
+  drops are announced from one live region the sortables share, appended to `<body>`, so a list with
+  `role="list"` holds only its items.
 - Lists that share a `group` accept each other's items by pointer.
 
 ## License

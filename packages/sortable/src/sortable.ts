@@ -1,6 +1,31 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 
+/**
+ * One live region for every sortable, in <body>: inside the list it would be
+ * a status child of role="list", which only allows listitems.
+ */
+let shared: { say(message: string): void } | null = null;
+function announcer(): { say(message: string): void } | null {
+  if (shared) return shared;
+  if (typeof document === "undefined" || !document.body) return null;
+  const region = document.createElement("div");
+  region.setAttribute("role", "status");
+  region.setAttribute("aria-live", "assertive");
+  region.dataset.litMaterialSortableAnnouncer = "";
+  region.style.cssText = "position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap";
+  document.body.append(region);
+  shared = {
+    say(message: string) {
+      if (!region.isConnected) document.body.append(region);
+      // Clear first so the same text is announced again.
+      region.textContent = "";
+      requestAnimationFrame(() => (region.textContent = message));
+    },
+  };
+  return shared;
+}
+
 export type SortLayout = "list" | "grid";
 
 export interface SortDetail {
@@ -81,14 +106,6 @@ export class LitMaterialSortable extends LitElement {
       margin-inline-start: -1px;
       inset-inline: auto;
     }
-    .sr {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
-    }
   `;
 
   /** Lists with the same group accept each other's items. Empty: this list only. */
@@ -108,7 +125,8 @@ export class LitMaterialSortable extends LitElement {
   /** The pointer's y over this list while dragging: picks the row for a grid drop line. */
   private dropY = 0;
 
-  @state() private announcement = "";
+  /** The last announcement, also read by tests. */
+  announcement = "";
 
   private drag?: {
     item: HTMLElement;
@@ -172,9 +190,8 @@ export class LitMaterialSortable extends LitElement {
   }
 
   private announce(message: string): void {
-    // Re-announce identical text by clearing first.
-    this.announcement = "";
-    requestAnimationFrame(() => (this.announcement = message));
+    this.announcement = message;
+    announcer()?.say(message);
   }
 
   private emit(item: HTMLElement, from: number, to: number, toList: LitMaterialSortable): void {
@@ -438,7 +455,7 @@ export class LitMaterialSortable extends LitElement {
     const style = line && (line.left === undefined ? `top: ${line.top}px` : `top: ${line.top}px; inset-inline-start: ${line.left}px; height: ${line.height}px`);
     return html`<slot @slotchange=${this.onSlotChange}></slot>${line === null
         ? ""
-        : html`<div class=${line.left === undefined ? "indicator" : "indicator between"} style=${style}></div>`}<div class="sr" role="status" aria-live="assertive">${this.announcement}</div>`;
+        : html`<div class=${line.left === undefined ? "indicator" : "indicator between"} style=${style}></div>`}`;
   }
 }
 
