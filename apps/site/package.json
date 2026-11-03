@@ -65,6 +65,7 @@
     "@lit-material/select": "workspace:*",
     "@lit-material/sheet": "workspace:*",
     "@lit-material/sidebar": "workspace:*",
+    "@lit-material/site-kit": "workspace:*",
     "@lit-material/simple-list": "workspace:*",
     "@lit-material/skeleton": "workspace:*",
     "@lit-material/slider": "workspace:*",

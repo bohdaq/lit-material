@@ -1,0 +1,91 @@
+{
+  "name": "@lit-material/site-kit",
+  "version": "0.0.0",
+  "description": "Pieces for prerendered sites that work before JavaScript: FAQ on <details>, numbered steps, a terminal mockup, keys and shortcut lists, a search dialog, and theme, menu, search, terminal and reveal scripts.",
+  "license": "MIT",
+  "author": {
+    "name": "bohdaq",
+    "email": "bohdaq@gmail.com",
+    "url": "https://github.com/bohdaq"
+  },
+  "homepage": "https://lit.rws8.tech/guides/site-kit/",
+  "bugs": "https://github.com/bohdaq/lit-material/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bohdaq/lit-material.git",
+    "directory": "packages/site-kit"
+  },
+  "keywords": [
+    "lit",
+    "lit-material",
+    "ssr",
+    "prerender",
+    "static-site",
+    "faq",
+    "search",
+    "pagefind",
+    "dark-mode"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./templates.js": {
+      "types": "./dist/templates.d.ts",
+      "default": "./dist/templates.js"
+    },
+    "./client/theme.js": {
+      "types": "./dist/client/theme.d.ts",
+      "default": "./dist/client/theme.js"
+    },
+    "./client/menu.js": {
+      "types": "./dist/client/menu.d.ts",
+      "default": "./dist/client/menu.js"
+    },
+    "./client/search.js": {
+      "types": "./dist/client/search.d.ts",
+      "default": "./dist/client/search.js"
+    },
+    "./client/terminal.js": {
+      "types": "./dist/client/terminal.d.ts",
+      "default": "./dist/client/terminal.js"
+    },
+    "./client/reveal.js": {
+      "types": "./dist/client/reveal.d.ts",
+      "default": "./dist/client/reveal.js"
+    },
+    "./css/site-kit.css": "./css/site-kit.css"
+  },
+  "files": [
+    "dist",
+    "css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "web-test-runner && node --import tsx --test src/*.ssr.test.ts"
+  },
+  "dependencies": {
+    "lit": "^3.2.0"
+  },
+  "devDependencies": {
+    "@lit-labs/ssr": "^3.3.1",
+    "@open-wc/testing": "^4.0.0",
+    "@web/dev-server-esbuild": "^1.0.0",
+    "@web/test-runner": "^0.19.0",
+    "@web/test-runner-commands": "^0.9.0",
+    "@web/test-runner-playwright": "^0.11.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  },
+  "sideEffects": [
+    "*.css"
+  ]
+}

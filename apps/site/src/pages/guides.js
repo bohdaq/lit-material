@@ -4,6 +4,7 @@ import { html } from "lit";
 import { unsafeStatic, html as staticHtml } from "lit/static-html.js";
 import { allGuides } from "../catalog.js";
 import { docsLayout } from "../shell.js";
+import { faq, kbd, shortcuts, steps, terminal } from "@lit-material/site-kit/templates.js";
 
 const WRITTEN = {
   install: {
@@ -55,6 +56,54 @@ import "@lit-material/button";</code></pre>`],
         <p>The router outlet renders empty on the server (there is no location there) and fills in after hydration. Everything that measures the page, such as chart widths or the jump links' current section, settles once the browser has laid it out.</p>`],
       ["checked", "How it's checked", html`
         <p>CI renders every element on the server, loads the result in Chromium, hydrates it and fails if hydration throws or changes an element's text or structure: 121 cases today. This site is rendered the same way.</p>`],
+    ],
+  },
+  "site-kit": {
+    title: "Static sites",
+    lead: "@lit-material/site-kit holds the pieces of a prerendered site that have to work before any script runs: plain HTML templates, one stylesheet, and small scripts that add behaviour. This site and rws8.tech are built with it.",
+    sections: [
+      ["install-kit", "Install", html`
+        <pre tabindex="0"><code>npm install @lit-material/site-kit</code></pre>
+        <p>Render the templates with Lit SSR (or any Lit render), load <code>@lit-material/site-kit/css/site-kit.css</code>, and call the <code>init</code> functions from your client entry. The styles sit in one cascade layer, so your own CSS overrides them without specificity fights.</p>`],
+      ["faq", "FAQ", html`
+        <p>Questions on native <code>&lt;details&gt;</code>: they open without JavaScript, find-in-page reaches closed answers, and <code>exclusive</code> keeps one open at a time.</p>
+        ${faq([
+          { question: "Does it need JavaScript?", answer: "No. Each question is a <details> element; the browser opens and closes it.", open: true },
+          { question: "Can more than one be open?", answer: "Not with exclusive set: it becomes the name attribute, and opening one closes the others." },
+          { question: "Is it searchable?", answer: "Yes. Ctrl+F finds text in closed answers and opens them." },
+        ], { exclusive: "kit-faq" })}
+        <pre tabindex="0"><code>faq([{ question: "Does it need JavaScript?", answer: "No." }], { exclusive: "faq" })</code></pre>`],
+      ["steps", "Numbered steps", html`
+        ${steps([
+          { title: "Install the kit", body: html`<code>npm install @lit-material/site-kit</code>` },
+          { title: "Render the templates", body: "On the server, in your prerender step." },
+          { title: "Call the scripts", body: "In the client entry, once." },
+        ], { label: "Using the kit" })}
+        <p>An <code>&lt;ol&gt;</code> numbered by CSS counters, so screen readers count the steps.</p>`],
+      ["terminal", "Terminal", html`
+        ${terminal([{ cmd: "npm create lit-material-app my-app" }, { out: "Scaffolding my-app…" }, { cmd: "cd my-app && npm run dev" }, { out: "Local: http://localhost:5173/", accent: true }], { label: "A terminal: npm create lit-material-app scaffolds an app and npm run dev serves it on port 5173.", title: "my-app" })}
+        <p>The prerendered block shows the finished session; <code>initTerminal()</code> replays it while it's on screen, unless the visitor prefers reduced motion. It is one image to assistive technology, described by <code>label</code>.</p>`],
+      ["keys", "Keys and shortcuts", html`
+        <p>Press ${kbd("/")} or ${kbd("Ctrl", "K")} to search this site.</p>
+        ${shortcuts([{ action: "Search", keys: [["/"], ["Ctrl", "K"]] }, { action: "Close search", keys: [["Esc"]] }], { label: "Shortcuts on this site" })}`],
+      ["scripts", "Scripts", html`
+        <pre tabindex="0"><code>import { initThemeToggle } from "@lit-material/site-kit/client/theme.js";
+import { initMenu } from "@lit-material/site-kit/client/menu.js";
+import { initSearch } from "@lit-material/site-kit/client/search.js";
+import { initTerminal } from "@lit-material/site-kit/client/terminal.js";
+import { initReveal } from "@lit-material/site-kit/client/reveal.js";
+
+initThemeToggle({ key: "my-theme" });
+initMenu();
+initSearch({ emptyHint: "Try a component name." });
+initTerminal();
+initReveal();</code></pre>
+        <ul>
+          <li><b>Theme:</b> <code>themeBootScript(key)</code> goes inline in <code>&lt;head&gt;</code>. It applies the stored choice before first paint and adds <code>js</code> to <code>&lt;html&gt;</code>. The <code>themeToggle</code> icon follows the theme in CSS, so it is right before scripts run.</li>
+          <li><b>Menu:</b> <code>menuToggle()</code> opens the panel it controls. Escape closes it and returns focus; widening past the breakpoint closes it too.</li>
+          <li><b>Search:</b> <code>searchDialog()</code> plus <code>searchButton()</code>. The Pagefind index loads on first use; pass <code>load</code> for another index.</li>
+          <li><b>Reveal:</b> <code>.reveal</code> elements get <code>.in</code> on entering the viewport. Hide them only under <code>html.js</code>.</li>
+        </ul>`],
     ],
   },
   frameworks: {

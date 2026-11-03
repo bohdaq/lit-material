@@ -120,6 +120,7 @@ components as you like.
 | [`@lit-material/clipboard`](packages/clipboard) | `copyText()` with a plain-http fallback, copy button, read-only value with copy (optionally masked). |
 | [`@lit-material/confirm`](packages/confirm) | `await confirm({...})`: destructive style, optional type-the-name-to-confirm. |
 | [`@lit-material/truncate`](packages/truncate) | End or middle ellipsis for long IDs, hashes and paths; full text kept for copy and screen readers. |
+| [`@lit-material/site-kit`](packages/site-kit) | Prerendered-site pieces that work before JS: FAQ on `<details>`, steps, terminal, keys, search dialog; theme, menu, search and reveal scripts. |
 | [`@lit-material/back-to-top`](packages/back-to-top) | Appears after scrolling; returns to the top and moves focus there. |
 | [`@lit-material/inline-edit`](packages/inline-edit) | Click-to-edit value: Enter saves, Escape cancels, async save with errors. |
 | [`@lit-material/dual-list`](packages/dual-list) | Move items between available and chosen lists, with filters and full keyboard support. |

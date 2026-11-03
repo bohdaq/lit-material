@@ -517,6 +517,9 @@ importers:
       '@lit-material/simple-list':
         specifier: workspace:*
         version: link:../../packages/simple-list
+      '@lit-material/site-kit':
+        specifier: workspace:*
+        version: link:../../packages/site-kit
       '@lit-material/skeleton':
         specifier: workspace:*
         version: link:../../packages/skeleton
@@ -2555,6 +2558,37 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
+    devDependencies:
+      '@lit-labs/ssr':
+        specifier: ^3.3.1
+        version: 3.3.1
+      '@open-wc/testing':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@web/dev-server-esbuild':
+        specifier: ^1.0.0
+        version: 1.0.5
+      '@web/test-runner':
+        specifier: ^0.19.0
+        version: 0.19.0
+      '@web/test-runner-commands':
+        specifier: ^0.9.0
+        version: 0.9.0
+      '@web/test-runner-playwright':
+        specifier: ^0.11.0
+        version: 0.11.1
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.0
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
+  packages/site-kit:
+    dependencies:
       lit:
         specifier: ^3.2.0
         version: 3.3.3

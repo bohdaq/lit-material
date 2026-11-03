@@ -6,6 +6,7 @@ import { mark } from "./brand/mark.js";
 import { icon } from "./icons.js";
 import { GROUPS, GUIDE_GROUPS } from "./catalog.js";
 import { labelOf } from "./packages.js";
+import { themeBootScript } from "@lit-material/site-kit/client/theme.js";
 
 export const ORIGIN = "https://lit.rws8.tech";
 export const REPO = "https://github.com/bohdaq/lit-material";
@@ -121,7 +122,7 @@ export function docsLayout({ path, content, toc = [] }) {
 
 // Applies a saved theme before first paint, so a dark-mode visitor never sees
 // a cream flash. Storage can throw (private windows), hence the try.
-const THEME_BOOT = `document.documentElement.classList.add("js");try{var t=localStorage.getItem("lit-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}`;
+const THEME_BOOT = themeBootScript("lit-theme");
 
 const escape = (s) => String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 
