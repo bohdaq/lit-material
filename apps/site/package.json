@@ -48,6 +48,7 @@
     "@lit-material/jump-links": "workspace:*",
     "@lit-material/key-value": "workspace:*",
     "@lit-material/list": "workspace:*",
+    "@lit-material/diff": "workspace:*",
     "@lit-material/log-viewer": "workspace:*",
     "@lit-material/menu": "workspace:*",
     "@lit-material/navigation": "workspace:*",

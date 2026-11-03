@@ -53,6 +53,7 @@ import "./pages/components/clipboard-page.js";
 import "./pages/components/stat-page.js";
 import "./pages/components/empty-state-page.js";
 import "./pages/components/log-viewer-page.js";
+import "./pages/components/diff-page.js";
 import "./pages/components/table-page.js";
 import "./pages/components/chart-page.js";
 import "./pages/components/adaptive-navigation-page.js";
@@ -590,6 +591,12 @@ export const navEntries: NavEntry[] = [
     label: "Log Viewer",
     group: "components",
     render: () => html`<docs-log-viewer-page></docs-log-viewer-page>`,
+  },
+  {
+    path: "/components/diff",
+    label: "Diff",
+    group: "components",
+    render: () => html`<docs-diff-page></docs-diff-page>`,
   },
   {
     path: "/components/table",

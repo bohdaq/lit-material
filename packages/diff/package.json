@@ -1,0 +1,81 @@
+{
+  "name": "@lit-material/diff",
+  "version": "0.0.0",
+  "description": "Diff views for lit-material: line diff of two texts (unified or side by side), a list of changes by path, and a three-way merge view.",
+  "license": "MIT",
+  "author": {
+    "name": "bohdaq",
+    "email": "bohdaq@gmail.com",
+    "url": "https://github.com/bohdaq"
+  },
+  "homepage": "https://lit.rws8.tech/components/diff/",
+  "bugs": "https://github.com/bohdaq/lit-material/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bohdaq/lit-material.git",
+    "directory": "packages/diff"
+  },
+  "keywords": [
+    "lit",
+    "web-components",
+    "lit-material",
+    "material-design",
+    "material-design-3",
+    "diff",
+    "compare",
+    "merge"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./lines.js": {
+      "types": "./dist/lines.d.ts",
+      "default": "./dist/lines.js"
+    },
+    "./diff.js": {
+      "types": "./dist/diff.d.ts",
+      "default": "./dist/diff.js"
+    },
+    "./change-list.js": {
+      "types": "./dist/change-list.d.ts",
+      "default": "./dist/change-list.js"
+    },
+    "./merge-view.js": {
+      "types": "./dist/merge-view.d.ts",
+      "default": "./dist/merge-view.js"
+    }
+  },
+  "files": [
+    "dist",
+    "custom-elements.json"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "web-test-runner && node --import tsx --test src/*.ssr.test.ts",
+    "analyze": "custom-elements-manifest analyze --litelement --globs \"src/**/*.ts\" --exclude \"src/**/*.test.ts\" --exclude \"src/**/*.ssr.test.ts\""
+  },
+  "dependencies": {
+    "@lit-material/tokens": "workspace:*",
+    "lit": "^3.2.0"
+  },
+  "devDependencies": {
+    "@lit-labs/ssr": "^3.3.1",
+    "@open-wc/testing": "^4.0.0",
+    "@web/dev-server-esbuild": "^1.0.0",
+    "@web/test-runner": "^0.19.0",
+    "@web/test-runner-commands": "^0.9.0",
+    "@web/test-runner-playwright": "^0.11.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  },
+  "customElements": "custom-elements.json"
+}

@@ -80,6 +80,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 - [Status](https://github.com/bohdaq/lit-material/tree/main/packages/status): Icon + label coloured by state (ok, warning, error, info, neutral) — never colour alone.
 - [Stat](https://github.com/bohdaq/lit-material/tree/main/packages/stat): Dashboard tile: label, large tabular value, caption or trend.
 - [Empty State](https://github.com/bohdaq/lit-material/tree/main/packages/empty-state): Headline, guidance and actions in place of a blank view.
+- [Diff](https://github.com/bohdaq/lit-material/tree/main/packages/diff): `lit-material-diff` — `original`, `modified` (strings), `mode="unified|split"`, `context` (-1 = all), `label`; `lit-material-change-list` `.changes` `{path,kind,before,after}[]` (JSON attr for SSR); `lit-material-merge-view` `.sides` `{label,text}[]`, `base` index, slots `side-<i>`; `diffLines`/`sideBySide`/`hunks`/`stats` from `@lit-material/diff/lines.js`.
 - [Log Viewer](https://github.com/bohdaq/lit-material/tree/main/packages/log-viewer): Monospace line stream that follows the newest line, with pause, highlighting and a line cap.
 - [Table](https://github.com/bohdaq/lit-material/tree/main/packages/table): Data-driven semantic `<table>`: caption, headers, numeric and monospace columns.
 - [Chart](https://github.com/bohdaq/lit-material/tree/main/packages/chart): Line chart, bar chart (with one highlighted item) and sparkline: crosshair tooltip, keyboard access, screen-reader table.

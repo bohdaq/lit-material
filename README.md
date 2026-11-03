@@ -131,6 +131,7 @@ components as you like.
 | [`@lit-material/status`](packages/status) | Icon + label coloured by state (ok, warning, error, info, neutral) — never colour alone. |
 | [`@lit-material/stat`](packages/stat) | Dashboard tile: label, large tabular value, caption or trend. |
 | [`@lit-material/empty-state`](packages/empty-state) | Headline, guidance and actions in place of a blank view. |
+| [`@lit-material/diff`](packages/diff) | Line diff (unified or side by side) with folded context, changes by path, and a three-way merge view. |
 | [`@lit-material/log-viewer`](packages/log-viewer) | Monospace line stream that follows the newest line, with pause, highlighting and a line cap. |
 | [`@lit-material/table`](packages/table) | Data-driven semantic `<table>`: caption, headers, numeric and monospace columns. |
 | [`@lit-material/chart`](packages/chart) | Line chart, bar chart and sparkline: crosshair tooltip, keyboard access, screen-reader table. |

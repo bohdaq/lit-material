@@ -45,6 +45,9 @@ cases.push(
   ["pagination page-size-options", html`<lit-material-data-table-pagination page-size-options=${j([5, 20])}></lit-material-data-table-pagination>`],
   ["dual-list items", html`<lit-material-dual-list-selector items=${j([{ value: "a", label: "Apples" }])} selected=${j(["a"])}></lit-material-dual-list-selector>`],
   ["table rows", html`<lit-material-table caption="People" columns=${j([{ key: "name", label: "Name" }])} rows=${j([{ name: "Ada" }])}></lit-material-table>`],
+  ["diff texts", html`<lit-material-diff original="a\nb\nc" modified="a\nx\nc" mode="split"></lit-material-diff>`],
+  ["change-list changes", html`<lit-material-change-list changes=${j([{ path: "$.a", kind: "changed", before: 1, after: 2 }])}></lit-material-change-list>`],
+  ["merge-view sides", html`<lit-material-merge-view base="1" sides=${j([{ label: "Mine", text: "a\nB" }, { label: "Base", text: "a\nb" }])}></lit-material-merge-view>`],
   ["jump-links links", html`<lit-material-jump-links links=${j([{ id: "a", text: "Install" }])}></lit-material-jump-links>`],
   // Elements whose template depends on their light DOM children.
   ["carousel-item label", html`<lit-material-carousel><lit-material-carousel-item>One<span slot="label">First</span></lit-material-carousel-item></lit-material-carousel>`],
