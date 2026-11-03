@@ -1,5 +1,12 @@
 # @lit-material/inline-edit
 
+## 0.1.3
+
+### Patch Changes
+
+- @lit-material/icon-button@0.0.6
+- @lit-material/text-field@0.4.1
+
 ## 0.1.2
 
 ### Patch Changes

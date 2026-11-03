@@ -1,5 +1,13 @@
 # @lit-material/text-field
 
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies [d400036]
+  - @lit-material/core@0.2.0
+  - @lit-material/icon-button@0.0.6
+
 ## 0.4.0
 
 ### Minor Changes

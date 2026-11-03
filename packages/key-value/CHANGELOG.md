@@ -1,5 +1,13 @@
 # @lit-material/key-value
 
+## 0.1.6
+
+### Patch Changes
+
+- @lit-material/button@0.3.1
+- @lit-material/icon-button@0.0.6
+- @lit-material/text-field@0.4.1
+
 ## 0.1.5
 
 ### Patch Changes

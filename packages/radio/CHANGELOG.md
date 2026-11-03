@@ -1,5 +1,16 @@
 # @lit-material/radio
 
+## 0.1.0
+
+### Minor Changes
+
+- d400036: Switch, checkbox and radio take a visible `label` (clicking it toggles the control) and `supporting-text` (its description), so they no longer need a wrapping `<label>` and a repeated `aria-label`. Both render on the server. Core exports the shared `controlLabel` template and `controlLabelStyles`.
+
+### Patch Changes
+
+- Updated dependencies [d400036]
+  - @lit-material/core@0.2.0
+
 ## 0.0.5
 
 ### Patch Changes

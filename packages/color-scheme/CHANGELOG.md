@@ -1,5 +1,11 @@
 # @lit-material/color-scheme
 
+## 0.1.4
+
+### Patch Changes
+
+- @lit-material/icon-button@0.0.6
+
 ## 0.1.3
 
 ### Patch Changes

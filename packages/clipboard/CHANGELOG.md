@@ -1,5 +1,11 @@
 # @lit-material/clipboard
 
+## 0.2.1
+
+### Patch Changes
+
+- @lit-material/icon-button@0.0.6
+
 ## 0.2.0
 
 ### Minor Changes

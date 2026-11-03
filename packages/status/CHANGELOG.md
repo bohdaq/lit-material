@@ -1,5 +1,11 @@
 # @lit-material/status
 
+## 0.1.0
+
+### Minor Changes
+
+- e76e963: `appearance="pill"`: a filled pill without the glyph, for compact values whose words already say the state (an HTTP status); `mono` sets the label in a monospace font with tabular figures.
+
 ## 0.0.3
 
 ### Patch Changes

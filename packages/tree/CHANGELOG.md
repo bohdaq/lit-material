@@ -1,5 +1,12 @@
 # @lit-material/tree
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [d400036]
+  - @lit-material/core@0.2.0
+
 ## 0.1.1
 
 ### Patch Changes

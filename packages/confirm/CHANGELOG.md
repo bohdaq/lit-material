@@ -1,5 +1,13 @@
 # @lit-material/confirm
 
+## 0.1.7
+
+### Patch Changes
+
+- @lit-material/button@0.3.1
+- @lit-material/text-field@0.4.1
+- @lit-material/dialog@0.2.1
+
 ## 0.1.6
 
 ### Patch Changes
