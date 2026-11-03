@@ -143,10 +143,8 @@ export class DocsBuildingAppsPage extends LitElement {
               <div class="demo-fallback">
                 <p>
                   Couldn't load the live demo. If you're running the docs site locally, build the demo first
-                  (<code>pnpm --filter @lit-material/app-shell-demo dev</code>) or view the
-                  <a href="https://bohdaq.github.io/lit-material/guide/building-apps" target="_blank"
-                    >deployed site</a
-                  >.
+                  (<code>pnpm --filter @lit-material/app-shell-demo dev</code>) or view it on
+                  <a href="https://lit.rws8.tech/app-shell-demo/" target="_blank">lit.rws8.tech</a>.
                 </p>
               </div>
             `
@@ -189,13 +187,13 @@ export class DocsBuildingAppsPage extends LitElement {
   }
 
   private readonly handleIframeLoad = (event: Event): void => {
-    // The iframe's `load` event fires even when the navigation itself failed (e.g. an aborted request
-    // or a DNS/connection error) — the browser's own error page still "loads". Confirm the frame actually
-    // landed on app-shell-demo, not an error page, before treating this as success.
+    // The iframe's `load` event fires even when the navigation failed: a browser error page or the
+    // host's 404 page still "loads", at the demo's URL. Confirm the frame holds the demo's own
+    // <app-shell> (the frame is same-origin) before treating this as success.
     const iframe = event.target as HTMLIFrameElement;
     let reachedDemo = false;
     try {
-      reachedDemo = !!iframe.contentWindow?.location.href.includes("/app-shell-demo/");
+      reachedDemo = !!iframe.contentDocument?.querySelector("app-shell");
     } catch {
       reachedDemo = false;
     }

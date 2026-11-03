@@ -6,7 +6,7 @@
   "description": "lit.rws8.tech: the lit-material website, prerendered with Lit SSR.",
   "scripts": {
     "dev": "vite",
-    "build:site": "vite build && vite build --ssr src/server/entry.js --outDir .ssr --emptyOutDir && node scripts/prerender.mjs && node scripts/search.mjs",
+    "build:site": "vite build && vite build --ssr src/server/entry.js --outDir .ssr --emptyOutDir && node scripts/prerender.mjs && node scripts/search.mjs && node scripts/app-shell-demo.mjs",
     "preview": "vite preview --outDir dist"
   },
   "dependencies": {
