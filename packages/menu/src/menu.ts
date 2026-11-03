@@ -42,6 +42,9 @@ export class LitMaterialMenu extends LitElement {
 
   private explicitAnchorElement?: HTMLElement;
 
+  /** Where a context menu was asked for: positions the menu at the pointer instead of under the anchor. */
+  private point?: { x: number; y: number };
+
   constructor() {
     super();
     this.addEventListener("toggle", this.handleToggle as EventListener);
@@ -75,7 +78,33 @@ export class LitMaterialMenu extends LitElement {
   /** Opens the menu, optionally anchoring to `anchorElement` instead of `anchor`/a previous anchorElement. */
   show(anchorElement?: HTMLElement): void {
     if (anchorElement) this.explicitAnchorElement = anchorElement;
+    this.point = undefined;
     this.open = true;
+  }
+
+  /**
+   * Opens the menu for a `contextmenu` event: at the pointer for a right
+   * click, under the element for the context menu key. Focus returns to the
+   * event's `currentTarget` on close. Call it from the listener and it calls
+   * `preventDefault()`. Where the event fires while the right button is
+   * still down (Linux, macOS), the menu opens after the release, which the
+   * popover's light dismiss would otherwise treat as a click outside.
+   */
+  showForEvent(event: MouseEvent): void {
+    event.preventDefault();
+    const anchor = (event.currentTarget instanceof HTMLElement ? event.currentTarget : null) ?? (event.target as HTMLElement);
+    const fromKeyboard = event.button !== 2 && event.clientX === 0 && event.clientY === 0;
+    const open = () => {
+      this.explicitAnchorElement = anchor;
+      this.point = fromKeyboard ? undefined : { x: event.clientX, y: event.clientY };
+      if (this.open) this.updatePosition();
+      this.open = true;
+    };
+    if (event.buttons & 2) {
+      addEventListener("pointerup", () => setTimeout(open), { once: true, capture: true });
+    } else {
+      open();
+    }
   }
 
   close(): void {
@@ -117,11 +146,13 @@ export class LitMaterialMenu extends LitElement {
 
   private updatePosition(): void {
     const anchorEl = this.anchorElement;
-    if (!anchorEl) return;
-    const anchorRect = anchorEl.getBoundingClientRect();
+    if (!anchorEl && !this.point) return;
+    const anchorRect = this.point
+      ? new DOMRect(this.point.x, this.point.y, 0, 0)
+      : anchorEl!.getBoundingClientRect();
     const menuRect = this.getBoundingClientRect();
-    const gap = 4;
 
+    const gap = this.point ? 0 : 4;
     let top = anchorRect.bottom + gap;
     if (top + menuRect.height > window.innerHeight) {
       const above = anchorRect.top - gap - menuRect.height;

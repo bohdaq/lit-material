@@ -47,6 +47,14 @@ Or anchor to an element you don't want to give an id — pass it directly:
 menu.show(trigger); // same as menu.anchorElement = trigger; menu.open = true
 ```
 
+A context menu: call `showForEvent` from the `contextmenu` listener. It opens at the pointer and
+waits for the right button's release on systems that fire the event while it's still down (opening
+at once there, the release would close the menu).
+
+```js
+row.addEventListener("contextmenu", (event) => menu.showForEvent(event));
+```
+
 ## API
 
 | Property | Attribute | Type      | Default     |
@@ -58,6 +66,7 @@ menu.show(trigger); // same as menu.anchorElement = trigger; menu.open = true
 | ---------------------------- | ------------------------------------------------------------------------ |
 | `anchorElement` (get/set)    | The element to position against and return focus to. Overrides `anchor` when set directly. |
 | `show(anchorElement?)`        | Opens the menu, optionally setting `anchorElement` for this call.        |
+| `showForEvent(event)` | For a `contextmenu` listener: opens at the pointer (under the element for the context menu key), after the right button's release where needed. |
 | `close()`                     | Closes the menu (`open = false`).                                        |
 
 Built on the native Popover API (`popover="auto"`), so top-layer rendering and light dismiss

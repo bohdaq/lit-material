@@ -3,3 +3,4 @@ export { FocusRingController, type FocusRingHost } from "./focus-ring-controller
 export { themeContext, type ThemeState, type ColorScheme } from "./theme-context.js";
 export { localeContext, type LocaleState } from "./locale-context.js";
 export { setAriaElements, type AriaElementsProperty } from "./aria-reference.js";
+export { controlLabel, controlLabelStyles } from "./control-label.js";

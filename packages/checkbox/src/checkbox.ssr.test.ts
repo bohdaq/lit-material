@@ -35,4 +35,10 @@ describe("lit-material-checkbox (SSR)", () => {
     assert.match(out, /<lit-material-checkbox[^>]*\berror\b/);
     assert.match(out, /aria-invalid="true"/);
   });
+
+  it("renders its label on the server", async () => {
+    const out = await collectResult(render(html`<lit-material-checkbox label="Keep cookies" supporting-text="Sent back"></lit-material-checkbox>`));
+    assert.match(out, /<label for="control"[^>]*>(<!--[^>]*-->)*Keep cookies(<!--[^>]*-->)*<\/label>/);
+    assert.match(out, /id="supporting"/);
+  });
 });

@@ -30,6 +30,12 @@ npm install @lit-material/radio @lit-material/tokens
 <lit-material-radio name="plan" value="basic" required error aria-label="Basic plan"></lit-material-radio>
 ```
 
+With a visible label there is nothing to wrap and no `aria-label` to repeat:
+
+```html
+<lit-material-radio label="Keep and send cookies" supporting-text="Sent back to the site that set them"></lit-material-radio>
+```
+
 ## API
 
 | Property   | Attribute | Type                 | Default |
@@ -41,6 +47,8 @@ npm install @lit-material/radio @lit-material/tokens
 | `name`     | `name`    | `string`              | `""`    |
 | `value`    | `value`   | `string`              | `"on"`  |
 | `form`     | `form`    | `string \| undefined` | `undefined` |
+| `label` | `label` | `string` (visible text; clicking it toggles the control) | `""` |
+| `supportingText` | `supporting-text` | `string` (a line under the label, its description) | `""` |
 
 Radios have no visible label, so set `aria-label` or `aria-labelledby`.
 

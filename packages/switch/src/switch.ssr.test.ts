@@ -36,4 +36,10 @@ describe("lit-material-switch (SSR)", () => {
     assert.match(out, /<lit-material-switch[^>]*\berror\b/);
     assert.match(out, /aria-invalid="true"/);
   });
+
+  it("renders its label on the server", async () => {
+    const out = await collectResult(render(html`<lit-material-switch label="Keep cookies" supporting-text="Sent back"></lit-material-switch>`));
+    assert.match(out, /<label for="control"[^>]*>(<!--[^>]*-->)*Keep cookies(<!--[^>]*-->)*<\/label>/);
+    assert.match(out, /id="supporting"/);
+  });
 });

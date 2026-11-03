@@ -1,6 +1,6 @@
 import { html, LitElement, nothing, svg } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { FocusRingController, RippleController, setAriaElements } from "@lit-material/core";
+import { FocusRingController, RippleController, controlLabel, controlLabelStyles, setAriaElements } from "@lit-material/core";
 import { styles } from "./checkbox-styles.js";
 
 /**
@@ -17,7 +17,7 @@ import { styles } from "./checkbox-styles.js";
  */
 @customElement("lit-material-checkbox")
 export class LitMaterialCheckbox extends LitElement {
-  static override styles = styles;
+  static override styles = [styles, controlLabelStyles];
 
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -38,6 +38,10 @@ export class LitMaterialCheckbox extends LitElement {
   @property({ reflect: true }) form?: string;
 
   /** Forwarded to the inner control; checkboxes have no visible label so this is often required. */
+  /** Visible text naming the control; clicking it toggles the control. */
+  @property() label = "";
+  /** A line under the label describing the control. */
+  @property({ attribute: "supporting-text" }) supportingText = "";
   @property({ attribute: "aria-label" }) ariaLabel: string | null = null;
   @property({ attribute: "aria-labelledby" }) ariaLabelledBy: string | null = null;
 
@@ -104,6 +108,8 @@ export class LitMaterialCheckbox extends LitElement {
               : nothing}
         </svg>
         <input
+          id="control"
+          aria-describedby=${this.supportingText ? "supporting" : nothing}
           class="native-control"
           part="input"
           type="checkbox"
@@ -118,6 +124,7 @@ export class LitMaterialCheckbox extends LitElement {
           @change=${this.handleChange}
         />
       </div>
+      ${controlLabel(this.label, this.supportingText, this.disabled)}
     `;
   }
 

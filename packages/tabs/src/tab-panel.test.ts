@@ -36,6 +36,20 @@ describe("lit-material-tab-panel", () => {
     expect(getComputedStyle(panels[1]!).display).to.equal("none");
   });
 
+  it("follows a selection set from code, without a change event", async () => {
+    const { el, panels } = await panelsFixture();
+    let changes = 0;
+    el.addEventListener("change", () => changes++);
+    el.selected = 1;
+    await el.updateComplete;
+    await panels[1]!.updateComplete;
+    expect(panels[1]!.selected).to.be.true;
+    expect(getComputedStyle(panels[1]!).display).to.equal("block");
+    expect(getComputedStyle(panels[0]!).display).to.equal("none");
+    // Like a native control's value, a change made in code fires nothing.
+    expect(changes).to.equal(0);
+  });
+
   it("follows the selection on click", async () => {
     const { el, tabs, panels } = await panelsFixture();
     tabs[1]!.click();

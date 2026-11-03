@@ -42,4 +42,10 @@ describe("lit-material-radio (SSR)", () => {
     );
     assert.match(out, /value="m"|lit-material-radio/);
   });
+
+  it("renders its label on the server", async () => {
+    const out = await collectResult(render(html`<lit-material-radio label="Keep cookies" supporting-text="Sent back"></lit-material-radio>`));
+    assert.match(out, /<label for="control"[^>]*>(<!--[^>]*-->)*Keep cookies(<!--[^>]*-->)*<\/label>/);
+    assert.match(out, /id="supporting"/);
+  });
 });

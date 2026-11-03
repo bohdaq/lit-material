@@ -32,6 +32,12 @@ npm install @lit-material/switch @lit-material/tokens
 <lit-material-switch aria-label="Locked" checked disabled></lit-material-switch>
 ```
 
+With a visible label there is nothing to wrap and no `aria-label` to repeat:
+
+```html
+<lit-material-switch label="Keep and send cookies" supporting-text="Sent back to the site that set them"></lit-material-switch>
+```
+
 ## API
 
 | Property   | Attribute | Type                 | Default |
@@ -43,6 +49,8 @@ npm install @lit-material/switch @lit-material/tokens
 | `name`     | `name`    | `string`              | `""`    |
 | `value`    | `value`   | `string`              | `"on"`  |
 | `form`     | `form`    | `string \| undefined` | `undefined` |
+| `label` | `label` | `string` (visible text; clicking it toggles the control) | `""` |
+| `supportingText` | `supporting-text` | `string` (a line under the label, its description) | `""` |
 
 Slots: `icon` (shown in the thumb when unselected), `selected-icon` (shown when selected). Both
 are optional. Switches have no visible label, so set `aria-label` or `aria-labelledby`.

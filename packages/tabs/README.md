@@ -43,7 +43,8 @@ document.querySelector("lit-material-tabs").addEventListener("change", (event) =
 | `selected` | `selected` | `number` | `0`     |
 
 Fires `change` (bubbling) when the selected tab changes via user interaction (click or arrow
-keys) — not when `selected` is set programmatically.
+keys), not when `selected` is set from code, as with a native control's `value`. Panels follow
+either way, so there's no need to dispatch a `change` yourself.
 
 ### `lit-material-tab`
 

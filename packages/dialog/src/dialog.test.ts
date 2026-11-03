@@ -1,6 +1,7 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
 import "./dialog.js";
+import "@lit-material/text-field/text-field.js";
 import type { LitMaterialDialog } from "./dialog.js";
 
 describe("lit-material-dialog", () => {
@@ -131,5 +132,27 @@ describe("lit-material-dialog", () => {
     await el.updateComplete;
     await expect(el).to.be.accessible();
     el.shadowRoot!.querySelector("dialog")!.close();
+  });
+
+  it("submits a form inside it on Enter in a text field", async () => {
+    const host = await fixture<HTMLDivElement>(html`<div>
+      <lit-material-dialog open>
+        <span slot="headline">Rename</span>
+        <form id="f" method="dialog" novalidate>
+          <lit-material-text-field name="name" label="Name" value="Users"></lit-material-text-field>
+        </form>
+      </lit-material-dialog>
+    </div>`);
+    const form = host.querySelector("form")!;
+    let submitted: string | null = null;
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      submitted = new FormData(form).get("name") as string;
+    });
+    const field = host.querySelector("lit-material-text-field") as HTMLElement & { updateComplete: Promise<unknown> };
+    await field.updateComplete;
+    field.shadowRoot!.querySelector("input")!.focus();
+    await sendKeys({ press: "Enter" });
+    expect(submitted).to.equal("Users");
   });
 });

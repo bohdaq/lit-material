@@ -28,6 +28,12 @@ npm install @lit-material/checkbox @lit-material/tokens
 <lit-material-checkbox aria-label="Locked" checked disabled></lit-material-checkbox>
 ```
 
+With a visible label there is nothing to wrap and no `aria-label` to repeat:
+
+```html
+<lit-material-checkbox label="Keep and send cookies" supporting-text="Sent back to the site that set them"></lit-material-checkbox>
+```
+
 ## API
 
 | Property     | Attribute | Type                  | Default |
@@ -40,6 +46,8 @@ npm install @lit-material/checkbox @lit-material/tokens
 | `name`       | `name`    | `string`               | `""`    |
 | `value`      | `value`   | `string`               | `"on"`  |
 | `form`       | `form`    | `string \| undefined`  | `undefined` |
+| `label` | `label` | `string` (visible text; clicking it toggles the control) | `""` |
+| `supportingText` | `supporting-text` | `string` (a line under the label, its description) | `""` |
 
 Checkboxes have no visible label, so set `aria-label` or `aria-labelledby`.
 

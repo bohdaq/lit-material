@@ -1,5 +1,5 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
-import { sendKeys } from "@web/test-runner-commands";
+import { sendKeys, sendMouse } from "@web/test-runner-commands";
 import "@lit-material/list";
 import "./menu.js";
 import type { LitMaterialMenu } from "./menu.js";
@@ -150,6 +150,46 @@ describe("lit-material-menu", () => {
     menu.show(trigger);
     await menu.updateComplete;
     await expect(menu).to.be.accessible();
+    menu.close();
+  });
+
+  it("opens at the pointer for a right click and stays open after the release", async () => {
+    const host = await fixture<HTMLDivElement>(html`<div>
+      <button id="row" style="width: 200px; height: 40px">Request</button>
+      <lit-material-menu id="ctx">
+        <lit-material-list-item interactive>Rename</lit-material-list-item>
+      </lit-material-menu>
+    </div>`);
+    const row = host.querySelector("#row") as HTMLElement;
+    const menu = host.querySelector("#ctx") as LitMaterialMenu;
+    row.addEventListener("contextmenu", (e) => menu.showForEvent(e));
+    const box = row.getBoundingClientRect();
+    const x = Math.round(box.left + 50), y = Math.round(box.top + 20);
+    await sendMouse({ type: "move", position: [x, y] });
+    await sendMouse({ type: "down", button: "right" });
+    await sendMouse({ type: "up", button: "right" });
+    await new Promise((r) => setTimeout(r, 50));
+    await menu.updateComplete;
+    expect(menu.open).to.be.true;
+    expect(menu.matches(":popover-open")).to.be.true;
+    const m = menu.getBoundingClientRect();
+    expect(Math.abs(m.left - x)).to.be.below(2);
+    expect(Math.abs(m.top - y)).to.be.below(2);
+    menu.close();
+  });
+
+  it("opens under the element for the context menu key", async () => {
+    const host = await fixture<HTMLDivElement>(html`<div>
+      <button id="row2" style="width: 200px; height: 40px">Request</button>
+      <lit-material-menu id="ctx2"><lit-material-list-item interactive>Rename</lit-material-list-item></lit-material-menu>
+    </div>`);
+    const row = host.querySelector("#row2") as HTMLElement;
+    const menu = host.querySelector("#ctx2") as LitMaterialMenu;
+    row.addEventListener("contextmenu", (e) => menu.showForEvent(e));
+    row.dispatchEvent(new MouseEvent("contextmenu", { bubbles: true, cancelable: true, button: 0, clientX: 0, clientY: 0 }));
+    await menu.updateComplete;
+    expect(menu.open).to.be.true;
+    expect(menu.getBoundingClientRect().top).to.be.at.least(row.getBoundingClientRect().bottom);
     menu.close();
   });
 });

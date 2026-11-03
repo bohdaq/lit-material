@@ -61,6 +61,7 @@
   },
   "devDependencies": {
     "@lit-labs/ssr": "^3.3.1",
+    "@lit-material/text-field": "workspace:*",
     "@open-wc/testing": "^4.0.0",
     "@web/dev-server-esbuild": "^1.0.0",
     "@web/test-runner": "^0.19.0",

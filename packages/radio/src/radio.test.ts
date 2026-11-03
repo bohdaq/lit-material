@@ -213,4 +213,25 @@ describe("lit-material-radio", () => {
     const stateLayer = el.shadowRoot!.querySelector(".state-layer")!;
     expect(stateLayer.hasAttribute("data-pressed")).to.be.true;
   });
+
+  it("shows a visible label that names it, toggles it and carries supporting text", async () => {
+    const el = await fixture<LitMaterialRadio>(html`<lit-material-radio name="opt" label="Keep cookies" supporting-text="Sent back to the same site"></lit-material-radio>`);
+    const input = el.shadowRoot!.querySelector("input")!;
+    const label = el.shadowRoot!.querySelector("label")!;
+    expect(label.textContent).to.equal("Keep cookies");
+    expect(label.htmlFor).to.equal(input.id);
+    expect(input.labels?.[0]).to.equal(label);
+    expect(input.getAttribute("aria-describedby")).to.equal("supporting");
+    expect(el.shadowRoot!.getElementById("supporting")!.textContent).to.equal("Sent back to the same site");
+    label.click();
+    await el.updateComplete;
+    expect(el.checked).to.be.true;
+    await expect(el).to.be.accessible();
+  });
+
+  it("renders no label text without a label", async () => {
+    const el = await fixture<LitMaterialRadio>(html`<lit-material-radio aria-label="Plain"></lit-material-radio>`);
+    expect(el.shadowRoot!.querySelector(".control-text")).to.be.null;
+    expect(el.shadowRoot!.querySelector("input")!.hasAttribute("aria-describedby")).to.be.false;
+  });
 });

@@ -1,6 +1,6 @@
 import { html, LitElement, nothing, svg } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { FocusRingController, RippleController, setAriaElements } from "@lit-material/core";
+import { FocusRingController, RippleController, controlLabel, controlLabelStyles, setAriaElements } from "@lit-material/core";
 import { styles } from "./radio-styles.js";
 
 /**
@@ -25,7 +25,7 @@ import { styles } from "./radio-styles.js";
  */
 @customElement("lit-material-radio")
 export class LitMaterialRadio extends LitElement {
-  static override styles = styles;
+  static override styles = [styles, controlLabelStyles];
 
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -44,6 +44,10 @@ export class LitMaterialRadio extends LitElement {
   @property({ reflect: true }) form?: string;
 
   /** Forwarded to the inner control; radios have no visible label so this is often required. */
+  /** Visible text naming the control; clicking it toggles the control. */
+  @property() label = "";
+  /** A line under the label describing the control. */
+  @property({ attribute: "supporting-text" }) supportingText = "";
   @property({ attribute: "aria-label" }) ariaLabel: string | null = null;
   @property({ attribute: "aria-labelledby" }) ariaLabelledBy: string | null = null;
 
@@ -134,6 +138,8 @@ export class LitMaterialRadio extends LitElement {
           ${this.checked ? svg`<circle class="dot" cx="9" cy="9" r="4.5"></circle>` : nothing}
         </svg>
         <input
+          id="control"
+          aria-describedby=${this.supportingText ? "supporting" : nothing}
           class="native-control"
           part="input"
           type="radio"
@@ -149,6 +155,7 @@ export class LitMaterialRadio extends LitElement {
           @keydown=${this.handleKeydown}
         />
       </div>
+      ${controlLabel(this.label, this.supportingText, this.disabled)}
     `;
   }
 
