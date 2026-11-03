@@ -47,7 +47,39 @@ export const styles = css`
   svg .fill { fill: currentColor; stroke: none; }
   ::slotted([slot="icon"]) { width: 100%; height: 100%; }
 
+  :host([mono]) .status {
+    font-family: var(--lit-material-status-mono-font, ui-monospace, SFMono-Regular, Menlo, monospace);
+    font-variant-numeric: tabular-nums;
+  }
+
+  :host([appearance="pill"]) .status {
+    padding: 2px 8px;
+    border-radius: var(--md-sys-shape-corner-full, 9999px);
+  }
+  :host([appearance="pill"]) .icon { display: none; }
+  :host([appearance="pill"]) .ok {
+    background: var(--lit-material-status-ok-container, light-dark(#dcebd3, #23361a));
+    color: var(--lit-material-status-on-ok-container, light-dark(#2a4a1b, #b7e2a1));
+  }
+  :host([appearance="pill"]) .warning {
+    background: var(--lit-material-status-warning-container, light-dark(#ffe1a8, #3d2c00));
+    color: var(--lit-material-status-on-warning-container, light-dark(#4d3300, #ffd98a));
+  }
+  :host([appearance="pill"]) .error {
+    background: var(--md-sys-color-error-container, light-dark(#f9dedc, #8c1d18));
+    color: var(--md-sys-color-on-error-container, light-dark(#410e0b, #f9dedc));
+  }
+  :host([appearance="pill"]) .info {
+    background: var(--md-sys-color-primary-container, light-dark(#eaddff, #4f378b));
+    color: var(--md-sys-color-on-primary-container, light-dark(#21005d, #eaddff));
+  }
+  :host([appearance="pill"]) .neutral {
+    background: var(--md-sys-color-surface-container-highest, light-dark(#e6e0e9, #36343b));
+    color: var(--md-sys-color-on-surface-variant, light-dark(#49454f, #cac4d0));
+  }
+
   @media (forced-colors: active) {
     .status { color: CanvasText; }
+    :host([appearance="pill"]) .status { border: 1px solid CanvasText; background: Canvas; }
   }
 `;

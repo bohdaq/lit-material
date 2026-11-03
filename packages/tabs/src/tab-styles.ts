@@ -96,6 +96,7 @@ export const styles = css`
   }
 
   .label {
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -109,6 +110,50 @@ export const styles = css`
     .tab,
     .state-layer {
       transition: none;
+    }
+  }
+
+  :host([closable]) .tab {
+    padding-inline-end: 8px;
+  }
+  .dirty {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .close {
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--md-sys-shape-corner-full, 9999px);
+    color: var(--md-sys-color-on-surface-variant, #49454f);
+    opacity: 0;
+    transition: opacity 100ms linear;
+  }
+  .close svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+  .close:hover {
+    background: color-mix(in srgb, currentColor 12%, transparent);
+  }
+  /* The close button shows on hover and on the selected tab; a dirty dot
+     gives way to it on hover. Always shown where there is no hover. */
+  .tab:hover .close,
+  :host([selected]) .close {
+    opacity: 1;
+  }
+  :host([dirty][closable]) .tab:hover .dirty {
+    display: none;
+  }
+  @media (hover: none) {
+    .close {
+      opacity: 1;
     }
   }
 `;

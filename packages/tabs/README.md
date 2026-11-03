@@ -41,6 +41,7 @@ document.querySelector("lit-material-tabs").addEventListener("change", (event) =
 | Property   | Attribute  | Type     | Default |
 | ---------- | ---------- | -------- | ------- |
 | `selected` | `selected` | `number` | `0`     |
+| `scrollable` | `scrollable` (reflected) | `boolean` | `false` |
 
 Fires `change` (bubbling) when the selected tab changes via user interaction (click or arrow
 keys), not when `selected` is set from code, as with a native control's `value`. Panels follow
@@ -53,6 +54,8 @@ either way, so there's no need to dispatch a `change` yourself.
 | `selected`     | `selected`      | `boolean` | `false` |
 | `disabled`     | `disabled`      | `boolean` | `false` |
 | `ariaControls` | `aria-controls` | `string`  | `null`  |
+| `closable`     | `closable` (reflected) | `boolean` | `false` |
+| `dirty`        | `dirty` (reflected)    | `boolean` | `false` |
 
 `selected` is managed by the parent `lit-material-tabs` — don't set it directly on a tab you
 mount inside one. An optional `icon` slot renders above the label (Material's icon+label tab
@@ -64,6 +67,26 @@ style); a default slot holds the label text.
   Music
 </lit-material-tab>
 ```
+
+## Open documents
+
+For a strip of open requests or files: `scrollable` keeps every tab at its own width (up to
+`--lit-material-tabs-tab-max-width`, 16rem) and scrolls the row, always bringing the selected tab into
+view; the `end` slot holds controls after the row, such as a New tab button.
+
+```html
+<lit-material-tabs scrollable>
+  <lit-material-tab closable>GET /v1/invoices</lit-material-tab>
+  <lit-material-tab closable dirty>POST /v1/payments</lit-material-tab>
+  <lit-material-icon-button slot="end" aria-label="New tab">…</lit-material-icon-button>
+</lit-material-tabs>
+```
+
+A `closable` tab fires `close` (bubbling, cancelable) from its ×, the Delete key or a middle click,
+and never removes itself or changes the selection: remove it from your data. `requestClose()` asks the
+same way and returns `false` when a listener cancelled it. The × is for the pointer and hidden from
+assistive technology (a button inside a tab isn't allowed); the tab's description says "Press Delete to
+close", and "Unsaved changes" when `dirty`, which also draws a dot.
 
 ## Behavior
 

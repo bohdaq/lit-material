@@ -24,6 +24,13 @@ let nextId = 0;
  *
  * @slot - `lit-material-tab` elements.
  *
+ * `scrollable` keeps every tab at its own width and scrolls the row when they
+ * don't fit (thin scrollbar), bringing the selected tab into view whenever
+ * the selection changes, for a strip of open documents. The `end` slot holds
+ * controls after the row, outside the scroll (a New tab button).
+ *
+ * @slot end - Controls after the tabs, e.g. a New tab button.
+ *
  * @csspart tablist - The container (the tabs' row plus the divider beneath it).
  * @csspart indicator - The sliding active-tab indicator.
  *
@@ -35,10 +42,13 @@ export class LitMaterialTabs extends LitElement {
 
   /** Index of the selected tab. */
   @property({ type: Number }) selected = 0;
+  /** Tabs keep their width and the row scrolls; the selected tab is kept in view. */
+  @property({ type: Boolean, reflect: true }) scrollable = false;
 
   private tabsReady = false;
 
   @query(".indicator") private readonly indicatorElement?: HTMLElement;
+  @query(".scroller") private readonly scroller?: HTMLElement;
 
   private resizeObserver?: ResizeObserver;
 
@@ -144,11 +154,22 @@ export class LitMaterialTabs extends LitElement {
 
   private updateIndicator(): void {
     const target = this.tabs[this.selected];
-    if (!target || !this.indicatorElement) return;
-    const hostRect = this.getBoundingClientRect();
+    if (!target || !this.indicatorElement || !this.scroller) return;
+    // Relative to the scrolled row, so the indicator scrolls with its tab.
+    const rowRect = this.scroller.getBoundingClientRect();
     const tabRect = target.getBoundingClientRect();
-    this.indicatorElement.style.left = `${tabRect.left - hostRect.left}px`;
+    this.indicatorElement.style.left = `${tabRect.left - rowRect.left + this.scroller.scrollLeft}px`;
     this.indicatorElement.style.width = `${tabRect.width}px`;
+    if (this.scrollable) this.revealSelected(target);
+  }
+
+  /** Scrolls the row just enough to show the selected tab. */
+  private revealSelected(tab: HTMLElement): void {
+    const row = this.scroller!;
+    const rowRect = row.getBoundingClientRect();
+    const tabRect = tab.getBoundingClientRect();
+    if (tabRect.left < rowRect.left) row.scrollLeft -= rowRect.left - tabRect.left;
+    else if (tabRect.right > rowRect.right) row.scrollLeft += tabRect.right - rowRect.right;
   }
 
   private select(tab: LitMaterialTab): void {
@@ -163,8 +184,11 @@ export class LitMaterialTabs extends LitElement {
   override render() {
     return html`
       <div class="tablist" part="tablist">
-        <slot @slotchange=${this.handleSlotChange}></slot>
-        <div class="indicator" part="indicator"></div>
+        <div class="scroller">
+          <slot @slotchange=${this.handleSlotChange}></slot>
+          <div class="indicator" part="indicator"></div>
+        </div>
+        <slot name="end" class="end"></slot>
       </div>
     `;
   }

@@ -158,4 +158,62 @@ describe("lit-material-tabs", () => {
     const { el } = await tabsFixture();
     await expect(el).to.be.accessible();
   });
+
+  it("closable tabs fire close from the ×, Delete and a middle click, without selecting", async () => {
+    const el = await fixture<LitMaterialTabs>(html`<lit-material-tabs>
+      <lit-material-tab closable>One</lit-material-tab>
+      <lit-material-tab closable dirty>Two</lit-material-tab>
+    </lit-material-tabs>`);
+    await el.updateComplete;
+    await new Promise((r) => setTimeout(r));
+    const tabs = Array.from(el.querySelectorAll("lit-material-tab")) as (HTMLElement & { updateComplete: Promise<unknown> })[];
+    const closed: string[] = [];
+    el.addEventListener("close", (e) => closed.push((e.target as HTMLElement).textContent!.trim()));
+    let changes = 0;
+    el.addEventListener("change", () => changes++);
+    (tabs[1]!.shadowRoot!.querySelector(".close") as HTMLElement).click();
+    expect(closed).to.deep.equal(["Two"]);
+    expect(el.selected).to.equal(0);
+    expect(changes).to.equal(0);
+    tabs[0]!.focus();
+    await sendKeys({ press: "Delete" });
+    expect(closed).to.deep.equal(["Two", "One"]);
+    tabs[1]!.dispatchEvent(new MouseEvent("auxclick", { bubbles: true, cancelable: true, button: 1 }));
+    expect(closed).to.deep.equal(["Two", "One", "Two"]);
+    const button = tabs[1]!.shadowRoot!.querySelector("button")!;
+    expect(button.getAttribute("aria-description")).to.equal("Unsaved changes. Press Delete to close");
+    expect(tabs[1]!.shadowRoot!.querySelector(".dirty")).to.exist;
+    expect(tabs[1]!.shadowRoot!.querySelector(".close")!.getAttribute("aria-hidden")).to.equal("true");
+    await expect(el).to.be.accessible();
+  });
+
+  it("a cancelled close keeps the tab", async () => {
+    const el = await fixture<LitMaterialTabs>(html`<lit-material-tabs><lit-material-tab closable>One</lit-material-tab></lit-material-tabs>`);
+    const tab = el.querySelector("lit-material-tab") as HTMLElement & { requestClose(): boolean };
+    el.addEventListener("close", (e) => e.preventDefault());
+    expect(tab.requestClose()).to.be.false;
+  });
+
+  it("scrollable keeps tabs at their width, scrolls, and keeps the selected tab in view", async () => {
+    const el = await fixture<LitMaterialTabs>(html`<lit-material-tabs scrollable style="width: 300px">
+      ${Array.from({ length: 12 }, (_, i) => html`<lit-material-tab>Request ${i + 1}</lit-material-tab>`)}
+      <button slot="end" aria-label="New tab">+</button>
+    </lit-material-tabs>`);
+    await el.updateComplete;
+    await new Promise((r) => setTimeout(r, 50));
+    const row = el.shadowRoot!.querySelector<HTMLElement>(".scroller")!;
+    expect(row.scrollWidth).to.be.above(row.clientWidth);
+    el.selected = 11;
+    await el.updateComplete;
+    // The indicator slides (200 ms).
+    await new Promise((r) => setTimeout(r, 350));
+    const last = el.querySelectorAll("lit-material-tab")[11]!.getBoundingClientRect();
+    const rowRect = row.getBoundingClientRect();
+    expect(last.right).to.be.at.most(rowRect.right + 1);
+    expect(last.left).to.be.at.least(rowRect.left - 1);
+    const indicator = el.shadowRoot!.querySelector<HTMLElement>(".indicator")!.getBoundingClientRect();
+    expect(Math.abs(indicator.left - last.left)).to.be.below(2);
+    const add = el.querySelector("button[slot=end]")!.getBoundingClientRect();
+    expect(add.left).to.be.at.least(rowRect.right - 1);
+  });
 });

@@ -3,6 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { styles } from "./status-styles.js";
 
 export type StatusKind = "ok" | "warning" | "error" | "info" | "neutral";
+export type StatusAppearance = "text" | "pill";
 
 // 20×20 glyphs, drawn here so the package ships no icon set (and works
 // without one). Each kind has a distinct shape, so the state reads without
@@ -35,6 +36,10 @@ const KINDS = new Set<string>(["ok", "warning", "error", "info", "neutral"]);
  * @slot - The label.
  * @slot icon - Replaces the built-in glyph.
  *
+ * `appearance="pill"` draws it as a filled pill without the glyph, for
+ * compact values such as an HTTP status ("200 OK") whose words already say
+ * the state; `mono` sets the label in the monospace font with tabular figures.
+ *
  * @csspart status - The row holding icon and label.
  * @csspart icon - The icon box.
  *
@@ -50,6 +55,10 @@ export class LitMaterialStatus extends LitElement {
 
   /** `ok`, `warning`, `error`, `info` or `neutral` (anything else is neutral). */
   @property({ reflect: true }) status: StatusKind = "neutral";
+  /** `text` (glyph and coloured label) or `pill` (filled, no glyph). */
+  @property({ reflect: true }) appearance: StatusAppearance = "text";
+  /** Monospace label with tabular figures. */
+  @property({ type: Boolean, reflect: true }) mono = false;
 
   private get kind(): StatusKind {
     return KINDS.has(this.status) ? this.status : "neutral";

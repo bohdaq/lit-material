@@ -1,7 +1,7 @@
 import "@lit-material/tabs";
 import { LitElement, html } from "lit";
 import { pageStyles } from "../../styles/page-styles.js";
-import { customElement } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
 import "../../playground/docs-playground.js";
 import type { PlaygroundControl, PlaygroundState } from "../../playground/controls.js";
 
@@ -32,6 +32,27 @@ function markup(state: PlaygroundState): string {
 
 @customElement("docs-tabs-page")
 export class DocsTabsPage extends LitElement {
+  @state() private docs = [
+    { name: "GET /v1/invoices", dirty: false },
+    { name: "POST /v1/payments", dirty: true },
+    { name: "GET /v1/customers/42", dirty: false },
+    { name: "DELETE /v1/sessions", dirty: false },
+    { name: "PATCH /v1/accounts/7", dirty: true },
+    { name: "GET /v1/plans", dirty: false },
+  ];
+  @state() private current = 1;
+  private added = 0;
+
+  private closeDoc(index: number): void {
+    this.docs = this.docs.filter((_, i) => i !== index);
+    this.current = Math.min(this.current > index ? this.current - 1 : this.current, this.docs.length - 1);
+  }
+
+  private addDoc(): void {
+    this.docs = [...this.docs, { name: `New request ${++this.added}`, dirty: false }];
+    this.current = this.docs.length - 1;
+  }
+
   static override styles = [pageStyles];
 
   override render() {
@@ -40,6 +61,17 @@ export class DocsTabsPage extends LitElement {
       <p>WAI-ARIA tabs pattern, automatic activation, sliding indicator. Optional <code>lit-material-tab-panel</code> siblings are paired by index and shown for the selected tab.</p>
 
       <docs-playground .controls=${controls} .preview=${preview} .markup=${markup}></docs-playground>
+
+      <section style="display: block;">
+        <h2>Open documents</h2>
+        <p><code>scrollable</code> keeps tabs at their width and keeps the selected one in view; <code>closable</code> tabs close from the ×, Delete or a middle click; <code>dirty</code> marks unsaved changes.</p>
+        <lit-material-tabs scrollable .selected=${this.current}
+          @change=${(e: Event) => (this.current = (e.target as HTMLElement & { selected: number }).selected)}
+          @close=${(e: Event) => this.closeDoc(Array.from((e.currentTarget as HTMLElement).querySelectorAll("lit-material-tab")).indexOf(e.target as never))}>
+          ${this.docs.map((d) => html`<lit-material-tab closable ?dirty=${d.dirty}>${d.name}</lit-material-tab>`)}
+          <button slot="end" class="add" aria-label="New tab" @click=${() => this.addDoc()}>+</button>
+        </lit-material-tabs>
+      </section>
     `;
   }
 }

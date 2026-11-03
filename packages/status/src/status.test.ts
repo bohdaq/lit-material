@@ -43,4 +43,23 @@ describe("lit-material-status", () => {
     await el.updateComplete;
     expect(el.getAttribute("status")).to.equal("error");
   });
+
+  it("draws a filled pill without the glyph, and a mono label", async () => {
+    const el = await fixture<LitMaterialStatus>(html`<lit-material-status status="ok" appearance="pill" mono>200 OK</lit-material-status>`);
+    const row = el.shadowRoot!.querySelector<HTMLElement>(".status")!;
+    const style = getComputedStyle(row);
+    expect(style.backgroundColor).to.not.equal("rgba(0, 0, 0, 0)");
+    expect(parseFloat(style.paddingLeft)).to.be.above(0);
+    expect(getComputedStyle(el.shadowRoot!.querySelector(".icon")!).display).to.equal("none");
+    expect(style.fontFamily.toLowerCase()).to.match(/mono|menlo/);
+    expect(el.textContent).to.equal("200 OK");
+    await expect(el).to.be.accessible();
+  });
+
+  it("keeps every pill readable: label against its container passes AA", async () => {
+    for (const status of ["ok", "warning", "error", "info", "neutral"]) {
+      const el = await fixture<LitMaterialStatus>(html`<lit-material-status status=${status} appearance="pill">Label</lit-material-status>`);
+      await expect(el).to.be.accessible();
+    }
+  });
 });

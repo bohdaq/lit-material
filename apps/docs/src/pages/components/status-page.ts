@@ -32,6 +32,17 @@ export class DocsStatusPage extends LitElement {
           <lit-material-status>Unknown</lit-material-status>
         </div>
       </section>
+      <section>
+        <h2>Pills</h2>
+        <p>For compact values whose words already say the state, such as an HTTP status: filled, no glyph, a monospace label.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <lit-material-status appearance="pill" mono status="ok">200 OK</lit-material-status>
+          <lit-material-status appearance="pill" mono status="info">304 Not Modified</lit-material-status>
+          <lit-material-status appearance="pill" mono status="warning">429 Too Many Requests</lit-material-status>
+          <lit-material-status appearance="pill" mono status="error">503 Service Unavailable</lit-material-status>
+          <lit-material-status appearance="pill">Draft</lit-material-status>
+        </div>
+      </section>
     `;
   }
 }

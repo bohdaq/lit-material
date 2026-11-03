@@ -34,6 +34,8 @@ npm install @lit-material/status @lit-material/tokens
 | Property | Attribute | Type | Default |
 | -------- | --------- | ---- | ------- |
 | `status` | `status` (reflected) | `"ok" \| "warning" \| "error" \| "info" \| "neutral"` | `"neutral"` |
+| `appearance` | `appearance` (reflected) | `"text" \| "pill"` | `"text"` |
+| `mono` | `mono` (reflected) | `boolean` | `false` |
 
 Slots: default (the label), `icon` (replaces the glyph). Parts: `status`, `icon`.
 
@@ -46,6 +48,20 @@ Slots: default (the label), `icon` (replaces the glyph). Parts: `status`, `icon`
 | `--lit-material-status-neutral-color` | `--md-sys-color-on-surface-variant` |
 
 An unknown `status` renders as `neutral`. The glyphs are drawn by the component, so the package ships no icon set.
+
+## Pills
+
+`appearance="pill"` draws a filled pill without the glyph, for compact values whose words already say
+the state, such as an HTTP status; `mono` sets the label in a monospace font with tabular figures
+(`--lit-material-status-mono-font`).
+
+```html
+<lit-material-status appearance="pill" mono status="ok">200 OK</lit-material-status>
+<lit-material-status appearance="pill" mono status="error">503 Service Unavailable</lit-material-status>
+```
+
+Container colours: `--lit-material-status-ok-container` / `-on-ok-container` and the same for
+`warning`; `error`, `info` and `neutral` use the Material error, primary and surface containers.
 
 ## Accessibility
 

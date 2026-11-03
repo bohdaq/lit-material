@@ -19,8 +19,36 @@ export const styles = css`
     border-bottom: 1px solid var(--md-sys-color-surface-container-highest, #e6e0e9);
   }
 
+  .scroller {
+    position: relative;
+    display: flex;
+    flex: 1;
+    min-width: 0;
+  }
+
   ::slotted(lit-material-tab) {
     flex: 1;
+  }
+
+  .end {
+    display: flex;
+    flex: none;
+    align-items: center;
+  }
+
+  :host([scrollable]) .scroller {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    overscroll-behavior-x: contain;
+  }
+  :host([scrollable]) ::slotted(lit-material-tab) {
+    flex: none;
+    max-width: var(--lit-material-tabs-tab-max-width, 16rem);
+  }
+  /* The scroll box clips anything below it. */
+  :host([scrollable]) .indicator {
+    bottom: 0;
   }
 
   .indicator {
