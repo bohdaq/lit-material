@@ -1,0 +1,602 @@
+{
+  "md": {
+    "sys": {
+      "color": {
+        "primary": {
+          "$type": "color",
+          "$value": "#d0bcff"
+        },
+        "on-primary": {
+          "$type": "color",
+          "$value": "#381e72"
+        },
+        "primary-container": {
+          "$type": "color",
+          "$value": "#4f378b"
+        },
+        "on-primary-container": {
+          "$type": "color",
+          "$value": "#eaddff"
+        },
+        "secondary": {
+          "$type": "color",
+          "$value": "#ccc2dc"
+        },
+        "on-secondary": {
+          "$type": "color",
+          "$value": "#332d41"
+        },
+        "secondary-container": {
+          "$type": "color",
+          "$value": "#4a4458"
+        },
+        "on-secondary-container": {
+          "$type": "color",
+          "$value": "#e8def8"
+        },
+        "tertiary": {
+          "$type": "color",
+          "$value": "#efb8c8"
+        },
+        "on-tertiary": {
+          "$type": "color",
+          "$value": "#492532"
+        },
+        "tertiary-container": {
+          "$type": "color",
+          "$value": "#633b48"
+        },
+        "on-tertiary-container": {
+          "$type": "color",
+          "$value": "#ffd8e4"
+        },
+        "error": {
+          "$type": "color",
+          "$value": "#f2b8b5"
+        },
+        "on-error": {
+          "$type": "color",
+          "$value": "#601410"
+        },
+        "error-container": {
+          "$type": "color",
+          "$value": "#8c1d18"
+        },
+        "on-error-container": {
+          "$type": "color",
+          "$value": "#f9dedc"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "#1c1b1f"
+        },
+        "on-background": {
+          "$type": "color",
+          "$value": "#e6e1e5"
+        },
+        "surface": {
+          "$type": "color",
+          "$value": "#1c1b1f"
+        },
+        "on-surface": {
+          "$type": "color",
+          "$value": "#e6e1e5"
+        },
+        "surface-variant": {
+          "$type": "color",
+          "$value": "#49454f"
+        },
+        "on-surface-variant": {
+          "$type": "color",
+          "$value": "#cac4d0"
+        },
+        "surface-container-lowest": {
+          "$type": "color",
+          "$value": "#0f0d13"
+        },
+        "surface-container-low": {
+          "$type": "color",
+          "$value": "#1d1b20"
+        },
+        "surface-container": {
+          "$type": "color",
+          "$value": "#211f26"
+        },
+        "surface-container-high": {
+          "$type": "color",
+          "$value": "#2b2930"
+        },
+        "surface-container-highest": {
+          "$type": "color",
+          "$value": "#36343b"
+        },
+        "outline": {
+          "$type": "color",
+          "$value": "#938f99"
+        },
+        "outline-variant": {
+          "$type": "color",
+          "$value": "#444746"
+        },
+        "shadow": {
+          "$type": "color",
+          "$value": "#000000"
+        },
+        "scrim": {
+          "$type": "color",
+          "$value": "#000000"
+        },
+        "inverse-surface": {
+          "$type": "color",
+          "$value": "#e6e1e5"
+        },
+        "inverse-on-surface": {
+          "$type": "color",
+          "$value": "#313033"
+        },
+        "inverse-primary": {
+          "$type": "color",
+          "$value": "#6750a4"
+        }
+      },
+      "elevation": {
+        "level0": {
+          "$type": "shadow",
+          "$value": []
+        },
+        "level1": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "#0000004d",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "2px",
+              "spread": "0px"
+            },
+            {
+              "color": "#00000026",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "3px",
+              "spread": "1px"
+            }
+          ]
+        },
+        "level2": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "#0000004d",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "2px",
+              "spread": "0px"
+            },
+            {
+              "color": "#00000026",
+              "offsetX": "0px",
+              "offsetY": "2px",
+              "blur": "6px",
+              "spread": "2px"
+            }
+          ]
+        },
+        "level3": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "#0000004d",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "3px",
+              "spread": "0px"
+            },
+            {
+              "color": "#00000026",
+              "offsetX": "0px",
+              "offsetY": "4px",
+              "blur": "8px",
+              "spread": "3px"
+            }
+          ]
+        },
+        "level4": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "#0000004d",
+              "offsetX": "0px",
+              "offsetY": "2px",
+              "blur": "3px",
+              "spread": "0px"
+            },
+            {
+              "color": "#00000026",
+              "offsetX": "0px",
+              "offsetY": "6px",
+              "blur": "10px",
+              "spread": "4px"
+            }
+          ]
+        },
+        "level5": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "#0000004d",
+              "offsetX": "0px",
+              "offsetY": "4px",
+              "blur": "4px",
+              "spread": "0px"
+            },
+            {
+              "color": "#00000026",
+              "offsetX": "0px",
+              "offsetY": "8px",
+              "blur": "12px",
+              "spread": "6px"
+            }
+          ]
+        }
+      },
+      "motion": {
+        "easing": {
+          "standard": {
+            "$type": "cubicBezier",
+            "$value": [
+              0.2,
+              0,
+              0,
+              1
+            ]
+          },
+          "emphasized": {
+            "$type": "cubicBezier",
+            "$value": [
+              0.2,
+              0,
+              0,
+              1
+            ]
+          }
+        },
+        "duration": {
+          "short2": {
+            "$type": "duration",
+            "$value": "100ms"
+          },
+          "medium1": {
+            "$type": "duration",
+            "$value": "250ms"
+          }
+        }
+      },
+      "shape": {
+        "corner": {
+          "none": {
+            "$type": "dimension",
+            "$value": "0px"
+          },
+          "extra-small": {
+            "$type": "dimension",
+            "$value": "4px"
+          },
+          "small": {
+            "$type": "dimension",
+            "$value": "8px"
+          },
+          "medium": {
+            "$type": "dimension",
+            "$value": "12px"
+          },
+          "large": {
+            "$type": "dimension",
+            "$value": "16px"
+          },
+          "extra-large": {
+            "$type": "dimension",
+            "$value": "28px"
+          },
+          "full": {
+            "$type": "dimension",
+            "$value": "9999px"
+          }
+        }
+      },
+      "state": {
+        "hover-state-layer-opacity": {
+          "$type": "number",
+          "$value": 0.08
+        },
+        "focus-state-layer-opacity": {
+          "$type": "number",
+          "$value": 0.1
+        },
+        "pressed-state-layer-opacity": {
+          "$type": "number",
+          "$value": 0.1
+        },
+        "dragged-state-layer-opacity": {
+          "$type": "number",
+          "$value": 0.16
+        },
+        "disabled-container-opacity": {
+          "$type": "number",
+          "$value": 0.12
+        },
+        "disabled-content-opacity": {
+          "$type": "number",
+          "$value": 0.38
+        }
+      },
+      "typescale": {
+        "label-large": {
+          "font": {
+            "$type": "fontFamily",
+            "$value": "Roboto",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "Roboto, system-ui, sans-serif"
+              }
+            }
+          },
+          "weight": {
+            "$type": "fontWeight",
+            "$value": 500
+          },
+          "size": {
+            "$type": "dimension",
+            "$value": "14px",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "0.875rem"
+              }
+            }
+          },
+          "line-height": {
+            "$type": "dimension",
+            "$value": "20px",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "1.25rem"
+              }
+            }
+          },
+          "tracking": {
+            "$type": "dimension",
+            "$value": "0.1px",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "0.00625rem"
+              }
+            }
+          },
+          "style": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{md.sys.typescale.label-large.font}",
+              "fontSize": "{md.sys.typescale.label-large.size}",
+              "fontWeight": "{md.sys.typescale.label-large.weight}",
+              "lineHeight": "{md.sys.typescale.label-large.line-height}",
+              "letterSpacing": "{md.sys.typescale.label-large.tracking}"
+            },
+            "$description": "The label-large text style: the five --md-sys-typescale-label-large-* tokens together (no CSS property of its own)."
+          }
+        },
+        "label-medium": {
+          "font": {
+            "$type": "fontFamily",
+            "$value": "Roboto",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "Roboto, system-ui, sans-serif"
+              }
+            }
+          },
+          "weight": {
+            "$type": "fontWeight",
+            "$value": 500
+          },
+          "size": {
+            "$type": "dimension",
+            "$value": "12px",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "0.75rem"
+              }
+            }
+          },
+          "line-height": {
+            "$type": "dimension",
+            "$value": "16px",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "1rem"
+              }
+            }
+          },
+          "tracking": {
+            "$type": "dimension",
+            "$value": "0.5px",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "0.03125rem"
+              }
+            }
+          },
+          "style": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{md.sys.typescale.label-medium.font}",
+              "fontSize": "{md.sys.typescale.label-medium.size}",
+              "fontWeight": "{md.sys.typescale.label-medium.weight}",
+              "lineHeight": "{md.sys.typescale.label-medium.line-height}",
+              "letterSpacing": "{md.sys.typescale.label-medium.tracking}"
+            },
+            "$description": "The label-medium text style: the five --md-sys-typescale-label-medium-* tokens together (no CSS property of its own)."
+          }
+        },
+        "title-large": {
+          "font": {
+            "$type": "fontFamily",
+            "$value": "Roboto",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "Roboto, system-ui, sans-serif"
+              }
+            }
+          },
+          "weight": {
+            "$type": "fontWeight",
+            "$value": 400
+          },
+          "size": {
+            "$type": "dimension",
+            "$value": "22px",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "1.375rem"
+              }
+            }
+          },
+          "line-height": {
+            "$type": "dimension",
+            "$value": "28px",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "1.75rem"
+              }
+            }
+          },
+          "tracking": {
+            "$type": "dimension",
+            "$value": "0px",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "0rem"
+              }
+            }
+          },
+          "style": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{md.sys.typescale.title-large.font}",
+              "fontSize": "{md.sys.typescale.title-large.size}",
+              "fontWeight": "{md.sys.typescale.title-large.weight}",
+              "lineHeight": "{md.sys.typescale.title-large.line-height}",
+              "letterSpacing": "{md.sys.typescale.title-large.tracking}"
+            },
+            "$description": "The title-large text style: the five --md-sys-typescale-title-large-* tokens together (no CSS property of its own)."
+          }
+        },
+        "headline-small": {
+          "font": {
+            "$type": "fontFamily",
+            "$value": "Roboto",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "Roboto, system-ui, sans-serif"
+              }
+            }
+          },
+          "weight": {
+            "$type": "fontWeight",
+            "$value": 400
+          },
+          "size": {
+            "$type": "dimension",
+            "$value": "24px",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "1.5rem"
+              }
+            }
+          },
+          "line-height": {
+            "$type": "dimension",
+            "$value": "32px",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "2rem"
+              }
+            }
+          },
+          "tracking": {
+            "$type": "dimension",
+            "$value": "0px",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "0rem"
+              }
+            }
+          },
+          "style": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{md.sys.typescale.headline-small.font}",
+              "fontSize": "{md.sys.typescale.headline-small.size}",
+              "fontWeight": "{md.sys.typescale.headline-small.weight}",
+              "lineHeight": "{md.sys.typescale.headline-small.line-height}",
+              "letterSpacing": "{md.sys.typescale.headline-small.tracking}"
+            },
+            "$description": "The headline-small text style: the five --md-sys-typescale-headline-small-* tokens together (no CSS property of its own)."
+          }
+        },
+        "headline-medium": {
+          "font": {
+            "$type": "fontFamily",
+            "$value": "Roboto",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "Roboto, system-ui, sans-serif"
+              }
+            }
+          },
+          "weight": {
+            "$type": "fontWeight",
+            "$value": 400
+          },
+          "size": {
+            "$type": "dimension",
+            "$value": "28px",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "1.75rem"
+              }
+            }
+          },
+          "line-height": {
+            "$type": "dimension",
+            "$value": "36px",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "2.25rem"
+              }
+            }
+          },
+          "tracking": {
+            "$type": "dimension",
+            "$value": "0px",
+            "$extensions": {
+              "dev.lit-material": {
+                "css": "0rem"
+              }
+            }
+          },
+          "style": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{md.sys.typescale.headline-medium.font}",
+              "fontSize": "{md.sys.typescale.headline-medium.size}",
+              "fontWeight": "{md.sys.typescale.headline-medium.weight}",
+              "lineHeight": "{md.sys.typescale.headline-medium.line-height}",
+              "letterSpacing": "{md.sys.typescale.headline-medium.tracking}"
+            },
+            "$description": "The headline-medium text style: the five --md-sys-typescale-headline-medium-* tokens together (no CSS property of its own)."
+          }
+        }
+      }
+    }
+  }
+}

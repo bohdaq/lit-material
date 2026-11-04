@@ -29,6 +29,8 @@
     "sboms": "node tools/sbom.mjs",
     "messages": "node tools/messages.mjs",
     "messages:check": "node tools/messages.mjs --check",
+    "figma-tokens": "node tools/figma-tokens.mjs",
+    "figma-tokens:check": "node tools/figma-tokens.mjs --check",
     "bindings:check": "node tools/framework-bindings.mjs --check && tsc -p tools/bindings-check && node tools/bindings-check/smoke.mjs"
   },
   "devDependencies": {
