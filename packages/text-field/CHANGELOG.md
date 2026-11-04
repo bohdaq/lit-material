@@ -1,5 +1,13 @@
 # @lit-material/text-field
 
+## 1.2.0
+
+### Patch Changes
+
+- @lit-material/core@1.2.0
+- @lit-material/icon-button@1.2.0
+- @lit-material/tokens@1.2.0
+
 ## 1.1.0
 
 ### Minor Changes

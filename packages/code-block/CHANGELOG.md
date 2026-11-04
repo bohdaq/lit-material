@@ -1,5 +1,13 @@
 # @lit-material/code-block
 
+## 1.2.0
+
+### Patch Changes
+
+- @lit-material/clipboard@1.2.0
+- @lit-material/core@1.2.0
+- @lit-material/tokens@1.2.0
+
 ## 1.1.0
 
 ### Patch Changes

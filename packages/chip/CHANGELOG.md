@@ -1,5 +1,12 @@
 # @lit-material/chip
 
+## 1.2.0
+
+### Patch Changes
+
+- @lit-material/core@1.2.0
+- @lit-material/tokens@1.2.0
+
 ## 1.1.0
 
 ### Patch Changes
