@@ -37,11 +37,11 @@ npm install @lit-material/key-value @lit-material/tokens
 | Property            | Attribute             | Type              | Default         |
 | ------------------- | --------------------- | ----------------- | --------------- |
 | `entries`           | —                     | `KeyValueEntry[]` | `[]`            |
-| `keyLabel`          | `key-label`           | `string`          | `"Key"`         |
-| `valueLabel`        | `value-label`         | `string`          | `"Value"`       |
-| `addLabel`          | `add-label`           | `string`          | `"Add"`         |
+| `keyLabel`          | `key-label`           | `string`          | `"Key"`, translated |
+| `valueLabel`        | `value-label`         | `string`          | `"Value"`, translated |
+| `addLabel`          | `add-label`           | `string`          | `"Add"`, translated |
 | `keyPattern`        | `key-pattern`         | `string` (regex, whole key) | `""`  |
-| `keyPatternMessage` | `key-pattern-message` | `string`          | `"Invalid key"` |
+| `keyPatternMessage` | `key-pattern-message` | `string`          | `"Invalid key"`, translated |
 | `maskValues`        | `mask-values`         | `boolean`         | `false`         |
 | `disabled`          | `disabled` (reflected)| `boolean`         | `false`         |
 | `readonly`          | `readonly`            | `boolean`         | `false`         |

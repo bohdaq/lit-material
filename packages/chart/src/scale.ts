@@ -40,20 +40,47 @@ export function linearTicks(min: number, max: number, count = 5): number[] {
   return Array.from({ length: count }, (_, i) => min + ((max - min) * i) / (count - 1));
 }
 
-/** Compact number formatting: 1.2k, 3.4M, and up to 3 significant decimals below 1000. */
-export function formatNumber(value: number): string {
+/**
+ * Compact number formatting: 1.2k, 3.4M, and up to 3 significant decimals below 1000. With `locale`,
+ * the digits and decimal separator are that language's (`1,2k` in German); without, as JavaScript writes them.
+ */
+export function formatNumber(value: number, locale?: string): string {
   if (!Number.isFinite(value)) return "";
   const abs = Math.abs(value);
-  if (abs >= 1e9) return `${trim(value / 1e9)}G`;
-  if (abs >= 1e6) return `${trim(value / 1e6)}M`;
-  if (abs >= 1e4) return `${trim(value / 1e3)}k`;
-  if (abs >= 100 || Number.isInteger(value)) return String(Math.round(value));
-  return trim(value);
+  const num = (v: number) => (locale ? digits(locale).format(v) : String(v));
+  if (abs >= 1e9) return `${num(trim(value / 1e9))}G`;
+  if (abs >= 1e6) return `${num(trim(value / 1e6))}M`;
+  if (abs >= 1e4) return `${num(trim(value / 1e3))}k`;
+  if (abs >= 100 || Number.isInteger(value)) return num(Math.round(value));
+  return num(trim(value));
 }
 
-function trim(value: number): string {
-  return String(Number(value.toPrecision(3)));
+function trim(value: number): number {
+  return Number(value.toPrecision(3));
 }
+
+const digitFormats = new Map<string, Intl.NumberFormat>();
+
+/** A number as written in `locale`, ungrouped, without rounding (`trim` already has). Cached: axes call it per tick. */
+function digits(locale: string): Intl.NumberFormat {
+  let format = digitFormats.get(locale);
+  if (!format) {
+    const options: Intl.NumberFormatOptions = { useGrouping: false, maximumFractionDigits: 20 };
+    try {
+      format = new Intl.NumberFormat(locale, options);
+    } catch {
+      format = new Intl.NumberFormat("en", options); // an invalid lang attribute shouldn't break rendering
+    }
+    digitFormats.set(locale, format);
+  }
+  return format;
+}
+
+/**
+ * Renders `text` with the first occurrence of `marker` replaced by `value` in bold — so a translated
+ * message ("{name}: {value}") keeps its word order and the value its emphasis.
+ */
+export const VALUE_MARKER = "\u{E000}";
 
 /** Push label positions apart so none is closer than `gap` to the next, keeping order. */
 export function spread(positions: number[], gap: number, min: number, max: number): number[] {

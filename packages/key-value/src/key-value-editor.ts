@@ -4,6 +4,7 @@ import { repeat } from "lit/directives/repeat.js";
 import "@lit-material/button/button.js";
 import "@lit-material/icon-button";
 import "@lit-material/text-field/text-field.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 
 export interface KeyValueEntry {
   key: string;
@@ -112,20 +113,20 @@ export class LitMaterialKeyValueEditor extends LitElement {
     }
   `;
 
-  /** Label of the key fields. */
-  @property({ attribute: "key-label" }) keyLabel = "Key";
+  /** Label of the key fields. Default: "Key", translated. */
+  @property({ attribute: "key-label" }) keyLabel?: string;
 
-  /** Label of the value fields. */
-  @property({ attribute: "value-label" }) valueLabel = "Value";
+  /** Label of the value fields. Default: "Value", translated. */
+  @property({ attribute: "value-label" }) valueLabel?: string;
 
-  /** Label of the add button. */
-  @property({ attribute: "add-label" }) addLabel = "Add";
+  /** Label of the add button. Default: "Add", translated. */
+  @property({ attribute: "add-label" }) addLabel?: string;
 
   /** A regular expression (whole key) every key must match. */
   @property({ attribute: "key-pattern" }) keyPattern = "";
 
-  /** Error shown when a key doesn't match `key-pattern`. */
-  @property({ attribute: "key-pattern-message" }) keyPatternMessage = "Invalid key";
+  /** Error shown when a key doesn't match `key-pattern`. Default: "Invalid key", translated. */
+  @property({ attribute: "key-pattern-message" }) keyPatternMessage?: string;
 
   /** Show values as password fields, e.g. secrets. */
   @property({ type: Boolean, attribute: "mask-values" }) maskValues = false;
@@ -135,6 +136,8 @@ export class LitMaterialKeyValueEditor extends LitElement {
   @property({ type: Boolean }) readonly = false;
 
   private rows: Row[] = [];
+
+  private readonly localize = new LocalizeController(this);
 
   /** The pairs, in order, without blank rows. Setting it replaces every row. */
   @property({ attribute: false })
@@ -187,9 +190,14 @@ export class LitMaterialKeyValueEditor extends LitElement {
   }
 
   private keyError(row: Row): string {
-    if (!row.key) return row.value ? "Key required" : "";
-    if (this.rows.some((other) => other !== row && other.key === row.key)) return "Duplicate key";
-    if (this.keyPattern && !this.keyRegExp?.test(row.key)) return this.keyPatternMessage;
+    const t = this.localize;
+    if (!row.key) return row.value ? t.term("keyValue.keyRequired", "Key required") : "";
+    if (this.rows.some((other) => other !== row && other.key === row.key)) {
+      return t.term("keyValue.duplicateKey", "Duplicate key");
+    }
+    if (this.keyPattern && !this.keyRegExp?.test(row.key)) {
+      return this.keyPatternMessage ?? t.term("keyValue.invalidKey", "Invalid key");
+    }
     return "";
   }
 
@@ -228,6 +236,9 @@ export class LitMaterialKeyValueEditor extends LitElement {
 
   override render() {
     const locked = this.disabled || this.readonly;
+    const t = this.localize;
+    const keyLabel = this.keyLabel ?? t.term("keyValue.key", "Key");
+    const valueLabel = this.valueLabel ?? t.term("keyValue.value", "Value");
     return html`
       ${this.rows.length
         ? html`<div class="rows">
@@ -240,7 +251,7 @@ export class LitMaterialKeyValueEditor extends LitElement {
                   <lit-material-text-field
                     class="key"
                     variant="outlined"
-                    label=${this.keyLabel}
+                    label=${keyLabel}
                     autocomplete="off"
                     spellcheck="false"
                     .value=${row.key}
@@ -254,7 +265,7 @@ export class LitMaterialKeyValueEditor extends LitElement {
                   ></lit-material-text-field>
                   <lit-material-text-field
                     variant="outlined"
-                    label=${this.valueLabel}
+                    label=${valueLabel}
                     type=${this.maskValues ? "password" : "text"}
                     autocomplete="off"
                     spellcheck="false"
@@ -268,7 +279,9 @@ export class LitMaterialKeyValueEditor extends LitElement {
                     ? nothing
                     : html`<lit-material-icon-button
                         class="remove"
-                        aria-label=${row.key ? `Remove ${row.key}` : `Remove row ${i + 1}`}
+                        aria-label=${row.key
+                          ? t.term("keyValue.removeKey", "Remove {key}", { key: row.key })
+                          : t.term("keyValue.removeRow", "Remove row {row}", { row: i + 1 })}
                         @click=${() => void this.removeRow(row)}
                         ><span slot="icon">${removeIcon}</span></lit-material-icon-button
                       >`}
@@ -280,7 +293,7 @@ export class LitMaterialKeyValueEditor extends LitElement {
       ${locked
         ? nothing
         : html`<lit-material-button part="add" class="add" variant="text" @click=${() => void this.addRow()}>
-            <span slot="icon">${addIcon}</span>${this.addLabel}
+            <span slot="icon">${addIcon}</span>${this.addLabel ?? t.term("keyValue.add", "Add")}
           </lit-material-button>`}
     `;
   }

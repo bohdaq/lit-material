@@ -1,4 +1,5 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./key-value-editor.js";
 import { parseKeyValues, type LitMaterialKeyValueEditor } from "./key-value-editor.js";
 
@@ -118,5 +119,50 @@ describe("parseKeyValues", () => {
   it("returns nothing for plain text", () => {
     expect(parseKeyValues("just-a-key")).to.deep.equal([]);
     expect(parseKeyValues("https://example.com")).to.deep.equal([]);
+  });
+});
+
+describe("lit-material-key-value-editor localization", () => {
+  it("translates its labels and errors", async () => {
+    registerTranslation({
+      $code: "x-key-value",
+      "keyValue.key": "Schlüssel",
+      "keyValue.value": "Wert",
+      "keyValue.add": "Hinzufügen",
+      "keyValue.removeKey": "{key} entfernen",
+      "keyValue.removeRow": "Zeile {row} entfernen",
+      "keyValue.duplicateKey": "Doppelter Schlüssel",
+      "keyValue.invalidKey": "Ungültiger Schlüssel",
+    });
+    const wrapper = await fixture<HTMLDivElement>(html`<div lang="x-key-value">
+      <lit-material-key-value-editor
+        key-pattern="[a-z]+"
+        .entries=${[
+          { key: "app", value: "1" },
+          { key: "app", value: "2" },
+          { key: "", value: "" },
+          { key: "B", value: "3" },
+        ]}
+      ></lit-material-key-value-editor>
+    </div>`);
+    const el = wrapper.querySelector<LitMaterialKeyValueEditor>("lit-material-key-value-editor")!;
+    await el.updateComplete;
+    const root = el.shadowRoot!;
+    const keys = [...root.querySelectorAll(".key")];
+    expect(keys[0]!.getAttribute("label")).to.equal("Schlüssel");
+    expect(root.querySelector("lit-material-text-field:not(.key)")!.getAttribute("label")).to.equal("Wert");
+    expect(keys[0]!.getAttribute("error-text")).to.equal("Doppelter Schlüssel");
+    expect(keys[3]!.getAttribute("error-text")).to.equal("Ungültiger Schlüssel");
+    const removes = [...root.querySelectorAll(".remove")].map((b) => b.getAttribute("aria-label"));
+    expect(removes).to.deep.equal(["app entfernen", "app entfernen", "Zeile 3 entfernen", "B entfernen"]);
+    expect(root.querySelector(".add")!.textContent!.trim()).to.equal("Hinzufügen");
+  });
+
+  it("keeps explicit labels", async () => {
+    const el = await fixture<LitMaterialKeyValueEditor>(
+      html`<lit-material-key-value-editor key-label="Name" add-label="New label" .entries=${[{ key: "a", value: "b" }]}></lit-material-key-value-editor>`,
+    );
+    expect(el.shadowRoot!.querySelector(".key")!.getAttribute("label")).to.equal("Name");
+    expect(el.shadowRoot!.querySelector(".add")!.textContent!.trim()).to.equal("New label");
   });
 });
