@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/translations",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Message catalogs for the text lit-material components render themselves (labels, announcements, plural counts): English, Arabic, German, Spanish, French, Japanese, Polish and Ukrainian.",
   "license": "MIT",
   "author": {

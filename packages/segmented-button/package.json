@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/segmented-button",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Material Design 3 segmented button web components (lit-material-segmented-button-group, lit-material-segmented-button).",
   "license": "MIT",
   "author": {
