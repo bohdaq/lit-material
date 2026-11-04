@@ -260,11 +260,18 @@ describe("lit-material-rich-text-editor", () => {
 
     it("Tab outside a list moves focus as usual; Escape then Tab leaves a list", async () => {
       const el = await editor("<ul><li>one</li></ul>");
+      const after = document.createElement("button");
+      after.textContent = "after";
+      el.after(after);
+      // What the content saw (and whether it canceled it), to tell a missed Escape from focus that didn't move.
+      const seen: string[] = [];
+      el.shadowRoot!.addEventListener("keydown", (e) => seen.push(`${(e as KeyboardEvent).key}${e.defaultPrevented ? " (canceled)" : ""}`));
       await select(el, "one", "after");
       await sendKeys({ press: "Escape" });
       await sendKeys({ press: "Tab" });
       expect(el.value).to.equal("<ul><li>one</li></ul>");
-      expect(el.shadowRoot!.activeElement).to.not.equal(contentOf(el));
+      expect(document.activeElement, `focus after Escape, Tab; keys seen: ${seen.join(", ")}`).to.equal(after);
+      after.remove();
       await new Promise((resolve) => setTimeout(resolve));
       expect(contentOf(el).getAttribute("contenteditable")).to.equal("true");
       expect(contentOf(el).hasAttribute("tabindex")).to.be.false;
