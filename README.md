@@ -135,6 +135,7 @@ components as you like.
 | [`@lit-material/site-kit`](packages/site-kit) | Prerendered-site pieces that work before JS: FAQ on `<details>`, steps, terminal, keys, search dialog; theme, menu, search and reveal scripts. |
 | [`@lit-material/back-to-top`](packages/back-to-top) | Appears after scrolling; returns to the top and moves focus there. |
 | [`@lit-material/inline-edit`](packages/inline-edit) | Click-to-edit value: Enter saves, Escape cancels, async save with errors. |
+| [`@lit-material/rich-text`](packages/rich-text) | Rich-text editor: Material toolbar, schema-bound sanitized HTML (paste too), own undo history, links with safe schemes, form-associated. |
 | [`@lit-material/dual-list`](packages/dual-list) | Move items between available and chosen lists, with filters and full keyboard support. |
 | [`@lit-material/sortable`](packages/sortable) | Reorder by pointer, touch or keyboard, within or between lists; announced to screen readers. |
 | [`@lit-material/jump-links`](packages/jump-links) | "On this page" anchors that highlight the section in view; work without JS. |

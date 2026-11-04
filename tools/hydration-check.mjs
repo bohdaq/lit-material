@@ -63,6 +63,7 @@ cases.push(
   ["change-list changes", html`<lit-material-change-list changes=${j([{ path: "$.a", kind: "changed", before: 1, after: 2 }])}></lit-material-change-list>`],
   ["merge-view sides", html`<lit-material-merge-view base="1" sides=${j([{ label: "Mine", text: "a\nB" }, { label: "Base", text: "a\nb" }])}></lit-material-merge-view>`],
   ["jump-links links", html`<lit-material-jump-links links=${j([{ id: "a", text: "Install" }])}></lit-material-jump-links>`],
+  ["rich-text value", html`<lit-material-rich-text-editor label="Notes" value=${'<h2>Plan</h2><p>Ship <strong>it</strong> <a href="/x">now</a><br>later</p><ul><li>one<ol><li>two</li></ol></li></ul><blockquote><p>q</p></blockquote><pre>a\n  b</pre>'}></lit-material-rich-text-editor>`],
   // Elements whose template depends on their light DOM children.
   ["carousel-item label", html`<lit-material-carousel><lit-material-carousel-item>One<span slot="label">First</span></lit-material-carousel-item></lit-material-carousel>`],
   ["tree nested items", html`<lit-material-tree><lit-material-tree-item expanded><span slot="label">src</span><lit-material-tree-item><span slot="label">main.ts</span></lit-material-tree-item></lit-material-tree-item></lit-material-tree>`],

@@ -37,7 +37,7 @@ export const GROUPS = [
     id: "text-inputs",
     label: "Text inputs",
     about: "Typing values in, editing them in place, and uploading files.",
-    items: ["text-field", "inline-edit", "file-upload"],
+    items: ["text-field", "rich-text", "inline-edit", "file-upload"],
   },
   {
     id: "data",

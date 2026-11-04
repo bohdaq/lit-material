@@ -59,6 +59,7 @@ import "./pages/components/chart-page.js";
 import "./pages/components/adaptive-navigation-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
+import "./pages/components/rich-text-page.js";
 import "./pages/components/checkbox-page.js";
 import "./pages/components/radio-page.js";
 import "./pages/components/switch-page.js";
@@ -171,6 +172,12 @@ export const navEntries: NavEntry[] = [
     label: "Text Field",
     group: "components",
     render: () => html`<docs-text-field-page></docs-text-field-page>`,
+  },
+  {
+    path: "/components/rich-text",
+    label: "Rich Text Editor",
+    group: "components",
+    render: () => html`<docs-rich-text-page></docs-rich-text-page>`,
   },
   {
     path: "/components/checkbox",
