@@ -94,6 +94,7 @@ const extra = [
   `<lit-material-color-picker label="Accent" value="#6750a4"></lit-material-color-picker>`,
   `<lit-material-time-picker variant="docked" value="09:30"></lit-material-time-picker>`,
   `<lit-material-icon name="check"></lit-material-icon>`,
+  `<lit-material-data-grid row-key="id" group-by="team" expanded-groups='${j(["a"])}' columns='${j([{ key: "name", header: "Name", width: 120 }, { key: "n", header: "N", numeric: true, aggregate: "sum" }])}' rows='${j([{ id: 1, team: "a", name: "Ada", n: 1 }, { id: 2, team: "b", name: "Alan", n: 2 }])}'></lit-material-data-grid>`,
 ];
 
 const dir = mkdtempSync(join(tmpdir(), "lit-material-csp-"));

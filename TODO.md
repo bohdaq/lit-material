@@ -232,7 +232,13 @@ framework. Ordered by priority.
     enforced; inline styles moved to `cssProps` (CSSOM) in 13 packages; `dist/sbom.cdx.json` (CycloneDX) in
     every package at release; guide "Security, CSP and SBOMs".
 12. **Enterprise widgets.**
-    - Data grid: grouping, inline editing, CSV export.
+    - ~~Data grid: grouping, inline editing, CSV export.~~ Done (unreleased changeset):
+      `lit-material-data-grid` in `@lit-material/data-table` (`data-grid.js`), data-driven `columns`/`rows`
+      (JSON attributes too) rendered with the table's row/cell elements: sorting, checkbox selection,
+      nested `group-by` with sum/avg/min/max/count/function aggregates as a treegrid, inline editing with
+      text/number/select editors and a cancelable `cell-edit`, roving-tabindex cell navigation, built-in
+      pagination, and RFC 4180 `toCSV()`/`downloadCSV()` with formula-injection escaping. No
+      virtualization, filtering or multi-sort (see its README's Scope).
     - Rich-text editor.
     - Calendar / scheduler.
 13. **Adoption.**

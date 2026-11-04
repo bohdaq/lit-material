@@ -1,4 +1,6 @@
 import "@lit-material/data-table";
+import "@lit-material/data-table/data-grid.js";
+import type { DataGridColumn, LitMaterialDataGrid } from "@lit-material/data-table/data-grid.js";
 import { html, LitElement } from "lit";
 import { pageStyles } from "../../styles/page-styles.js";
 import { customElement, state } from "lit/decorators.js";
@@ -34,6 +36,42 @@ const VIRTUALIZED_PEOPLE: Person[] = Array.from({ length: 10000 }, (_, i) => ({
   name: `Person ${i + 1}`,
   age: 20 + ((i * 7) % 60),
 }));
+
+type Employee = { id: number; name: string; team: string; role: string; salary: number };
+
+const GRID_COLUMNS: DataGridColumn<Employee>[] = [
+  { key: "name", header: "Name", sortable: true, editable: true },
+  { key: "team", header: "Team", sortable: true },
+  {
+    key: "role",
+    header: "Role",
+    editable: true,
+    editor: "select",
+    options: [
+      { value: "eng", label: "Engineer" },
+      { value: "mgr", label: "Manager" },
+      { value: "des", label: "Designer" },
+    ],
+    aggregate: "count",
+  },
+  {
+    key: "salary",
+    header: "Salary",
+    numeric: true,
+    sortable: true,
+    editable: true,
+    aggregate: "sum",
+    format: (value) => (typeof value === "number" ? `$${value.toLocaleString("en")}` : ""),
+  },
+];
+
+const GRID_ROWS: Employee[] = [
+  { id: 1, name: "Ada Lovelace", team: "Platform", role: "eng", salary: 142000 },
+  { id: 2, name: "Grace Hopper", team: "Platform", role: "mgr", salary: 168000 },
+  { id: 3, name: "Alan Turing", team: "Research", role: "eng", salary: 151000 },
+  { id: 4, name: "Edsger Dijkstra", team: "Research", role: "eng", salary: 139000 },
+  { id: 5, name: "Susan Kare", team: "Design", role: "des", salary: 128000 },
+];
 
 @customElement("docs-data-table-page")
 export class DocsDataTablePage extends LitElement {
@@ -165,8 +203,42 @@ export class DocsDataTablePage extends LitElement {
           <lit-material-data-table-cell header flex width="100px" numeric>Age</lit-material-data-table-cell>
         </lit-material-data-table-row>
       </lit-material-data-table>
+
+      <h2>Data grid</h2>
+      <p>
+        <code>lit-material-data-grid</code> takes <code>columns</code> and <code>rows</code> and does the rest:
+        sorting, grouping with aggregates, inline editing (Enter, F2 or double-click; Enter or Tab commits,
+        Escape cancels) and CSV export. Arrow keys move between cells.
+      </p>
+      <lit-material-data-grid
+        id="grid"
+        label="Employees"
+        row-key="id"
+        group-by="team"
+        selectable
+        .columns=${GRID_COLUMNS}
+        .rows=${GRID_ROWS}
+        .expandedGroups=${["Platform"]}
+        @cell-edit=${this.handleCellEdit}
+      ></lit-material-data-grid>
+      <p>
+        <button type="button" @click=${() => this.grid?.downloadCSV("employees.csv")}>Download CSV</button>
+        <button type="button" @click=${() => this.grid?.expandAll()}>Expand all</button>
+      </p>
     `;
   }
+
+  private get grid(): LitMaterialDataGrid<Employee> | null {
+    return this.renderRoot.querySelector<LitMaterialDataGrid<Employee>>("#grid");
+  }
+
+  private readonly handleCellEdit = (event: Event): void => {
+    const { detail } = event as CustomEvent<{ column: string; value: unknown; error?: string }>;
+    if (detail.column === "salary" && (typeof detail.value !== "number" || detail.value < 0)) {
+      detail.error = "Enter a salary of 0 or more";
+      event.preventDefault();
+    }
+  };
 }
 
 declare global {
