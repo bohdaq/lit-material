@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { addMonths, layoutDay, layoutSpans, localeFirstDayOfWeek, normalizeEvents, parseTime, startOfWeek } from "./calendar-utils.js";
+import { addMonths, layoutDay, layoutSpans, localeFirstDayOfWeek, normalizeEvents, parseTime, regionFirstDayOfWeek, startOfWeek } from "./calendar-utils.js";
 
+const RETIRED = "BU JT MI NT PU PZ RH WK YD".split(" ");
 const day = { year: 2026, month: 5, day: 15 }; // Monday, June 15 2026
 
 describe("calendar-utils (no browser)", () => {
@@ -74,5 +75,24 @@ describe("calendar-utils (no browser)", () => {
     assert.deepEqual(startOfWeek(day, 1), { year: 2026, month: 5, day: 15 });
     assert.deepEqual(addMonths({ year: 2026, month: 0, day: 31 }, 1), { year: 2026, month: 1, day: 28 });
     assert.equal(localeFirstDayOfWeek("not a locale!"), 0);
+  });
+
+  it("falls back to CLDR's region table where Intl.Locale has no week info (Firefox), agreeing with it where it does", () => {
+    assert.deepEqual(["US", "DE", "EG", "MV", "GB", "JP"].map(regionFirstDayOfWeek), [0, 1, 6, 5, 1, 0]);
+    for (let a = 65; a < 91; a++) {
+      for (let b = 65; b < 91; b++) {
+        const region = String.fromCharCode(a, b);
+        let locale: Intl.Locale & { getWeekInfo?: () => { firstDay: number }; weekInfo?: { firstDay: number } };
+        try {
+          locale = new Intl.Locale(`und-${region}`);
+        } catch {
+          continue;
+        }
+        const info = locale.getWeekInfo?.() ?? locale.weekInfo;
+        // Codes CLDR no longer uses (Burma, South Yemen, ...) get a region-neutral default.
+        if (!info || RETIRED.includes(region)) continue;
+        assert.equal(regionFirstDayOfWeek(region), info.firstDay % 7, region);
+      }
+    }
   });
 });

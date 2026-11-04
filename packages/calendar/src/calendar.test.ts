@@ -15,6 +15,16 @@ const $ = <T extends Element = HTMLElement>(el: LitMaterialCalendar, selector: s
 const $$ = (el: LitMaterialCalendar, selector: string) => [...el.shadowRoot!.querySelectorAll<HTMLElement>(selector)];
 const chip = (el: LitMaterialCalendar, key: string) => $$(el, ".event").find((c) => c.dataset.key === key)!;
 const focused = (el: LitMaterialCalendar) => el.shadowRoot!.activeElement as HTMLElement | null;
+/**
+ * Alt+Left/Right and Alt+Shift chords are browser shortcuts (history, layout switching) that Firefox and WebKit
+ * don't always hand to the page under automation, so those are dispatched on the focused element; Alt+Up/Down
+ * use real key presses.
+ */
+const altKey = (el: LitMaterialCalendar, key: string, shiftKey = false) => {
+  const target = focused(el);
+  expect(target?.classList.contains("event"), "an event chip has focus").to.be.true;
+  target!.dispatchEvent(new KeyboardEvent("keydown", { key, altKey: true, shiftKey, bubbles: true, composed: true, cancelable: true }));
+};
 const center = (target: Element): [number, number] => {
   const r = target.getBoundingClientRect();
   return [Math.round(r.left + r.width / 2), Math.round(r.top + r.height / 2)];
@@ -141,7 +151,7 @@ describe("lit-material-calendar", () => {
     it("moves an all-day event by a day with Alt+ArrowRight (mirrored in RTL) and by a week with Alt+ArrowDown", async () => {
       const el = await calendar();
       chip(el, "offsite").focus();
-      setTimeout(() => sendKeys({ press: "Alt+ArrowRight" }));
+      setTimeout(() => altKey(el, "ArrowRight"));
       let change = await oneEvent(el, "event-change");
       expect(change.detail.event).to.equal(sample[3]);
       expect(change.detail.allDay).to.be.true;
@@ -153,7 +163,7 @@ describe("lit-material-calendar", () => {
 
       el.setAttribute("dir", "rtl");
       chip(el, "offsite").focus();
-      setTimeout(() => sendKeys({ press: "Alt+ArrowRight" }));
+      setTimeout(() => altKey(el, "ArrowRight"));
       change = await oneEvent(el, "event-change");
       expect(change.detail.start.getDate()).to.equal(15);
     });
@@ -256,13 +266,13 @@ describe("lit-material-calendar", () => {
       expect(focused(el)!.closest(".slot")!.getAttribute("data-slot")).to.equal("25");
       expect($(el, '[role="status"]').textContent).to.match(/^Lunch, Monday, June 15, 12:30\s?–\s?1:30\sPM$/);
 
-      setTimeout(() => sendKeys({ press: "Alt+Shift+ArrowUp" }));
+      setTimeout(() => altKey(el, "ArrowUp", true));
       change = await oneEvent(el, "event-change");
       expect(change.detail.start.getTime()).to.equal(new Date(2026, 5, 15, 12, 30).getTime());
       expect(change.detail.end.getTime()).to.equal(new Date(2026, 5, 15, 13, 0).getTime());
       await el.updateComplete;
 
-      setTimeout(() => sendKeys({ press: "Alt+ArrowRight" }));
+      setTimeout(() => altKey(el, "ArrowRight"));
       change = await oneEvent(el, "event-change");
       expect(change.detail.start.getDate()).to.equal(16);
     });
