@@ -712,6 +712,9 @@ importers:
 
   packages/autocomplete:
     dependencies:
+      '@lit-material/core':
+        specifier: workspace:*
+        version: link:../core
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
@@ -1311,6 +1314,9 @@ importers:
 
   packages/color-scheme:
     dependencies:
+      '@lit-material/core':
+        specifier: workspace:*
+        version: link:../core
       '@lit-material/icon-button':
         specifier: workspace:*
         version: link:../icon-button
@@ -1434,9 +1440,6 @@ importers:
 
   packages/data-list:
     dependencies:
-      '@lit-material/core':
-        specifier: workspace:*
-        version: link:../core
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
@@ -3034,9 +3037,6 @@ importers:
 
   packages/skeleton:
     dependencies:
-      '@lit-material/core':
-        specifier: workspace:*
-        version: link:../core
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
@@ -3489,9 +3489,6 @@ importers:
 
   packages/table:
     dependencies:
-      '@lit-material/core':
-        specifier: workspace:*
-        version: link:../core
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens

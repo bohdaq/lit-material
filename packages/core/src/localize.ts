@@ -34,7 +34,7 @@ let fallbackLocale = "en";
 let observer: MutationObserver | undefined;
 
 function updateAll(): void {
-  for (const controller of controllers) controller.host.requestUpdate();
+  for (const controller of controllers) controller.refresh();
 }
 
 /**
@@ -156,6 +156,7 @@ export class LocalizeController implements ReactiveController {
   }
 
   hostConnected(): void {
+    this.cachedLang = undefined;
     controllers.add(this);
     if (!observer && typeof MutationObserver !== "undefined" && !isServer) {
       observer = new MutationObserver(() => updateAll());
@@ -167,8 +168,15 @@ export class LocalizeController implements ReactiveController {
     controllers.delete(this);
   }
 
-  hostUpdate(): void {
-    this.cachedLang = undefined; // read the language once per render
+  hostUpdated(): void {
+    // Read the language once per update cycle (willUpdate through render), fresh for the next one.
+    this.cachedLang = undefined;
+  }
+
+  /** Re-reads the language and re-renders: call it after changing a `lang` attribute above the element. */
+  refresh(): void {
+    this.cachedLang = undefined;
+    this.host.requestUpdate();
   }
 
   /** The element's language. */

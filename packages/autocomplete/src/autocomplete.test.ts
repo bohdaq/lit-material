@@ -1,6 +1,7 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
 import "./autocomplete.js";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import type { LitMaterialAutocomplete } from "./autocomplete.js";
 
 const fruitOptions = [
@@ -250,5 +251,37 @@ describe("lit-material-autocomplete", () => {
     await sendKeys({ press: "ArrowDown" });
     await el.updateComplete;
     await expect(el).to.be.accessible();
+  });
+
+  it("uses the element's language for its own text", async () => {
+    registerTranslation({
+      $code: "x-auto",
+      "autocomplete.noResults": "Keine Treffer",
+      "autocomplete.options": "Optionen",
+    });
+    const wrap = await fixture<HTMLDivElement>(html`<div lang="x-auto">
+      <lit-material-autocomplete .options=${fruitOptions}></lit-material-autocomplete>
+    </div>`);
+    const el = wrap.querySelector("lit-material-autocomplete")!;
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(el.shadowRoot!.querySelector("[role=listbox]")!.getAttribute("aria-label")).to.equal("Optionen");
+    input.focus();
+    await sendKeys({ type: "zzz" });
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".empty")!.textContent).to.equal("Keine Treffer");
+  });
+
+  it("lines the list up with the field's right edge in RTL", async () => {
+    const wrap = await fixture<HTMLDivElement>(html`<div dir="rtl" style="width: 300px; margin-inline-start: 200px">
+      <lit-material-autocomplete label="Fruit" .options=${fruitOptions} style="width: 300px"></lit-material-autocomplete>
+    </div>`);
+    const el = wrap.querySelector("lit-material-autocomplete")!;
+    el.shadowRoot!.querySelector("input")!.focus();
+    await el.updateComplete;
+    await new Promise((r) => requestAnimationFrame(r));
+    const field = el.getBoundingClientRect();
+    const list = el.shadowRoot!.querySelector(".popover")!.getBoundingClientRect();
+    expect(Math.abs(list.right - field.right)).to.be.lessThan(2);
   });
 });
