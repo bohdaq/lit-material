@@ -1,6 +1,7 @@
 import { css, html, LitElement, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import "@lit-material/icon-button";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import "./text-field.js";
 import type { TextFieldVariant } from "./text-field.js";
 
@@ -21,7 +22,7 @@ function decimals(n: number): number {
  * Typing works too; ArrowUp/ArrowDown step, PageUp/PageDown step by ten,
  * Home/End jump to `min`/`max` when set.
  *
- * It says what's wrong in words ("Enter a number", "At least 1") rather
+ * It says what's wrong in words ("Enter a number", "At least 1", translated) rather
  * than relying on the browser's number input, whose spinners are tiny and
  * whose validation messages can't be styled. `value` is `null` while the
  * field is empty.
@@ -94,6 +95,8 @@ export class LitMaterialNumberField extends LitElement {
 
   @property({ type: Boolean }) readonly = false;
 
+  private readonly localize = new LocalizeController(this);
+
   /** The field's own problem with the text, `""` when none. */
   @state() validationMessage = "";
 
@@ -107,10 +110,10 @@ export class LitMaterialNumberField extends LitElement {
   }
 
   private check(): string {
-    if (this.draft !== null && this.draft.trim() !== "") return "Enter a number";
-    if (this.value === null) return this.required ? "Required" : "";
-    if (this.min !== undefined && this.value < this.min) return `At least ${this.min}`;
-    if (this.max !== undefined && this.value > this.max) return `At most ${this.max}`;
+    if (this.draft !== null && this.draft.trim() !== "") return this.localize.term("textField.enterANumber", "Enter a number");
+    if (this.value === null) return this.required ? this.localize.term("textField.required", "Required") : "";
+    if (this.min !== undefined && this.value < this.min) return this.localize.term("textField.atLeast", "At least {min}", { min: this.min });
+    if (this.max !== undefined && this.value > this.max) return this.localize.term("textField.atMost", "At most {max}", { max: this.max });
     return "";
   }
 
@@ -175,13 +178,14 @@ export class LitMaterialNumberField extends LitElement {
 
   override render() {
     const locked = this.disabled || this.readonly;
-    const name = this.label || "value";
     const error = this.validationMessage || this.errorText;
     const text = this.draft ?? (this.value === null ? "" : String(this.value));
     return html`
       <lit-material-icon-button
         part="decrement"
-        aria-label=${`Decrease ${name}`}
+        aria-label=${this.label
+          ? this.localize.term("textField.decreaseLabel", "Decrease {label}", { label: this.label })
+          : this.localize.term("textField.decreaseValue", "Decrease value")}
         ?disabled=${locked || (this.min !== undefined && this.value !== null && this.value <= this.min)}
         @click=${() => this.stepBy(-1)}
         ><span slot="icon">${minusIcon}</span></lit-material-icon-button
@@ -210,7 +214,9 @@ export class LitMaterialNumberField extends LitElement {
       ></lit-material-text-field>
       <lit-material-icon-button
         part="increment"
-        aria-label=${`Increase ${name}`}
+        aria-label=${this.label
+          ? this.localize.term("textField.increaseLabel", "Increase {label}", { label: this.label })
+          : this.localize.term("textField.increaseValue", "Increase value")}
         ?disabled=${locked || (this.max !== undefined && this.value !== null && this.value >= this.max)}
         @click=${() => this.stepBy(1)}
         ><span slot="icon">${plusIcon}</span></lit-material-icon-button

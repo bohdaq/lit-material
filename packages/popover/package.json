@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/popover",
   "version": "0.0.3",
-  "description": "Material Design 3-styled popover web component (lit-material-popover) — richer, click-triggered overlay content, distinct from the tooltip.",
+  "description": "Material Design 3-styled popover web component (lit-material-popover) \u2014 richer, click-triggered overlay content, distinct from the tooltip.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
@@ -59,6 +59,7 @@
     "analyze": "custom-elements-manifest analyze --litelement --globs \"src/**/*.ts\" --exclude \"src/**/*.test.ts\" --exclude \"src/**/*.ssr.test.ts\""
   },
   "dependencies": {
+    "@lit-material/core": "workspace:*",
     "@lit-material/tokens": "workspace:*",
     "lit": "^3.2.0"
   },

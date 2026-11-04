@@ -1,5 +1,6 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./textarea-styles.js";
 
 export type TextareaVariant = "filled" | "outlined";
@@ -66,6 +67,7 @@ export class LitMaterialTextarea extends LitElement {
   @state() private touched = false;
 
   private readonly internals: ElementInternals;
+  private readonly localize = new LocalizeController(this);
   private readonly labelId = `lit-material-textarea-label-${++instanceCount}`;
   private readonly supportingId = `lit-material-textarea-supporting-${instanceCount}`;
 
@@ -162,7 +164,9 @@ export class LitMaterialTextarea extends LitElement {
               <div class="supporting" part="supporting">
                 <span class="supporting-text" id=${this.supportingId}> ${this.supportingMessage} </span>
                 ${this.maxlength != null
-                  ? html`<span class="counter">${this.value.length} / ${this.maxlength}</span>`
+                  ? html`<span class="counter"
+                      >${this.localize.term("textField.characterCount", "{count} / {max}", { count: this.value.length, max: this.maxlength })}</span
+                    >`
                   : nothing}
               </div>
             `

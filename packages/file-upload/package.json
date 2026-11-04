@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/file-upload",
   "version": "0.0.3",
-  "description": "Material Design 3-styled file upload web component (lit-material-file-upload) — drag-and-drop or click-to-browse, single or multiple files.",
+  "description": "Material Design 3-styled file upload web component (lit-material-file-upload) \u2014 drag-and-drop or click-to-browse, single or multiple files.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
@@ -60,6 +60,7 @@
     "analyze": "custom-elements-manifest analyze --litelement --globs \"src/**/*.ts\" --exclude \"src/**/*.test.ts\" --exclude \"src/**/*.ssr.test.ts\""
   },
   "dependencies": {
+    "@lit-material/core": "workspace:*",
     "@lit-material/tokens": "workspace:*",
     "lit": "^3.2.0"
   },

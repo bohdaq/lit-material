@@ -28,7 +28,7 @@ npm install @lit-material/back-to-top @lit-material/tokens
 | ----------- | ----------- | --------- | --------------- |
 | `threshold` | `threshold` | `number` (px scrolled before it shows) | `400` |
 | `target`    | `target`    | `string` (id of the element at the top) | `""` |
-| `label`     | `label`     | `string`  | `"Back to top"` |
+| `label`     | `label`     | `string`  | `"Back to top"`, translated |
 | `visible`   | `visible` (reflected, read it) | `boolean` | `false` |
 
 Part: `button`. `--lit-material-back-to-top-inset` (default `16px`) is the distance from the viewport's bottom and end edges.

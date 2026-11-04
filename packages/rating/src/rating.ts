@@ -2,6 +2,7 @@ import { html, LitElement, nothing } from "lit";
 import type { PropertyValues } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { FocusRingController } from "@lit-material/core";
+import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./rating-styles.js";
 
 const STAR_PATH =
@@ -57,8 +58,8 @@ export class LitMaterialRating extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property() name = "";
   @property({ reflect: true }) form?: string;
-  /** Accessible label — required in interactive mode (there's no visible text label), and prefixed onto the readonly `role="img"` announcement. */
-  @property() label = "Rating";
+  /** Accessible label — required in interactive mode (there's no visible text label), and prefixed onto the readonly `role="img"` announcement. Default: "Rating", translated. */
+  @property() label?: string;
 
   @query(".icons") private readonly iconsElement?: HTMLElement;
 
@@ -66,6 +67,11 @@ export class LitMaterialRating extends LitElement {
 
   private readonly internals: ElementInternals;
   private readonly focusRing = new FocusRingController(this);
+  private readonly localize = new LocalizeController(this);
+
+  private get accessibleLabel(): string {
+    return this.label ?? this.localize.term("rating.rating", "Rating");
+  }
 
   constructor() {
     super();
@@ -100,7 +106,13 @@ export class LitMaterialRating extends LitElement {
         class="rating"
         part="rating"
         role=${this.readonly ? "img" : nothing}
-        aria-label=${this.readonly ? `${this.label}: ${this.value} out of ${this.max}` : nothing}
+        aria-label=${this.readonly
+          ? this.localize.term("rating.readonlyLabel", "{label}: {value} out of {max}", {
+              label: this.accessibleLabel,
+              value: this.value,
+              max: this.max,
+            })
+          : nothing}
         @pointermove=${this.handlePointerMove}
         @pointerleave=${this.handlePointerLeave}
       >
@@ -141,8 +153,8 @@ export class LitMaterialRating extends LitElement {
         .value=${String(this.value)}
         ?disabled=${this.disabled}
         name=${this.name || nothing}
-        aria-label=${this.label}
-        aria-valuetext="${this.value} out of ${this.max}"
+        aria-label=${this.accessibleLabel}
+        aria-valuetext=${this.localize.term("rating.valueText", "{value} out of {max}", { value: this.value, max: this.max })}
         @input=${this.handleInput}
         @change=${this.handleChange}
       />
@@ -164,8 +176,7 @@ export class LitMaterialRating extends LitElement {
     if (this.disabled || this.readonly || !this.iconsElement) return;
     const rect = this.iconsElement.getBoundingClientRect();
     if (rect.width === 0) return;
-    const isRtl = getComputedStyle(this).direction === "rtl";
-    const fromStart = isRtl ? rect.right - event.clientX : event.clientX - rect.left;
+    const fromStart = isRtl(this) ? rect.right - event.clientX : event.clientX - rect.left;
     const ratio = Math.max(0, Math.min(1, fromStart / rect.width));
     const snapped = Math.round((ratio * this.max) / this.precision) * this.precision;
     this.hoverValue = Math.max(0, Math.min(this.max, snapped));

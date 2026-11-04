@@ -64,6 +64,12 @@ export const styles = css`
       width 200ms var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   }
 
+  /* Before the first measurement, so the indicator grows from the start edge rather than sweeping in from the
+     left. Positioned with physical left from measured rects afterwards (see updateIndicator). */
+  :host(:dir(rtl)) .indicator {
+    left: 100%;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .indicator {
       transition: none;

@@ -1,4 +1,5 @@
 import { expect, fixture, html } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./back-to-top.js";
 import type { LitMaterialBackToTop } from "./back-to-top.js";
 
@@ -51,5 +52,18 @@ describe("lit-material-back-to-top", () => {
     link(el).click();
     await new Promise((r) => setTimeout(r, 800));
     expect(window.scrollY).to.equal(0);
+  });
+
+  it("translates its default label for the element's language, but keeps an explicit label", async () => {
+    registerTranslation({ $code: "x-back-to-top", "backToTop.label": "Haut de page" });
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div lang="x-back-to-top"><lit-material-back-to-top></lit-material-back-to-top></div>
+    `);
+    const el = wrapper.querySelector<LitMaterialBackToTop>("lit-material-back-to-top")!;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector("a")!.textContent!.trim()).to.equal("Haut de page");
+    el.label = "Up";
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector("a")!.textContent!.trim()).to.equal("Up");
   });
 });

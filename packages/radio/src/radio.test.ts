@@ -1,5 +1,6 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./radio.js";
 import type { LitMaterialRadio } from "./radio.js";
 
@@ -134,6 +135,40 @@ describe("lit-material-radio", () => {
       await large.updateComplete;
       expect(small.checked).to.be.true;
       expect(medium.checked).to.be.false;
+    });
+
+    it("flips ArrowLeft/ArrowRight in RTL", async () => {
+      const wrapper = await fixture<HTMLDivElement>(html`
+        <div dir="rtl">
+          <lit-material-radio name="size-rtl" value="s" aria-label="Small"></lit-material-radio>
+          <lit-material-radio name="size-rtl" value="m" aria-label="Medium" checked></lit-material-radio>
+          <lit-material-radio name="size-rtl" value="l" aria-label="Large"></lit-material-radio>
+        </div>
+      `);
+      const [small, medium, large] = Array.from(wrapper.querySelectorAll<LitMaterialRadio>("lit-material-radio"));
+      medium.shadowRoot!.querySelector("input")!.focus();
+
+      await sendKeys({ press: "ArrowLeft" });
+      await large.updateComplete;
+      expect(large.checked).to.be.true;
+
+      await sendKeys({ press: "ArrowRight" });
+      await medium.updateComplete;
+      expect(medium.checked).to.be.true;
+      expect(small.checked).to.be.false;
+    });
+
+    it("translates its validation message", async () => {
+      registerTranslation({ $code: "x-radio", "radio.selectOne": "Choisissez une option." });
+      const wrapper = await fixture<HTMLDivElement>(html`
+        <div lang="x-radio">
+          <lit-material-radio name="plan-x" value="a" required aria-label="A"></lit-material-radio>
+        </div>
+      `);
+      const radio = wrapper.querySelector<LitMaterialRadio>("lit-material-radio")!;
+      await radio.updateComplete;
+      const internals = (radio as unknown as { internals: ElementInternals }).internals;
+      expect(internals.validationMessage).to.equal("Choisissez une option.");
     });
 
     it("participates in an ancestor form via FormData, submitting only the checked value", async () => {

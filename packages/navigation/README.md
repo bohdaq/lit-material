@@ -180,7 +180,7 @@ script to pick and server-rendered markup is already right.
 | `destinations` | — | `{ label; icon?; href?; disabled? }[]` | `[]` |
 | `selected` | — | `number` | `-1` |
 | `expanded` | `expanded` (reflected) | `"drawer" \| "rail"` | `"drawer"` |
-| `label` | `label` | `string` | `"Main"` |
+| `label` | `label` | `string` | `"Main"`, translated |
 
 The selection is shared and `change` fires whichever form was used. It's one `<nav>` landmark
 named by `label`; the hidden forms are out of the accessibility tree. Place it yourself (the bar

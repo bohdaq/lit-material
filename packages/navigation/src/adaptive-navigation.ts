@@ -1,5 +1,6 @@
 import { css, html, LitElement, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import "./navigation-drawer.js";
 import "./navigation-drawer-item.js";
 import "./navigation-rail.js";
@@ -80,8 +81,10 @@ export class LitMaterialAdaptiveNavigation extends LitElement {
   /** What expanded windows show: `drawer` (default) or `rail`. */
   @property({ reflect: true }) expanded: "drawer" | "rail" = "drawer";
 
-  /** The accessible name of the navigation landmark. */
-  @property() label = "Main";
+  /** The accessible name of the navigation landmark. Default: "Main", translated. */
+  @property() label?: string;
+
+  private readonly localize = new LocalizeController(this);
 
   private onChange(event: Event): void {
     event.stopPropagation();
@@ -98,7 +101,7 @@ export class LitMaterialAdaptiveNavigation extends LitElement {
   override render() {
     const ds = this.destinations;
     return html`
-      <nav aria-label=${this.label}>
+      <nav aria-label=${this.label ?? this.localize.term("navigation.main", "Main")}>
         <div class="drawer">
           <lit-material-navigation-drawer .selected=${this.selected} @change=${this.onChange}>
             ${ds.map((d, i) => html`<lit-material-navigation-drawer-item ?selected=${i === this.selected} ?disabled=${!!d.disabled} href=${d.href ?? nothing}

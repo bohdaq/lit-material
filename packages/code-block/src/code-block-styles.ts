@@ -69,6 +69,10 @@ export const styles = css`
     box-sizing: border-box;
     padding: 12px 16px;
     overflow-x: auto;
+    /* Code reads left to right even on a right-to-left page; inheriting rtl
+       would move trailing punctuation to the wrong end of each line. */
+    direction: ltr;
+    text-align: left;
     font-family: var(
       --lit-material-code-block-font,
       var(--md-sys-typescale-code-font, "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace)

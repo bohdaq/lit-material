@@ -1,5 +1,6 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./chip-input.js";
 import type { LitMaterialChipInput } from "./chip-input.js";
 
@@ -79,5 +80,39 @@ describe("lit-material-chip-input", () => {
     const el = await chipInput();
     el.max = 1;
     expect(el.add("more")).to.equal("At most 1");
+  });
+
+  it("translates its messages and remove labels for the element's language", async () => {
+    registerTranslation({
+      $code: "x-chip-input",
+      "chipInput.removeValue": "Retirer {value}",
+      "chipInput.duplicate": "{value} existe déjà",
+      "chipInput.max": "{max} au plus",
+      "chipInput.added": "{value} ajouté",
+      "chipInput.notAdded": { one: "{count} refusé : {values}", other: "{count} refusés : {values}" },
+    });
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div lang="x-chip-input"><lit-material-chip-input .values=${["a"]}></lit-material-chip-input></div>
+    `);
+    const el = wrapper.querySelector<LitMaterialChipInput>("lit-material-chip-input")!;
+    await el.updateComplete;
+    const chip = el.shadowRoot!.querySelector("lit-material-chip")!;
+    await chip.updateComplete;
+    expect(chip.shadowRoot!.querySelector(".remove")!.getAttribute("aria-label")).to.equal("Retirer a");
+    expect(el.add("a")).to.equal("a existe déjà");
+    expect(el.add("b")).to.equal("");
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector("[role=status]")!.textContent).to.equal("b ajouté");
+    el.max = 2;
+    expect(el.add("c")).to.equal("2 au plus");
+
+    el.max = 0;
+    const data = new DataTransfer();
+    data.setData("text/plain", "a, b");
+    const paste = new ClipboardEvent("paste", { bubbles: true, cancelable: true });
+    Object.defineProperty(paste, "clipboardData", { value: data });
+    input(el).dispatchEvent(paste);
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".supporting")!.textContent).to.equal("2 refusés : a, b");
   });
 });

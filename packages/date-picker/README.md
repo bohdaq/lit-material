@@ -57,14 +57,19 @@ same content as `modal` minus the dialog shell:
 | `value`            | `value`                 | `string \| undefined`     | `undefined`      |
 | `min`              | `min`                   | `string \| undefined`     | `undefined`      |
 | `max`              | `max`                   | `string \| undefined`     | `undefined`      |
-| `label`            | `label`                 | `string`                   | `"Select date"`  |
-| `firstDayOfWeek`   | `first-day-of-week`     | `number`                   | `0` (Sunday)     |
+| `label`            | `label`                 | `string`                   | `"Select date"`, translated |
+| `firstDayOfWeek`   | `first-day-of-week`     | `number`                   | the language's first day, else `0` (Sunday) |
 
 `value`/`min`/`max` are ISO `"YYYY-MM-DD"` strings — parsed and formatted with plain year/month/day
 arithmetic rather than `new Date(isoString)`, which parses as UTC and is a classic source of
 off-by-one-day bugs in negative-UTC-offset timezones.
 
 `open` is ignored for `docked`, which is always visible in-flow.
+
+Month names, weekday headers, day/year numbers and the per-day `aria-label`s are formatted in the
+element's language (the nearest `lang` attribute, else `<html lang>`). Without `first-day-of-week`,
+the grid starts on that language's first day of the week where the browser exposes
+`Intl.Locale` week info, and on Sunday where it doesn't.
 
 Methods: `show()` resets the view to `value` (or today) and, for `modal`, opens the picker
 (equivalent to resetting state then `open = true`) — for `docked`, only the reset happens, useful
@@ -90,7 +95,8 @@ is disabled once it would leave the range entirely.
 
 Keyboard support inside the calendar grid: arrow keys move the focused day by one (Left/Right) or
 one week (Up/Down), crossing month boundaries where needed; Home/End jump to the first/last day of
-the visible month. Out-of-range days are skipped automatically when navigating past them.
+the visible month. Out-of-range days are skipped automatically when navigating past them. In a
+right-to-left layout Left/Right swap, so ArrowLeft moves to the next day.
 
 ## Date Range Picker
 
@@ -129,8 +135,8 @@ single `value`.
 | `end`              | `end`                   | `string \| undefined`     | `undefined`       |
 | `min`              | `min`                   | `string \| undefined`     | `undefined`       |
 | `max`              | `max`                   | `string \| undefined`     | `undefined`       |
-| `label`            | `label`                 | `string`                   | `"Select dates"`  |
-| `firstDayOfWeek`   | `first-day-of-week`     | `number`                   | `0` (Sunday)      |
+| `label`            | `label`                 | `string`                   | `"Select dates"`, translated |
+| `firstDayOfWeek`   | `first-day-of-week`     | `number`                   | the language's first day, else `0` (Sunday) |
 
 Same ISO-string/methods/events shape as `lit-material-date-picker`, with `start`/`end` in place of
 `value`: `show()` resets the pending range and, for `modal`, opens the picker; `close(returnValue?)`
@@ -146,6 +152,9 @@ moving focus to) a day after a chosen start but before an end is picked previews
 range the same way clicking there would commit it. "OK" stays disabled until both a start and an
 end are picked; as with the single-date picker, nothing commits to `start`/`end` until then, and
 "Cancel" discards the in-progress pick.
+
+Keyboard navigation (including the Left/Right swap in right-to-left layouts) and language-aware
+formatting work as in `lit-material-date-picker`.
 
 ## Scope
 

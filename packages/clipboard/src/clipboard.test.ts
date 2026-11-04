@@ -1,4 +1,5 @@
 import { expect, fixture, html } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./copy-button.js";
 import "./clipboard-copy.js";
 import type { LitMaterialCopyButton } from "./copy-button.js";
@@ -131,5 +132,55 @@ describe("lit-material-clipboard-copy", () => {
     expect(input.type).to.equal("text");
     await el.shadowRoot!.querySelector("lit-material-copy-button")!.copy();
     expect(written).to.deep.equal(["s3cr3t"]);
+  });
+});
+
+describe("clipboard translations", () => {
+  before(() => {
+    registerTranslation({
+      $code: "x-clipboard",
+      "copyButton.copy": "Copier",
+      "copyButton.copied": "Copié",
+      "copyButton.failed": "Copie impossible",
+      "clipboardCopy.value": "Valeur",
+      "clipboardCopy.show": "Afficher la valeur",
+      "clipboardCopy.copy": "Copier la valeur",
+      "clipboardCopy.showNamed": "Afficher {name}",
+      "clipboardCopy.copyNamed": "Copier {name}",
+    });
+  });
+
+  it("translates the copy button's default label and announcements", async () => {
+    const wrap = await fixture<HTMLDivElement>(html`<div lang="x-clipboard"><lit-material-copy-button value="abc"></lit-material-copy-button></div>`);
+    const el = wrap.querySelector<LitMaterialCopyButton>("lit-material-copy-button")!;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector("lit-material-icon-button")!.getAttribute("aria-label")).to.equal("Copier");
+    await el.copy();
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector("[role=status]")!.textContent).to.equal("Copié");
+    clipboardFails = true;
+    execResult = false;
+    await el.copy();
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector("[role=status]")!.textContent).to.equal("Copie impossible");
+  });
+
+  it("translates clipboard-copy's labels, with and without a label", async () => {
+    const wrap = await fixture<HTMLDivElement>(html`
+      <div lang="x-clipboard">
+        <lit-material-clipboard-copy value="x" masked></lit-material-clipboard-copy>
+        <lit-material-clipboard-copy label="Jeton" value="x" masked></lit-material-clipboard-copy>
+      </div>
+    `);
+    const [plain, named] = Array.from(wrap.querySelectorAll<LitMaterialClipboardCopy>("lit-material-clipboard-copy"));
+    await plain!.updateComplete;
+    await named!.updateComplete;
+    const labels = (el: LitMaterialClipboardCopy) => [
+      el.shadowRoot!.querySelector("input")!.getAttribute("aria-label"),
+      el.shadowRoot!.querySelector("lit-material-icon-button")!.getAttribute("aria-label"),
+      el.shadowRoot!.querySelector("lit-material-copy-button")!.label,
+    ];
+    expect(labels(plain!)).to.deep.equal(["Valeur", "Afficher la valeur", "Copier la valeur"]);
+    expect(labels(named!)).to.deep.equal(["Jeton", "Afficher Jeton", "Copier Jeton"]);
   });
 });

@@ -79,12 +79,14 @@ bar, for quotas and disks.
 | `unit`     | `unit`     | `string`                | `""`                      |
 | `warning`  | `warning`  | `number` (fraction)     | `0.8`                     |
 | `critical` | `critical` | `number` (fraction)     | `0.95`                    |
-| `format`   | —          | `(n: number) => string` | locale, up to 2 decimals  |
+| `format`   | —          | `(n: number) => string` | element's language, up to 2 decimals |
 | `level`    | `level` (reflected, read it) | `"" \| "warning" \| "critical"` | from the value |
 
 From `warning` the bar takes the warning colour and the text adds "near limit"; from `critical`
 or over the limit it takes the error colour ("over limit" once past it). The bar is a
-`role="meter"` named by the label, with the visible text as its value text.
+`role="meter"` named by the label, with the visible text as its value text. The built-in words
+("of", "no limit", "near limit", "over limit") are translated, and numbers are formatted in the
+element's language.
 
 Custom properties: `--lit-material-usage-meter-color`, `-warning-color`, `-critical-color`,
 `-track-color`, `-height`. Parts: `label`, `value`, `bar`, `indicator`.

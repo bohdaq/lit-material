@@ -101,7 +101,7 @@ version and build details, and legal lines, with a Close button. It also depends
 | ------------- | -------------- | --------- | --------- |
 | `productName` | `product-name` | `string` (the heading) | `""` |
 | `open`        | `open` (reflected) | `boolean` | `false` |
-| `closeLabel`  | `close-label`  | `string`  | `"Close"` |
+| `closeLabel`  | `close-label`  | `string`  | `"Close"`, translated |
 
 `show()` and `close()` open and close it; `close` fires after it closes (Close, Escape or a click
 outside). Slots: `logo`, default (details), `legal`.

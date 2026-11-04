@@ -1,5 +1,6 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
 import type { LitMaterialCarouselItem } from "./carousel-item.js";
 import { styles } from "./carousel-styles.js";
 
@@ -11,7 +12,8 @@ import { styles } from "./carousel-styles.js";
  * actual scrolling/snapping, and this component only adds item sizing (via
  * the `--lit-material-carousel-item-width` custom property it sets, read
  * by each item), optional prev/next buttons, and ArrowLeft/ArrowRight
- * keyboard navigation across items.
+ * keyboard navigation across items (swapped in right-to-left layouts, so the
+ * arrow pointing in reading direction always means "next").
  *
  * "Which item is current" (for disabling the prev/next buttons at the
  * ends, and for `next()`/`prev()` to know which item is adjacent) is
@@ -53,13 +55,26 @@ export class LitMaterialCarousel extends LitElement {
 
   private observer?: IntersectionObserver;
 
+  private readonly localize = new LocalizeController(this);
+
+  // Whether the current aria-roledescription is one *we* set (kept in sync with
+  // the language) rather than one the author supplied in markup.
+  private roleDescriptionIsOwn = false;
+
+  // Items whose aria-label ("2 of 5") we set, so we keep it up to date —
+  // including after a language change — but never touch an author's label.
+  private readonly ownLabels = new WeakSet<Element>();
+
   protected override willUpdate(): void {
     // Not connectedCallback(): attribute mutations made there don't make it
     // into SSR's serialized host tag — willUpdate() runs inside the same
     // synchronous pass that produces SSR's output (see lit-material-tooltip
     // for the fuller explanation).
     if (!this.hasAttribute("role")) this.setAttribute("role", "region");
-    if (!this.hasAttribute("aria-roledescription")) this.setAttribute("aria-roledescription", "carousel");
+    if (!this.hasAttribute("aria-roledescription") || this.roleDescriptionIsOwn) {
+      this.setAttribute("aria-roledescription", this.localize.term("carousel.roleDescription", "carousel"));
+      this.roleDescriptionIsOwn = true;
+    }
   }
 
   protected override updated(changed: Map<string, unknown>): void {
@@ -72,11 +87,12 @@ export class LitMaterialCarousel extends LitElement {
     if (changed.has("itemWidth")) {
       this.style.setProperty("--lit-material-carousel-item-width", this.itemWidth);
     }
+    // Every render, so the labels follow a language change too.
+    this.syncItemLabels();
   }
 
   protected override firstUpdated(): void {
     this.setUpObserver();
-    this.syncItemLabels();
   }
 
   override disconnectedCallback(): void {
@@ -143,8 +159,10 @@ export class LitMaterialCarousel extends LitElement {
   private syncItemLabels(): void {
     const items = this.items;
     items.forEach((item, index) => {
-      if (!item.hasAttribute("aria-label")) {
-        item.setAttribute("aria-label", `${index + 1} of ${items.length}`);
+      if (!item.hasAttribute("aria-label") || this.ownLabels.has(item)) {
+        const label = this.localize.term("carousel.slideLabel", "{index} of {total}", { index: index + 1, total: items.length });
+        if (item.getAttribute("aria-label") !== label) item.setAttribute("aria-label", label);
+        this.ownLabels.add(item);
       }
     });
   }
@@ -155,13 +173,12 @@ export class LitMaterialCarousel extends LitElement {
   };
 
   private readonly handleKeydown = (event: KeyboardEvent): void => {
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
-      this.next();
-    } else if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      this.prev();
-    }
+    if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+    event.preventDefault();
+    // The arrow pointing in reading direction goes to the next slide.
+    const forward = (event.key === "ArrowRight") !== isRtl(this);
+    if (forward) this.next();
+    else this.prev();
   };
 
   override render() {
@@ -179,7 +196,7 @@ export class LitMaterialCarousel extends LitElement {
         class="nav-button prev"
         part="prev-button"
         type="button"
-        aria-label="Previous"
+        aria-label=${this.localize.term("carousel.previous", "Previous")}
         ?disabled=${!this.canScrollPrev}
         @click=${this.prev}
       >
@@ -189,7 +206,7 @@ export class LitMaterialCarousel extends LitElement {
         class="nav-button next"
         part="next-button"
         type="button"
-        aria-label="Next"
+        aria-label=${this.localize.term("carousel.next", "Next")}
         ?disabled=${!this.canScrollNext}
         @click=${this.next}
       >

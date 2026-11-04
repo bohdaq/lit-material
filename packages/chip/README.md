@@ -92,9 +92,10 @@ them all and leaves any refused ones in the field. Backspace in the empty field 
 chip; each chip's remove button is named "Remove <value>". A refused value keeps its text and shows
 why under the field (duplicates, `max`, `validator`). Methods `add(value)` (returns the refusal,
 `""` when added) and `removeAt(index)`; event `change` with `detail: { values }`. Additions and
-removals are announced.
+removals are announced. These messages are translated through `@lit-material/core`'s
+`registerTranslation` (keys `chipInput.*`).
 
-`lit-material-chip` also gained `remove-label` (default `"Remove"`), the remove button's name.
+`lit-material-chip` also gained `remove-label` (default `"Remove"`, translated), the remove button's name.
 
 ## License
 

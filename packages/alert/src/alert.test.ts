@@ -1,4 +1,5 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./alert.js";
 import type { LitMaterialAlert } from "./alert.js";
 
@@ -130,5 +131,15 @@ describe("lit-material-alert", () => {
     const el = await fixture<HTMLElement>(html`<lit-material-alert variant="info">Plain</lit-material-alert>`);
     const box = getComputedStyle(el.shadowRoot!.querySelector(".alert")!);
     expect(box.backgroundColor).to.not.equal("rgba(0, 0, 0, 0)");
+  });
+
+  it("translates the dismiss button's label for the element's language", async () => {
+    registerTranslation({ $code: "x-alert", "alert.dismiss": "Fermer" });
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div lang="x-alert"><lit-material-alert dismissible>Saved.</lit-material-alert></div>
+    `);
+    const el = wrapper.querySelector<LitMaterialAlert>("lit-material-alert")!;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".close")!.getAttribute("aria-label")).to.equal("Fermer");
   });
 });

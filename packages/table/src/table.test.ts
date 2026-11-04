@@ -26,7 +26,7 @@ describe("lit-material-table", () => {
   it("aligns numeric columns and marks mono ones", async () => {
     const el = await fixture<LitMaterialTable>(html`<lit-material-table .columns=${columns} .rows=${rows}></lit-material-table>`);
     const [url, weight] = el.shadowRoot!.querySelectorAll("tbody tr:first-child td");
-    expect(getComputedStyle(weight).textAlign).to.equal("right");
+    expect(getComputedStyle(weight).textAlign).to.equal("end");
     expect(url.classList.contains("mono")).to.be.true;
   });
 
@@ -47,5 +47,17 @@ describe("lit-material-table", () => {
   it("shows empty strings for missing fields", async () => {
     const el = await fixture<LitMaterialTable>(html`<lit-material-table .columns=${columns.slice(0, 2)} .rows=${[{ url: "x" }]}></lit-material-table>`);
     expect(el.shadowRoot!.querySelectorAll("tbody td")[1].textContent).to.equal("");
+  });
+
+  it("aligns text to the start and numbers to the end, right to left too", async () => {
+    const wrap = await fixture<HTMLElement>(html`<div dir="rtl"><lit-material-table .columns=${columns} .rows=${rows}></lit-material-table></div>`);
+    const el = wrap.querySelector<LitMaterialTable>("lit-material-table")!;
+    await el.updateComplete;
+    const [text, num] = el.shadowRoot!.querySelectorAll("tbody td");
+    const table = el.shadowRoot!.querySelector("table")!.getBoundingClientRect();
+    expect(getComputedStyle(text!).textAlign).to.equal("start");
+    expect(getComputedStyle(num!).textAlign).to.equal("end");
+    // The table lays out right to left: the first column is on the right.
+    expect(text!.getBoundingClientRect().right).to.be.closeTo(table.right, 1);
   });
 });

@@ -83,6 +83,11 @@ export const styles = css`
     pointer-events: none;
   }
 
+  /* The chevrons point in reading direction. */
+  :host(:dir(rtl)) .nav-button svg {
+    transform: scaleX(-1);
+  }
+
   .nav-button path {
     fill: none;
     stroke: currentColor;

@@ -1,6 +1,7 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { FocusRingController } from "@lit-material/core";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./text-field-styles.js";
 
 export type TextFieldVariant = "filled" | "outlined";
@@ -72,6 +73,7 @@ export class LitMaterialTextField extends LitElement {
 
   private readonly internals: ElementInternals;
   private readonly focusRing = new FocusRingController(this);
+  private readonly localize = new LocalizeController(this);
   private readonly labelId = `lit-material-text-field-label-${++instanceCount}`;
   private readonly supportingId = `lit-material-text-field-supporting-${instanceCount}`;
 
@@ -195,7 +197,9 @@ export class LitMaterialTextField extends LitElement {
                   ${this.supportingMessage}
                 </span>
                 ${this.maxlength != null
-                  ? html`<span class="counter">${this.value.length} / ${this.maxlength}</span>`
+                  ? html`<span class="counter"
+                      >${this.localize.term("textField.characterCount", "{count} / {max}", { count: this.value.length, max: this.maxlength })}</span
+                    >`
                   : nothing}
               </div>
             `

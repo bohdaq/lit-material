@@ -8,6 +8,7 @@ import { styles } from "./breadcrumb-item-styles.js";
  * `:host(:not(:last-of-type))::after`, so the parent needs no JS
  * coordination to know which crumb is last; override
  * `--lit-material-breadcrumb-separator` to use something other than "/".
+ * The separator is mirrored in right-to-left layouts.
  *
  * A real link needs no custom keyboard handling — Tab/Enter already work
  * natively — so unlike most components here, this one has no interactive

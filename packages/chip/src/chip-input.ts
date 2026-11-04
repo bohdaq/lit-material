@@ -1,6 +1,7 @@
 import { css, html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import "./chip.js";
 
 let nextId = 0;
@@ -122,6 +123,8 @@ export class LitMaterialChipInput extends LitElement {
 
   private readonly uid = `chip-input-${++nextId}`;
 
+  private readonly localize = new LocalizeController(this);
+
   override focus(options?: FocusOptions): void {
     this.input?.focus(options);
   }
@@ -131,13 +134,13 @@ export class LitMaterialChipInput extends LitElement {
     const value = raw.trim();
     if (!value) return "";
     let message = "";
-    if (this.max && this.values.length >= this.max) message = `At most ${this.max}`;
-    else if (!this.allowDuplicates && this.values.includes(value)) message = `${value} is already added`;
+    if (this.max && this.values.length >= this.max) message = this.localize.term("chipInput.max", "At most {max}", { max: this.max });
+    else if (!this.allowDuplicates && this.values.includes(value)) message = this.localize.term("chipInput.duplicate", "{value} is already added", { value });
     else message = this.validator?.(value) ?? "";
     this.setError(message);
     if (message) return message;
     this.values = [...this.values, value];
-    this.announcement = `${value} added`;
+    this.announcement = this.localize.term("chipInput.added", "{value} added", { value });
     this.emit();
     return "";
   }
@@ -147,7 +150,7 @@ export class LitMaterialChipInput extends LitElement {
     const value = this.values[index];
     if (value === undefined) return;
     this.values = this.values.filter((_, i) => i !== index);
-    this.announcement = `${value} removed`;
+    this.announcement = this.localize.term("chipInput.removed", "{value} removed", { value });
     this.emit();
   }
 
@@ -183,7 +186,15 @@ export class LitMaterialChipInput extends LitElement {
     const refused = parts.filter((part) => this.add(part));
     // Leave what was refused in the field, to fix.
     this.input.value = refused.join(", ");
-    if (refused.length) this.setError(`${refused.length} not added: ${refused.join(", ")}`);
+    if (refused.length) {
+      this.setError(
+        this.localize.term(
+          "chipInput.notAdded",
+          { one: "{count} not added: {values}", other: "{count} not added: {values}" },
+          { count: refused.length, values: refused.join(", ") },
+        ),
+      );
+    }
   }
 
   private onInput(): void {
@@ -201,7 +212,7 @@ export class LitMaterialChipInput extends LitElement {
           (value, i) => html`<lit-material-chip
             variant="input"
             removable
-            remove-label=${`Remove ${value}`}
+            remove-label=${this.localize.term("chipInput.removeValue", "Remove {value}", { value })}
             ?disabled=${this.disabled}
             @remove=${(e: Event) => {
               e.preventDefault();

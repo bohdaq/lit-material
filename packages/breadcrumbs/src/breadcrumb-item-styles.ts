@@ -18,6 +18,11 @@ export const styles = css`
     font-size: var(--md-sys-typescale-body-medium-size, 0.875rem);
   }
 
+  /* A directional separator ("/", "›") points the other way in right-to-left text. */
+  :host(:dir(rtl):not(:last-of-type))::after {
+    transform: scaleX(-1);
+  }
+
   .crumb {
     border-radius: var(--md-sys-shape-corner-extra-small, 4px);
     font-family: var(--md-sys-typescale-body-medium-font, Roboto, system-ui, sans-serif);

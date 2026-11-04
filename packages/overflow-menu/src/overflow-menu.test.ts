@@ -1,4 +1,5 @@
 import { expect, fixture, html } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./overflow-menu.js";
 import type { LitMaterialOverflowMenu } from "./overflow-menu.js";
 
@@ -9,9 +10,9 @@ function wait(ms = 80): Promise<void> {
 // 5 buttons, 50px each, 8px gap between: cumulative widths (with the "more"
 // button's 32px + 8px gap reserved whenever items remain) make a 200px
 // container fit exactly items 0-1, overflowing items 2-4.
-async function overflowFixture(containerWidth: string) {
+async function overflowFixture(containerWidth: string, dir = "ltr", lang = "en") {
   const wrapper = await fixture<HTMLDivElement>(html`
-    <div style="width: ${containerWidth}; box-sizing: border-box;">
+    <div dir=${dir} lang=${lang} style="width: ${containerWidth}; box-sizing: border-box; margin-inline-start: 100px;">
       <lit-material-overflow-menu>
         <button style="width: 50px;">Item 1</button>
         <button style="width: 50px;">Item 2</button>
@@ -142,5 +143,27 @@ describe("lit-material-overflow-menu", () => {
   it("passes axe accessibility checks", async () => {
     const { menu } = await overflowFixture("200px");
     await expect(menu).to.be.accessible();
+  });
+
+  it("translates the default label", async () => {
+    registerTranslation({ $code: "x-overflow-menu", "overflowMenu.moreActions": "Plus d'actions" });
+    const { menu } = await overflowFixture("200px", "ltr", "x-overflow-menu");
+    const moreButton = menu.shadowRoot!.querySelector(".more") as HTMLButtonElement;
+    expect(moreButton.getAttribute("aria-label")).to.equal("Plus d'actions");
+  });
+
+  it("aligns the menu with the button's end edge in LTR and RTL", async () => {
+    for (const dir of ["ltr", "rtl"]) {
+      const { menu } = await overflowFixture("200px", dir);
+      const moreButton = menu.shadowRoot!.querySelector(".more") as HTMLButtonElement;
+      moreButton.click();
+      await menu.updateComplete;
+      const button = moreButton.getBoundingClientRect();
+      const popup = menu.shadowRoot!.querySelector(".menu")!.getBoundingClientRect();
+      if (dir === "rtl") expect(Math.abs(popup.left - button.left)).to.be.below(1);
+      else expect(Math.abs(popup.right - button.right)).to.be.below(1);
+      moreButton.click();
+      await menu.updateComplete;
+    }
   });
 });

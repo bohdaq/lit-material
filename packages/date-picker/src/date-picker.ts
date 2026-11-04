@@ -12,11 +12,14 @@ import {
   headlineDateLabel,
   isInRange,
   isMonthFullyOutOfRange,
+  localeFirstDayOfWeek,
   monthYearLabel,
+  numberLabel,
   parseISODate,
   today,
   weekdayLabels,
 } from "./date-utils.js";
+import { LocalizeController, isRtl } from "@lit-material/core/localize.js";
 import { styles } from "./date-picker-styles.js";
 
 type PickerMode = "calendar" | "year";
@@ -78,15 +81,21 @@ export class LitMaterialDatePicker extends LitElement {
   @property() min?: string;
   /** Inclusive upper bound, as an ISO `"YYYY-MM-DD"` string. */
   @property() max?: string;
-  @property() label = "Select date";
-  /** 0 = Sunday (default), 1 = Monday, ... */
-  @property({ type: Number, attribute: "first-day-of-week" }) firstDayOfWeek = 0;
+  /** The header label. Default: "Select date", translated. */
+  @property() label?: string;
+  /**
+   * 0 = Sunday, 1 = Monday, ... Default: the first day of the week in the element's language (from
+   * `Intl.Locale` week info), or Sunday where the browser doesn't provide it.
+   */
+  @property({ type: Number, attribute: "first-day-of-week" }) firstDayOfWeek?: number;
 
   @state() private mode: PickerMode = "calendar";
   @state() private viewYear: number;
   @state() private viewMonth: number;
   @state() private pendingValue?: string;
   @state() private focusedDate: CalendarDate;
+
+  private readonly localize = new LocalizeController(this);
 
   @query("dialog") private readonly dialogElement?: HTMLDialogElement;
   private reopenOnClose = false;
@@ -211,8 +220,12 @@ export class LitMaterialDatePicker extends LitElement {
     return years;
   }
 
+  private get effectiveFirstDayOfWeek(): number {
+    return this.firstDayOfWeek ?? localeFirstDayOfWeek(this.localize.lang);
+  }
+
   private getGridCells(): (CalendarDate | null)[] {
-    const offset = firstWeekdayOffset(this.viewYear, this.viewMonth, this.firstDayOfWeek);
+    const offset = firstWeekdayOffset(this.viewYear, this.viewMonth, this.effectiveFirstDayOfWeek);
     const total = daysInMonth(this.viewYear, this.viewMonth);
     const cells: (CalendarDate | null)[] = [];
     for (let i = 0; i < offset; i++) cells.push(null);
@@ -240,6 +253,8 @@ export class LitMaterialDatePicker extends LitElement {
   }
 
   private renderContainer() {
+    const lang = this.localize.lang;
+    const selectDate = this.localize.term("datePicker.selectDate", "Select date");
     // For `modal`, showModal() auto-focuses the first focusable descendant
     // when nothing has autofocus — without this, that's the Cancel button,
     // showing its focus ring on every open even though the user never
@@ -251,17 +266,19 @@ export class LitMaterialDatePicker extends LitElement {
     return html`
       <div class="container" part="container" tabindex=${isModal ? "-1" : nothing} ?autofocus=${isModal}>
         <div class="header" part="header">
-          <span class="label" part="label">${this.label}</span>
+          <span class="label" part="label">${this.label ?? selectDate}</span>
           <span class="headline" id="headline" part="headline">
-            ${pending ? headlineDateLabel(pending) : "Enter date"}
+            ${pending ? headlineDateLabel(lang, pending) : this.localize.term("datePicker.enterDate", "Enter date")}
           </span>
         </div>
         ${this.mode === "calendar" ? this.renderCalendar(pending) : this.renderYearGrid()}
         <div class="actions" part="actions">
           <button class="text-button" part="cancel-button" type="button" @click=${this.handleCancelClick}>
-            Cancel
+            ${this.localize.term("datePicker.cancel", "Cancel")}
           </button>
-          <button class="text-button" part="ok-button" type="button" @click=${this.handleOkClick}>OK</button>
+          <button class="text-button" part="ok-button" type="button" @click=${this.handleOkClick}>
+            ${this.localize.term("datePicker.ok", "OK")}
+          </button>
         </div>
       </div>
     `;
@@ -279,7 +296,7 @@ export class LitMaterialDatePicker extends LitElement {
           class="nav-button"
           part="prev-button"
           type="button"
-          aria-label="Previous month"
+          aria-label=${this.localize.term("datePicker.previousMonth", "Previous month")}
           ?disabled=${this.isPrevMonthDisabled()}
           @click=${this.handlePrevMonth}
         >
@@ -289,16 +306,16 @@ export class LitMaterialDatePicker extends LitElement {
           class="month-year-button"
           part="month-year-button"
           type="button"
-          aria-label="Choose month and year"
+          aria-label=${this.localize.term("datePicker.chooseMonthAndYear", "Choose month and year")}
           @click=${this.handleToggleYearMode}
         >
-          ${monthYearLabel(this.viewYear, this.viewMonth)}
+          ${monthYearLabel(this.localize.lang, this.viewYear, this.viewMonth)}
         </button>
         <button
           class="nav-button"
           part="next-button"
           type="button"
-          aria-label="Next month"
+          aria-label=${this.localize.term("datePicker.nextMonth", "Next month")}
           ?disabled=${this.isNextMonthDisabled()}
           @click=${this.handleNextMonth}
         >
@@ -309,12 +326,14 @@ export class LitMaterialDatePicker extends LitElement {
         class="calendar"
         part="calendar"
         role="grid"
-        aria-label=${monthYearLabel(this.viewYear, this.viewMonth)}
+        aria-label=${monthYearLabel(this.localize.lang, this.viewYear, this.viewMonth)}
         @keydown=${this.handleGridKeydown}
       >
         <thead>
           <tr role="row">
-            ${weekdayLabels(this.firstDayOfWeek).map((label) => html`<th scope="col">${label}</th>`)}
+            ${weekdayLabels(this.localize.lang, this.effectiveFirstDayOfWeek).map(
+              (label) => html`<th scope="col">${label}</th>`,
+            )}
           </tr>
         </thead>
         <tbody>
@@ -344,10 +363,10 @@ export class LitMaterialDatePicker extends LitElement {
           data-iso=${iso}
           tabindex=${focused ? "0" : "-1"}
           ?disabled=${disabled}
-          aria-label=${fullDateLabel(cell)}
+          aria-label=${fullDateLabel(this.localize.lang, cell)}
           @click=${() => this.handleSelectDay(cell)}
         >
-          ${cell.day}
+          ${numberLabel(this.localize.lang, cell.day)}
         </button>
       </td>
     `;
@@ -357,9 +376,19 @@ export class LitMaterialDatePicker extends LitElement {
     const years = this.getYearRange();
     return html`
       <div class="nav" part="nav">
-        <span class="year-range-label">${years[0]}–${years[years.length - 1]}</span>
+        <span class="year-range-label">
+          ${this.localize.term("datePicker.yearRange", "{start}–{end}", {
+            start: numberLabel(this.localize.lang, years[0]!),
+            end: numberLabel(this.localize.lang, years[years.length - 1]!),
+          })}
+        </span>
       </div>
-      <div class="year-grid" part="year-grid" role="listbox" aria-label="Year">
+      <div
+        class="year-grid"
+        part="year-grid"
+        role="listbox"
+        aria-label=${this.localize.term("datePicker.year", "Year")}
+      >
         ${years.map(
           (year) => html`
             <button
@@ -371,7 +400,7 @@ export class LitMaterialDatePicker extends LitElement {
               ?disabled=${this.isYearDisabled(year)}
               @click=${() => this.handleSelectYear(year)}
             >
-              ${year}
+              ${numberLabel(this.localize.lang, year)}
             </button>
           `,
         )}
@@ -409,8 +438,10 @@ export class LitMaterialDatePicker extends LitElement {
 
   private readonly handleGridKeydown = (event: KeyboardEvent): void => {
     let step: number | undefined;
-    if (event.key === "ArrowLeft") step = -1;
-    else if (event.key === "ArrowRight") step = 1;
+    // Days run in reading order, so the horizontal arrows swap in right-to-left layouts.
+    const forward = isRtl(this) ? -1 : 1;
+    if (event.key === "ArrowLeft") step = -forward;
+    else if (event.key === "ArrowRight") step = forward;
     else if (event.key === "ArrowUp") step = -7;
     else if (event.key === "ArrowDown") step = 7;
 

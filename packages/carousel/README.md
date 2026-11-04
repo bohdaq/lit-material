@@ -76,7 +76,8 @@ rendered).
 The track is a native CSS scroll-snap container (`scroll-snap-type: x mandatory`) — touch swipes,
 trackpad/mouse-wheel scrolling, and click-and-drag scrollbar behavior all already work exactly as
 they would on any horizontally scrollable element, since that's what it is. `next()`/`prev()`, the
-overlaid nav buttons, and ArrowLeft/ArrowRight (once the track has focus) are added on top, all
+overlaid nav buttons, and ArrowLeft/ArrowRight (once the track has focus; swapped in right-to-left
+layouts, where ArrowLeft goes to the next slide and the nav chevrons are mirrored) are added on top, all
 implemented as `item.scrollIntoView({ behavior: "smooth" })` rather than manual `scrollLeft` math —
 deliberately, since `scrollLeft` is measured inconsistently across browsers under `dir="rtl"`,
 while `scrollIntoView` isn't direction-sensitive at all.

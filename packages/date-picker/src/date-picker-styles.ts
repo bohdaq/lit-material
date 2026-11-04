@@ -121,6 +121,11 @@ export const styles = css`
     font-size: 1.25rem;
   }
 
+  /* The ‹ / › chevrons point back/forward in reading order. */
+  :host(:dir(rtl)) .nav-button {
+    transform: scaleX(-1);
+  }
+
   .month-year-button {
     display: flex;
     align-items: center;

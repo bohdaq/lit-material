@@ -1,6 +1,7 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { RippleController } from "@lit-material/core";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./chip-styles.js";
 
 export type ChipVariant = "assist" | "filter" | "input" | "suggestion";
@@ -38,8 +39,8 @@ export class LitMaterialChip extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) elevated = false;
   @property({ type: Boolean }) removable = false;
-  /** Accessible name of the remove button, e.g. "Remove app=web". */
-  @property({ attribute: "remove-label" }) removeLabel = "Remove";
+  /** Accessible name of the remove button, e.g. "Remove app=web". Default: "Remove", translated. */
+  @property({ attribute: "remove-label" }) removeLabel?: string;
 
   /** If set, renders the main action as a link (`<a>`) instead of a `<button>`. */
   @property() href = "";
@@ -48,6 +49,7 @@ export class LitMaterialChip extends LitElement {
   @query(".state-layer") private readonly stateLayerElement?: HTMLElement;
 
   private readonly ripple = new RippleController(this);
+  private readonly localize = new LocalizeController(this);
 
   protected override firstUpdated(): void {
     if (this.stateLayerElement) {
@@ -120,7 +122,7 @@ export class LitMaterialChip extends LitElement {
                 part="remove-button"
                 type="button"
                 ?disabled=${this.disabled}
-                aria-label=${this.removeLabel}
+                aria-label=${this.removeLabel ?? this.localize.term("chip.remove", "Remove")}
                 @click=${this.handleRemoveClick}
               >
                 <svg class="remove-icon" viewBox="0 0 18 18" aria-hidden="true">

@@ -7,7 +7,7 @@ export interface TableColumn<Row = Record<string, unknown>> {
   key: string;
   /** Header text. */
   label: string;
-  /** Right-aligned, tabular figures. */
+  /** End-aligned (right in left-to-right text), tabular figures. */
   numeric?: boolean;
   /** Monospace (addresses, ids, paths). */
   mono?: boolean;

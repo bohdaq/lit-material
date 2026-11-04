@@ -1,6 +1,7 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { FocusRingController, RippleController, setAriaElements } from "@lit-material/core";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./tab-styles.js";
 
 /**
@@ -54,6 +55,7 @@ export class LitMaterialTab extends LitElement {
 
   private readonly ripple = new RippleController(this);
   private readonly focusRing = new FocusRingController(this);
+  private readonly localize = new LocalizeController(this);
 
   protected override firstUpdated(): void {
     const stateLayer = this.shadowRoot!.querySelector<HTMLElement>(".state-layer");
@@ -97,10 +99,10 @@ export class LitMaterialTab extends LitElement {
   };
 
   private description(): string {
-    const parts = [];
-    if (this.dirty) parts.push("Unsaved changes");
-    if (this.closable) parts.push("Press Delete to close");
-    return parts.join(". ");
+    if (this.dirty && this.closable) return this.localize.term("tabs.unsavedChangesPressDeleteToClose", "Unsaved changes. Press Delete to close");
+    if (this.dirty) return this.localize.term("tabs.unsavedChanges", "Unsaved changes");
+    if (this.closable) return this.localize.term("tabs.pressDeleteToClose", "Press Delete to close");
+    return "";
   }
 
   protected override updated(): void {

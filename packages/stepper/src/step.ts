@@ -1,6 +1,7 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { FocusRingController, RippleController } from "@lit-material/core";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./step-styles.js";
 
 export type StepOrientation = "horizontal" | "vertical";
@@ -53,6 +54,7 @@ export class LitMaterialStep extends LitElement {
 
   private readonly focusRing = new FocusRingController(this);
   private readonly ripple = new RippleController(this);
+  private readonly localize = new LocalizeController(this);
 
   protected override firstUpdated(): void {
     if (this.stateLayerElement) this.ripple.attach(this.stateLayerElement);
@@ -98,7 +100,7 @@ export class LitMaterialStep extends LitElement {
         </svg>
       `;
     }
-    return this.stepNumber;
+    return this.localize.number(this.stepNumber);
   }
 }
 

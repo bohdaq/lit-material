@@ -67,7 +67,8 @@ not `<dialog>` — outside-click and Escape light-dismiss come from the browser 
 focuses the popover itself (not its content), and closing returns focus to the anchor.
 
 Positioning mirrors `lit-material-menu`'s: below the anchor by default, flipping above if there's
-no room, clamped horizontally to the viewport.
+no room, clamped horizontally to the viewport. Its start edge lines up with the anchor's (left in
+LTR, right in RTL). The close button's "Close" label is translated.
 
 `role="dialog"` needs an accessible name: `aria-labelledby` is wired up automatically to point at
 whatever's slotted into `header`. A popover with no header has no accessible name from this

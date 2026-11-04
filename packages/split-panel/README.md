@@ -27,7 +27,7 @@ Give it a height (or put it in a flex/grid cell that has one). Persist the split
 | `position`    | `position` (reflected) | `number` (start pane, %) | `50`        |
 | `min`, `max`  | `min`, `max`  | `number` (%)                  | `10`, `90`       |
 | `orientation` | `orientation` (reflected) | `"horizontal" \| "vertical"` | `"horizontal"` |
-| `label`       | `label`       | `string` (divider's name)     | `"Resize panes"` |
+| `label`       | `label`       | `string` (divider's name)     | `"Resize panes"`, translated |
 | `disabled`    | `disabled` (reflected) | `boolean`            | `false`          |
 
 Slots `start`, `end`; event `change` (`detail: { position }`, after a drag or key press); part

@@ -1,6 +1,7 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import "@lit-material/icon-button";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { copyText } from "./copy-text.js";
 import { checkIcon, copyIcon } from "./icons.js";
 
@@ -48,14 +49,16 @@ export class LitMaterialCopyButton extends LitElement {
   /** Id of an element (same document or shadow root) to copy from: its `value` if it has one, else its text. */
   @property({ attribute: "for" }) htmlFor = "";
 
-  /** Accessible name, e.g. "Copy URL". */
-  @property() label = "Copy";
+  /** Accessible name, e.g. "Copy URL". Default: "Copy", translated. */
+  @property() label?: string;
 
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   @state() private result: "" | "ok" | "failed" = "";
 
   private timer?: ReturnType<typeof setTimeout>;
+
+  private readonly localize = new LocalizeController(this);
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
@@ -84,10 +87,14 @@ export class LitMaterialCopyButton extends LitElement {
 
   override render() {
     return html`
-      <lit-material-icon-button aria-label=${this.label} ?disabled=${this.disabled} @click=${() => void this.copy()}>
+      <lit-material-icon-button aria-label=${this.label ?? this.localize.term("copyButton.copy", "Copy")} ?disabled=${this.disabled} @click=${() => void this.copy()}>
         <span slot="icon">${this.result === "ok" ? checkIcon : copyIcon}</span>
       </lit-material-icon-button>
-      <span class="status" role="status">${this.result === "ok" ? "Copied" : this.result === "failed" ? "Couldn't copy" : ""}</span>
+      <span class="status" role="status">${this.result === "ok"
+        ? this.localize.term("copyButton.copied", "Copied")
+        : this.result === "failed"
+          ? this.localize.term("copyButton.failed", "Couldn't copy")
+          : ""}</span>
     `;
   }
 }

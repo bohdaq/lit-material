@@ -31,6 +31,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./localize.js": {
+      "types": "./dist/localize.d.ts",
+      "default": "./dist/localize.js"
     }
   },
   "files": [
@@ -41,13 +45,15 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --import tsx --test src/*.ssr.test.ts"
   },
   "dependencies": {
     "@lit/context": "^1.1.0",
     "lit": "^3.2.0"
   },
   "devDependencies": {
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "tsx": "^4.19.0"
   }
 }

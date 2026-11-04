@@ -1,5 +1,6 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./date-picker.js";
 import type { LitMaterialDatePicker } from "./date-picker.js";
 
@@ -271,6 +272,94 @@ describe("lit-material-date-picker", () => {
         html`<lit-material-date-picker variant="docked" value="2026-06-15"></lit-material-date-picker>`,
       );
       await expect(el).to.be.accessible();
+    });
+  });
+  describe("localization", () => {
+    it("translates its built-in text and labels", async () => {
+      registerTranslation({
+        $code: "x-date-picker",
+        "datePicker.selectDate": "Datum wählen",
+        "datePicker.enterDate": "Datum eingeben",
+        "datePicker.cancel": "Abbrechen",
+        "datePicker.ok": "Fertig",
+        "datePicker.previousMonth": "Voriger Monat",
+        "datePicker.nextMonth": "Nächster Monat",
+        "datePicker.chooseMonthAndYear": "Monat und Jahr wählen",
+        "datePicker.year": "Jahr",
+      });
+      const wrapper = await fixture<HTMLDivElement>(
+        html`<div lang="x-date-picker"><lit-material-date-picker variant="docked"></lit-material-date-picker></div>`,
+      );
+      const el = wrapper.querySelector<LitMaterialDatePicker>("lit-material-date-picker")!;
+      await el.updateComplete;
+      const root = el.shadowRoot!;
+      expect(root.querySelector(".label")!.textContent?.trim()).to.equal("Datum wählen");
+      expect(root.querySelector(".headline")!.textContent?.trim()).to.equal("Datum eingeben");
+      expect(root.querySelector("[part='cancel-button']")!.textContent?.trim()).to.equal("Abbrechen");
+      expect(root.querySelector("[part='ok-button']")!.textContent?.trim()).to.equal("Fertig");
+      expect(root.querySelector("[part='prev-button']")!.getAttribute("aria-label")).to.equal("Voriger Monat");
+      expect(root.querySelector("[part='next-button']")!.getAttribute("aria-label")).to.equal("Nächster Monat");
+      expect(root.querySelector(".month-year-button")!.getAttribute("aria-label")).to.equal("Monat und Jahr wählen");
+      root.querySelector<HTMLButtonElement>(".month-year-button")!.click();
+      await el.updateComplete;
+      expect(root.querySelector(".year-grid")!.getAttribute("aria-label")).to.equal("Jahr");
+    });
+
+    it("keeps an explicit label, even an empty one", async () => {
+      const el = await fixture<LitMaterialDatePicker>(
+        html`<lit-material-date-picker variant="docked" label=""></lit-material-date-picker>`,
+      );
+      expect(el.shadowRoot!.querySelector(".label")!.textContent).to.equal("");
+    });
+
+    it("formats month names and dates in the element's language", async () => {
+      const wrapper = await fixture<HTMLDivElement>(
+        html`<div lang="de">
+          <lit-material-date-picker variant="docked" value="2026-06-15"></lit-material-date-picker>
+        </div>`,
+      );
+      const el = wrapper.querySelector<LitMaterialDatePicker>("lit-material-date-picker")!;
+      await el.updateComplete;
+      const root = el.shadowRoot!;
+      expect(root.querySelector(".month-year-button")!.textContent).to.contain("Juni 2026");
+      expect(root.querySelector('.day[data-iso="2026-06-15"]')!.getAttribute("aria-label")).to.contain("Juni");
+    });
+
+    it("starts the week on the language's first day where the browser knows it", async () => {
+      const wrapper = await fixture<HTMLDivElement>(
+        html`<div lang="de">
+          <lit-material-date-picker variant="docked" value="2026-06-15"></lit-material-date-picker>
+          <lit-material-date-picker variant="docked" value="2026-06-15" first-day-of-week="0"></lit-material-date-picker>
+        </div>`,
+      );
+      const [auto, sunday] = wrapper.querySelectorAll<LitMaterialDatePicker>("lit-material-date-picker");
+      await auto!.updateComplete;
+      await sunday!.updateComplete;
+      const locale = new Intl.Locale("de") as Intl.Locale & { getWeekInfo?: () => unknown; weekInfo?: unknown };
+      const knowsWeekInfo = !!(locale.getWeekInfo?.() ?? locale.weekInfo);
+      // June 1, 2026 is a Monday: a Monday-first grid has no leading blank cell.
+      const firstCell = (el: LitMaterialDatePicker) => el.shadowRoot!.querySelector("tbody td")!;
+      expect(firstCell(auto!).classList.contains("empty")).to.equal(!knowsWeekInfo);
+      expect(firstCell(sunday!).classList.contains("empty")).to.be.true;
+    });
+
+    it("swaps ArrowLeft/ArrowRight in right-to-left layouts", async () => {
+      const wrapper = await fixture<HTMLDivElement>(
+        html`<div dir="rtl"><lit-material-date-picker value="2026-06-15"></lit-material-date-picker></div>`,
+      );
+      const el = wrapper.querySelector<LitMaterialDatePicker>("lit-material-date-picker")!;
+      el.show();
+      await el.updateComplete;
+      el.shadowRoot!.querySelector<HTMLButtonElement>('.day[data-iso="2026-06-15"]')!.focus();
+
+      await sendKeys({ press: "ArrowLeft" });
+      await el.updateComplete;
+      expect(el.shadowRoot!.activeElement).to.equal(el.shadowRoot!.querySelector('.day[data-iso="2026-06-16"]'));
+
+      await sendKeys({ press: "ArrowRight" });
+      await sendKeys({ press: "ArrowRight" });
+      await el.updateComplete;
+      expect(el.shadowRoot!.activeElement).to.equal(el.shadowRoot!.querySelector('.day[data-iso="2026-06-14"]'));
     });
   });
 });

@@ -88,7 +88,8 @@ nothing.
 
 Within `lit-material-stepper`, Left/Right (horizontal) or Up/Down (vertical) move focus between
 enabled steps (wrapping), Home/End jump to the first/last enabled step — matching the arrow-key
-direction to the visual orientation, per ARIA authoring practice. Moving focus never activates a
+direction to the visual orientation, per ARIA authoring practice. Right to left, the horizontal
+keys mirror: Left moves to the next step, Right to the previous one. Moving focus never activates a
 step by itself (unlike `lit-material-tabs`' automatic-activation model) — arrow keys let you browse
 every step's label, even ones `linear` mode won't let you jump to yet; Enter/Space on a focused step
 is what actually attempts to select it, and is where the reachability check applies.

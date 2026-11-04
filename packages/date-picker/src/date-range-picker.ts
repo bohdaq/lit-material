@@ -12,11 +12,14 @@ import {
   headlineDateLabel,
   isInRange,
   isMonthFullyOutOfRange,
+  localeFirstDayOfWeek,
   monthYearLabel,
+  numberLabel,
   parseISODate,
   today,
   weekdayLabels,
 } from "./date-utils.js";
+import { LocalizeController, isRtl } from "@lit-material/core/localize.js";
 import { styles } from "./date-range-picker-styles.js";
 
 type PickerMode = "calendar" | "year";
@@ -78,9 +81,13 @@ export class LitMaterialDateRangePicker extends LitElement {
   @property() min?: string;
   /** Inclusive upper bound, as an ISO `"YYYY-MM-DD"` string. */
   @property() max?: string;
-  @property() label = "Select dates";
-  /** 0 = Sunday (default), 1 = Monday, ... */
-  @property({ type: Number, attribute: "first-day-of-week" }) firstDayOfWeek = 0;
+  /** The header label. Default: "Select dates", translated. */
+  @property() label?: string;
+  /**
+   * 0 = Sunday, 1 = Monday, ... Default: the first day of the week in the element's language (from
+   * `Intl.Locale` week info), or Sunday where the browser doesn't provide it.
+   */
+  @property({ type: Number, attribute: "first-day-of-week" }) firstDayOfWeek?: number;
 
   @state() private mode: PickerMode = "calendar";
   @state() private viewYear: number;
@@ -89,6 +96,8 @@ export class LitMaterialDateRangePicker extends LitElement {
   @state() private pendingEnd?: string;
   @state() private focusedDate: CalendarDate;
   @state() private hoverDate?: CalendarDate;
+
+  private readonly localize = new LocalizeController(this);
 
   @query("dialog") private readonly dialogElement?: HTMLDialogElement;
   private reopenOnClose = false;
@@ -216,8 +225,12 @@ export class LitMaterialDateRangePicker extends LitElement {
     return years;
   }
 
+  private get effectiveFirstDayOfWeek(): number {
+    return this.firstDayOfWeek ?? localeFirstDayOfWeek(this.localize.lang);
+  }
+
   private getGridCells(): (CalendarDate | null)[] {
-    const offset = firstWeekdayOffset(this.viewYear, this.viewMonth, this.firstDayOfWeek);
+    const offset = firstWeekdayOffset(this.viewYear, this.viewMonth, this.effectiveFirstDayOfWeek);
     const total = daysInMonth(this.viewYear, this.viewMonth);
     const cells: (CalendarDate | null)[] = [];
     for (let i = 0; i < offset; i++) cells.push(null);
@@ -245,18 +258,29 @@ export class LitMaterialDateRangePicker extends LitElement {
   }
 
   private renderContainer() {
+    const lang = this.localize.lang;
     const isModal = this.variant === "modal";
     const pendingStartDate = this.pendingStart ? parseISODate(this.pendingStart) : undefined;
     const pendingEndDate = this.pendingEnd ? parseISODate(this.pendingEnd) : undefined;
-    const startLabel = pendingStartDate ? headlineDateLabel(pendingStartDate) : "Start date";
-    const endLabel = pendingEndDate ? headlineDateLabel(pendingEndDate) : "End date";
+    const startLabel = pendingStartDate
+      ? headlineDateLabel(lang, pendingStartDate)
+      : this.localize.term("datePicker.startDate", "Start date");
+    const endLabel = pendingEndDate
+      ? headlineDateLabel(lang, pendingEndDate)
+      : this.localize.term("datePicker.endDate", "End date");
+    const selectDates = this.localize.term("datePicker.selectDates", "Select dates");
 
     return html`
       <div class="container" part="container" tabindex=${isModal ? "-1" : nothing} ?autofocus=${isModal}>
         <div class="header" part="header">
-          <span class="label" part="label">${this.label}</span>
+          <span class="label" part="label">${this.label ?? selectDates}</span>
           <span class="headline" id="headline" part="headline">
-            ${pendingStartDate ? `${startLabel} – ${endLabel}` : "Select dates"}
+            ${pendingStartDate
+              ? this.localize.term("datePicker.rangeHeadline", "{start} – {end}", {
+                  start: startLabel,
+                  end: endLabel,
+                })
+              : selectDates}
           </span>
         </div>
         ${this.mode === "calendar"
@@ -264,7 +288,7 @@ export class LitMaterialDateRangePicker extends LitElement {
           : this.renderYearGrid()}
         <div class="actions" part="actions">
           <button class="text-button" part="cancel-button" type="button" @click=${this.handleCancelClick}>
-            Cancel
+            ${this.localize.term("datePicker.cancel", "Cancel")}
           </button>
           <button
             class="text-button"
@@ -273,7 +297,7 @@ export class LitMaterialDateRangePicker extends LitElement {
             ?disabled=${!pendingStartDate || !pendingEndDate}
             @click=${this.handleOkClick}
           >
-            OK
+            ${this.localize.term("datePicker.ok", "OK")}
           </button>
         </div>
       </div>
@@ -302,7 +326,7 @@ export class LitMaterialDateRangePicker extends LitElement {
           class="nav-button"
           part="prev-button"
           type="button"
-          aria-label="Previous month"
+          aria-label=${this.localize.term("datePicker.previousMonth", "Previous month")}
           ?disabled=${this.isPrevMonthDisabled()}
           @click=${this.handlePrevMonth}
         >
@@ -312,16 +336,16 @@ export class LitMaterialDateRangePicker extends LitElement {
           class="month-year-button"
           part="month-year-button"
           type="button"
-          aria-label="Choose month and year"
+          aria-label=${this.localize.term("datePicker.chooseMonthAndYear", "Choose month and year")}
           @click=${this.handleToggleYearMode}
         >
-          ${monthYearLabel(this.viewYear, this.viewMonth)}
+          ${monthYearLabel(this.localize.lang, this.viewYear, this.viewMonth)}
         </button>
         <button
           class="nav-button"
           part="next-button"
           type="button"
-          aria-label="Next month"
+          aria-label=${this.localize.term("datePicker.nextMonth", "Next month")}
           ?disabled=${this.isNextMonthDisabled()}
           @click=${this.handleNextMonth}
         >
@@ -332,13 +356,15 @@ export class LitMaterialDateRangePicker extends LitElement {
         class="calendar"
         part="calendar"
         role="grid"
-        aria-label=${monthYearLabel(this.viewYear, this.viewMonth)}
+        aria-label=${monthYearLabel(this.localize.lang, this.viewYear, this.viewMonth)}
         @keydown=${this.handleGridKeydown}
         @mouseleave=${this.handleGridMouseLeave}
       >
         <thead>
           <tr role="row">
-            ${weekdayLabels(this.firstDayOfWeek).map((label) => html`<th scope="col">${label}</th>`)}
+            ${weekdayLabels(this.localize.lang, this.effectiveFirstDayOfWeek).map(
+              (label) => html`<th scope="col">${label}</th>`,
+            )}
           </tr>
         </thead>
         <tbody>
@@ -386,11 +412,11 @@ export class LitMaterialDateRangePicker extends LitElement {
           data-iso=${iso}
           tabindex=${focused ? "0" : "-1"}
           ?disabled=${disabled}
-          aria-label=${fullDateLabel(cell)}
+          aria-label=${fullDateLabel(this.localize.lang, cell)}
           @click=${() => this.handleSelectDay(cell)}
           @mouseover=${() => this.handleHoverDay(cell, disabled)}
         >
-          ${cell.day}
+          ${numberLabel(this.localize.lang, cell.day)}
         </button>
       </td>
     `;
@@ -400,9 +426,19 @@ export class LitMaterialDateRangePicker extends LitElement {
     const years = this.getYearRange();
     return html`
       <div class="nav" part="nav">
-        <span class="year-range-label">${years[0]}–${years[years.length - 1]}</span>
+        <span class="year-range-label">
+          ${this.localize.term("datePicker.yearRange", "{start}–{end}", {
+            start: numberLabel(this.localize.lang, years[0]!),
+            end: numberLabel(this.localize.lang, years[years.length - 1]!),
+          })}
+        </span>
       </div>
-      <div class="year-grid" part="year-grid" role="listbox" aria-label="Year">
+      <div
+        class="year-grid"
+        part="year-grid"
+        role="listbox"
+        aria-label=${this.localize.term("datePicker.year", "Year")}
+      >
         ${years.map(
           (year) => html`
             <button
@@ -414,7 +450,7 @@ export class LitMaterialDateRangePicker extends LitElement {
               ?disabled=${this.isYearDisabled(year)}
               @click=${() => this.handleSelectYear(year)}
             >
-              ${year}
+              ${numberLabel(this.localize.lang, year)}
             </button>
           `,
         )}
@@ -477,8 +513,10 @@ export class LitMaterialDateRangePicker extends LitElement {
 
   private readonly handleGridKeydown = (event: KeyboardEvent): void => {
     let step: number | undefined;
-    if (event.key === "ArrowLeft") step = -1;
-    else if (event.key === "ArrowRight") step = 1;
+    // Days run in reading order, so the horizontal arrows swap in right-to-left layouts.
+    const forward = isRtl(this) ? -1 : 1;
+    if (event.key === "ArrowLeft") step = -forward;
+    else if (event.key === "ArrowRight") step = forward;
     else if (event.key === "ArrowUp") step = -7;
     else if (event.key === "ArrowDown") step = 7;
 

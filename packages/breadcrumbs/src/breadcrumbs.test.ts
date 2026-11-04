@@ -1,4 +1,5 @@
 import { expect, fixture, html } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./breadcrumbs.js";
 import "./breadcrumb-item.js";
 import type { LitMaterialBreadcrumbs } from "./breadcrumbs.js";
@@ -38,5 +39,15 @@ describe("lit-material-breadcrumbs", () => {
   it("passes axe accessibility checks", async () => {
     const { el } = await breadcrumbsFixture();
     await expect(el).to.be.accessible();
+  });
+
+  it("translates its default label for the element's language", async () => {
+    registerTranslation({ $code: "x-breadcrumbs", "breadcrumbs.label": "Fil d'Ariane" });
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div lang="x-breadcrumbs"><lit-material-breadcrumbs></lit-material-breadcrumbs></div>
+    `);
+    const el = wrapper.querySelector<LitMaterialBreadcrumbs>("lit-material-breadcrumbs")!;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector("nav")!.getAttribute("aria-label")).to.equal("Fil d'Ariane");
   });
 });

@@ -42,7 +42,9 @@ invisibly on top of custom track/thumb visuals, the same pattern
 [`@lit-material/checkbox`](https://github.com/bohdaq/lit-material/tree/main/packages/checkbox)/`radio`/`switch`
 use. A value bubble appears above the thumb while focused or dragging. `input` fires live as the
 value changes; `change` fires once the change is committed (both matching native `<input>`
-semantics). Form-associated via `ElementInternals` (participates in `FormData`).
+semantics). Form-associated via `ElementInternals` (participates in `FormData`). In RTL the track
+fills from the right and the arrow keys move the thumb in its visual direction, as the native input
+does.
 
 Single-value only — a two-thumb range slider is a deliberate scope cut for this first pass.
 
