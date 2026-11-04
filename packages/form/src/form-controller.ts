@@ -182,8 +182,9 @@ export class FormController<V = FormValues> implements ReactiveController {
     //
     // A render can also add or remove fields (e.g. a field array row)
     // without any input event, so re-check when the set of names changed.
-    if (this.form && this.hasValidation && this.fieldNames().join() !== this.names) {
-      this.names = this.fieldNames().join();
+    const names = this.form && this.hasValidation ? this.fieldNames().join() : this.names;
+    if (names !== this.names) {
+      this.names = names;
       queueMicrotask(() => this.checkValidity());
     }
     this.attach();
