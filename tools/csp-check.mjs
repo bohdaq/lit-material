@@ -91,6 +91,7 @@ const extra = [
   `<lit-material-slider value="30"></lit-material-slider>`,
   `<lit-material-split-panel position="40"><div slot="start">A</div><div slot="end">B</div></lit-material-split-panel>`,
   `<lit-material-textarea label="Notes" resize="vertical"></lit-material-textarea>`,
+  `<lit-material-rich-text-editor label="Notes" maxlength="200" value="&lt;h2&gt;Plan&lt;/h2&gt;&lt;p&gt;Ship &lt;strong&gt;it&lt;/strong&gt; &lt;a href=&quot;/x&quot;&gt;now&lt;/a&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;one&lt;/li&gt;&lt;/ul&gt;"></lit-material-rich-text-editor>`,
   `<lit-material-jump-links links='${j([{ id: "a", text: "Install" }, { id: "b", text: "Use", depth: 3 }])}'></lit-material-jump-links>`,
   `<lit-material-tree><lit-material-tree-item expanded><span slot="label">src</span><lit-material-tree-item><span slot="label">main.ts</span></lit-material-tree-item></lit-material-tree-item></lit-material-tree>`,
   `<lit-material-color-picker label="Accent" value="#6750a4"></lit-material-color-picker>`,

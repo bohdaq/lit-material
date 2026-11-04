@@ -51,6 +51,7 @@
   "@lit-material/progress": 4600,
   "@lit-material/radio": 4600,
   "@lit-material/rating": 4100,
+  "@lit-material/rich-text": 21600,
   "@lit-material/router": 5200,
   "@lit-material/search": 4500,
   "@lit-material/segmented-button": 3200,
@@ -81,7 +82,7 @@
   "@lit-material/toolbar": 900,
   "@lit-material/tooltip": 1900,
   "@lit-material/top-app-bar": 2000,
-  "@lit-material/translations": 3300,
+  "@lit-material/translations": 3800,
   "@lit-material/tree": 5100,
   "@lit-material/truncate": 1100
 }
