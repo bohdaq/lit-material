@@ -37,7 +37,7 @@ npm install @lit-material/log-viewer @lit-material/tokens
 | `maxLines` | `max-lines` | `number` | `1000` |
 | `paused` | `paused` (reflected) | `boolean` | `false` |
 | `wrap` | `wrap` (reflected) | `boolean` | `false` |
-| `label` | `label` | `string` | `"Log"` |
+| `label` | `label` | `string` | `"Log"`, translated |
 | `highlight` | — | `(line: string) => "error" \| "warning" \| "info" \| null \| undefined` | `undefined` |
 | `lines` | — | `string[]` (set to replace everything) | `[]` |
 

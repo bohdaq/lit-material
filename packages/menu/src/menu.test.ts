@@ -192,4 +192,37 @@ describe("lit-material-menu", () => {
     expect(menu.getBoundingClientRect().top).to.be.at.least(row.getBoundingClientRect().bottom);
     menu.close();
   });
+
+  it("lines up with the anchor's right edge in a right-to-left layout", async () => {
+    const host = await fixture<HTMLDivElement>(html`<div dir="rtl" style="padding-inline-start: 300px">
+      <button id="rtl-trigger" style="width: 200px">Menu</button>
+      <lit-material-menu anchor="rtl-trigger"><lit-material-list-item interactive>One</lit-material-list-item></lit-material-menu>
+    </div>`);
+    const trigger = host.querySelector("#rtl-trigger") as HTMLElement;
+    const menu = host.querySelector("lit-material-menu") as LitMaterialMenu;
+    menu.show();
+    await menu.updateComplete;
+    const anchorRect = trigger.getBoundingClientRect();
+    const menuRect = menu.getBoundingClientRect();
+    expect(Math.abs(menuRect.right - anchorRect.right)).to.be.lessThan(1);
+    expect(menuRect.top).to.be.greaterThan(anchorRect.bottom - 1);
+    menu.close();
+  });
+
+  it("opens leftwards from the pointer in a right-to-left layout", async () => {
+    const host = await fixture<HTMLDivElement>(html`<div dir="rtl">
+      <button id="rtl-row" style="width: 400px; height: 40px">Request</button>
+      <lit-material-menu id="rtl-ctx"><lit-material-list-item interactive>Rename</lit-material-list-item></lit-material-menu>
+    </div>`);
+    const row = host.querySelector("#rtl-row") as HTMLElement;
+    const menu = host.querySelector("#rtl-ctx") as LitMaterialMenu;
+    row.addEventListener("contextmenu", (e) => menu.showForEvent(e));
+    const box = row.getBoundingClientRect();
+    const x = Math.round(box.right - 20), y = Math.round(box.top + 20);
+    row.dispatchEvent(new MouseEvent("contextmenu", { bubbles: true, cancelable: true, button: 2, clientX: x, clientY: y }));
+    await menu.updateComplete;
+    expect(menu.open).to.be.true;
+    expect(Math.abs(menu.getBoundingClientRect().right - x)).to.be.below(2);
+    menu.close();
+  });
 });

@@ -1,5 +1,6 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./line-chart.js";
 import "./sparkline.js";
 import type { LitMaterialLineChart } from "./line-chart.js";
@@ -132,5 +133,72 @@ describe("lit-material-sparkline", () => {
     expect(empty.shadowRoot!.querySelector("svg")!.getAttribute("aria-label")).to.equal("x: no data");
     const single = await fixture<LitMaterialSparkline>(html`<lit-material-sparkline .values=${[5]}></lit-material-sparkline>`);
     expect(single.shadowRoot!.querySelector("circle")).to.exist;
+  });
+});
+
+describe("chart i18n and right to left", () => {
+  it("formats default numbers in a locale", () => {
+    expect([formatNumber(1500, "de-DE"), formatNumber(12500, "de-DE"), formatNumber(3.14159, "de-DE")]).to.deep.equal(["1500", "12,5k", "3,14"]);
+    expect(formatNumber(12500, "en")).to.equal("12.5k");
+  });
+
+  it("translates the line chart's summary and readout", async () => {
+    registerTranslation({
+      $code: "x-line",
+      "chart.lineChart": "Courbe",
+      "chart.seriesSummary": "{name} : dernier {latest}, de {min} à {max}",
+      "chart.nameValue": "{name} : {value}",
+      "chart.nameInUnit": "{name} (en {unit})",
+    });
+    const wrap = await fixture<HTMLElement>(html`<div lang="x-line">
+      <lit-material-line-chart unit="req/s" .series=${three}></lit-material-line-chart>
+    </div>`);
+    const el = wrap.querySelector<LitMaterialLineChart>("lit-material-line-chart")!;
+    await el.updateComplete;
+    const svgEl = el.shadowRoot!.querySelector("svg")!;
+    expect(svgEl.getAttribute("aria-label")).to.match(/^Courbe\. api : dernier 2 req\/s, de 0 à 2; web/);
+    expect([...el.shadowRoot!.querySelectorAll("thead th")].map((t) => t.textContent!.trim())[1]).to.equal("api (en req/s)");
+    svgEl.focus();
+    await sendKeys({ press: "Home" });
+    await el.updateComplete;
+    const row = el.shadowRoot!.querySelectorAll(".tip-row")[1]!;
+    expect(row.textContent!.replace(/\s+/g, " ").trim()).to.equal("web : 1 req/s");
+    expect(row.querySelector("strong")!.textContent).to.equal("1");
+  });
+
+  it("keeps the line chart's x axis left to right, right to left", async () => {
+    const wrap = await fixture<HTMLElement>(html`<div dir="rtl" style="width: 600px">
+      <lit-material-line-chart .series=${three}></lit-material-line-chart>
+    </div>`);
+    const el = wrap.querySelector<LitMaterialLineChart>("lit-material-line-chart")!;
+    await el.updateComplete;
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    await el.updateComplete;
+    const svgEl = el.shadowRoot!.querySelector("svg")!;
+    const box = svgEl.getBoundingClientRect();
+    const xLabels = [...el.shadowRoot!.querySelectorAll<SVGTextElement>("text.axis")].filter((t) => Number(t.getAttribute("y")) > 100);
+    const first = xLabels[0]!.getBoundingClientRect();
+    const last = xLabels[xLabels.length - 1]!.getBoundingClientRect();
+    expect(xLabels[0]!.textContent).to.equal("0");
+    expect(first.left).to.be.at.least(box.left - 1); // anchored at its start, inside the plot
+    expect(first.right).to.be.below(last.left);
+    expect(last.right).to.be.at.most(box.right + 1);
+    // The legend follows the reading direction: the first series is on the right.
+    const items = [...el.shadowRoot!.querySelectorAll(".legend li")].map((li) => li.getBoundingClientRect());
+    expect(items[0]!.left).to.be.above(items[1]!.left);
+    // ArrowRight still moves the crosshair right, to a later x.
+    svgEl.focus();
+    await sendKeys({ press: "Home" });
+    await sendKeys({ press: "ArrowRight" });
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".tip-x")!.textContent).to.equal("1");
+  });
+
+  it("translates the sparkline's description", async () => {
+    registerTranslation({ $code: "x-spark", "chart.trend": "Tendance", "chart.sparklineSummary": "{name} — {latest} ({min}–{max})" });
+    const wrap = await fixture<HTMLElement>(html`<div lang="x-spark"><lit-material-sparkline .values=${[1, 7, 3]}></lit-material-sparkline></div>`);
+    const el = wrap.querySelector<LitMaterialSparkline>("lit-material-sparkline")!;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector("svg")!.getAttribute("aria-label")).to.equal("Tendance — 3 (1–7)");
   });
 });

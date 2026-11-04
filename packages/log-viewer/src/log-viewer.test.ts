@@ -1,4 +1,5 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./log-viewer.js";
 import type { LitMaterialLogViewer } from "./log-viewer.js";
 
@@ -77,5 +78,37 @@ describe("lit-material-log-viewer", () => {
     el.clear();
     await el.updateComplete;
     expect(el.lines).to.deep.equal([]);
+  });
+
+  it("translates its label, level names and status text", async () => {
+    registerTranslation({
+      $code: "x-log-viewer",
+      "logViewer.log": "Protokoll",
+      "logViewer.error": "Fehler",
+      "logViewer.paused": { one: "Pausiert: {count} Zeile wartet", other: "Pausiert: {count} Zeilen warten" },
+    });
+    const wrapper = await fixture<HTMLDivElement>(html`<div lang="x-log-viewer"><lit-material-log-viewer></lit-material-log-viewer></div>`);
+    const el = wrapper.querySelector<LitMaterialLogViewer>("lit-material-log-viewer")!;
+    el.highlight = (line) => (line.includes("500") ? "error" : null);
+    el.appendLines("GET / 500");
+    el.paused = true;
+    await el.updateComplete;
+    el.appendLines(["a", "b"]);
+    await el.updateComplete;
+    const root = el.shadowRoot!;
+    expect(root.querySelector(".viewport")!.getAttribute("aria-label")).to.equal("Protokoll");
+    expect(root.querySelector(".mark")!.getAttribute("aria-label")).to.equal("Fehler");
+    expect(root.querySelector(".held")!.textContent!.trim()).to.equal("Pausiert: 2 Zeilen warten");
+  });
+
+  it("puts the level marker at the start edge in right-to-left layouts", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`<div dir="rtl"><lit-material-log-viewer></lit-material-log-viewer></div>`);
+    const el = wrapper.querySelector<LitMaterialLogViewer>("lit-material-log-viewer")!;
+    el.highlight = () => "error";
+    el.appendLines("x");
+    await el.updateComplete;
+    const line = el.shadowRoot!.querySelector<HTMLElement>(".line")!.getBoundingClientRect();
+    const mark = el.shadowRoot!.querySelector<HTMLElement>(".mark")!.getBoundingClientRect();
+    expect(line.right - mark.right).to.be.closeTo(8, 1);
   });
 });

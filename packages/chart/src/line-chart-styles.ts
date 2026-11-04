@@ -18,7 +18,10 @@ export const styles = [
     .chart {
       position: relative;
     }
+    /* The plot is geometry: its x axis runs left to right in right-to-left pages too. LTR here also keeps
+       SVG text-anchor start/end meaning left/right (series names still read right to left within). */
     svg {
+      direction: ltr;
       display: block;
       width: 100%;
       height: auto;
@@ -84,7 +87,6 @@ export const styles = [
       border-radius: 2px;
       background: var(--series);
     }
-
     .tooltip {
       position: absolute;
       top: 0;

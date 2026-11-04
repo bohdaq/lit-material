@@ -1,6 +1,7 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
 import "@lit-material/list";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./app-launcher.js";
 import type { LitMaterialAppLauncher } from "./app-launcher.js";
 
@@ -81,5 +82,30 @@ describe("lit-material-app-launcher", () => {
     await frames();
     expect(menu.matches(":popover-open")).to.be.false;
     expect(el.open).to.be.false;
+  });
+
+  it("translates its labels and empty text", async () => {
+    registerTranslation({
+      $code: "x-app-launcher",
+      "menu.applications": "Anwendungen",
+      "menu.searchApplications": "Anwendungen suchen",
+      "menu.noApplicationsMatch": "Keine passenden Anwendungen",
+    });
+    const wrapper = await fixture<HTMLDivElement>(html`<div lang="x-app-launcher">
+      <lit-material-app-launcher searchable>
+        <lit-material-list-item href="#grafana">Grafana</lit-material-list-item>
+      </lit-material-app-launcher>
+    </div>`);
+    const el = wrapper.querySelector<LitMaterialAppLauncher>("lit-material-app-launcher")!;
+    await el.updateComplete;
+    const root = el.shadowRoot!;
+    expect(root.querySelector("button")!.getAttribute("aria-label")).to.equal("Anwendungen");
+    expect(root.querySelector("lit-material-menu")!.getAttribute("aria-label")).to.equal("Anwendungen");
+    expect(root.querySelector("input")!.getAttribute("aria-label")).to.equal("Anwendungen suchen");
+    const input = root.querySelector("input")!;
+    input.value = "zzz";
+    input.dispatchEvent(new Event("input"));
+    await el.updateComplete;
+    expect(root.querySelector(".empty")!.textContent).to.equal("Keine passenden Anwendungen");
   });
 });
