@@ -1,5 +1,6 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import "./color-scheme-toggle.js";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import type { LitMaterialColorSchemeToggle } from "./color-scheme-toggle.js";
 import {
   colorSchemeBootScript,
@@ -110,6 +111,24 @@ describe("lit-material-color-scheme-toggle", () => {
     expect(seen).to.deep.equal(["dark", "auto", "light"]);
     const label = el.shadowRoot!.querySelector("lit-material-icon-button")!.getAttribute("aria-label");
     expect(label).to.equal("Colour scheme: light. Switch to dark");
+  });
+
+  it("labels itself in the element's language", async () => {
+    registerTranslation({
+      $code: "x-scheme",
+      "colorScheme.switchToDark": "Dunkel",
+      "colorScheme.cycleLight": "Hell. Weiter zu dunkel",
+    });
+    setColorScheme("light", { persist: false });
+    const wrap = await fixture<HTMLDivElement>(html`<div lang="x-scheme">
+      <lit-material-color-scheme-toggle></lit-material-color-scheme-toggle>
+      <lit-material-color-scheme-toggle cycle></lit-material-color-scheme-toggle>
+    </div>`);
+    const [toggle, cycle] = [...wrap.querySelectorAll("lit-material-color-scheme-toggle")] as LitMaterialColorSchemeToggle[];
+    await toggle!.updateComplete;
+    await cycle!.updateComplete;
+    expect(innerButton(toggle!).getAttribute("aria-label")).to.equal("Dunkel");
+    expect(cycle!.shadowRoot!.querySelector("lit-material-icon-button")!.getAttribute("aria-label")).to.equal("Hell. Weiter zu dunkel");
   });
 
   it("applies a saved choice on connect when no boot script ran", async () => {

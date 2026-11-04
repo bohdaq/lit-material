@@ -1,6 +1,7 @@
 import { html, LitElement, nothing } from "lit";
 import type { PropertyValues } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { LocalizeController, isRtl } from "@lit-material/core/localize.js";
 import { styles } from "./autocomplete-styles.js";
 
 export type AutocompleteVariant = "filled" | "outlined";
@@ -80,6 +81,7 @@ export class LitMaterialAutocomplete extends LitElement {
   @state() private touched = false;
 
   private readonly internals: ElementInternals;
+  private readonly localize = new LocalizeController(this);
   private readonly labelId = `lit-material-autocomplete-label-${++instanceCount}`;
   private readonly listboxId = `lit-material-autocomplete-listbox-${instanceCount}`;
   private readonly supportingId = `lit-material-autocomplete-supporting-${instanceCount}`;
@@ -116,9 +118,8 @@ export class LitMaterialAutocomplete extends LitElement {
         this.popoverElement.hidePopover();
       }
     }
-    if (changed.has("value") || changed.has("required") || changed.has("error")) {
-      this.syncInternals();
-    }
+    // Every update, not just value/required/error: the message follows a language change.
+    this.syncInternals();
   }
 
   /** All options whose label contains the in-progress search query (case-insensitive). */
@@ -169,7 +170,11 @@ export class LitMaterialAutocomplete extends LitElement {
     this.internals.setFormValue(this.value || null);
     if (!this.inputElement) return;
     if (this.required && this.value === "") {
-      this.internals.setValidity({ valueMissing: true }, "Please choose an option.", this.inputElement);
+      this.internals.setValidity(
+        { valueMissing: true },
+        this.localize.term("autocomplete.chooseOption", "Please choose an option."),
+        this.inputElement,
+      );
     } else {
       this.internals.setValidity({});
     }
@@ -187,14 +192,15 @@ export class LitMaterialAutocomplete extends LitElement {
       top = above >= 0 ? above : Math.max(0, window.innerHeight - popoverRect.height);
     }
 
-    let left = anchorRect.left;
-    if (left + popoverRect.width > window.innerWidth) {
-      left = Math.max(0, window.innerWidth - popoverRect.width);
-    }
+    // Line the list up with the field's start edge: its right edge in RTL.
+    const width = Math.max(anchorRect.width, popoverRect.width);
+    let left = isRtl(this) ? anchorRect.right - width : anchorRect.left;
+    left = Math.max(0, Math.min(left, window.innerWidth - width));
 
     this.popoverElement.style.top = `${top}px`;
     this.popoverElement.style.left = `${left}px`;
-    this.popoverElement.style.width = `${Math.max(anchorRect.width, popoverRect.width)}px`;
+    this.popoverElement.style.right = "auto";
+    this.popoverElement.style.width = `${width}px`;
   }
 
   private commitOption(option: AutocompleteOption): void {
@@ -277,10 +283,10 @@ export class LitMaterialAutocomplete extends LitElement {
           </svg>
         </div>
         <div class="popover" part="popover" popover="auto" id="${this.listboxId}-surface">
-          <div class="listbox" part="listbox" role="listbox" id=${this.listboxId} aria-label=${this.label || "Options"}>
+          <div class="listbox" part="listbox" role="listbox" id=${this.listboxId} aria-label=${this.label || this.localize.term("autocomplete.options", "Options")}>
             ${options.map((option, index) => this.renderOption(option, index))}
           </div>
-          ${options.length === 0 ? html`<div class="empty" part="empty">No results</div>` : nothing}
+          ${options.length === 0 ? html`<div class="empty" part="empty">${this.localize.term("autocomplete.noResults", "No results")}</div>` : nothing}
         </div>
         ${message ? html`<div class="supporting" part="supporting" id=${this.supportingId}>${message}</div>` : nothing}
       </div>

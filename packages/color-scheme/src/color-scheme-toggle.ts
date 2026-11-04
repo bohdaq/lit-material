@@ -1,6 +1,7 @@
 import { css, html, LitElement, svg } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import "@lit-material/icon-button";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import {
   COLOR_SCHEME_EVENT,
   type ColorScheme,
@@ -21,7 +22,6 @@ const AUTO =
   "M20 15.31 23.31 12 20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69zM12 18V6a6 6 0 0 1 0 12z";
 
 const NEXT: Record<ColorScheme, ColorScheme> = { light: "dark", dark: "auto", auto: "light" };
-const NAME: Record<ColorScheme, string> = { light: "light", dark: "dark", auto: "system" };
 
 /**
  * A button that switches the page between light and dark, built on
@@ -76,6 +76,14 @@ export class LitMaterialColorSchemeToggle extends LitElement {
 
   private media?: MediaQueryList;
 
+  private readonly localize = new LocalizeController(this);
+
+  private cycleLabel(): string {
+    if (this.scheme === "light") return this.localize.term("colorScheme.cycleLight", "Colour scheme: light. Switch to dark");
+    if (this.scheme === "dark") return this.localize.term("colorScheme.cycleDark", "Colour scheme: dark. Switch to system");
+    return this.localize.term("colorScheme.cycleAuto", "Colour scheme: system. Switch to light");
+  }
+
   override connectedCallback(): void {
     super.connectedCallback();
     // No boot script ran: apply the saved choice now (without re-saving or
@@ -117,7 +125,7 @@ export class LitMaterialColorSchemeToggle extends LitElement {
 
   override render() {
     if (this.cycle) {
-      const label = `Colour scheme: ${NAME[this.scheme]}. Switch to ${NAME[NEXT[this.scheme]]}`;
+      const label = this.cycleLabel();
       const slot =
         this.scheme === "light"
           ? html`<slot name="light-icon">${icon(SUN)}</slot>`
@@ -132,7 +140,9 @@ export class LitMaterialColorSchemeToggle extends LitElement {
     return html`<lit-material-icon-button
       toggle
       .selected=${dark}
-      aria-label=${dark ? "Switch to light theme" : "Switch to dark theme"}
+      aria-label=${dark
+        ? this.localize.term("colorScheme.switchToLight", "Switch to light theme")
+        : this.localize.term("colorScheme.switchToDark", "Switch to dark theme")}
       @click=${this.onClick}
       @change=${(e: Event) => e.stopPropagation()}
     >
