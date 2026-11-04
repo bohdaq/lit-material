@@ -7,6 +7,7 @@ import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { gzipSync } from "node:zlib";
+import { NODE_ONLY } from "../../../tools/node-only.mjs";
 
 const site = join(dirname(fileURLToPath(import.meta.url)), "..");
 const repo = join(site, "..", "..");
@@ -26,7 +27,7 @@ for (const dir of readdirSync(join(repo, "packages"))) {
   const entry = join(pkgDir, "dist", "index.js");
   if (!existsSync(pkgFile) || !existsSync(entry)) continue;
   const pkg = JSON.parse(readFileSync(pkgFile, "utf8"));
-  if (pkg.private) continue;
+  if (pkg.private || NODE_ONLY.has(pkg.name)) continue;
   const result = await build({
     stdin: { contents: `export * from ${JSON.stringify(entry)};`, resolveDir: pkgDir },
     bundle: true,

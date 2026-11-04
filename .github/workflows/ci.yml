@@ -51,6 +51,9 @@ jobs:
       - run: pnpm csp
       # The per-package SBOMs the release ships (dist/sbom.cdx.json) can be generated.
       - run: pnpm sboms
+      # The site (lit.rws8.tech) prerenders every page and measures every package; build it here too, so a
+      # change that breaks it fails the PR rather than the deploy.
+      - run: pnpm --filter @lit-material/site run build:site
 
       # Each package's web-test-runner binds a fixed dev-server port, so test tasks can't run
       # turbo's default full parallelism without colliding — keep this sequential.
