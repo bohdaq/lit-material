@@ -177,3 +177,43 @@ hitop's webapp, the rws site and admin UI, compared with Web Awesome, Carbon and
   (SSR via the JSON `links` attribute, added for this). Not done on purpose: `menu` for the version
   switcher and `search` for docs search — both are no-JS `<details>`/`<dialog>` today and would lose that.
 - ~~**Sortable in a grid**~~: `layout="grid"` (sortable 0.2.0); hitop's collection cards use it (19753a3).
+
+## Framework and enterprise readiness (2026-11-04)
+
+What lit-material still lacks to be picked the way React, Angular or Angular Material are picked.
+The goal is "the complete kit for building apps on Lit", not a new rendering framework: Lit is the
+framework. Ordered by priority.
+
+1. **1.0 and a support policy.** Every package is 0.x. Ship 1.0 with a written semver, deprecation and
+   long-term-support policy, and link versions (Changesets `linked`/`fixed`) or publish an
+   all-components package so 81 independent versions don't need a compatibility matrix.
+2. **Governance files.** `SECURITY.md` (private reporting, supported versions), `CONTRIBUTING.md`,
+   code of conduct, a public roadmap and a lightweight RFC process. One maintainer is a procurement flag;
+   name a second.
+3. **Router v2** (`router` 0.0.6 has nested routes and a base path only): guards and redirects,
+   lazy-loaded routes (`import()`), typed query parameters, scroll restoration, page titles,
+   server-side matching so routed pages can be prerendered.
+4. **Framework typings and wrappers**, generated from each package's `custom-elements.json`: React 18
+   wrappers via `@lit/react`, JSX `IntrinsicElements`, Vue `GlobalComponents` and Angular schema typings.
+5. **Accessibility conformance report.** axe runs in tests; publish a WCAG 2.2 AA report (VPAT format)
+   per component, backed by manual NVDA/JAWS/VoiceOver passes.
+6. **i18n.** Message catalogs and plural forms on top of the locale context (or document `@lit/localize`),
+   and right-to-left styling everywhere (7 components today).
+7. **Data and forms.**
+   - `task`: request caching with background refresh, deduplication, retries.
+   - A small fetch wrapper with interceptors (auth headers, 401 handling).
+   - `form`: async and schema validators (zod-style) and field arrays.
+8. **Full-stack layer.** A Vite plugin and preset: SSR of the whole app, per-route data loading,
+   app-level hydration, more than one `create-lit-material-app` template.
+9. **Developer tooling.**
+   - Testing helpers for app authors (fixtures, `waitForUpdate`, role-based queries through shadow roots).
+   - A devtools panel for the store and router.
+10. **Design hand-off.** A Figma kit matching the components and tokens.
+11. **Security and compliance.** Publish an SBOM per release; document Content-Security-Policy
+    (no inline styles or scripts) and Trusted Types compatibility. Release provenance already exists.
+12. **Enterprise widgets.**
+    - Data grid: grouping, inline editing, CSV export.
+    - Rich-text editor.
+    - Calendar / scheduler.
+13. **Adoption.** Migration guides and codemods from `@material/web` and Angular Material, case studies
+    (rws site and admin UI, hitop), a support offering.
