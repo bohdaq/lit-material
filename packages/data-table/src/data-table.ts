@@ -4,6 +4,7 @@ import { repeat } from "lit/directives/repeat.js";
 import type { LitMaterialDataTableCell, SortDirection } from "./data-table-cell.js";
 import type { LitMaterialDataTableRow } from "./data-table-row.js";
 import { styles } from "./data-table-styles.js";
+import { cssProps } from "@lit-material/core/css-props.js";
 
 /**
  * Material Design 3 data table — a container for `lit-material-data-table-row`
@@ -249,16 +250,16 @@ export class LitMaterialDataTable extends LitElement {
       <div
         class="viewport"
         part="viewport"
-        style="height: ${this.viewportHeight}px"
+        style=${cssProps({ height: `${this.viewportHeight}px` })}
         @scroll=${this.handleViewportScroll}
       >
-        <div class="spacer" part="spacer" style="height: ${totalHeight}px">
+        <div class="spacer" part="spacer" style=${cssProps({ height: `${totalHeight}px` })}>
           ${repeat(
             visible,
             (item, i) => (this.rowKey ? this.rowKey(item, start + i) : start + i),
             (item, i) => {
               const index = start + i;
-              return html`<div class="virtual-row" style="transform: translateY(${index * this.rowHeight}px)">
+              return html`<div class="virtual-row" style=${cssProps({ transform: `translateY(${index * this.rowHeight}px)` })}>
                 ${this.rowRenderer!(item, index)}
               </div>`;
             },

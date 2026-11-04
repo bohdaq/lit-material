@@ -1,6 +1,7 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
+import { cssProps } from "@lit-material/core/css-props.js";
 
 /**
  * One live region for every sortable, in <body>: inside the list it would be
@@ -516,10 +517,14 @@ export class LitMaterialSortable extends LitElement {
 
   override render() {
     const line = this.indicator();
-    const style = line && (line.left === undefined ? `top: ${line.top}px` : `top: ${line.top}px; inset-inline-start: ${line.left}px; height: ${line.height}px`);
+    const style =
+      line &&
+      (line.left === undefined
+        ? { top: `${line.top}px` }
+        : { top: `${line.top}px`, insetInlineStart: `${line.left}px`, height: `${line.height}px` });
     return html`<slot @slotchange=${this.onSlotChange}></slot>${line === null
         ? ""
-        : html`<div class=${line.left === undefined ? "indicator" : "indicator between"} style=${style}></div>`}`;
+        : html`<div class=${line.left === undefined ? "indicator" : "indicator between"} style=${cssProps(style || {})}></div>`}`;
   }
 }
 

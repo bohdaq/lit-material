@@ -31,6 +31,6 @@ describe("lit-material-skeleton (SSR)", () => {
 
   it("renders width/height as inline style when set", async () => {
     const out = await renderToString(html`<lit-material-skeleton width="200px" height="20px"></lit-material-skeleton>`);
-    assert.match(out, /style="width: 200px;height: 20px;"/);
+    assert.match(out, /style="width: 200px; height: 20px"/);
   });
 });

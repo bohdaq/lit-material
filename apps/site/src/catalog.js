@@ -71,6 +71,7 @@ export const GUIDE_GROUPS = [
       { slug: "server-rendering", label: "Server rendering", from: null },
       { slug: "frameworks", label: "React, Vue and Angular", from: null },
       { slug: "i18n", label: "Languages and RTL", from: null },
+      { slug: "security", label: "Security and CSP", from: null },
       { slug: "site-kit", label: "Static sites", from: null },
     ],
   },

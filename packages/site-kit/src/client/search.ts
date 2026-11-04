@@ -28,6 +28,26 @@ export interface SearchOptions {
   delay?: number;
 }
 
+type HtmlPolicy = { createHTML(html: string): unknown };
+let policy: HtmlPolicy | null | undefined;
+/**
+ * Sets markup built here from escaped values (and Pagefind's own escaped excerpts). Goes through a Trusted
+ * Types policy named `lit-material-site-kit` where the browser has them, so a page with
+ * `require-trusted-types-for 'script'` works once it lists that name in `trusted-types`.
+ */
+function setHTML(el: Element, html: string): void {
+  if (policy === undefined) {
+    const tt = (globalThis as { trustedTypes?: { createPolicy(name: string, rules: { createHTML(s: string): string }): HtmlPolicy } })
+      .trustedTypes;
+    try {
+      policy = tt?.createPolicy("lit-material-site-kit", { createHTML: (s) => s }) ?? null;
+    } catch {
+      policy = null; // the page's CSP doesn't allow this policy name
+    }
+  }
+  el.innerHTML = (policy ? policy.createHTML(html) : html) as string;
+}
+
 const escape = (text: string) => text.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 
 const SKELETON = '<div class="search-skeleton"></div>'.repeat(3);
@@ -74,10 +94,10 @@ export function initSearch({ load = pagefind, options, emptyHint = "", limit = 8
     const query = input.value.trim();
     const mine = ++token;
     if (!query) {
-      results.innerHTML = "";
+      setHTML(results, "");
       return;
     }
-    results.innerHTML = SKELETON;
+    setHTML(results, SKELETON);
     // Our own debounce: Pagefind's debouncedSearch drops the last query when
     // several arrive while the index is still loading.
     timer = setTimeout(async () => {
@@ -88,12 +108,15 @@ export function initSearch({ load = pagefind, options, emptyHint = "", limit = 8
         const items = await Promise.all(search.results.slice(0, limit).map((r) => r.data()));
         if (mine !== token) return;
         // Pagefind's excerpt is HTML it escaped itself, with <mark> around matches.
-        results.innerHTML = items.length
-          ? `<ul>${items.map((d) => `<li><a href="${escape(d.url)}"><b>${escape(d.meta.title ?? d.url)}</b><span>${d.excerpt}</span></a></li>`).join("")}</ul>`
-          : `<p class="search-empty">No pages match “${escape(query)}”.${emptyHint ? ` ${emptyHint}` : ""}</p>`;
+        setHTML(
+          results,
+          items.length
+            ? `<ul>${items.map((d) => `<li><a href="${escape(d.url)}"><b>${escape(d.meta.title ?? d.url)}</b><span>${d.excerpt}</span></a></li>`).join("")}</ul>`
+            : `<p class="search-empty">No pages match “${escape(query)}”.${emptyHint ? ` ${emptyHint}` : ""}</p>`,
+        );
       } catch {
         index = undefined;
-        if (mine === token) results.innerHTML = '<p class="search-empty">Search is unavailable right now. Use the navigation or reload the page.</p>';
+        if (mine === token) setHTML(results, '<p class="search-empty">Search is unavailable right now. Use the navigation or reload the page.</p>');
       }
     }, delay);
   });

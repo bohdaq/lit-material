@@ -176,6 +176,30 @@ render() {
         <p>Repeating rows use a <code>FieldArrayController</code>: stable keys for <code>repeat()</code>, and <code>append</code>, <code>remove</code> and <code>move</code>.</p>`],
     ],
   },
+  security: {
+    title: "Security, CSP and SBOMs",
+    lead: "lit-material runs under a strict Content-Security-Policy with Trusted Types enforced, and every published package carries an SBOM and npm provenance.",
+    sections: [
+      ["csp", "Content-Security-Policy", html`
+        <p>A client-rendered app needs no <code>'unsafe-inline'</code> and no <code>'unsafe-eval'</code>. CI renders every element in Chromium under this policy and fails on any violation:</p>
+        <pre tabindex="0"><code>Content-Security-Policy:
+  default-src 'self';
+  script-src 'self';
+  style-src 'self';
+  img-src 'self' data:;
+  require-trusted-types-for 'script';
+  trusted-types lit-html</code></pre>
+        <p>Component styles are constructable stylesheets, which a <code>style-src</code> doesn't block. Inline styles that change at runtime (a progress bar's width, a tooltip's position) are set through the CSSOM with <code>cssProps</code> from <code>@lit-material/core</code>, never as a <code>style</code> attribute.</p>`],
+      ["trusted-types", "Trusted Types", html`
+        <p>Components never assign HTML strings to the DOM themselves; Lit's own <code>lit-html</code> policy covers its templates, including icons registered with <code>registerIcons</code> (whose SVG strings are yours, so register only markup you trust). Allow <code>lit-html</code> in <code>trusted-types</code>. Site-kit's search box uses a policy named <code>lit-material-site-kit</code>; list it too if you use it.</p>`],
+      ["ssr", "Server-rendered pages", html`
+        <p>Server rendering writes each element's styles as a <code>&lt;style&gt;</code> inside its declarative shadow root, and runtime inline styles as <code>style</code> attributes, so the first paint can show them before any script runs. A server-rendered page therefore needs inline styles allowed (<code>style-src 'self' 'unsafe-inline'</code>); scripts can stay strict. Inline styles can't run code. The color-scheme boot script is inline: allow it by hash (<code>script-src 'sha256-…'</code>, computed from <code>colorSchemeBootScript()</code>'s output) or serve it as a file.</p>`],
+      ["sbom", "SBOMs and provenance", html`
+        <p>Every package ships a CycloneDX SBOM of its runtime dependency tree at <code>dist/sbom.cdx.json</code> inside the npm tarball, generated from the lockfile when it's released; it includes the other lit-material packages it depends on. Packages are published from GitHub Actions with npm provenance, so <code>npm audit signatures</code> verifies each one was built from this repository's source.</p>
+        <pre tabindex="0"><code>npm audit signatures
+cat node_modules/@lit-material/button/dist/sbom.cdx.json</code></pre>`],
+    ],
+  },
   frameworks: {
     title: "React, Vue and Angular",
     lead: "lit-material components are custom elements, so they work in any framework as they are. Every component package also ships React wrappers, JSX and Vue typings, and editor metadata, generated from its custom elements manifest.",

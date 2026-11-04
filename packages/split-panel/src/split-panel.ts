@@ -1,6 +1,7 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { LocalizeController } from "@lit-material/core/localize.js";
+import { cssProps } from "@lit-material/core/css-props.js";
 
 export type SplitOrientation = "horizontal" | "vertical";
 
@@ -203,7 +204,7 @@ export class LitMaterialSplitPanel extends LitElement {
   };
 
   override render() {
-    return html`<div class="split" style="--_start: ${this.position}fr; --_end: ${100 - this.position}fr">
+    return html`<div class="split" style=${cssProps({ "--_start": `${this.position}fr`, "--_end": `${100 - this.position}fr` })}>
       <div class="pane" id="${this.uid}-start"><slot name="start"></slot></div>
       <div
         part="divider"

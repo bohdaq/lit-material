@@ -110,6 +110,21 @@ class AppShell extends LitElement {
 For your app's own strings, use [`@lit/localize`](https://lit.dev/docs/localization/overview/) or
 `registerTranslation` with your own keys.
 
+## `cssProps`
+
+Sets inline styles through the CSSOM (`element.style.setProperty`) rather than a `style` attribute, so they
+work under a Content-Security-Policy without `'unsafe-inline'` for styles. Lit's `styleMap` writes the
+attribute on its first render, which such a policy blocks.
+
+```ts
+import { cssProps } from "@lit-material/core/css-props.js";
+
+html`<div class="bar" style=${cssProps({ width: `${percent}%`, "--indent": "12px", color: undefined })}></div>`;
+```
+
+Names may be camelCase or kebab-case, custom properties keep their `--`; `null`, `undefined` and `""` leave a
+property out (and remove it if it was set). On the server it renders the same styles as an attribute.
+
 ## `setAriaElements`
 
 Points a control inside a shadow root at elements in the page, by ids given to the host. An id

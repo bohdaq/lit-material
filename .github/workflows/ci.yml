@@ -46,6 +46,11 @@ jobs:
       # React wrappers, JSX and Vue typings generated from the manifests: up to date, typecheck with
       # fixtures, and a React app clicking a wrapped and a bare element in Chromium.
       - run: pnpm bindings:check
+      # Every element rendered under a strict Content-Security-Policy with Trusted Types enforced (no inline
+      # styles, no unsafe-inline, only the lit-html policy), plus a source scan for style bindings and HTML sinks.
+      - run: pnpm csp
+      # The per-package SBOMs the release ships (dist/sbom.cdx.json) can be generated.
+      - run: pnpm sboms
 
       # Each package's web-test-runner binds a fixed dev-server port, so test tasks can't run
       # turbo's default full parallelism without colliding — keep this sequential.

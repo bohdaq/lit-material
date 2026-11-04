@@ -1,6 +1,7 @@
 import { css, html, LitElement, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { LocalizeController } from "@lit-material/core/localize.js";
+import { cssProps } from "@lit-material/core/css-props.js";
 
 export interface JumpLink {
   /** The target element's id. */
@@ -195,7 +196,7 @@ export class LitMaterialJumpLinks extends LitElement {
             <a
               part="link"
               href=${`#${entry.id}`}
-              style=${`--indent: ${((entry.depth ?? top) - top) * 12}px`}
+              style=${cssProps({ "--indent": `${((entry.depth ?? top) - top) * 12}px` })}
               aria-current=${entry.id === this.current ? "location" : nothing}
               >${entry.text}</a
             >

@@ -1,6 +1,7 @@
-import { html, LitElement, nothing } from "lit";
+import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { styles } from "./skeleton-styles.js";
+import { cssProps } from "@lit-material/core/css-props.js";
 
 export type SkeletonVariant = "text" | "circular" | "rectangular" | "rounded";
 export type SkeletonAnimation = "pulse" | "wave" | "none";
@@ -31,8 +32,8 @@ export class LitMaterialSkeleton extends LitElement {
   @property() height = "";
 
   override render() {
-    const style = `${this.width ? `width: ${this.width};` : ""}${this.height ? `height: ${this.height};` : ""}`;
-    return html`<span class="skeleton" part="skeleton" style=${style || nothing} aria-hidden="true"></span>`;
+    const style = { width: this.width || undefined, height: this.height || undefined };
+    return html`<span class="skeleton" part="skeleton" style=${cssProps(style)} aria-hidden="true"></span>`;
   }
 }
 

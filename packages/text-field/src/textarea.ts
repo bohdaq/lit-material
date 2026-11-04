@@ -2,6 +2,7 @@ import { html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./textarea-styles.js";
+import { cssProps } from "@lit-material/core/css-props.js";
 
 export type TextareaVariant = "filled" | "outlined";
 export type TextareaResize = "none" | "vertical" | "horizontal" | "both";
@@ -139,7 +140,7 @@ export class LitMaterialTextarea extends LitElement {
             class="textarea"
             part="textarea"
             id="textarea"
-            style="resize: ${this.resize}"
+            style=${cssProps({ resize: this.resize })}
             rows=${this.rows}
             .value=${this.value}
             placeholder=${this.placeholder || nothing}

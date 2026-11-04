@@ -39,6 +39,9 @@ diffs rather than a virtual DOM — closer to what the browser is already doing 
   ([`@lit-material/translations`](packages/translations)), dates and numbers from `Intl`, and every layout,
   arrow key and directional icon mirrors under `dir="rtl"`. See
   [Languages and right to left](https://lit.rws8.tech/guides/i18n/).
+- **Strict CSP, Trusted Types, SBOMs.** Every element is checked in CI under `script-src 'self'; style-src
+  'self'; require-trusted-types-for 'script'` (no `'unsafe-inline'`), and every package ships a CycloneDX SBOM
+  (`dist/sbom.cdx.json`) and npm provenance. See [Security, CSP and SBOMs](https://lit.rws8.tech/guides/security/).
 - **SSR-tested, not just browser-tested.** Every component has a real test asserting its
   [`@lit-labs/ssr`](https://www.npmjs.com/package/@lit-labs/ssr) output, not just its client-side behavior.
 - **Built on native browser APIs wherever one exists** — the Popover API (Menu, Snackbar, Tooltip), the native
