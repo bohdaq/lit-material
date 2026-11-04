@@ -11,7 +11,7 @@ const placeholders = (message: Message): Set<string> => {
 const keysOf = (catalog: object) => Object.keys(catalog).filter((k) => !k.startsWith("$")).sort();
 
 const files = readdirSync(new URL(".", import.meta.url)).filter(
-  (f) => /^[a-z]{2}(-[A-Z]{2})?\.ts$/.test(f) && f !== "en.ts",
+  (f) => /^[a-z]{2}(-[A-Z]{2})?\.ts$/.test(f) && f !== "en.ts" && (!process.env.CATALOG || f === `${process.env.CATALOG}.ts`),
 );
 
 describe("translation catalogs (no browser)", () => {
