@@ -1,5 +1,6 @@
 import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { isRtl } from "@lit-material/core/localize.js";
 import { styles } from "./menu-styles.js";
 
 /**
@@ -159,13 +160,23 @@ export class LitMaterialMenu extends LitElement {
       top = above >= 0 ? above : Math.max(0, window.innerHeight - menuRect.height);
     }
 
-    let left = anchorRect.left;
-    if (left + menuRect.width > window.innerWidth) {
-      left = Math.max(0, window.innerWidth - menuRect.width);
+    // Line the menu up with the anchor's (or pointer's) inline-start edge: its left edge left to right,
+    // its right edge right to left, keeping it inside the viewport either way.
+    let left: number;
+    if (isRtl(this)) {
+      left = anchorRect.right - menuRect.width;
+      if (left < 0) left = Math.max(0, Math.min(anchorRect.left, window.innerWidth - menuRect.width));
+    } else {
+      left = anchorRect.left;
+      if (left + menuRect.width > window.innerWidth) {
+        left = Math.max(0, window.innerWidth - menuRect.width);
+      }
     }
 
     this.style.top = `${top}px`;
     this.style.left = `${left}px`;
+    // The popover's default `inset: 0` would otherwise win over `left` in a right-to-left layout.
+    this.style.right = "auto";
   }
 
   private readonly handleKeydown = (event: KeyboardEvent): void => {

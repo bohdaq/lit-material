@@ -1,6 +1,7 @@
 import { html, LitElement, nothing, svg } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { css } from "lit";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { formatNumber } from "./scale.js";
 import { seriesColors, textTokens } from "./series-colors.js";
 
@@ -55,18 +56,25 @@ export class LitMaterialSparkline extends LitElement {
 
   @property({ type: Array }) values: number[] = [];
 
-  /** What the line shows, e.g. "Requests per second". */
+  /** What the line shows, e.g. "Requests per second". Unset, "Trend", translated. */
   @property() label = "";
 
   /** Mark the last value with a dot. */
   @property({ type: Boolean, attribute: "show-last" }) showLast = false;
 
-  @property({ attribute: false }) format: (value: number) => string = formatNumber;
+  /** Formats values. Default: compact numbers in the element's language. */
+  @property({ attribute: false }) format?: (value: number) => string;
+
+  private readonly localize = new LocalizeController(this);
+
+  private formatValue(n: number): string {
+    return this.format ? this.format(n) : formatNumber(n, this.localize.lang);
+  }
 
   override render() {
     const values = this.values.filter((v) => Number.isFinite(v));
-    const name = this.label || "Trend";
-    if (values.length === 0) return html`<svg role="img" aria-label="${name}: no data"></svg>`;
+    const name = this.label || this.localize.term("chart.trend", "Trend");
+    if (values.length === 0) return html`<svg role="img" aria-label=${this.localize.term("chart.nameNoData", "{name}: no data", { name })}></svg>`;
     const min = Math.min(...values);
     const max = Math.max(...values);
     const span = max - min || 1;
@@ -76,7 +84,12 @@ export class LitMaterialSparkline extends LitElement {
     const y = (v: number) => 2 + (1 - (v - min) / span) * (H - 4);
     const last = values[values.length - 1]!;
     return html`<svg class="s1" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img"
-      aria-label="${name}: latest ${this.format(last)}, from ${this.format(min)} to ${this.format(max)}">
+      aria-label=${this.localize.term("chart.sparklineSummary", "{name}: latest {latest}, from {min} to {max}", {
+        name,
+        latest: this.formatValue(last),
+        min: this.formatValue(min),
+        max: this.formatValue(max),
+      })}>
       <polyline points=${values.map((v, i) => `${x(i).toFixed(2)},${y(v).toFixed(2)}`).join(" ")}></polyline>
       ${this.showLast || values.length === 1 ? svg`<circle cx=${x(values.length - 1)} cy=${y(last)} r="2.5"></circle>` : nothing}
     </svg>`;

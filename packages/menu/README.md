@@ -55,6 +55,9 @@ at once there, the release would close the menu).
 row.addEventListener("contextmenu", (event) => menu.showForEvent(event));
 ```
 
+In a right-to-left layout the menu lines up its right edge with the anchor's (or opens leftwards
+from the pointer).
+
 ## API
 
 | Property | Attribute | Type      | Default     |
@@ -98,10 +101,10 @@ person can go to. Items are `lit-material-list-item`s with `href`.
 
 | Property      | Attribute      | Type      | Default                   |
 | ------------- | -------------- | --------- | ------------------------- |
-| `label`       | `label`        | `string` (names the button and menu) | `"Applications"` |
+| `label`       | `label`        | `string` (names the button and menu) | `"Applications"`, translated |
 | `searchable`  | `searchable` (reflected) | `boolean` (a filter field at the top) | `false` |
-| `searchLabel` | `search-label` | `string`  | `"Search applications"`   |
-| `emptyText`   | `empty-text`   | `string` (shown when nothing matches) | `"No applications match"` |
+| `searchLabel` | `search-label` | `string`  | `"Search applications"`, translated |
+| `emptyText`   | `empty-text`   | `string` (shown when nothing matches) | `"No applications match"`, translated |
 | `open`        | `open` (reflected) | `boolean` | `false` |
 
 `show()`/`close()`; `close` fires after it closes. Slot `icon` replaces the grid icon; parts

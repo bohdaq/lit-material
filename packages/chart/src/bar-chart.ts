@@ -107,9 +107,8 @@ export class LitMaterialBarChart extends LitElement {
     const rows = this.rows;
     const name = this.label || this.localize.term("chart.barChart", "Bar chart");
     if (rows.length === 0) {
-      return html`<div class="empty" role="img" aria-label=${this.localize.term("chart.nameNoData", "{name}: no data", { name })}>
-        ${this.localize.term("chart.noData", "No data")}
-      </div>`;
+      const label = this.localize.term("chart.nameNoData", "{name}: no data", { name });
+      return html`<div class="empty" role="img" aria-label=${label}>${this.localize.term("chart.noData", "No data")}</div>`;
     }
     const max = Math.max(0, ...rows.map((d) => d.value)) || 1;
     const emphasis = this.highlight !== "" && rows.some((d) => d.name === this.highlight);
@@ -154,11 +153,9 @@ export class LitMaterialBarChart extends LitElement {
         <thead>
           <tr>
             <th scope="col">${this.localize.term("chart.name", "Name")}</th>
-            <th scope="col">
-              ${this.unit
-                ? this.localize.term("chart.valueInUnit", "Value ({unit})", { unit: this.unit })
-                : this.localize.term("chart.value", "Value")}
-            </th>
+            <th scope="col">${this.unit
+              ? this.localize.term("chart.valueInUnit", "Value ({unit})", { unit: this.unit })
+              : this.localize.term("chart.value", "Value")}</th>
           </tr>
         </thead>
         <tbody>

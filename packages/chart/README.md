@@ -44,7 +44,7 @@ npm install @lit-material/chart @lit-material/tokens
 | `height` | `height` | `number` (px) | `240` |
 | `yMin` | `y-min` | `number \| undefined` | 0, or the data's minimum if negative |
 | `unit` | `unit` | `string` | `""` |
-| `formatX` / `formatY` | — | `(n: number) => string` | compact numbers |
+| `formatX` / `formatY` | — | `(n: number) => string` | compact numbers in the element's language |
 
 Parts: `chart`, `legend`, `tooltip`. Series colours: `--lit-material-chart-series-1` … `-8`.
 
@@ -74,7 +74,7 @@ bars.data = [
 | `highlight` | `highlight` | `string` (an item's name) | `""` |
 | `sort` | `sort` | `"" \| "desc" \| "asc"` | `""` (given order) |
 | `unit` | `unit` | `string` | `""` |
-| `format` | — | `(n: number) => string` | compact numbers |
+| `format` | — | `(n: number) => string` | compact numbers in the element's language |
 
 Parts: `chart`, `tooltip`. Colours: `--lit-material-chart-series-1` (bars, and the highlight by
 default), `--lit-material-bar-chart-highlight`, `--lit-material-bar-chart-muted`. Name column width:
@@ -87,7 +87,7 @@ default), `--lit-material-bar-chart-highlight`, `--lit-material-bar-chart-muted`
 | `values` | `values` (JSON) | `number[]` | `[]` |
 | `label` | `label` | `string` | `""` |
 | `showLast` | `show-last` | `boolean` | `false` |
-| `format` | — | `(n: number) => string` | compact numbers |
+| `format` | — | `(n: number) => string` | compact numbers in the element's language |
 
 Size it with `--lit-material-sparkline-width` (96px) and `-height` (24px).
 
@@ -98,6 +98,12 @@ the categorical one validated for colour-vision deficiency on adjacent pairs; se
 four are also labelled at the end of their line. Past eight, fold the rest into "Other" or use small
 multiples: extra series aren't drawn (with a console warning). It's laid out at its container's
 width (640px until measured, and on the server).
+
+Right to left, the bar chart mirrors: names on the right, bars growing leftwards. The line chart's
+plot doesn't: its x axis (usually time) runs left to right as it conventionally does in RTL
+languages too, and ← → keep moving the crosshair left and right; only the legend follows the
+reading direction. Built-in text ("No data", the summaries, the data table's headers) is translated,
+and the default number format uses the element's language.
 
 The array properties above also take a JSON attribute, so markup rendered on the server carries the data and hydrates to the same output.
 

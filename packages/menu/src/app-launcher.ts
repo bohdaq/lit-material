@@ -2,6 +2,7 @@ import { css, html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import "./menu.js";
 import type { LitMaterialMenu } from "./menu.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 
 /**
  * An app launcher: a grid button in a top bar that opens a menu of the
@@ -91,17 +92,17 @@ export class LitMaterialAppLauncher extends LitElement {
     }
   `;
 
-  /** Names the button and the menu. */
-  @property() label = "Applications";
+  /** Names the button and the menu. Default: "Applications", translated. */
+  @property() label?: string;
 
   /** Adds a field that filters the apps by their text. */
   @property({ type: Boolean, reflect: true }) searchable = false;
 
-  /** The search field's accessible name. */
-  @property({ attribute: "search-label" }) searchLabel = "Search applications";
+  /** The search field's accessible name. Default: "Search applications", translated. */
+  @property({ attribute: "search-label" }) searchLabel?: string;
 
-  /** Shown when the search matches nothing. */
-  @property({ attribute: "empty-text" }) emptyText = "No applications match";
+  /** Shown when the search matches nothing. Default: "No applications match", translated. */
+  @property({ attribute: "empty-text" }) emptyText?: string;
 
   @property({ type: Boolean, reflect: true }) open = false;
 
@@ -112,6 +113,8 @@ export class LitMaterialAppLauncher extends LitElement {
    * closes the menu before the click, which must then not reopen it.
    */
   private openAtPointerDown = false;
+
+  private readonly localize = new LocalizeController(this);
 
   @query("button") private readonly button!: HTMLButtonElement;
   @query("lit-material-menu") private readonly menu!: LitMaterialMenu;
@@ -161,11 +164,15 @@ export class LitMaterialAppLauncher extends LitElement {
   }
 
   override render() {
+    const t = this.localize;
+    const label = this.label ?? t.term("menu.applications", "Applications");
+    const searchLabel = this.searchLabel ?? t.term("menu.searchApplications", "Search applications");
+    const emptyText = this.emptyText ?? t.term("menu.noApplicationsMatch", "No applications match");
     return html`<button
         part="button"
         class="button"
         type="button"
-        aria-label=${this.label}
+        aria-label=${label}
         aria-haspopup="true"
         aria-expanded=${this.open ? "true" : "false"}
         @pointerdown=${() => (this.openAtPointerDown = this.open)}
@@ -178,12 +185,12 @@ export class LitMaterialAppLauncher extends LitElement {
             /></svg
         ></slot>
       </button>
-      <lit-material-menu part="menu" aria-label=${this.label} @close=${this.onClose}>
+      <lit-material-menu part="menu" aria-label=${label} @close=${this.onClose}>
         ${this.searchable
-          ? html`<div class="search"><input part="search" type="search" autocomplete="off" aria-label=${this.searchLabel} @input=${this.filter} /></div>`
+          ? html`<div class="search"><input part="search" type="search" autocomplete="off" aria-label=${searchLabel} @input=${this.filter} /></div>`
           : nothing}
         <slot @slotchange=${() => this.search?.value && this.filter()}></slot>
-        ${this.noMatches ? html`<p class="empty" role="status">${this.emptyText}</p>` : nothing}
+        ${this.noMatches ? html`<p class="empty" role="status">${emptyText}</p>` : nothing}
       </lit-material-menu>`;
   }
 }

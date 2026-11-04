@@ -1,6 +1,7 @@
 import { html, LitElement, nothing, svg } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { formatNumber, linearTicks, niceTicks, spread } from "./scale.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
+import { formatNumber, linearTicks, niceTicks, splitAtValue, spread, VALUE_MARKER } from "./scale.js";
 import { styles } from "./line-chart-styles.js";
 
 export interface ChartPoint {
@@ -39,6 +40,10 @@ const TABLE_ROWS = 200;
  *
  * Sized by its container's width; set the height with `height` (px).
  *
+ * The x axis runs left to right in right-to-left pages too (time and number
+ * lines conventionally do), so ← → still move the crosshair visually; the
+ * legend follows the reading direction.
+ *
  * @element lit-material-line-chart
  *
  * @csspart chart - The chart area.
@@ -53,7 +58,7 @@ export class LitMaterialLineChart extends LitElement {
 
   @property({ type: Array }) series: ChartSeries[] = [];
 
-  /** The chart's accessible name, e.g. "Requests per second, last 10 minutes". */
+  /** The chart's accessible name, e.g. "Requests per second, last 10 minutes". Unset, "Line chart", translated. */
   @property() label = "";
 
   /** Height in px. */
@@ -62,11 +67,11 @@ export class LitMaterialLineChart extends LitElement {
   /** Lower bound of the y axis (default 0, or the data's minimum if it's negative). */
   @property({ type: Number, attribute: "y-min" }) yMin?: number;
 
-  /** Formats x values for the axis, tooltip and table (default: numbers). */
-  @property({ attribute: false }) formatX: (x: number) => string = formatNumber;
+  /** Formats x values for the axis, tooltip and table. Default: numbers in the element's language. */
+  @property({ attribute: false }) formatX?: (x: number) => string;
 
-  /** Formats y values (default: compact numbers). */
-  @property({ attribute: false }) formatY: (y: number) => string = formatNumber;
+  /** Formats y values. Default: compact numbers in the element's language. */
+  @property({ attribute: false }) formatY?: (y: number) => string;
 
   /** A unit appended to y values in the tooltip and table, e.g. "req/s". */
   @property() unit = "";
@@ -78,6 +83,21 @@ export class LitMaterialLineChart extends LitElement {
   @state() private active = -1;
 
   private observer?: ResizeObserver;
+
+  private readonly localize = new LocalizeController(this);
+
+  private fx(x: number): string {
+    return this.formatX ? this.formatX(x) : formatNumber(x, this.localize.lang);
+  }
+
+  private fy(y: number): string {
+    return this.formatY ? this.formatY(y) : formatNumber(y, this.localize.lang);
+  }
+
+  /** A y value with its unit; `value` is the formatted number (or `VALUE_MARKER`). */
+  private withUnit(value: string): string {
+    return this.unit ? this.localize.term("chart.valueWithUnit", "{value} {unit}", { value, unit: this.unit }) : value;
+  }
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -144,19 +164,25 @@ export class LitMaterialLineChart extends LitElement {
   private summary(series: ChartSeries[]): string {
     const parts = series.map((s) => {
       const ys = s.points.map((p) => p.y);
-      if (!ys.length) return `${s.name}: no data`;
+      if (!ys.length) return this.localize.term("chart.nameNoData", "{name}: no data", { name: s.name });
       const last = ys[ys.length - 1]!;
-      return `${s.name}: latest ${this.formatY(last)}${this.unit ? ` ${this.unit}` : ""}, range ${this.formatY(Math.min(...ys))} to ${this.formatY(Math.max(...ys))}`;
+      return this.localize.term("chart.seriesSummary", "{name}: latest {latest}, range {min} to {max}", {
+        name: s.name,
+        latest: this.withUnit(this.fy(last)),
+        min: this.fy(Math.min(...ys)),
+        max: this.fy(Math.max(...ys)),
+      });
     });
-    return parts.join("; ");
+    return parts.join(this.localize.term("chart.listSeparator", "; "));
   }
 
   override render() {
     const series = this.drawn;
     const xs = this.xsOf(series);
-    const name = this.label || "Line chart";
+    const name = this.label || this.localize.term("chart.lineChart", "Line chart");
     if (xs.length === 0) {
-      return html`<div class="empty" role="img" aria-label="${name}: no data">No data</div>`;
+      const label = this.localize.term("chart.nameNoData", "{name}: no data", { name });
+      return html`<div class="empty" role="img" aria-label=${label}>${this.localize.term("chart.noData", "No data")}</div>`;
     }
 
     const allY = series.flatMap((s) => s.points.map((p) => p.y));
@@ -166,7 +192,7 @@ export class LitMaterialLineChart extends LitElement {
     const labelled = series.length > 1 && series.length <= MAX_DIRECT_LABELS;
     const longestName = Math.max(0, ...series.map((s) => s.name.length));
     const padRight = labelled ? Math.min(160, 12 + longestName * 7) : 12;
-    const yTickText = ticks.map((t) => this.formatY(t));
+    const yTickText = ticks.map((t) => this.fy(t));
     const padLeft = Math.max(PAD_LEFT_MIN, 12 + Math.max(...yTickText.map((t) => t.length)) * 7);
     const w = this.width;
     const h = Math.max(80, this.height);
@@ -200,7 +226,7 @@ export class LitMaterialLineChart extends LitElement {
           width=${w}
           height=${h}
           role="img"
-          aria-label="${name}. ${this.summary(series)}"
+          aria-label=${this.localize.term("chart.labelSummary", "{label}. {summary}", { label: name, summary: this.summary(series) })}
           tabindex="0"
           @pointermove=${(e: PointerEvent) => this.onPointer(e, xs, xOf)}
           @pointerdown=${(e: PointerEvent) => this.onPointer(e, xs, xOf)}
@@ -215,7 +241,7 @@ export class LitMaterialLineChart extends LitElement {
           )}
           ${xTicks.map(
             (t, i) => svg`<text class="axis" x=${xOf(t)} y=${h - 8}
-              text-anchor=${i === 0 ? "start" : i === xTicks.length - 1 ? "end" : "middle"}>${this.formatX(t)}</text>`,
+              text-anchor=${i === 0 ? "start" : i === xTicks.length - 1 ? "end" : "middle"}>${this.fx(t)}</text>`,
           )}
           ${series.map(
             (s, i) =>
@@ -236,12 +262,17 @@ export class LitMaterialLineChart extends LitElement {
         ${activeX === undefined
           ? nothing
           : html`<div class="tooltip" part="tooltip" role="status" style="left: ${tipLeft}%">
-              <div class="tip-x">${this.formatX(activeX)}</div>
-              ${readout.map(
-                (r) => html`<div class="tip-row">${series.length > 1 ? html`<span class="swatch s${r.i + 1}"></span>${r.name}: ` : nothing}<strong
-                    >${this.formatY(r.point!.y)}</strong
-                  >${this.unit ? ` ${this.unit}` : ""}</div>`,
-              )}
+              <div class="tip-x">${this.fx(activeX)}</div>
+              ${readout.map((r) => {
+                // Bold the number only; the unit and the series name come from one translated message around it.
+                const valued = this.withUnit(VALUE_MARKER);
+                const text =
+                  series.length > 1 ? this.localize.term("chart.nameValue", "{name}: {value}", { name: r.name, value: valued }) : valued;
+                const [before, after] = splitAtValue(text);
+                return html`<div class="tip-row">${series.length > 1 ? html`<span class="swatch s${r.i + 1}"></span>` : nothing}<span
+                    >${before}<strong>${this.fy(r.point!.y)}</strong>${after}</span
+                  ></div>`;
+              })}
             </div>`}
       </div>
       <table class="visually-hidden">
@@ -249,17 +280,22 @@ export class LitMaterialLineChart extends LitElement {
         <thead>
           <tr>
             <th scope="col">x</th>
-            ${series.map((s) => html`<th scope="col">${s.name}${this.unit ? ` (${this.unit})` : ""}</th>`)}
+            ${series.map(
+              (s) =>
+                html`<th scope="col">${this.unit
+                  ? this.localize.term("chart.nameInUnit", "{name} ({unit})", { name: s.name, unit: this.unit })
+                  : s.name}</th>`,
+            )}
           </tr>
         </thead>
         <tbody>
           ${xs.slice(-TABLE_ROWS).map(
             (x) =>
               html`<tr>
-                <th scope="row">${this.formatX(x)}</th>
+                <th scope="row">${this.fx(x)}</th>
                 ${series.map((s) => {
                   const p = s.points.find((q) => q.x === x);
-                  return html`<td>${p ? this.formatY(p.y) : ""}</td>`;
+                  return html`<td>${p ? this.fy(p.y) : ""}</td>`;
                 })}
               </tr>`,
           )}

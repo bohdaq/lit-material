@@ -1,5 +1,6 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./bar-chart.js";
 import type { LitMaterialBarChart } from "./bar-chart.js";
 
@@ -76,5 +77,53 @@ describe("lit-material-bar-chart", () => {
     el.data = [];
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector(".empty")).to.not.be.null;
+  });
+
+  it("translates its text and formats numbers in the element's language", async () => {
+    registerTranslation({
+      $code: "x-bar",
+      "chart.barChart": "Diagramme",
+      "chart.nameValue": "{name} = {value}",
+      "chart.listSeparator": " | ",
+      "chart.valueInUnit": "Valeur ({unit})",
+      "chart.noData": "Aucune donnée",
+    });
+    const wrap = await fixture<HTMLElement>(html`<div lang="x-bar">
+      <lit-material-bar-chart unit="req/s" .data=${[{ name: "a", value: 1.5 }, { name: "b", value: 2 }]}></lit-material-bar-chart>
+      <lit-material-bar-chart></lit-material-bar-chart>
+    </div>`);
+    const [el, empty] = Array.from(wrap.querySelectorAll<LitMaterialBarChart>("lit-material-bar-chart"));
+    await el!.updateComplete;
+    const chart = el!.shadowRoot!.querySelector(".chart")!;
+    expect(chart.getAttribute("aria-label")).to.equal("Diagramme. a = 1.5 req/s | b = 2 req/s");
+    expect(el!.shadowRoot!.querySelectorAll("thead th")[1]!.textContent!.trim()).to.equal("Valeur (req/s)");
+    expect(empty!.shadowRoot!.querySelector(".empty")!.textContent!.trim()).to.equal("Aucune donnée");
+    (chart as HTMLElement).focus();
+    await sendKeys({ press: "ArrowDown" });
+    await el!.updateComplete;
+    const tip = el!.shadowRoot!.querySelector(".tooltip")!;
+    expect(tip.textContent!.replace(/\s+/g, " ").trim()).to.equal("a = 1.5 req/s");
+    expect(tip.querySelector("strong")!.textContent).to.equal("1.5 req/s");
+
+    wrap.setAttribute("lang", "de-DE");
+    el!.requestUpdate();
+    await el!.updateComplete;
+    expect(el!.shadowRoot!.querySelector(".value")!.textContent).to.equal("1,5 req/s");
+  });
+
+  it("grows bars from the right, right to left", async () => {
+    const wrap = await fixture<HTMLElement>(html`<div dir="rtl" style="width: 400px">
+      <lit-material-bar-chart .data=${[{ name: "a", value: 1 }, { name: "b", value: 2 }]}></lit-material-bar-chart>
+    </div>`);
+    const el = wrap.querySelector<LitMaterialBarChart>("lit-material-bar-chart")!;
+    await el.updateComplete;
+    const row = el.shadowRoot!.querySelector(".row")!;
+    const name = row.querySelector(".name")!.getBoundingClientRect();
+    const track = row.querySelector(".track")!.getBoundingClientRect();
+    const bar = row.querySelector(".bar")!.getBoundingClientRect();
+    const value = row.querySelector(".value")!.getBoundingClientRect();
+    expect(name.left).to.be.at.least(track.right); // the name column is on the right
+    expect(bar.right).to.be.closeTo(track.right, 1);
+    expect(value.right).to.be.at.most(bar.left);
   });
 });
