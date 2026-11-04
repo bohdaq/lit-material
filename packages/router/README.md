@@ -273,6 +273,13 @@ return new Response(body, { status: result.status });
 `routeDataScript` escapes the JSON so the data can't end the script element; it's `type="application/json"`,
 so a Content-Security-Policy doesn't need to allow it as a script.
 
+An outlet deep inside an app shell's shadow root can't easily be given `path` and `data`. Server tooling
+calls `setServerRouteProvider(() => ({ path, data }))` instead (per request, e.g. from an
+`AsyncLocalStorage`), and every outlet without its own `path` renders that route.
+[`@lit-material/vite`](../vite) does all of this for a Vite app; `@lit-material/router/server` exports the
+server-side pieces (`resolveRoute`, `routeDataScript`, `setServerRouteProvider`) without defining the outlet
+element.
+
 For a static site, call it for each path you prerender and write the result to `<path>/index.html`.
 
 ## Deploying under a subpath
