@@ -16,7 +16,7 @@ const update = process.argv.includes("--update");
 const limits = existsSync(limitsFile) ? JSON.parse(readFileSync(limitsFile, "utf8")) : {};
 
 // Packages that run in Node, not the browser (build tooling): no browser bundle to budget.
-const NODE_ONLY = new Set(["@lit-material/vite"]);
+const NODE_ONLY = new Set(["@lit-material/vite", "@lit-material/codemod"]);
 
 const sizes = {};
 for (const dir of readdirSync(join(root, "packages")).sort()) {

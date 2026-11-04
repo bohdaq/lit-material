@@ -235,5 +235,12 @@ framework. Ordered by priority.
     - Data grid: grouping, inline editing, CSV export.
     - Rich-text editor.
     - Calendar / scheduler.
-13. **Adoption.** Migration guides and codemods from `@material/web` and Angular Material, case studies
-    (rws site and admin UI, hitop), a support offering.
+13. **Adoption.**
+    - ~~Migration guides and codemods from `@material/web` and Angular Material.~~ Done (unreleased
+      changeset): [`@lit-material/codemod`](packages/codemod) (`npx @lit-material/codemod md-web src`)
+      rewrites `@material/web` tags, attributes, slots, events and imports and reports the rest by file and
+      line; guides "From @material/web" (with the codemod's mapping table) and "From Angular Material"
+      (setup, bindings, forms, component table, service patterns). Angular Material has a guide, not a
+      codemod: its directives and services don't map one to one.
+    - Case studies (rws site and admin UI, hitop).
+    - A support offering.

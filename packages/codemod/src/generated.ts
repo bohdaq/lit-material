@@ -3,7 +3,8 @@
 export interface LitElementFacts {
   package: string;
   className: string;
-  attributes: string[];
+  /** Attribute name → its type, with string-literal aliases spelled out. */
+  attributes: Record<string, string>;
   events: string[];
   slots: string[];
   cssProperties: string[];
@@ -14,11 +15,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-about-dialog": {
     "package": "@lit-material/dialog",
     "className": "LitMaterialAboutDialog",
-    "attributes": [
-      "close-label",
-      "open",
-      "product-name"
-    ],
+    "attributes": {
+      "close-label": "string | undefined",
+      "open": "boolean",
+      "product-name": "string"
+    },
     "events": [
       "close"
     ],
@@ -33,9 +34,9 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-accordion": {
     "package": "@lit-material/accordion",
     "className": "LitMaterialAccordion",
-    "attributes": [
-      "multi"
-    ],
+    "attributes": {
+      "multi": "boolean"
+    },
     "events": [],
     "slots": [
       ""
@@ -48,11 +49,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-accordion-panel": {
     "package": "@lit-material/accordion",
     "className": "LitMaterialAccordionPanel",
-    "attributes": [
-      "disabled",
-      "divider",
-      "expanded"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "divider": "boolean",
+      "expanded": "boolean"
+    },
     "events": [
       "toggle"
     ],
@@ -73,11 +74,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-action-list": {
     "package": "@lit-material/button",
     "className": "LitMaterialActionList",
-    "attributes": [
-      "align",
-      "compact",
-      "label"
-    ],
+    "attributes": {
+      "align": "\"start\" | \"end\" | \"between\"",
+      "compact": "boolean",
+      "label": "string"
+    },
     "events": [],
     "slots": [
       ""
@@ -90,11 +91,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-adaptive-navigation": {
     "package": "@lit-material/navigation",
     "className": "LitMaterialAdaptiveNavigation",
-    "attributes": [
-      "expanded",
-      "label",
-      "selected"
-    ],
+    "attributes": {
+      "expanded": "\"drawer\" | \"rail\"",
+      "label": "string | undefined",
+      "selected": "number"
+    },
     "events": [
       "change"
     ],
@@ -107,10 +108,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-alert": {
     "package": "@lit-material/alert",
     "className": "LitMaterialAlert",
-    "attributes": [
-      "dismissible",
-      "variant"
-    ],
+    "attributes": {
+      "dismissible": "boolean",
+      "variant": "\"info\" | \"success\" | \"warning\" | \"error\""
+    },
     "events": [
       "close"
     ],
@@ -133,13 +134,13 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-app-launcher": {
     "package": "@lit-material/menu",
     "className": "LitMaterialAppLauncher",
-    "attributes": [
-      "empty-text",
-      "label",
-      "open",
-      "search-label",
-      "searchable"
-    ],
+    "attributes": {
+      "empty-text": "string | undefined",
+      "label": "string | undefined",
+      "open": "boolean",
+      "search-label": "string | undefined",
+      "searchable": "boolean"
+    },
     "events": [
       "close"
     ],
@@ -157,22 +158,22 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-autocomplete": {
     "package": "@lit-material/autocomplete",
     "className": "LitMaterialAutocomplete",
-    "attributes": [
-      "disabled",
-      "error",
-      "error-text",
-      "form",
-      "free-text",
-      "label",
-      "name",
-      "open",
-      "options",
-      "placeholder",
-      "required",
-      "supporting-text",
-      "value",
-      "variant"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "error": "boolean",
+      "error-text": "string",
+      "form": "string | undefined",
+      "free-text": "boolean",
+      "label": "string",
+      "name": "string",
+      "open": "boolean",
+      "options": "AutocompleteOption[]",
+      "placeholder": "string",
+      "required": "boolean",
+      "supporting-text": "string",
+      "value": "string",
+      "variant": "\"filled\" | \"outlined\""
+    },
     "events": [
       "change"
     ],
@@ -191,13 +192,13 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-avatar": {
     "package": "@lit-material/avatar",
     "className": "LitMaterialAvatar",
-    "attributes": [
-      "alt",
-      "initials",
-      "shape",
-      "size",
-      "src"
-    ],
+    "attributes": {
+      "alt": "string",
+      "initials": "string",
+      "shape": "\"circle\" | \"square\"",
+      "size": "\"small\" | \"medium\" | \"large\"",
+      "src": "string"
+    },
     "events": [],
     "slots": [
       ""
@@ -212,12 +213,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-back-to-top": {
     "package": "@lit-material/back-to-top",
     "className": "LitMaterialBackToTop",
-    "attributes": [
-      "label",
-      "target",
-      "threshold",
-      "visible"
-    ],
+    "attributes": {
+      "label": "string | undefined",
+      "target": "string",
+      "threshold": "number",
+      "visible": "boolean"
+    },
     "events": [],
     "slots": [],
     "cssProperties": [
@@ -230,11 +231,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-badge": {
     "package": "@lit-material/badge",
     "className": "LitMaterialBadge",
-    "attributes": [
-      "label",
-      "max",
-      "value"
-    ],
+    "attributes": {
+      "label": "string | undefined",
+      "max": "number",
+      "value": "BadgeValue | undefined"
+    },
     "events": [],
     "slots": [],
     "cssProperties": [],
@@ -245,13 +246,13 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-bar-chart": {
     "package": "@lit-material/chart",
     "className": "LitMaterialBarChart",
-    "attributes": [
-      "data",
-      "highlight",
-      "label",
-      "sort",
-      "unit"
-    ],
+    "attributes": {
+      "data": "BarDatum[]",
+      "highlight": "string",
+      "label": "string",
+      "sort": "\"\" | \"desc\" | \"asc\"",
+      "unit": "string"
+    },
     "events": [],
     "slots": [],
     "cssProperties": [
@@ -268,12 +269,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-bottom-sheet": {
     "package": "@lit-material/sheet",
     "className": "LitMaterialBottomSheet",
-    "attributes": [
-      "disable-backdrop-close",
-      "open",
-      "show-drag-handle",
-      "variant"
-    ],
+    "attributes": {
+      "disable-backdrop-close": "boolean",
+      "open": "boolean",
+      "show-drag-handle": "boolean",
+      "variant": "\"standard\" | \"modal\""
+    },
     "events": [
       "cancel",
       "close"
@@ -294,10 +295,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-breadcrumb-item": {
     "package": "@lit-material/breadcrumbs",
     "className": "LitMaterialBreadcrumbItem",
-    "attributes": [
-      "current",
-      "href"
-    ],
+    "attributes": {
+      "current": "boolean",
+      "href": "string"
+    },
     "events": [],
     "slots": [
       ""
@@ -310,9 +311,9 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-breadcrumbs": {
     "package": "@lit-material/breadcrumbs",
     "className": "LitMaterialBreadcrumbs",
-    "attributes": [
-      "label"
-    ],
+    "attributes": {
+      "label": "string | undefined"
+    },
     "events": [],
     "slots": [
       ""
@@ -326,16 +327,16 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-button": {
     "package": "@lit-material/button",
     "className": "LitMaterialButton",
-    "attributes": [
-      "disabled",
-      "form",
-      "href",
-      "name",
-      "target",
-      "type",
-      "value",
-      "variant"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "form": "string | undefined",
+      "href": "string",
+      "name": "string",
+      "target": "string",
+      "type": "\"button\" | \"submit\" | \"reset\"",
+      "value": "string",
+      "variant": "\"filled\" | \"outlined\" | \"text\" | \"elevated\" | \"tonal\""
+    },
     "events": [],
     "slots": [
       "",
@@ -359,17 +360,17 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-card": {
     "package": "@lit-material/card",
     "className": "LitMaterialCard",
-    "attributes": [
-      "disabled",
-      "form",
-      "href",
-      "interactive",
-      "name",
-      "target",
-      "type",
-      "value",
-      "variant"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "form": "string | undefined",
+      "href": "string",
+      "interactive": "boolean",
+      "name": "string",
+      "target": "string",
+      "type": "\"button\" | \"submit\" | \"reset\"",
+      "value": "string",
+      "variant": "\"elevated\" | \"filled\" | \"outlined\""
+    },
     "events": [],
     "slots": [
       ""
@@ -384,10 +385,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-carousel": {
     "package": "@lit-material/carousel",
     "className": "LitMaterialCarousel",
-    "attributes": [
-      "item-width",
-      "show-nav-buttons"
-    ],
+    "attributes": {
+      "item-width": "string",
+      "show-nav-buttons": "boolean"
+    },
     "events": [],
     "slots": [
       ""
@@ -402,7 +403,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-carousel-item": {
     "package": "@lit-material/carousel",
     "className": "LitMaterialCarouselItem",
-    "attributes": [],
+    "attributes": {},
     "events": [],
     "slots": [
       "",
@@ -417,10 +418,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-change-list": {
     "package": "@lit-material/diff",
     "className": "LitMaterialChangeList",
-    "attributes": [
-      "changes",
-      "label"
-    ],
+    "attributes": {
+      "changes": "Change[]",
+      "label": "string | undefined"
+    },
     "events": [],
     "slots": [],
     "cssProperties": [],
@@ -433,20 +434,20 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-checkbox": {
     "package": "@lit-material/checkbox",
     "className": "LitMaterialCheckbox",
-    "attributes": [
-      "aria-label",
-      "aria-labelledby",
-      "checked",
-      "disabled",
-      "error",
-      "form",
-      "indeterminate",
-      "label",
-      "name",
-      "required",
-      "supporting-text",
-      "value"
-    ],
+    "attributes": {
+      "aria-label": "string | null",
+      "aria-labelledby": "string | null",
+      "checked": "boolean",
+      "disabled": "boolean",
+      "error": "boolean",
+      "form": "string | undefined",
+      "indeterminate": "boolean",
+      "label": "string",
+      "name": "string",
+      "required": "boolean",
+      "supporting-text": "string",
+      "value": "string"
+    },
     "events": [
       "change"
     ],
@@ -462,16 +463,16 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-chip": {
     "package": "@lit-material/chip",
     "className": "LitMaterialChip",
-    "attributes": [
-      "disabled",
-      "elevated",
-      "href",
-      "removable",
-      "remove-label",
-      "selected",
-      "target",
-      "variant"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "elevated": "boolean",
+      "href": "string",
+      "removable": "boolean",
+      "remove-label": "string | undefined",
+      "selected": "boolean",
+      "target": "string",
+      "variant": "\"assist\" | \"filter\" | \"input\" | \"suggestion\""
+    },
     "events": [
       "change",
       "remove"
@@ -491,16 +492,16 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-chip-input": {
     "package": "@lit-material/chip",
     "className": "LitMaterialChipInput",
-    "attributes": [
-      "allow-duplicates",
-      "disabled",
-      "invalid",
-      "label",
-      "max",
-      "placeholder",
-      "supporting-text",
-      "values"
-    ],
+    "attributes": {
+      "allow-duplicates": "boolean",
+      "disabled": "boolean",
+      "invalid": "boolean",
+      "label": "string",
+      "max": "number",
+      "placeholder": "string",
+      "supporting-text": "string",
+      "values": "string[]"
+    },
     "events": [
       "change"
     ],
@@ -514,13 +515,13 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-circular-progress": {
     "package": "@lit-material/progress",
     "className": "LitMaterialCircularProgress",
-    "attributes": [
-      "indeterminate",
-      "max",
-      "size",
-      "stroke-width",
-      "value"
-    ],
+    "attributes": {
+      "indeterminate": "boolean",
+      "max": "number",
+      "size": "number",
+      "stroke-width": "number",
+      "value": "number"
+    },
     "events": [],
     "slots": [],
     "cssProperties": [],
@@ -532,11 +533,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-clipboard-copy": {
     "package": "@lit-material/clipboard",
     "className": "LitMaterialClipboardCopy",
-    "attributes": [
-      "label",
-      "masked",
-      "value"
-    ],
+    "attributes": {
+      "label": "string",
+      "masked": "boolean",
+      "value": "string"
+    },
     "events": [
       "copy"
     ],
@@ -551,12 +552,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-code-block": {
     "package": "@lit-material/code-block",
     "className": "LitMaterialCodeBlock",
-    "attributes": [
-      "copyable",
-      "expandable",
-      "expanded",
-      "label"
-    ],
+    "attributes": {
+      "copyable": "boolean",
+      "expandable": "boolean",
+      "expanded": "boolean",
+      "label": "string"
+    },
     "events": [
       "copy"
     ],
@@ -584,15 +585,15 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-code-field": {
     "package": "@lit-material/code-block",
     "className": "LitMaterialCodeField",
-    "attributes": [
-      "disabled",
-      "indent-size",
-      "invalid",
-      "label",
-      "language",
-      "readonly",
-      "value"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "indent-size": "number",
+      "invalid": "boolean",
+      "label": "string",
+      "language": "string",
+      "readonly": "boolean",
+      "value": "string"
+    },
     "events": [
       "change",
       "input"
@@ -614,16 +615,16 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-color-picker": {
     "package": "@lit-material/color-picker",
     "className": "LitMaterialColorPicker",
-    "attributes": [
-      "disabled",
-      "form",
-      "label",
-      "name",
-      "open",
-      "presets",
-      "required",
-      "value"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "form": "string | undefined",
+      "label": "string",
+      "name": "string",
+      "open": "boolean",
+      "presets": "readonly string[]",
+      "required": "boolean",
+      "value": "string"
+    },
     "events": [
       "change"
     ],
@@ -642,10 +643,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-color-scheme-toggle": {
     "package": "@lit-material/color-scheme",
     "className": "LitMaterialColorSchemeToggle",
-    "attributes": [
-      "cycle",
-      "storage-key"
-    ],
+    "attributes": {
+      "cycle": "boolean",
+      "storage-key": ""
+    },
     "events": [
       "change"
     ],
@@ -660,15 +661,15 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-confirm-dialog": {
     "package": "@lit-material/confirm",
     "className": "LitMaterialConfirmDialog",
-    "attributes": [
-      "cancel-label",
-      "confirm-label",
-      "destructive",
-      "headline",
-      "message",
-      "open",
-      "require-text"
-    ],
+    "attributes": {
+      "cancel-label": "string | undefined",
+      "confirm-label": "string | undefined",
+      "destructive": "boolean",
+      "headline": "string",
+      "message": "string",
+      "open": "boolean",
+      "require-text": "string"
+    },
     "events": [
       "close"
     ],
@@ -681,12 +682,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-copy-button": {
     "package": "@lit-material/clipboard",
     "className": "LitMaterialCopyButton",
-    "attributes": [
-      "disabled",
-      "for",
-      "label",
-      "value"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "for": "string",
+      "label": "string | undefined",
+      "value": "string"
+    },
     "events": [
       "copy"
     ],
@@ -697,7 +698,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-data-list": {
     "package": "@lit-material/data-list",
     "className": "LitMaterialDataList",
-    "attributes": [],
+    "attributes": {},
     "events": [],
     "slots": [
       ""
@@ -710,9 +711,9 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-data-list-cell": {
     "package": "@lit-material/data-list",
     "className": "LitMaterialDataListCell",
-    "attributes": [
-      "fill"
-    ],
+    "attributes": {
+      "fill": "boolean"
+    },
     "events": [],
     "slots": [
       ""
@@ -723,11 +724,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-data-list-item": {
     "package": "@lit-material/data-list",
     "className": "LitMaterialDataListItem",
-    "attributes": [
-      "expandable",
-      "open",
-      "selected"
-    ],
+    "attributes": {
+      "expandable": "boolean",
+      "open": "boolean",
+      "selected": "boolean"
+    },
     "events": [
       "toggle"
     ],
@@ -745,13 +746,13 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-data-table": {
     "package": "@lit-material/data-table",
     "className": "LitMaterialDataTable",
-    "attributes": [
-      "overscan",
-      "row-height",
-      "sort-direction",
-      "sort-key",
-      "viewport-height"
-    ],
+    "attributes": {
+      "overscan": "number",
+      "row-height": "number",
+      "sort-direction": "\"none\" | \"ascending\" | \"descending\"",
+      "sort-key": "string | undefined",
+      "viewport-height": "number"
+    },
     "events": [
       "selection-change",
       "sort-change"
@@ -769,16 +770,16 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-data-table-cell": {
     "package": "@lit-material/data-table",
     "className": "LitMaterialDataTableCell",
-    "attributes": [
-      "flex",
-      "header",
-      "min-width",
-      "numeric",
-      "resizable",
-      "sort-direction",
-      "sort-key",
-      "width"
-    ],
+    "attributes": {
+      "flex": "boolean",
+      "header": "boolean",
+      "min-width": "number",
+      "numeric": "boolean",
+      "resizable": "boolean",
+      "sort-direction": "\"none\" | \"ascending\" | \"descending\"",
+      "sort-key": "string | undefined",
+      "width": "string | undefined"
+    },
     "events": [
       "column-resize"
     ],
@@ -795,15 +796,15 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-data-table-pagination": {
     "package": "@lit-material/data-table",
     "className": "LitMaterialDataTablePagination",
-    "attributes": [
-      "disabled",
-      "has-more",
-      "page",
-      "page-size",
-      "page-size-options",
-      "total",
-      "unknown-total"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "has-more": "boolean",
+      "page": "number",
+      "page-size": "number",
+      "page-size-options": "readonly number[]",
+      "total": "number",
+      "unknown-total": "boolean"
+    },
     "events": [
       "page-change"
     ],
@@ -814,11 +815,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-data-table-row": {
     "package": "@lit-material/data-table",
     "className": "LitMaterialDataTableRow",
-    "attributes": [
-      "flex",
-      "header",
-      "selected"
-    ],
+    "attributes": {
+      "flex": "boolean",
+      "header": "boolean",
+      "selected": "boolean"
+    },
     "events": [],
     "slots": [
       ""
@@ -829,15 +830,15 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-date-picker": {
     "package": "@lit-material/date-picker",
     "className": "LitMaterialDatePicker",
-    "attributes": [
-      "first-day-of-week",
-      "label",
-      "max",
-      "min",
-      "open",
-      "value",
-      "variant"
-    ],
+    "attributes": {
+      "first-day-of-week": "number | undefined",
+      "label": "string | undefined",
+      "max": "string | undefined",
+      "min": "string | undefined",
+      "open": "boolean",
+      "value": "string | undefined",
+      "variant": "\"modal\" | \"docked\""
+    },
     "events": [
       "cancel",
       "change",
@@ -858,16 +859,16 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-date-range-picker": {
     "package": "@lit-material/date-picker",
     "className": "LitMaterialDateRangePicker",
-    "attributes": [
-      "end",
-      "first-day-of-week",
-      "label",
-      "max",
-      "min",
-      "open",
-      "start",
-      "variant"
-    ],
+    "attributes": {
+      "end": "string | undefined",
+      "first-day-of-week": "number | undefined",
+      "label": "string | undefined",
+      "max": "string | undefined",
+      "min": "string | undefined",
+      "open": "boolean",
+      "start": "string | undefined",
+      "variant": "\"modal\" | \"docked\""
+    },
     "events": [
       "cancel",
       "change",
@@ -888,9 +889,9 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-description-list": {
     "package": "@lit-material/description-list",
     "className": "LitMaterialDescriptionList",
-    "attributes": [
-      "horizontal"
-    ],
+    "attributes": {
+      "horizontal": "boolean"
+    },
     "events": [],
     "slots": [
       ""
@@ -903,7 +904,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-description-list-group": {
     "package": "@lit-material/description-list",
     "className": "LitMaterialDescriptionListGroup",
-    "attributes": [],
+    "attributes": {},
     "events": [],
     "slots": [
       "",
@@ -918,10 +919,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-devtools": {
     "package": "@lit-material/devtools",
     "className": "LitMaterialDevtools",
-    "attributes": [
-      "open",
-      "view"
-    ],
+    "attributes": {
+      "open": "boolean",
+      "view": "View"
+    },
     "events": [],
     "slots": [],
     "cssProperties": [],
@@ -930,10 +931,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-dialog": {
     "package": "@lit-material/dialog",
     "className": "LitMaterialDialog",
-    "attributes": [
-      "disable-backdrop-close",
-      "open"
-    ],
+    "attributes": {
+      "disable-backdrop-close": "boolean",
+      "open": "boolean"
+    },
     "events": [
       "cancel",
       "close"
@@ -953,16 +954,16 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-diff": {
     "package": "@lit-material/diff",
     "className": "LitMaterialDiff",
-    "attributes": [
-      "context",
-      "hide-stats",
-      "label",
-      "mode",
-      "modified",
-      "modified-label",
-      "original",
-      "original-label"
-    ],
+    "attributes": {
+      "context": "number",
+      "hide-stats": "boolean",
+      "label": "string | undefined",
+      "mode": "\"unified\" | \"split\"",
+      "modified": "string",
+      "modified-label": "string | undefined",
+      "original": "string",
+      "original-label": "string | undefined"
+    },
     "events": [],
     "slots": [],
     "cssProperties": [
@@ -981,11 +982,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-divider": {
     "package": "@lit-material/divider",
     "className": "LitMaterialDivider",
-    "attributes": [
-      "inset-end",
-      "inset-start",
-      "orientation"
-    ],
+    "attributes": {
+      "inset-end": "boolean",
+      "inset-start": "boolean",
+      "orientation": "\"horizontal\" | \"vertical\""
+    },
     "events": [],
     "slots": [],
     "cssProperties": [],
@@ -994,10 +995,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-drawer": {
     "package": "@lit-material/drawer",
     "className": "LitMaterialDrawer",
-    "attributes": [
-      "open",
-      "position"
-    ],
+    "attributes": {
+      "open": "boolean",
+      "position": "\"start\" | \"end\""
+    },
     "events": [],
     "slots": [
       "",
@@ -1012,14 +1013,14 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-dual-list-selector": {
     "package": "@lit-material/dual-list",
     "className": "LitMaterialDualListSelector",
-    "attributes": [
-      "available-label",
-      "chosen-label",
-      "disabled",
-      "filterable",
-      "items",
-      "selected"
-    ],
+    "attributes": {
+      "available-label": "string | undefined",
+      "chosen-label": "string | undefined",
+      "disabled": "boolean",
+      "filterable": "boolean",
+      "items": "DualListItem[]",
+      "selected": "string[]"
+    },
     "events": [
       "change"
     ],
@@ -1036,11 +1037,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-empty-state": {
     "package": "@lit-material/empty-state",
     "className": "LitMaterialEmptyState",
-    "attributes": [
-      "headline",
-      "level",
-      "size"
-    ],
+    "attributes": {
+      "headline": "string",
+      "level": "number",
+      "size": "\"standard\" | \"compact\""
+    },
     "events": [],
     "slots": [
       "",
@@ -1056,20 +1057,20 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-fab": {
     "package": "@lit-material/fab",
     "className": "LitMaterialFab",
-    "attributes": [
-      "aria-label",
-      "aria-labelledby",
-      "color",
-      "disabled",
-      "extended",
-      "form",
-      "href",
-      "name",
-      "size",
-      "target",
-      "type",
-      "value"
-    ],
+    "attributes": {
+      "aria-label": "string | null",
+      "aria-labelledby": "string | null",
+      "color": "\"primary\" | \"secondary\" | \"tertiary\" | \"surface\"",
+      "disabled": "boolean",
+      "extended": "boolean",
+      "form": "string | undefined",
+      "href": "string",
+      "name": "string",
+      "size": "\"small\" | \"regular\" | \"large\"",
+      "target": "string",
+      "type": "\"button\" | \"submit\" | \"reset\"",
+      "value": "string"
+    },
     "events": [],
     "slots": [
       "",
@@ -1085,13 +1086,13 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-file-upload": {
     "package": "@lit-material/file-upload",
     "className": "LitMaterialFileUpload",
-    "attributes": [
-      "accept",
-      "disabled",
-      "label",
-      "multiple",
-      "name"
-    ],
+    "attributes": {
+      "accept": "string",
+      "disabled": "boolean",
+      "label": "string",
+      "multiple": "boolean",
+      "name": "string"
+    },
     "events": [
       "change"
     ],
@@ -1114,12 +1115,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-icon": {
     "package": "@lit-material/icon",
     "className": "LitMaterialIcon",
-    "attributes": [
-      "color",
-      "label",
-      "name",
-      "size"
-    ],
+    "attributes": {
+      "color": "\"inherit\" | \"info\" | \"success\" | \"warning\" | \"error\"",
+      "label": "string",
+      "name": "string",
+      "size": "\"small\" | \"medium\" | \"large\""
+    },
     "events": [],
     "slots": [
       ""
@@ -1132,20 +1133,20 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-icon-button": {
     "package": "@lit-material/icon-button",
     "className": "LitMaterialIconButton",
-    "attributes": [
-      "aria-label",
-      "aria-labelledby",
-      "disabled",
-      "form",
-      "href",
-      "name",
-      "selected",
-      "target",
-      "toggle",
-      "type",
-      "value",
-      "variant"
-    ],
+    "attributes": {
+      "aria-label": "string | null",
+      "aria-labelledby": "string | null",
+      "disabled": "boolean",
+      "form": "string | undefined",
+      "href": "string",
+      "name": "string",
+      "selected": "boolean",
+      "target": "string",
+      "toggle": "boolean",
+      "type": "\"button\" | \"submit\" | \"reset\"",
+      "value": "string",
+      "variant": "\"standard\" | \"filled\" | \"tonal\" | \"outlined\""
+    },
     "events": [
       "change"
     ],
@@ -1163,14 +1164,14 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-inline-edit": {
     "package": "@lit-material/inline-edit",
     "className": "LitMaterialInlineEdit",
-    "attributes": [
-      "busy",
-      "disabled",
-      "editing",
-      "label",
-      "placeholder",
-      "value"
-    ],
+    "attributes": {
+      "busy": "boolean",
+      "disabled": "boolean",
+      "editing": "boolean",
+      "label": "string",
+      "placeholder": "string",
+      "value": "string"
+    },
     "events": [
       "cancel",
       "change"
@@ -1184,7 +1185,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-input-group": {
     "package": "@lit-material/text-field",
     "className": "LitMaterialInputGroup",
-    "attributes": [],
+    "attributes": {},
     "events": [],
     "slots": [
       ""
@@ -1195,12 +1196,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-jump-links": {
     "package": "@lit-material/jump-links",
     "className": "LitMaterialJumpLinks",
-    "attributes": [
-      "for",
-      "label",
-      "links",
-      "offset"
-    ],
+    "attributes": {
+      "for": "string",
+      "label": "string | undefined",
+      "links": "JumpLink[]",
+      "offset": "number"
+    },
     "events": [],
     "slots": [],
     "cssProperties": [],
@@ -1213,16 +1214,16 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-key-value-editor": {
     "package": "@lit-material/key-value",
     "className": "LitMaterialKeyValueEditor",
-    "attributes": [
-      "add-label",
-      "disabled",
-      "key-label",
-      "key-pattern",
-      "key-pattern-message",
-      "mask-values",
-      "readonly",
-      "value-label"
-    ],
+    "attributes": {
+      "add-label": "string | undefined",
+      "disabled": "boolean",
+      "key-label": "string | undefined",
+      "key-pattern": "string",
+      "key-pattern-message": "string | undefined",
+      "mask-values": "boolean",
+      "readonly": "boolean",
+      "value-label": "string | undefined"
+    },
     "events": [
       "change"
     ],
@@ -1236,13 +1237,13 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-line-chart": {
     "package": "@lit-material/chart",
     "className": "LitMaterialLineChart",
-    "attributes": [
-      "height",
-      "label",
-      "series",
-      "unit",
-      "y-min"
-    ],
+    "attributes": {
+      "height": "number",
+      "label": "string",
+      "series": "ChartSeries[]",
+      "unit": "string",
+      "y-min": "number | undefined"
+    },
     "events": [],
     "slots": [],
     "cssProperties": [
@@ -1257,11 +1258,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-linear-progress": {
     "package": "@lit-material/progress",
     "className": "LitMaterialLinearProgress",
-    "attributes": [
-      "indeterminate",
-      "max",
-      "value"
-    ],
+    "attributes": {
+      "indeterminate": "boolean",
+      "max": "number",
+      "value": "number"
+    },
     "events": [],
     "slots": [],
     "cssProperties": [],
@@ -1273,7 +1274,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-list": {
     "package": "@lit-material/list",
     "className": "LitMaterialList",
-    "attributes": [],
+    "attributes": {},
     "events": [],
     "slots": [
       ""
@@ -1286,18 +1287,18 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-list-item": {
     "package": "@lit-material/list",
     "className": "LitMaterialListItem",
-    "attributes": [
-      "disabled",
-      "divider",
-      "form",
-      "href",
-      "interactive",
-      "name",
-      "selected",
-      "target",
-      "type",
-      "value"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "divider": "boolean",
+      "form": "string | undefined",
+      "href": "string",
+      "interactive": "boolean",
+      "name": "string",
+      "selected": "boolean",
+      "target": "string",
+      "type": "\"button\" | \"submit\" | \"reset\"",
+      "value": "string"
+    },
     "events": [],
     "slots": [
       "",
@@ -1316,12 +1317,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-log-viewer": {
     "package": "@lit-material/log-viewer",
     "className": "LitMaterialLogViewer",
-    "attributes": [
-      "label",
-      "max-lines",
-      "paused",
-      "wrap"
-    ],
+    "attributes": {
+      "label": "string | undefined",
+      "max-lines": "number",
+      "paused": "boolean",
+      "wrap": "boolean"
+    },
     "events": [
       "lines-dropped"
     ],
@@ -1338,10 +1339,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-menu": {
     "package": "@lit-material/menu",
     "className": "LitMaterialMenu",
-    "attributes": [
-      "anchor",
-      "open"
-    ],
+    "attributes": {
+      "anchor": "string | undefined",
+      "open": "boolean"
+    },
     "events": [
       "close"
     ],
@@ -1356,10 +1357,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-merge-view": {
     "package": "@lit-material/diff",
     "className": "LitMaterialMergeView",
-    "attributes": [
-      "base",
-      "sides"
-    ],
+    "attributes": {
+      "base": "number",
+      "sides": "MergeSide[]"
+    },
     "events": [],
     "slots": [
       "side-0"
@@ -1376,9 +1377,9 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-navigation-bar": {
     "package": "@lit-material/navigation",
     "className": "LitMaterialNavigationBar",
-    "attributes": [
-      "selected"
-    ],
+    "attributes": {
+      "selected": "number"
+    },
     "events": [
       "change"
     ],
@@ -1393,12 +1394,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-navigation-bar-item": {
     "package": "@lit-material/navigation",
     "className": "LitMaterialNavigationBarItem",
-    "attributes": [
-      "disabled",
-      "href",
-      "selected",
-      "target"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "href": "string",
+      "selected": "boolean",
+      "target": "string"
+    },
     "events": [],
     "slots": [
       "",
@@ -1416,13 +1417,13 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-navigation-drawer": {
     "package": "@lit-material/navigation",
     "className": "LitMaterialNavigationDrawer",
-    "attributes": [
-      "disable-backdrop-close",
-      "open",
-      "position",
-      "selected",
-      "variant"
-    ],
+    "attributes": {
+      "disable-backdrop-close": "boolean",
+      "open": "boolean",
+      "position": "\"start\" | \"end\"",
+      "selected": "number",
+      "variant": "\"standard\" | \"modal\""
+    },
     "events": [
       "cancel",
       "change",
@@ -1443,12 +1444,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-navigation-drawer-item": {
     "package": "@lit-material/navigation",
     "className": "LitMaterialNavigationDrawerItem",
-    "attributes": [
-      "disabled",
-      "href",
-      "selected",
-      "target"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "href": "string",
+      "selected": "boolean",
+      "target": "string"
+    },
     "events": [],
     "slots": [
       "",
@@ -1465,10 +1466,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-navigation-rail": {
     "package": "@lit-material/navigation",
     "className": "LitMaterialNavigationRail",
-    "attributes": [
-      "alignment",
-      "selected"
-    ],
+    "attributes": {
+      "alignment": "\"top\" | \"center\" | \"bottom\"",
+      "selected": "number"
+    },
     "events": [
       "change"
     ],
@@ -1486,12 +1487,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-navigation-rail-item": {
     "package": "@lit-material/navigation",
     "className": "LitMaterialNavigationRailItem",
-    "attributes": [
-      "disabled",
-      "href",
-      "selected",
-      "target"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "href": "string",
+      "selected": "boolean",
+      "target": "string"
+    },
     "events": [],
     "slots": [
       "",
@@ -1509,21 +1510,21 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-number-field": {
     "package": "@lit-material/text-field",
     "className": "LitMaterialNumberField",
-    "attributes": [
-      "disabled",
-      "error-text",
-      "label",
-      "max",
-      "min",
-      "name",
-      "readonly",
-      "required",
-      "step",
-      "supporting-text",
-      "unit",
-      "value",
-      "variant"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "error-text": "string",
+      "label": "string",
+      "max": "number | undefined",
+      "min": "number | undefined",
+      "name": "string",
+      "readonly": "boolean",
+      "required": "boolean",
+      "step": "number",
+      "supporting-text": "string",
+      "unit": "string",
+      "value": "number | null",
+      "variant": "\"filled\" | \"outlined\""
+    },
     "events": [
       "change",
       "input"
@@ -1541,9 +1542,9 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-overflow-menu": {
     "package": "@lit-material/overflow-menu",
     "className": "LitMaterialOverflowMenu",
-    "attributes": [
-      "label"
-    ],
+    "attributes": {
+      "label": "string | undefined"
+    },
     "events": [
       "overflow-change"
     ],
@@ -1560,7 +1561,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-page": {
     "package": "@lit-material/page",
     "className": "LitMaterialPage",
-    "attributes": [],
+    "attributes": {},
     "events": [],
     "slots": [
       "",
@@ -1577,10 +1578,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-panel": {
     "package": "@lit-material/panel",
     "className": "LitMaterialPanel",
-    "attributes": [
-      "scrollable",
-      "variant"
-    ],
+    "attributes": {
+      "scrollable": "boolean",
+      "variant": "\"default\" | \"bordered\" | \"raised\""
+    },
     "events": [],
     "slots": [
       "",
@@ -1597,11 +1598,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-popover": {
     "package": "@lit-material/popover",
     "className": "LitMaterialPopover",
-    "attributes": [
-      "anchor",
-      "dismissible",
-      "open"
-    ],
+    "attributes": {
+      "anchor": "string | undefined",
+      "dismissible": "boolean",
+      "open": "boolean"
+    },
     "events": [
       "close"
     ],
@@ -1621,19 +1622,19 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-radio": {
     "package": "@lit-material/radio",
     "className": "LitMaterialRadio",
-    "attributes": [
-      "aria-label",
-      "aria-labelledby",
-      "checked",
-      "disabled",
-      "error",
-      "form",
-      "label",
-      "name",
-      "required",
-      "supporting-text",
-      "value"
-    ],
+    "attributes": {
+      "aria-label": "string | null",
+      "aria-labelledby": "string | null",
+      "checked": "boolean",
+      "disabled": "boolean",
+      "error": "boolean",
+      "form": "string | undefined",
+      "label": "string",
+      "name": "string",
+      "required": "boolean",
+      "supporting-text": "string",
+      "value": "string"
+    },
     "events": [
       "change"
     ],
@@ -1649,16 +1650,16 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-rating": {
     "package": "@lit-material/rating",
     "className": "LitMaterialRating",
-    "attributes": [
-      "disabled",
-      "form",
-      "label",
-      "max",
-      "name",
-      "precision",
-      "readonly",
-      "value"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "form": "string | undefined",
+      "label": "string | undefined",
+      "max": "number",
+      "name": "string",
+      "precision": "1 | 0.5",
+      "readonly": "boolean",
+      "value": "number"
+    },
     "events": [
       "change",
       "input"
@@ -1675,12 +1676,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-router-outlet": {
     "package": "@lit-material/router",
     "className": "LitMaterialRouterOutlet",
-    "attributes": [
-      "path",
-      "pending",
-      "scroll-restoration",
-      "title-template"
-    ],
+    "attributes": {
+      "path": "string | undefined",
+      "pending": "boolean",
+      "scroll-restoration": "\"restore\" | \"none\"",
+      "title-template": "string"
+    },
     "events": [
       "lit-material-route-error"
     ],
@@ -1691,12 +1692,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-search-bar": {
     "package": "@lit-material/search",
     "className": "LitMaterialSearchBar",
-    "attributes": [
-      "disabled",
-      "label",
-      "placeholder",
-      "value"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "label": "string",
+      "placeholder": "string | undefined",
+      "value": "string"
+    },
     "events": [
       "input",
       "search"
@@ -1715,10 +1716,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-search-view": {
     "package": "@lit-material/search",
     "className": "LitMaterialSearchView",
-    "attributes": [
-      "anchor",
-      "open"
-    ],
+    "attributes": {
+      "anchor": "string | undefined",
+      "open": "boolean"
+    },
     "events": [
       "close"
     ],
@@ -1733,10 +1734,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-segmented-button": {
     "package": "@lit-material/segmented-button",
     "className": "LitMaterialSegmentedButton",
-    "attributes": [
-      "disabled",
-      "selected"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "selected": "boolean"
+    },
     "events": [],
     "slots": [
       "",
@@ -1752,9 +1753,9 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-segmented-button-group": {
     "package": "@lit-material/segmented-button",
     "className": "LitMaterialSegmentedButtonGroup",
-    "attributes": [
-      "multiselect"
-    ],
+    "attributes": {
+      "multiselect": "boolean"
+    },
     "events": [
       "change"
     ],
@@ -1767,19 +1768,19 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-select": {
     "package": "@lit-material/select",
     "className": "LitMaterialSelect",
-    "attributes": [
-      "disabled",
-      "error",
-      "error-text",
-      "form",
-      "label",
-      "name",
-      "open",
-      "required",
-      "supporting-text",
-      "value",
-      "variant"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "error": "boolean",
+      "error-text": "string",
+      "form": "string | undefined",
+      "label": "string",
+      "name": "string",
+      "open": "boolean",
+      "required": "boolean",
+      "supporting-text": "string",
+      "value": "string",
+      "variant": "\"filled\" | \"outlined\""
+    },
     "events": [
       "change"
     ],
@@ -1802,11 +1803,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-select-option": {
     "package": "@lit-material/select",
     "className": "LitMaterialSelectOption",
-    "attributes": [
-      "disabled",
-      "selected",
-      "value"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "selected": "boolean",
+      "value": "string"
+    },
     "events": [],
     "slots": [
       "",
@@ -1821,12 +1822,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-side-sheet": {
     "package": "@lit-material/sheet",
     "className": "LitMaterialSideSheet",
-    "attributes": [
-      "disable-backdrop-close",
-      "open",
-      "position",
-      "variant"
-    ],
+    "attributes": {
+      "disable-backdrop-close": "boolean",
+      "open": "boolean",
+      "position": "\"start\" | \"end\"",
+      "variant": "\"standard\" | \"modal\""
+    },
     "events": [
       "cancel",
       "close"
@@ -1846,10 +1847,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-sidebar": {
     "package": "@lit-material/sidebar",
     "className": "LitMaterialSidebar",
-    "attributes": [
-      "panel-width",
-      "position"
-    ],
+    "attributes": {
+      "panel-width": "string",
+      "position": "\"start\" | \"end\""
+    },
     "events": [],
     "slots": [
       "",
@@ -1864,7 +1865,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-simple-list": {
     "package": "@lit-material/simple-list",
     "className": "LitMaterialSimpleList",
-    "attributes": [],
+    "attributes": {},
     "events": [],
     "slots": [
       ""
@@ -1877,11 +1878,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-simple-list-item": {
     "package": "@lit-material/simple-list",
     "className": "LitMaterialSimpleListItem",
-    "attributes": [
-      "current",
-      "disabled",
-      "href"
-    ],
+    "attributes": {
+      "current": "boolean",
+      "disabled": "boolean",
+      "href": "string"
+    },
     "events": [],
     "slots": [
       ""
@@ -1894,12 +1895,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-skeleton": {
     "package": "@lit-material/skeleton",
     "className": "LitMaterialSkeleton",
-    "attributes": [
-      "animation",
-      "height",
-      "variant",
-      "width"
-    ],
+    "attributes": {
+      "animation": "\"pulse\" | \"wave\" | \"none\"",
+      "height": "string",
+      "variant": "\"text\" | \"circular\" | \"rectangular\" | \"rounded\"",
+      "width": "string"
+    },
     "events": [],
     "slots": [],
     "cssProperties": [],
@@ -1910,17 +1911,17 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-slider": {
     "package": "@lit-material/slider",
     "className": "LitMaterialSlider",
-    "attributes": [
-      "aria-label",
-      "aria-labelledby",
-      "disabled",
-      "form",
-      "max",
-      "min",
-      "name",
-      "step",
-      "value"
-    ],
+    "attributes": {
+      "aria-label": "string | null",
+      "aria-labelledby": "string | null",
+      "disabled": "boolean",
+      "form": "string | undefined",
+      "max": "number",
+      "min": "number",
+      "name": "string",
+      "step": "number",
+      "value": "number"
+    },
     "events": [
       "change",
       "input"
@@ -1939,11 +1940,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-snackbar": {
     "package": "@lit-material/snackbar",
     "className": "LitMaterialSnackbar",
-    "attributes": [
-      "closable",
-      "duration",
-      "open"
-    ],
+    "attributes": {
+      "closable": "boolean",
+      "duration": "number",
+      "open": "boolean"
+    },
     "events": [
       "close"
     ],
@@ -1960,12 +1961,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-sortable": {
     "package": "@lit-material/sortable",
     "className": "LitMaterialSortable",
-    "attributes": [
-      "disabled",
-      "group",
-      "label",
-      "layout"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "group": "string",
+      "label": "string",
+      "layout": "\"list\" | \"grid\""
+    },
     "events": [
       "sort"
     ],
@@ -1980,11 +1981,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-sparkline": {
     "package": "@lit-material/chart",
     "className": "LitMaterialSparkline",
-    "attributes": [
-      "label",
-      "show-last",
-      "values"
-    ],
+    "attributes": {
+      "label": "string",
+      "show-last": "boolean",
+      "values": "number[]"
+    },
     "events": [],
     "slots": [],
     "cssProperties": [
@@ -1995,12 +1996,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-speed-dial": {
     "package": "@lit-material/speed-dial",
     "className": "LitMaterialSpeedDial",
-    "attributes": [
-      "direction",
-      "disabled",
-      "label",
-      "open"
-    ],
+    "attributes": {
+      "direction": "\"up\" | \"down\"",
+      "disabled": "boolean",
+      "label": "string | undefined",
+      "open": "boolean"
+    },
     "events": [
       "close"
     ],
@@ -2020,10 +2021,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-speed-dial-action": {
     "package": "@lit-material/speed-dial",
     "className": "LitMaterialSpeedDialAction",
-    "attributes": [
-      "disabled",
-      "label"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "label": "string"
+    },
     "events": [],
     "slots": [
       "icon",
@@ -2040,14 +2041,14 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-split-panel": {
     "package": "@lit-material/split-panel",
     "className": "LitMaterialSplitPanel",
-    "attributes": [
-      "disabled",
-      "label",
-      "max",
-      "min",
-      "orientation",
-      "position"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "label": "string | undefined",
+      "max": "number",
+      "min": "number",
+      "orientation": "\"horizontal\" | \"vertical\"",
+      "position": "number"
+    },
     "events": [
       "change"
     ],
@@ -2065,15 +2066,15 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-stat": {
     "package": "@lit-material/stat",
     "className": "LitMaterialStat",
-    "attributes": [
-      "caption",
-      "label",
-      "trend",
-      "trend-label",
-      "trend-sentiment",
-      "value",
-      "variant"
-    ],
+    "attributes": {
+      "caption": "string",
+      "label": "string",
+      "trend": "\"up\" | \"down\" | \"flat\" | undefined",
+      "trend-label": "string",
+      "trend-sentiment": "\"positive\" | \"negative\" | \"neutral\"",
+      "value": "string",
+      "variant": "\"outlined\" | \"filled\" | \"plain\""
+    },
     "events": [],
     "slots": [
       "caption",
@@ -2095,11 +2096,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-status": {
     "package": "@lit-material/status",
     "className": "LitMaterialStatus",
-    "attributes": [
-      "appearance",
-      "mono",
-      "status"
-    ],
+    "attributes": {
+      "appearance": "\"text\" | \"pill\"",
+      "mono": "boolean",
+      "status": "\"ok\" | \"warning\" | \"error\" | \"info\" | \"neutral\""
+    },
     "events": [],
     "slots": [
       "",
@@ -2120,14 +2121,14 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-step": {
     "package": "@lit-material/stepper",
     "className": "LitMaterialStep",
-    "attributes": [
-      "active",
-      "completed",
-      "disabled",
-      "error",
-      "orientation",
-      "step-number"
-    ],
+    "attributes": {
+      "active": "boolean",
+      "completed": "boolean",
+      "disabled": "boolean",
+      "error": "boolean",
+      "orientation": "\"horizontal\" | \"vertical\"",
+      "step-number": "number"
+    },
     "events": [],
     "slots": [
       "description",
@@ -2145,11 +2146,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-stepper": {
     "package": "@lit-material/stepper",
     "className": "LitMaterialStepper",
-    "attributes": [
-      "linear",
-      "orientation",
-      "selected"
-    ],
+    "attributes": {
+      "linear": "boolean",
+      "orientation": "\"horizontal\" | \"vertical\"",
+      "selected": "number"
+    },
     "events": [
       "change"
     ],
@@ -2164,19 +2165,19 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-switch": {
     "package": "@lit-material/switch",
     "className": "LitMaterialSwitch",
-    "attributes": [
-      "aria-label",
-      "aria-labelledby",
-      "checked",
-      "disabled",
-      "error",
-      "form",
-      "label",
-      "name",
-      "required",
-      "supporting-text",
-      "value"
-    ],
+    "attributes": {
+      "aria-label": "string | null",
+      "aria-labelledby": "string | null",
+      "checked": "boolean",
+      "disabled": "boolean",
+      "error": "boolean",
+      "form": "string | undefined",
+      "label": "string",
+      "name": "string",
+      "required": "boolean",
+      "supporting-text": "string",
+      "value": "string"
+    },
     "events": [
       "change"
     ],
@@ -2196,13 +2197,13 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-tab": {
     "package": "@lit-material/tabs",
     "className": "LitMaterialTab",
-    "attributes": [
-      "aria-controls",
-      "closable",
-      "dirty",
-      "disabled",
-      "selected"
-    ],
+    "attributes": {
+      "aria-controls": "string | null",
+      "closable": "boolean",
+      "dirty": "boolean",
+      "disabled": "boolean",
+      "selected": "boolean"
+    },
     "events": [
       "close"
     ],
@@ -2221,9 +2222,9 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-tab-panel": {
     "package": "@lit-material/tabs",
     "className": "LitMaterialTabPanel",
-    "attributes": [
-      "selected"
-    ],
+    "attributes": {
+      "selected": "boolean"
+    },
     "events": [],
     "slots": [
       ""
@@ -2234,14 +2235,14 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-table": {
     "package": "@lit-material/table",
     "className": "LitMaterialTable",
-    "attributes": [
-      "caption",
-      "caption-hidden",
-      "columns",
-      "density",
-      "rows",
-      "sticky-header"
-    ],
+    "attributes": {
+      "caption": "string",
+      "caption-hidden": "boolean",
+      "columns": "TableColumn<Row>[]",
+      "density": "\"standard\" | \"compact\"",
+      "rows": "Row[]",
+      "sticky-header": "boolean"
+    },
     "events": [],
     "slots": [
       "empty"
@@ -2255,10 +2256,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-tabs": {
     "package": "@lit-material/tabs",
     "className": "LitMaterialTabs",
-    "attributes": [
-      "scrollable",
-      "selected"
-    ],
+    "attributes": {
+      "scrollable": "boolean",
+      "selected": "number"
+    },
     "events": [
       "change"
     ],
@@ -2275,31 +2276,31 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-text-field": {
     "package": "@lit-material/text-field",
     "className": "LitMaterialTextField",
-    "attributes": [
-      "autocomplete",
-      "disabled",
-      "error",
-      "error-text",
-      "form",
-      "inputmode",
-      "label",
-      "max",
-      "maxlength",
-      "min",
-      "minlength",
-      "name",
-      "pattern",
-      "placeholder",
-      "prefix",
-      "readonly",
-      "required",
-      "step",
-      "suffix",
-      "supporting-text",
-      "type",
-      "value",
-      "variant"
-    ],
+    "attributes": {
+      "autocomplete": "string",
+      "disabled": "boolean",
+      "error": "boolean",
+      "error-text": "string",
+      "form": "string | undefined",
+      "inputmode": "string",
+      "label": "string",
+      "max": "number | undefined",
+      "maxlength": "number | undefined",
+      "min": "number | undefined",
+      "minlength": "number | undefined",
+      "name": "string",
+      "pattern": "string",
+      "placeholder": "string",
+      "prefix": "string",
+      "readonly": "boolean",
+      "required": "boolean",
+      "step": "string",
+      "suffix": "string",
+      "supporting-text": "string",
+      "type": "string",
+      "value": "string",
+      "variant": "\"filled\" | \"outlined\""
+    },
     "events": [
       "change",
       "input"
@@ -2325,25 +2326,25 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-textarea": {
     "package": "@lit-material/text-field",
     "className": "LitMaterialTextarea",
-    "attributes": [
-      "autocomplete",
-      "disabled",
-      "error",
-      "error-text",
-      "form",
-      "label",
-      "maxlength",
-      "minlength",
-      "name",
-      "placeholder",
-      "readonly",
-      "required",
-      "resize",
-      "rows",
-      "supporting-text",
-      "value",
-      "variant"
-    ],
+    "attributes": {
+      "autocomplete": "string",
+      "disabled": "boolean",
+      "error": "boolean",
+      "error-text": "string",
+      "form": "string | undefined",
+      "label": "string",
+      "maxlength": "number | undefined",
+      "minlength": "number | undefined",
+      "name": "string",
+      "placeholder": "string",
+      "readonly": "boolean",
+      "required": "boolean",
+      "resize": "\"none\" | \"vertical\" | \"horizontal\" | \"both\"",
+      "rows": "number",
+      "supporting-text": "string",
+      "value": "string",
+      "variant": "\"filled\" | \"outlined\""
+    },
     "events": [
       "change",
       "input"
@@ -2363,12 +2364,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-time-picker": {
     "package": "@lit-material/time-picker",
     "className": "LitMaterialTimePicker",
-    "attributes": [
-      "hour-cycle",
-      "label",
-      "open",
-      "value"
-    ],
+    "attributes": {
+      "hour-cycle": "\"12\" | \"24\"",
+      "label": "string | undefined",
+      "open": "boolean",
+      "value": "string | undefined"
+    },
     "events": [
       "cancel",
       "change",
@@ -2392,13 +2393,13 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-timestamp": {
     "package": "@lit-material/timestamp",
     "className": "LitMaterialTimestamp",
-    "attributes": [
-      "date",
-      "date-format",
-      "locale",
-      "relative",
-      "time-format"
-    ],
+    "attributes": {
+      "date": "string",
+      "date-format": "\"full\" | \"long\" | \"medium\" | \"short\" | \"none\"",
+      "locale": "string",
+      "relative": "boolean",
+      "time-format": "\"full\" | \"long\" | \"medium\" | \"short\" | \"none\""
+    },
     "events": [],
     "slots": [],
     "cssProperties": [],
@@ -2409,9 +2410,9 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-toolbar": {
     "package": "@lit-material/toolbar",
     "className": "LitMaterialToolbar",
-    "attributes": [
-      "dense"
-    ],
+    "attributes": {
+      "dense": "boolean"
+    },
     "events": [],
     "slots": [
       ""
@@ -2422,7 +2423,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-toolbar-spacer": {
     "package": "@lit-material/toolbar",
     "className": "LitMaterialToolbarSpacer",
-    "attributes": [],
+    "attributes": {},
     "events": [],
     "slots": [],
     "cssProperties": [],
@@ -2431,12 +2432,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-tooltip": {
     "package": "@lit-material/tooltip",
     "className": "LitMaterialTooltip",
-    "attributes": [
-      "anchor",
-      "hide-delay",
-      "open",
-      "show-delay"
-    ],
+    "attributes": {
+      "anchor": "string | undefined",
+      "hide-delay": "number",
+      "open": "boolean",
+      "show-delay": "number"
+    },
     "events": [],
     "slots": [
       ""
@@ -2449,11 +2450,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-top-app-bar": {
     "package": "@lit-material/top-app-bar",
     "className": "LitMaterialTopAppBar",
-    "attributes": [
-      "elevated",
-      "threshold",
-      "variant"
-    ],
+    "attributes": {
+      "elevated": "boolean",
+      "threshold": "number",
+      "variant": "\"center-aligned\" | \"small\" | \"medium\" | \"large\""
+    },
     "events": [],
     "slots": [
       "",
@@ -2471,9 +2472,9 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-tree": {
     "package": "@lit-material/tree",
     "className": "LitMaterialTree",
-    "attributes": [
-      "multiple"
-    ],
+    "attributes": {
+      "multiple": "boolean"
+    },
     "events": [
       "change"
     ],
@@ -2488,11 +2489,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-tree-item": {
     "package": "@lit-material/tree",
     "className": "LitMaterialTreeItem",
-    "attributes": [
-      "disabled",
-      "expanded",
-      "selected"
-    ],
+    "attributes": {
+      "disabled": "boolean",
+      "expanded": "boolean",
+      "selected": "boolean"
+    },
     "events": [
       "toggle"
     ],
@@ -2513,12 +2514,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-truncate": {
     "package": "@lit-material/truncate",
     "className": "LitMaterialTruncate",
-    "attributes": [
-      "position",
-      "tail-length",
-      "truncated",
-      "value"
-    ],
+    "attributes": {
+      "position": "\"end\" | \"middle\"",
+      "tail-length": "number",
+      "truncated": "boolean",
+      "value": "string"
+    },
     "events": [],
     "slots": [],
     "cssProperties": [],
@@ -2530,15 +2531,15 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
   "lit-material-usage-meter": {
     "package": "@lit-material/progress",
     "className": "LitMaterialUsageMeter",
-    "attributes": [
-      "critical",
-      "label",
-      "level",
-      "max",
-      "unit",
-      "value",
-      "warning"
-    ],
+    "attributes": {
+      "critical": "number",
+      "label": "string",
+      "level": "\"\" | \"warning\" | \"critical\"",
+      "max": "number",
+      "unit": "string",
+      "value": "number",
+      "warning": "number"
+    },
     "events": [],
     "slots": [],
     "cssProperties": [

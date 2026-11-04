@@ -103,6 +103,7 @@ Every component package also exports generated framework bindings: `@lit-materia
 - [Vite](https://github.com/bohdaq/lit-material/tree/main/packages/vite): `litMaterial({ prerender })` plugin; `index.html` with `<!--app-head-->`/`<!--app-html-->`; `src/entry-server.ts` exports `routes` and `render()`; `src/main.ts` imports `@lit-material/vite/client` first; `createRequestHandler`/`toNodeListener` from `@lit-material/vite/server` for production.
 - [Testing](https://github.com/bohdaq/lit-material/tree/main/packages/testing): `fixture()`, `cleanup()`, `waitForUpdate()`, `getByRole(role, { name })`, `getByLabel`, `getByText`, `findBy*`, `queryDeep` — through shadow roots; `user.click/type/press`.
 - [Devtools](https://github.com/bohdaq/lit-material/tree/main/packages/devtools): dev-only `connectStore(store)` (Redux DevTools extension, time travel via `store.replaceState`), `connectRouter()`, and the `<lit-material-devtools>` panel from `@lit-material/devtools/panel.js`.
+- [Codemod](https://github.com/bohdaq/lit-material/tree/main/packages/codemod): `npx @lit-material/codemod md-web <paths> [--dry-run]` rewrites `@material/web` to lit-material (HTML, Lit templates, JSX/TSX, CSS): `md-filled-button` → `lit-material-button variant="filled"`, renamed attributes/slots/events, `@material/web/<x>.js` imports → `@lit-material/<pkg>`; warnings with file:line for anything unmapped. `transform(source, file)` → `{ code, changes, warnings, packages }`.
 - [create-lit-material-app](https://github.com/bohdaq/lit-material/tree/main/packages/create-lit-material-app): `npm create lit-material-app` — a scaffolded starting point with the above wired together.
 - [Tokens](https://github.com/bohdaq/lit-material/tree/main/packages/tokens): Color, type, shape, elevation, and motion design tokens every component reads from. Opt-in `css/typography.css`: `.md-typescale-<role>-<size>` classes and `.lit-material-content` prose (include via `unsafeCSS` inside shadow roots).
 
@@ -110,6 +111,8 @@ Every component package also exports generated framework bindings: `@lit-materia
 
 - [README](https://github.com/bohdaq/lit-material/blob/main/README.md): Why Lit/lit-material, install instructions, the full package list, and development commands.
 - [Building apps guide](https://lit.rws8.tech/guides/building-apps/): Router + store + context + task + form wired together in one example.
+- [Migrate from @material/web](https://lit.rws8.tech/guides/migrate-material-web/): same `--md-sys-*` tokens; the codemod and its element-by-element table; what needs manual work.
+- [Migrate from Angular Material](https://lit.rws8.tech/guides/migrate-angular-material/): `CUSTOM_ELEMENTS_SCHEMA`, bindings, forms (`ngDefaultControl` for text fields and sliders, `(change)` or your own accessor for select/checkbox/switch), component table, dialog/snackbar services as elements.
 
 ## Optional
 

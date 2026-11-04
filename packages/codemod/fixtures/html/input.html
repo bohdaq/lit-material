@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Settings</title>
+    <script type="module">
+      import "@material/web/button/filled-button.js";
+      import "@material/web/button/text-button.js";
+      import "@material/web/textfield/outlined-text-field.js";
+      import "@material/web/checkbox/checkbox.js";
+      import "@material/web/switch/switch.js";
+      import "@material/web/dialog/dialog.js";
+      import "@material/web/ripple/ripple.js";
+    </script>
+    <style>
+      :root {
+        --md-sys-color-primary: #006a6a;
+        --md-outlined-text-field-container-shape: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="profile">
+      <md-outlined-text-field name="email" label="Email" type="email" required
+        supporting-text="We never share it" prefix-text="@"></md-outlined-text-field>
+      <md-outlined-text-field name="bio" label="Bio" type="textarea" rows="3"></md-outlined-text-field>
+      <label><md-checkbox name="news" touch-target="wrapper"></md-checkbox> Newsletter</label>
+      <md-switch name="public" selected icons></md-switch>
+      <label for="terms">I agree to the terms</label>
+      <md-checkbox id="terms" name="terms" required></md-checkbox>
+      <md-text-button type="reset">Reset</md-text-button>
+      <md-filled-button type="submit" has-icon><md-icon slot="icon">save</md-icon>Save</md-filled-button>
+      <md-ripple></md-ripple>
+    </form>
+
+    <md-dialog id="done">
+      <div slot="headline">Saved</div>
+      <form slot="content" method="dialog" id="done-form">Your profile is up to date.</form>
+      <div slot="actions"><md-text-button form="done-form">Close</md-text-button></div>
+    </md-dialog>
+
+    <md-labs-thing></md-labs-thing>
+    <script>
+      document.querySelector("md-dialog").show();
+    </script>
+  </body>
+</html>

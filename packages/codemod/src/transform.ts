@@ -133,7 +133,7 @@ export function transform(source: string, file: string): TransformResult {
   if (kind === "html") {
     const tags = scanHtml(source);
     elements(ctx, tags, "html");
-    for (const tag of tags) if (tag.script) script(ctx, tag.script.start, tag.script.end, "lit");
+    for (const tag of tags) if (tag.script) script(ctx, tag.script.start, tag.script.end, "lit", tags);
   } else if (kind === "lit" || kind === "jsx") {
     script(ctx, 0, source.length, kind);
   } else if (kind === null) {
@@ -144,11 +144,11 @@ export function transform(source: string, file: string): TransformResult {
   return ctx.result();
 }
 
-function script(ctx: Context, start: number, end: number, syntax: "lit" | "jsx") {
+function script(ctx: Context, start: number, end: number, syntax: "lit" | "jsx", pageTags: Tag[] = []) {
   const text = ctx.src.slice(start, end);
   const tags = scanScript(text, syntax, start);
   elements(ctx, tags, syntax);
-  imports(ctx, text, start, tags);
+  imports(ctx, text, start, [...pageTags, ...tags]);
 }
 
 // ---------------------------------------------------------------------------------------------- elements
@@ -255,7 +255,7 @@ function element(ctx: Context, tag: Tag, mapping: ElementMapping, syntax: Syntax
       finalKeys.add(b.key);
       continue;
     }
-    attribute(ctx, tag, attr, b, rule, finalKeys, inserts, contentParts, syntax);
+    attribute(ctx, tag, to, attr, b, rule, finalKeys, inserts, contentParts, syntax);
   }
 
   for (const [k, v] of Object.entries(mapping.defaults ?? {})) {
@@ -275,6 +275,12 @@ function element(ctx: Context, tag: Tag, mapping: ElementMapping, syntax: Syntax
     } else ctx.replace(tag.startEnd, tag.startEnd, content);
   }
 
+  if (mapping.labelFor) {
+    const id = tag.attrs.find((a) => a.raw === "id" && a.value && !a.value.includes("{"))?.value;
+    if (id && new RegExp(`\\b(?:for|htmlFor)=["']${id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']`).test(src)) {
+      ctx.warn(tag.start, `<${tag.name} id="${id}"> has a <label for>; clicking that label doesn't toggle ${to} (checked in Chromium): use its \`label\` attribute, or wrap the control in the <label>`);
+    }
+  }
   for (const note of mapping.notes ?? []) ctx.note(tag.start, `${mapping.md}:${note}`, note);
   if (mapping.md === "md-icon" && tag.endStart !== undefined) {
     const text = src.slice(tag.startEnd, tag.endStart).trim();
@@ -287,6 +293,7 @@ function element(ctx: Context, tag: Tag, mapping: ElementMapping, syntax: Syntax
 function attribute(
   ctx: Context,
   tag: Tag,
+  to: string,
   attr: Attr,
   b: Binding,
   rule: AttributeRule,
@@ -298,6 +305,12 @@ function attribute(
   const where = `<${tag.name}> ${attr.raw}`;
   switch (rule.kind) {
     case "rename": {
+      const facts = LIT_ELEMENTS[to];
+      if (facts && !(rule.to in facts.attributes)) {
+        finalKeys.add(b.key);
+        ctx.warn(attr.start, `${where}: ${to} has no ${rule.to}; left as it is`);
+        return;
+      }
       finalKeys.add(rule.to);
       if (rule.to !== b.key) {
         ctx.replace(attr.start, attr.nameEnd, formatName(b, rule.to));
@@ -414,7 +427,7 @@ function imports(ctx: Context, text: string, offset: number, tags: Tag[]) {
     const mapping = BY_MODULE.get(module);
     if (bindings) {
       const lit = mapping?.to ? LIT_ELEMENTS[mapping.to] : undefined;
-      ctx.warn(start, `import ${bindings.trim()} from "${spec}": ${lit ? `lit-material's class is ${lit.className} from "${lit.package}"; update the import and its uses by hand` : "no lit-material equivalent; remove its uses"}`);
+      ctx.warn(start, `import ${bindings.trim()} from "${spec}": ${lit ? `lit-material's class is ${lit.className} from "${lit.package}"; update the import and its uses by hand` : (OTHER_MODULES[module] ?? "no lit-material equivalent; remove its uses")}`);
       continue;
     }
     if (mapping?.package) {
@@ -427,7 +440,7 @@ function imports(ctx: Context, text: string, offset: number, tags: Tag[]) {
         ctx.change(start, `import "${spec}" → import "${mapping.package}"`);
       }
       ctx.packages.add(mapping.package);
-    } else if (mapping) ctx.warn(start, `import "${spec}": <${mapping.md}> has no lit-material equivalent (${mapping.why}); remove the import`);
+    } else if (mapping) ctx.warn(start, `import "${spec}": <${mapping.md}> has no lit-material equivalent; remove the import (see the warnings where it's used)`);
     else if (module === "all") {
       const used = [...new Set(tags.map((t) => BY_TAG.get(t.name.toLowerCase())?.package).filter((p): p is string => !!p))].sort();
       const list = used.length ? used : [...new Set(ELEMENTS.map((e) => e.package).filter((p): p is string => !!p))].sort();
@@ -477,7 +490,7 @@ function tokens(ctx: Context) {
   }
   if (unread.size) {
     const [first] = [...unread.values()];
-    ctx.warn(first!, `${unread.size} --md-sys-* token${unread.size === 1 ? " isn't" : "s aren't"} read by any lit-material component (kept; they just have no effect): ${[...unread.keys()].join(", ")}`);
+    ctx.warn(first!, `${unread.size === 1 ? "1 --md-sys-* token isn't read by any lit-material component (kept; it has no effect)" : `${unread.size} --md-sys-* tokens aren't read by any lit-material component (kept; they have no effect)`}: ${[...unread.keys()].join(", ")}`);
   }
 }
 

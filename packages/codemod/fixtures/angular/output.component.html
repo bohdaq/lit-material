@@ -1,0 +1,14 @@
+<lit-material-text-field variant="outlined" label="Name" [value]="name" (input)="name = $any($event.target).value" [attr.error-text]="nameError" [prefix]="currency"></lit-material-text-field>
+<lit-material-select variant="filled" label="Country" [disabled]="busy" (change)="country = $any($event.target).value">
+  @for (c of countries; track c.code) {
+    <lit-material-select-option [value]="c.code"><div>{{ c.name }}</div></lit-material-select-option>
+  }
+</lit-material-select>
+<lit-material-switch [checked]="enabled" (change)="enabled = $any($event.target).selected"></lit-material-switch>
+<lit-material-icon-button variant="filled" aria-label="Delete" (click)="remove()"><lit-material-icon slot="icon">delete</lit-material-icon></lit-material-icon-button>
+<lit-material-dialog [open]="confirming" (close)="confirming = false">
+  <div slot="headline">Delete?</div>
+  <div>This can't be undone.</div>
+  <div slot="actions"><lit-material-button variant="text" (click)="confirming = false">Cancel</lit-material-button></div>
+</lit-material-dialog>
+<lit-material-circular-progress [value]="progress" max="1"></lit-material-circular-progress>

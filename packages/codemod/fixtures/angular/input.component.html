@@ -1,0 +1,14 @@
+<md-outlined-text-field label="Name" [value]="name" (input)="name = $any($event.target).value" [attr.error-text]="nameError" [prefixText]="currency"></md-outlined-text-field>
+<md-filled-select label="Country" [disabled]="busy" (change)="country = $any($event.target).value">
+  @for (c of countries; track c.code) {
+    <md-select-option [value]="c.code"><div slot="headline">{{ c.name }}</div></md-select-option>
+  }
+</md-filled-select>
+<md-switch [selected]="enabled" (change)="enabled = $any($event.target).selected"></md-switch>
+<md-filled-icon-button aria-label="Delete" (click)="remove()"><md-icon>delete</md-icon></md-filled-icon-button>
+<md-dialog [open]="confirming" (closed)="confirming = false" quick>
+  <div slot="headline">Delete?</div>
+  <div slot="content">This can't be undone.</div>
+  <div slot="actions"><md-text-button (click)="confirming = false">Cancel</md-text-button></div>
+</md-dialog>
+<md-circular-progress [value]="progress" max="1"></md-circular-progress>

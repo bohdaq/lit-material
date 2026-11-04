@@ -47,6 +47,8 @@ export interface ElementMapping {
   iconSlot?: string;
   /** A static attribute value that selects another lit-material element (`type="textarea"`). */
   alternate?: { attribute: string; value: string; to: string };
+  /** A `<label for>` pointing at the element doesn't toggle the lit-material control: warn when one does. */
+  labelFor?: boolean;
   /** Manual work: reported once per file that uses the element. */
   notes?: string[];
   /** Why there's no lit-material element, for `to: null`. */
@@ -191,6 +193,7 @@ export const ELEMENTS: readonly ElementMapping[] = [
 
   {
     md: "md-checkbox",
+    labelFor: true,
     module: "checkbox/checkbox",
     to: "lit-material-checkbox",
     package: "@lit-material/checkbox",
@@ -199,6 +202,7 @@ export const ELEMENTS: readonly ElementMapping[] = [
   },
   {
     md: "md-radio",
+    labelFor: true,
     module: "radio/radio",
     to: "lit-material-radio",
     package: "@lit-material/radio",
@@ -207,6 +211,7 @@ export const ELEMENTS: readonly ElementMapping[] = [
   },
   {
     md: "md-switch",
+    labelFor: true,
     module: "switch/switch",
     to: "lit-material-switch",
     package: "@lit-material/switch",

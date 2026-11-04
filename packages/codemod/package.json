@@ -1,0 +1,61 @@
+{
+  "name": "@lit-material/codemod",
+  "version": "0.0.0",
+  "description": "Codemods for moving to lit-material. `md-web` rewrites @material/web (md-*) usage in HTML, Lit templates, JSX/TSX and CSS: tags, variants, attributes, slots, events and imports, and reports file:line for everything that needs a person.",
+  "license": "MIT",
+  "author": {
+    "name": "bohdaq",
+    "email": "bohdaq@gmail.com",
+    "url": "https://github.com/bohdaq"
+  },
+  "homepage": "https://lit.rws8.tech/guides/migrate-material-web/",
+  "bugs": "https://github.com/bohdaq/lit-material/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bohdaq/lit-material.git",
+    "directory": "packages/codemod"
+  },
+  "keywords": [
+    "lit-material",
+    "codemod",
+    "migration",
+    "material-web",
+    "material-design"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "lit-material-codemod": "./bin/lit-material-codemod.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./mappings": {
+      "types": "./dist/mappings.d.ts",
+      "default": "./dist/mappings.js"
+    }
+  },
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --import tsx --test src/*.ssr.test.ts"
+  },
+  "dependencies": {
+    "parse5": "^8.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

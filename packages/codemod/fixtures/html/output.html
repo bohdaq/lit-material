@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Settings</title>
+    <script type="module">
+      import "@lit-material/button";
+      import "@lit-material/text-field";
+      import "@lit-material/checkbox";
+      import "@lit-material/switch";
+      import "@lit-material/dialog";
+      import "@material/web/ripple/ripple.js";
+    </script>
+    <style>
+      :root {
+        --md-sys-color-primary: #006a6a;
+        --md-outlined-text-field-container-shape: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="profile">
+      <lit-material-text-field variant="outlined" name="email" label="Email" type="email" required
+        supporting-text="We never share it" prefix="@"></lit-material-text-field>
+      <lit-material-textarea variant="outlined" name="bio" label="Bio" rows="3"></lit-material-textarea>
+      <label><lit-material-checkbox name="news" touch-target="wrapper"></lit-material-checkbox> Newsletter</label>
+      <lit-material-switch name="public" checked icons></lit-material-switch>
+      <label for="terms">I agree to the terms</label>
+      <lit-material-checkbox id="terms" name="terms" required></lit-material-checkbox>
+      <lit-material-button variant="text" type="reset">Reset</lit-material-button>
+      <lit-material-button variant="filled" type="submit"><lit-material-icon slot="icon">save</lit-material-icon>Save</lit-material-button>
+      <md-ripple></md-ripple>
+    </form>
+
+    <lit-material-dialog id="done">
+      <div slot="headline">Saved</div>
+      <form method="dialog" id="done-form">Your profile is up to date.</form>
+      <div slot="actions"><lit-material-button variant="text" form="done-form">Close</lit-material-button></div>
+    </lit-material-dialog>
+
+    <md-labs-thing></md-labs-thing>
+    <script>
+      document.querySelector("md-dialog").show();
+    </script>
+  </body>
+</html>

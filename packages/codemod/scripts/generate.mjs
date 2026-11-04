@@ -22,6 +22,11 @@ export function generate() {
     if (!existsSync(pkgFile)) continue;
     const pkg = JSON.parse(readFileSync(pkgFile, "utf8"));
     const cem = join(packages, dir, "custom-elements.json");
+    const aliases = new Map();
+    if (existsSync(join(packages, dir, "src"))) walk(join(packages, dir, "src"), (file) => {
+      if (!file.endsWith(".ts") || file.endsWith(".test.ts")) return;
+      for (const m of readFileSync(file, "utf8").matchAll(/export type (\w+) =\s*([^;]+);/g)) aliases.set(m[1], m[2].replace(/\s+/g, " ").trim());
+    });
     if (existsSync(cem)) {
       for (const mod of JSON.parse(readFileSync(cem, "utf8")).modules ?? []) {
         for (const d of mod.declarations ?? []) {
@@ -29,7 +34,9 @@ export function generate() {
           elements[d.tagName] = {
             package: pkg.name,
             className: d.name,
-            attributes: [...new Set((d.attributes ?? []).map((a) => a.name))].sort(),
+            attributes: Object.fromEntries(
+              (d.attributes ?? []).map((a) => [a.name, expand(a.type?.text ?? "", aliases)]).sort(([a], [b]) => a.localeCompare(b)),
+            ),
             events: [...new Set((d.events ?? []).map((e) => e.name).filter(Boolean))].sort(),
             slots: [...new Set((d.slots ?? []).map((s) => s.name))].sort(),
             cssProperties: [...new Set((d.cssProperties ?? []).map((p) => p.name))].sort(),
@@ -50,7 +57,8 @@ export function generate() {
 export interface LitElementFacts {
   package: string;
   className: string;
-  attributes: string[];
+  /** Attribute name → its type, with string-literal aliases spelled out. */
+  attributes: Record<string, string>;
   events: string[];
   slots: string[];
   cssProperties: string[];
@@ -62,6 +70,11 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = ${JSON.stringify(so
 /** Every --md-sys-* token a lit-material package defines or reads. */
 export const SYS_TOKENS: readonly string[] = ${JSON.stringify([...tokens].sort(), null, 2)};
 `;
+}
+
+/** A type alias of string literals spelled out (`ButtonVariant` → `"filled" | "outlined" | …`). */
+function expand(type, aliases) {
+  return type.replace(/\b[A-Z]\w*\b/g, (name) => (aliases.has(name) && /^("[^"]*"\s*\|?\s*)+$/.test(aliases.get(name)) ? aliases.get(name) : name));
 }
 
 function walk(dir, fn) {
