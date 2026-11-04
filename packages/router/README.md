@@ -154,6 +154,31 @@ markup hydrates as is, and the elements upgrade once their code arrives. A `load
 `lit-material-route-error` on the outlet (`detail.error`) and keeps the previous page; the next visit tries
 again. A newer navigation always wins over one still loading.
 
+## Route data
+
+`loader` loads what a route shows before it's shown, after its guards pass. Its result is `data` in the
+route context, for `render` and `title`; a parent's and a child's loaders run at the same time:
+
+```ts
+const routes: RouteConfig<unknown>[] = [
+  {
+    path: "/users/:id",
+    loader: ({ params, signal }) => api.get<User>(`/users/${params.id}`, { signal }),
+    title: ({ data }) => (data as User).name,
+    render: (_params, _outlet, { data }) => html`<user-page .user=${data}></user-page>`,
+  },
+];
+```
+
+- The previous page stays up (with `pending`) until the data is in; a newer navigation aborts the loader's
+  `signal`; a loader that throws fires `lit-material-route-error` and keeps the previous page.
+- A route with a loader never renders without its data. `RouteController.current.data` is the innermost
+  route's data.
+- On the server, `resolveRoute()` runs the loaders and returns their results as `data` — see below. The
+  browser's first render uses that data instead of loading again.
+- Loaders run on every navigation. To reuse data across visits, load it through a cached
+  [`TaskCache`](../task) or your own cache inside the loader.
+
 ## Query parameters
 
 `render` gets a third argument, `{ path, params, query }`, where `query` is the URL's `URLSearchParams`;
@@ -224,22 +249,29 @@ before rendering. It returns:
 | `path` | The path that matched. |
 | `title` | The route's title, for the `<title>` in the head. |
 | `params`, `content` | As the outlet will render them. |
+| `data`, `search` | The loaders' results by position in the matched chain, and the query string: pass them to the outlet and `routeDataScript`. |
 
-Render `<lit-material-router-outlet>` with that `path` and the same routes; in the browser it matches
-`location` to the same content and hydrates without a re-render:
+Render `<lit-material-router-outlet>` with that `path`, the same routes and the loader `data`, and embed the
+data with `routeDataScript(result)`: in the browser the outlet matches `location` to the same content, takes
+the embedded data instead of running the loaders again, and hydrates without a re-render:
 
 ```ts
-import { resolveRoute } from "@lit-material/router";
+import { resolveRoute, routeDataScript } from "@lit-material/router";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
 const result = await resolveRoute(routes, request.url);
 if (result.redirect) return Response.redirect(new URL(result.redirect, request.url), 302);
 
 const body = await collectResult(render(html`
   <title>${result.title}</title>
-  <lit-material-router-outlet .routes=${routes} path=${result.path}></lit-material-router-outlet>
+  <lit-material-router-outlet .routes=${routes} path=${result.path} .data=${result.data}></lit-material-router-outlet>
+  ${unsafeHTML(routeDataScript(result))}
 `));
 return new Response(body, { status: result.status });
 ```
+
+`routeDataScript` escapes the JSON so the data can't end the script element; it's `type="application/json"`,
+so a Content-Security-Policy doesn't need to allow it as a script.
 
 For a static site, call it for each path you prerender and write the result to `<path>/index.html`.
 
@@ -272,8 +304,9 @@ solves routing once you're *on* the page, not the initial static-hosting request
 | Export | Description |
 | --- | --- |
 | `<lit-material-router-outlet>` | Custom element. `.routes: RouteConfig[]`; renders the matched route's content, intercepts same-origin link clicks. Attributes: `path` (used only where there's no `location`), `title-template` (default `"%s"`), `scroll-restoration` (`"restore"` / `"none"`), `pending` (read-only, reflected). `.current` is the route showing. Fires `lit-material-route-error`. |
-| `RouteConfig<T>` | `{ path, render?(params, outlet, context), children?, redirect?, guard?, load?, title?, status? }`. |
-| `RouteContext` | `{ path, params, query }` — what `render`, `guard`, `redirect` and `title` functions get. |
+| `RouteConfig<T>` | `{ path, render?(params, outlet, context), children?, redirect?, guard?, load?, loader?, title?, status? }`. |
+| `RouteContext` | `{ path, params, query, data? }` — what `render`, `guard`, `redirect`, `loader` (plus `signal`) and `title` functions get. |
+| `routeDataScript(result)`, `ROUTE_DATA_ID` | The `<script type="application/json">` carrying `resolveRoute()`'s loader data to the browser's first render. |
 | `matchRoute(pattern, pathname)` | Dependency-free path matcher. Static segments, `:name` params, trailing `*` wildcard (captured as `params.wildcard`). Returns `{ params }` or `null` if `pattern` doesn't match the *whole* `pathname`. |
 | `matchRoutePrefix(pattern, pathname)` | Like `matchRoute`, but `pattern` only has to match a prefix — returns `{ params, remaining }`, the building block nested-route matching is built on. |
 | `matchRouteChain(routes, pathname)` | The matched routes, outermost first, each with its params — without rendering or running guards. |

@@ -37,6 +37,13 @@ export class LitMaterialRouterOutlet extends LitElement {
   @property()
   path?: string;
 
+  /**
+   * Loader data for `path` on the server: `resolveRoute()`'s `data`. Without it, routes with a `loader`
+   * render nothing on the server. Ignored in the browser, which reads the data `routeDataScript()` embedded.
+   */
+  @property({ attribute: false })
+  data?: unknown[];
+
   /** Wraps each route's `title` before it goes in `document.title`: `%s` stands for the route's title, e.g. `"%s · Admin"`. */
   @property({ attribute: "title-template" })
   titleTemplate = "%s";
@@ -52,6 +59,7 @@ export class LitMaterialRouterOutlet extends LitElement {
   private readonly route = new RouteController(this, () => this.routes, {
     resolve: true,
     serverPath: () => this.path,
+    serverData: () => this.data,
     onCommit: (current, navigation) => void this.afterCommit(current, navigation),
     onError: (error) =>
       this.dispatchEvent(new CustomEvent("lit-material-route-error", { detail: { error }, bubbles: true, composed: true })),

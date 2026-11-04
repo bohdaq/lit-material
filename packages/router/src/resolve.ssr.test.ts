@@ -58,6 +58,8 @@ describe("resolveRoute (no browser)", () => {
       redirect: "/users/9",
       params: {},
       content: null,
+      data: [],
+      search: "",
     });
     const chained = await resolveRoute(routes, "/old");
     assert.equal(chained.redirect, "/users/7");
