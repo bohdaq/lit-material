@@ -1584,6 +1584,12 @@ importers:
       '@lit-material/core':
         specifier: workspace:*
         version: link:../core
+      '@lit-material/select':
+        specifier: workspace:*
+        version: link:../select
+      '@lit-material/text-field':
+        specifier: workspace:*
+        version: link:../text-field
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens

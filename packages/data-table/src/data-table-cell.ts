@@ -1,4 +1,4 @@
-import { html, LitElement } from "lit";
+import { html, LitElement, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { styles } from "./data-table-cell-styles.js";
 
@@ -59,12 +59,21 @@ export class LitMaterialDataTableCell extends LitElement {
   @property({ type: Boolean, reflect: true }) flex = false;
   /** This cell's width in `flex` mode (any CSS `flex-basis` value, e.g. `"96px"`). Ignored otherwise. */
   @property() width?: string;
+  /**
+   * `tabindex` for a sortable header's inner button. A container that manages focus itself (the data
+   * grid's roving tabindex) sets `-1` and activates sorting from the cell. Unset: the button is a normal tab stop.
+   */
+  @property({ attribute: "sort-tabindex", type: Number }) sortTabIndex?: number;
+  /** Lets the content overflow and fill the cell, for an inline editor (set by the data grid). */
+  @property({ type: Boolean, reflect: true }) editing = false;
 
   private resizeStartX = 0;
   private resizeStartWidth = 0;
 
   protected override willUpdate(changed: Map<string, unknown>): void {
-    if (changed.has("header")) {
+    // An explicit role (the data grid's `gridcell`/`rowheader`) wins; only our own default follows `header`.
+    const role = this.getAttribute("role");
+    if (changed.has("header") && (!role || role === "cell" || role === "columnheader")) {
       this.setAttribute("role", this.header ? "columnheader" : "cell");
     }
     // @lit-labs/ssr's light-DOM shim doesn't implement `style` on the host — skip rather than
@@ -89,7 +98,13 @@ export class LitMaterialDataTableCell extends LitElement {
     if (this.isSortable) {
       const icon = this.sortDirection === "descending" ? "▼" : "▲";
       return html`
-        <button class="sort-button" part="sort-button" type="button" @click=${this.handleSortClick}>
+        <button
+          class="sort-button"
+          part="sort-button"
+          type="button"
+          tabindex=${this.sortTabIndex ?? nothing}
+          @click=${this.handleSortClick}
+        >
           <span class="content"><slot></slot></span>
           <span class="sort-icon" part="sort-icon" aria-hidden="true">${icon}</span>
         </button>

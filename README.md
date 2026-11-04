@@ -89,7 +89,7 @@ components as you like.
 | [`@lit-material/card`](packages/card) | Elevated, filled, outlined; optionally interactive. |
 | [`@lit-material/carousel`](packages/carousel) | Scroll-snap based, with overlaid nav buttons. |
 | [`@lit-material/list`](packages/list) | `lit-material-list` + `lit-material-list-item`. |
-| [`@lit-material/data-table`](packages/data-table) | Sortable, selectable, paginated, resizable, virtualized. |
+| [`@lit-material/data-table`](packages/data-table) | Sortable, selectable, paginated, resizable, virtualized; a data grid with grouping, inline editing and CSV export. |
 | [`@lit-material/badge`](packages/badge) | Small dot or large numeric/text badge. |
 | [`@lit-material/divider`](packages/divider) | Horizontal or vertical, optionally inset. |
 | [`@lit-material/tooltip`](packages/tooltip) | Plain tooltip, built on the native Popover API. |

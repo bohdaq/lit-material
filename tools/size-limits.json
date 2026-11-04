@@ -20,7 +20,7 @@
   "@lit-material/confirm": 9700,
   "@lit-material/core": 2300,
   "@lit-material/data-list": 1700,
-  "@lit-material/data-table": 6700,
+  "@lit-material/data-table": 7300,
   "@lit-material/date-picker": 7700,
   "@lit-material/description-list": 1700,
   "@lit-material/devtools": 1800,
@@ -81,7 +81,7 @@
   "@lit-material/toolbar": 900,
   "@lit-material/tooltip": 1900,
   "@lit-material/top-app-bar": 2000,
-  "@lit-material/translations": 2900,
+  "@lit-material/translations": 3300,
   "@lit-material/tree": 5100,
   "@lit-material/truncate": 1100
 }

@@ -99,6 +99,7 @@ const extra = [
   `<lit-material-calendar date="2026-06-15" events='${j(calendarEvents)}'></lit-material-calendar>`,
   `<lit-material-calendar view="week" date="2026-06-15" events='${j(calendarEvents)}'></lit-material-calendar>`,
   `<lit-material-calendar view="agenda" date="2026-06-15" events='${j(calendarEvents)}'></lit-material-calendar>`,
+  `<lit-material-data-grid row-key="id" group-by="team" expanded-groups='${j(["a"])}' columns='${j([{ key: "name", header: "Name", width: 120 }, { key: "n", header: "N", numeric: true, aggregate: "sum" }])}' rows='${j([{ id: 1, team: "a", name: "Ada", n: 1 }, { id: 2, team: "b", name: "Alan", n: 2 }])}'></lit-material-data-grid>`,
 ];
 
 const dir = mkdtempSync(join(tmpdir(), "lit-material-csp-"));

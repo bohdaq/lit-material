@@ -60,6 +60,8 @@ cases.push(
   ["chip-input values", html`<lit-material-chip-input label="Tags" values=${j(["alpha", "beta"])}></lit-material-chip-input>`],
   ["pagination page-size-options", html`<lit-material-data-table-pagination page-size-options=${j([5, 20])}></lit-material-data-table-pagination>`],
   ["dual-list items", html`<lit-material-dual-list-selector items=${j([{ value: "a", label: "Apples" }])} selected=${j(["a"])}></lit-material-dual-list-selector>`],
+  ["data-grid rows", html`<lit-material-data-grid row-key="id" sort-key="name" selectable columns=${j([{ key: "name", header: "Name", sortable: true }, { key: "n", header: "N", numeric: true, width: 80 }])} rows=${j([{ id: 1, name: "Ada", n: 1200 }, { id: 2, name: "Alan", n: 3 }])}></lit-material-data-grid>`],
+  ["data-grid groups", html`<lit-material-data-grid row-key="id" group-by="team" expanded-groups=${j(["a"])} page-size="10" columns=${j([{ key: "name", header: "Name" }, { key: "n", header: "N", numeric: true, aggregate: "sum" }])} rows=${j([{ id: 1, team: "a", name: "Ada", n: 1 }, { id: 2, team: "b", name: "Alan", n: 2 }])}></lit-material-data-grid>`],
   ["table rows", html`<lit-material-table caption="People" columns=${j([{ key: "name", label: "Name" }])} rows=${j([{ name: "Ada" }])}></lit-material-table>`],
   ["diff texts", html`<lit-material-diff original="a\nb\nc" modified="a\nx\nc" mode="split"></lit-material-diff>`],
   ["change-list changes", html`<lit-material-change-list changes=${j([{ path: "$.a", kind: "changed", before: 1, after: 2 }])}></lit-material-change-list>`],

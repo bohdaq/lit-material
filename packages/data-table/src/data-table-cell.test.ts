@@ -129,3 +129,26 @@ describe("lit-material-data-table-cell", () => {
     await expect(wrapper).to.be.accessible();
   });
 });
+
+describe("lit-material-data-table-cell (in a grid)", () => {
+  it("keeps an explicit role such as gridcell", async () => {
+    const el = await fixture<LitMaterialDataTableCell>(html`<lit-material-data-table-cell role="gridcell">Ada</lit-material-data-table-cell>`);
+    expect(el.getAttribute("role")).to.equal("gridcell");
+  });
+
+  it("takes the sort button out of the tab order with sort-tabindex", async () => {
+    const el = await fixture<LitMaterialDataTableCell>(
+      html`<lit-material-data-table-cell header sort-key="name" sort-tabindex="-1">Name</lit-material-data-table-cell>`,
+    );
+    expect(el.shadowRoot!.querySelector("button")!.getAttribute("tabindex")).to.equal("-1");
+    const plain = await fixture<LitMaterialDataTableCell>(html`<lit-material-data-table-cell header sort-key="name">Name</lit-material-data-table-cell>`);
+    expect(plain.shadowRoot!.querySelector("button")!.hasAttribute("tabindex")).to.be.false;
+  });
+
+  it("reflects editing", async () => {
+    const el = await fixture<LitMaterialDataTableCell>(html`<lit-material-data-table-cell>Ada</lit-material-data-table-cell>`);
+    el.editing = true;
+    await el.updateComplete;
+    expect(el.hasAttribute("editing")).to.be.true;
+  });
+});

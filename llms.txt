@@ -31,7 +31,7 @@ Every component package also exports generated framework bindings: `@lit-materia
 - [Card](https://github.com/bohdaq/lit-material/tree/main/packages/card): Elevated, filled, outlined; optionally interactive.
 - [Carousel](https://github.com/bohdaq/lit-material/tree/main/packages/carousel): Scroll-snap based, with overlaid nav buttons.
 - [List](https://github.com/bohdaq/lit-material/tree/main/packages/list): `lit-material-list` + `lit-material-list-item`.
-- [Data Table](https://github.com/bohdaq/lit-material/tree/main/packages/data-table): Sortable, selectable, paginated, resizable, virtualized.
+- [Data Table](https://github.com/bohdaq/lit-material/tree/main/packages/data-table): Sortable, selectable, paginated, resizable, virtualized; `lit-material-data-grid` adds grouping with aggregates, inline editing and CSV export.
 - [Badge](https://github.com/bohdaq/lit-material/tree/main/packages/badge): Small dot or large numeric/text badge.
 - [Divider](https://github.com/bohdaq/lit-material/tree/main/packages/divider): Horizontal or vertical, optionally inset.
 - [Tooltip](https://github.com/bohdaq/lit-material/tree/main/packages/tooltip): Plain tooltip, built on the native Popover API.

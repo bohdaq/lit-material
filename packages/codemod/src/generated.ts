@@ -729,6 +729,39 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "cssProperties": [],
     "cssParts": []
   },
+  "lit-material-data-grid": {
+    "package": "@lit-material/data-table",
+    "className": "LitMaterialDataGrid",
+    "attributes": {
+      "columns": "DataGridColumn<R>[]",
+      "expanded-groups": "string[]",
+      "group-by": "string[] | string",
+      "label": "string",
+      "page": "number",
+      "page-size": "number",
+      "page-size-options": "number[]",
+      "row-key": "string | undefined",
+      "rows": "R[]",
+      "selectable": "boolean",
+      "selected": "string[]",
+      "sort-direction": "\"none\" | \"ascending\" | \"descending\"",
+      "sort-key": "string | undefined"
+    },
+    "events": [
+      "cell-edit",
+      "edit-commit",
+      "group-toggle",
+      "page-change",
+      "selection-change",
+      "sort-change"
+    ],
+    "slots": [],
+    "cssProperties": [],
+    "cssParts": [
+      "pagination",
+      "table"
+    ]
+  },
   "lit-material-data-list": {
     "package": "@lit-material/data-list",
     "className": "LitMaterialDataList",
@@ -805,6 +838,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "package": "@lit-material/data-table",
     "className": "LitMaterialDataTableCell",
     "attributes": {
+      "editing": "boolean",
       "flex": "boolean",
       "header": "boolean",
       "min-width": "number",
@@ -812,6 +846,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "resizable": "boolean",
       "sort-direction": "\"none\" | \"ascending\" | \"descending\"",
       "sort-key": "string | undefined",
+      "sort-tabindex": "number | undefined",
       "width": "string | undefined"
     },
     "events": [
