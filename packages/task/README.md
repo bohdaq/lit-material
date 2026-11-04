@@ -51,21 +51,61 @@ class UserProfile extends LitElement {
 
 ## API
 
-`new TaskController(host, { task, args, autoRun? })`:
+`new TaskController(host, { task, args, autoRun?, key?, cache?, staleTime?, retry?, retryDelay?, refetchOnFocus?, refetchOnReconnect?, refetchInterval? })`:
 
 - `task: (args, signal) => Promise<R>` — the async work. Receives an `AbortSignal` that fires if a newer run
   supersedes this one before it resolves.
 - `args: () => T` — read the host's current reactive properties into the task's arguments. Checked before
   every render; a new run starts automatically whenever this returns a shallowly different value.
 - `autoRun` (default `true`) — set `false` to only ever run via an explicit `.run()` call.
+- `key`, `cache`, `staleTime`, `refetch*` — caching and background refresh, see below.
+- `retry`, `retryDelay` — retries, see below.
 
-Properties: `status` (`"initial" | "pending" | "complete" | "error"`), `value`, `error`. Methods: `run(args?)`
-(runs now regardless of `autoRun`/whether `args` changed — aborts anything already in flight), `render(
-{ initial?, pending?, complete?, error? })` (picks the matching callback for the current `status`).
+Properties: `status` (`"initial" | "pending" | "complete" | "error"`), `value`, `error`, `refreshing`
+(a background fetch is running behind a value already shown), `updatedAt`. Methods: `run(args?, { force? })`
+(runs now regardless of `autoRun`/whether `args` changed — aborts anything already in flight), `refresh()`
+(fetches again now, even if the cache is fresh), `render({ initial?, pending?, complete?, error? })` (picks
+the matching callback for the current `status`).
 
 A newer run always aborts the previous one via the signal passed to `task`, and a stale run's result/error is
 discarded even if it resolves after a newer one already has — no out-of-order flicker if responses arrive out
 of sequence.
+
+## Caching, deduplication and background refresh
+
+Give a task a `key` and its results are kept in a cache shared by every controller (`taskCache`, or your own
+`new TaskCache()` passed as `cache`):
+
+```ts
+private readonly user = new TaskController(this, {
+  task: ([id], signal) => api.get<User>(`/users/${id}`, { signal }),
+  args: () => [this.userId] as const,
+  key: ([id]) => ["user", id],   // a string, or an array of JSON-able parts
+  staleTime: 30_000,             // fresh for 30 s: show it, fetch nothing
+  refetchOnFocus: true,          // stale again? fetch when the tab regains focus
+});
+```
+
+- **Stale-while-revalidate:** a cached value shows at once (`status: "complete"`); if it's older than
+  `staleTime` (default `0`), a background fetch runs with `refreshing: true` and replaces it. A failed
+  background fetch keeps the value and sets `error`.
+- **Deduplication:** controllers asking for one key at once share one request. Its signal aborts only when
+  every one of them has gone.
+- **Mutations:** `taskCache.set(key, value)` shows a value everywhere (optimistic updates);
+  `taskCache.invalidate(["user"])` marks every key starting with `"user"` stale and re-fetches the ones on
+  screen; `invalidate()` marks everything.
+- **Background refresh:** `refetchOnFocus`, `refetchOnReconnect` (stale entries only), `refetchInterval` (ms,
+  while the page is visible).
+- Entries nobody shows are dropped after `gcTime` (`new TaskCache({ gcTime })`, default 5 minutes).
+
+## Retries
+
+`retry: 3` retries a failed run three times; a function decides per failure:
+`retry: (failures, error) => failures < 3 && error.status >= 500`. `retryDelay` is milliseconds or a function
+of the attempt number (default 1 s, doubling, at most 30 s). An aborted run never retries.
+
+For the requests themselves, [`@lit-material/http`](../http) adds a base URL, JSON, typed errors, timeouts and
+interceptors.
 
 ## SSR
 
