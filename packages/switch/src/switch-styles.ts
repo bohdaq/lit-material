@@ -23,6 +23,8 @@ export const styles = css`
     box-sizing: border-box;
     width: 52px;
     height: 40px;
+    /* Its children are absolute: without this a tight row shrinks the box under the label. */
+    flex: none;
     cursor: pointer;
     color: var(--md-sys-color-on-surface, #1c1b1f);
   }
