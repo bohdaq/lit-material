@@ -37,11 +37,12 @@ respond to; unconstrained, everything just fits and the kebab button never appea
 
 ## API
 
-| Property | Attribute | Type     | Default          |
-| -------- | --------- | -------- | ---------------- |
-| `label`  | `label`   | `string` | `"More actions"` |
+| Property | Attribute | Type     | Default                      |
+| -------- | --------- | -------- | ---------------------------- |
+| `label`  | `label`   | `string` | `"More actions"`, translated |
 
-`label` is the accessible name for the "more" button.
+`label` is the accessible name for the "more" button. The menu opens aligned to the button's end
+edge: its right in LTR, its left in RTL.
 
 Slot: default — the action items (buttons, links, icon-buttons — any content), in priority order.
 

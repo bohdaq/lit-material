@@ -20,6 +20,16 @@ export const styles = css`
     }
   }
 
+  /* Right to left, the wave sweeps in reading direction: from the right edge. */
+  @keyframes lit-material-skeleton-wave-rtl {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
   :host {
     display: block;
   }
@@ -77,10 +87,16 @@ export const styles = css`
     animation: lit-material-skeleton-wave 1.6s linear infinite;
   }
 
+  :host([animation="wave"]:dir(rtl)) .skeleton::after {
+    transform: translateX(100%);
+    animation-name: lit-material-skeleton-wave-rtl;
+  }
+
+  /* !important: the :host(...) rules above are more specific than these. */
   @media (prefers-reduced-motion: reduce) {
     .skeleton,
     .skeleton::after {
-      animation: none;
+      animation: none !important;
     }
   }
 `;

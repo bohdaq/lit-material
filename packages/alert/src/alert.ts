@@ -1,5 +1,6 @@
 import { html, LitElement, nothing, svg } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./alert-styles.js";
 
 export type AlertVariant = "info" | "success" | "warning" | "error";
@@ -69,6 +70,8 @@ export class LitMaterialAlert extends LitElement {
   @property() variant: AlertVariant = "info";
   @property({ type: Boolean, reflect: true }) dismissible = false;
 
+  private readonly localize = new LocalizeController(this);
+
   // Tracks whether the current "role" attribute is one *we* set (and should
   // keep in sync as `variant` changes) versus one the author supplied in
   // markup (which we never touch again, once seen).
@@ -99,7 +102,7 @@ export class LitMaterialAlert extends LitElement {
         </div>
         ${this.dismissible
           ? html`
-              <button class="close" part="close" type="button" aria-label="Dismiss" @click=${this.dismiss}>
+              <button class="close" part="close" type="button" aria-label=${this.localize.term("alert.dismiss", "Dismiss")} @click=${this.dismiss}>
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
                   <line x1="6" y1="18" x2="18" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>

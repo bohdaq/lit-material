@@ -1,5 +1,6 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./popover.js";
 import type { LitMaterialPopover } from "./popover.js";
 
@@ -121,6 +122,33 @@ describe("lit-material-popover", () => {
     popover.show(trigger);
     await popover.updateComplete;
     await expect(popover).to.be.accessible();
+    popover.close();
+  });
+
+  it("translates the close button's label", async () => {
+    registerTranslation({ $code: "x-popover", "popover.close": "Fermer" });
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div lang="x-popover"><lit-material-popover><span slot="header">Details</span>Body</lit-material-popover></div>
+    `);
+    const popover = wrapper.querySelector<LitMaterialPopover>("lit-material-popover")!;
+    await popover.updateComplete;
+    expect(popover.shadowRoot!.querySelector(".close")!.getAttribute("aria-label")).to.equal("Fermer");
+  });
+
+  it("lines its right edge up with the anchor's in RTL", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div dir="rtl">
+        <button id="rtl-trigger" style="margin-inline-start: 300px;">Open</button>
+        <lit-material-popover id="rtl-popover" anchor="rtl-trigger">Some rich content.</lit-material-popover>
+      </div>
+    `);
+    const popover = wrapper.querySelector<LitMaterialPopover>("#rtl-popover")!;
+    const trigger = wrapper.querySelector<HTMLButtonElement>("#rtl-trigger")!;
+    popover.show(trigger);
+    await popover.updateComplete;
+    const anchorRect = trigger.getBoundingClientRect();
+    const popoverRect = popover.getBoundingClientRect();
+    expect(Math.abs(popoverRect.right - anchorRect.right)).to.be.lessThan(1);
     popover.close();
   });
 });

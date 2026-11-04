@@ -1,5 +1,6 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./split-panel.js";
 import type { LitMaterialSplitPanel } from "./split-panel.js";
 
@@ -75,5 +76,34 @@ describe("lit-material-split-panel", () => {
     divider(el).focus();
     await sendKeys({ press: "ArrowDown" });
     expect(el.position).to.equal(51);
+  });
+
+  it("translates its default label, and an explicit label wins", async () => {
+    registerTranslation({ $code: "x-split", "splitPanel.resizePanes": "Redimensionner" });
+    const wrap = await fixture<HTMLElement>(html`<div lang="x-split"><lit-material-split-panel></lit-material-split-panel></div>`);
+    const el = wrap.querySelector<LitMaterialSplitPanel>("lit-material-split-panel")!;
+    await el.updateComplete;
+    expect(divider(el).getAttribute("aria-label")).to.equal("Redimensionner");
+    el.label = "Request";
+    await el.updateComplete;
+    expect(divider(el).getAttribute("aria-label")).to.equal("Request");
+  });
+
+  it("mirrors arrow keys and dragging right to left", async () => {
+    const wrap = await fixture<HTMLElement>(html`<div dir="rtl"><lit-material-split-panel style="width: 1000px; height: 300px">
+      <div slot="start">A</div><div slot="end">B</div>
+    </lit-material-split-panel></div>`);
+    const el = wrap.querySelector<LitMaterialSplitPanel>("lit-material-split-panel")!;
+    divider(el).focus();
+    await sendKeys({ press: "ArrowLeft" });
+    expect(el.position).to.equal(51);
+    const d = divider(el);
+    const box = el.getBoundingClientRect();
+    const fire = (type: string, x: number) =>
+      d.dispatchEvent(new PointerEvent(type, { bubbles: true, composed: true, clientX: x, clientY: box.top + 10, pointerId: 1, button: 0 }));
+    fire("pointerdown", box.right - 500);
+    fire("pointermove", box.right - 300);
+    fire("pointerup", box.right - 300);
+    expect(el.position).to.equal(30);
   });
 });

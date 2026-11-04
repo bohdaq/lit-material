@@ -1,5 +1,6 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./tabs.js";
 import "./tab.js";
 import type { LitMaterialTabs } from "./tabs.js";
@@ -215,5 +216,59 @@ describe("lit-material-tabs", () => {
     expect(Math.abs(indicator.left - last.left)).to.be.below(2);
     const add = el.querySelector("button[slot=end]")!.getBoundingClientRect();
     expect(add.left).to.be.at.least(rowRect.right - 1);
+  });
+
+  it("translates a tab's description", async () => {
+    registerTranslation({ $code: "x-tabs", "tabs.unsavedChangesPressDeleteToClose": "Non enregistré. Suppr pour fermer", "tabs.pressDeleteToClose": "Suppr pour fermer" });
+    const wrap = await fixture<HTMLElement>(html`<div lang="x-tabs"><lit-material-tabs>
+      <lit-material-tab closable>One</lit-material-tab>
+      <lit-material-tab closable dirty>Two</lit-material-tab>
+    </lit-material-tabs></div>`);
+    const tabs = Array.from(wrap.querySelectorAll("lit-material-tab"));
+    await Promise.all(tabs.map((t) => t.updateComplete));
+    expect(tabs[0]!.shadowRoot!.querySelector("button")!.getAttribute("aria-description")).to.equal("Suppr pour fermer");
+    expect(tabs[1]!.shadowRoot!.querySelector("button")!.getAttribute("aria-description")).to.equal("Non enregistré. Suppr pour fermer");
+  });
+
+  it("mirrors ArrowLeft/ArrowRight right to left", async () => {
+    const wrap = await fixture<HTMLElement>(html`<div dir="rtl"><lit-material-tabs>
+      <lit-material-tab>One</lit-material-tab>
+      <lit-material-tab>Two</lit-material-tab>
+      <lit-material-tab>Three</lit-material-tab>
+    </lit-material-tabs></div>`);
+    const el = wrap.querySelector<LitMaterialTabs>("lit-material-tabs")!;
+    await el.updateComplete;
+    await new Promise((r) => setTimeout(r));
+    const tabs = Array.from(el.querySelectorAll("lit-material-tab"));
+    tabs[0]!.focus();
+    await sendKeys({ press: "ArrowLeft" });
+    expect(el.selected).to.equal(1);
+    await sendKeys({ press: "ArrowRight" });
+    await sendKeys({ press: "ArrowRight" });
+    expect(el.selected).to.equal(2); // wrapped backwards from the first
+  });
+
+  it("scrollable keeps the indicator under the selected tab right to left", async () => {
+    const wrap = await fixture<HTMLElement>(html`<div dir="rtl"><lit-material-tabs scrollable style="width: 300px">
+      ${Array.from({ length: 12 }, (_, i) => html`<lit-material-tab>Request ${i + 1}</lit-material-tab>`)}
+    </lit-material-tabs></div>`);
+    const el = wrap.querySelector<LitMaterialTabs>("lit-material-tabs")!;
+    await el.updateComplete;
+    // The indicator slides in (200 ms), from the start edge.
+    await new Promise((r) => setTimeout(r, 50));
+    const indicatorRect = () => el.shadowRoot!.querySelector<HTMLElement>(".indicator")!.getBoundingClientRect();
+    const first = el.querySelectorAll("lit-material-tab")[0]!.getBoundingClientRect();
+    expect(indicatorRect().right).to.be.closeTo(first.right, 2); // growing from the right, not sweeping in from the left
+    await new Promise((r) => setTimeout(r, 300));
+    expect(indicatorRect().left).to.be.closeTo(first.left, 2);
+    el.selected = 11;
+    await el.updateComplete;
+    await new Promise((r) => setTimeout(r, 350));
+    const row = el.shadowRoot!.querySelector<HTMLElement>(".scroller")!.getBoundingClientRect();
+    const last = el.querySelectorAll("lit-material-tab")[11]!.getBoundingClientRect();
+    expect(last.left).to.be.at.least(row.left - 1);
+    expect(last.right).to.be.at.most(row.right + 1);
+    expect(Math.abs(indicatorRect().left - last.left)).to.be.below(2);
+    expect(Math.abs(indicatorRect().width - last.width)).to.be.below(2);
   });
 });

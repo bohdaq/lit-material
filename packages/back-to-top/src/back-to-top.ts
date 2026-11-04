@@ -1,5 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 
 /**
  * A "Back to top" button for long pages: it appears once the page has
@@ -48,7 +49,8 @@ export class LitMaterialBackToTop extends LitElement {
       gap: 8px;
       box-sizing: border-box;
       min-height: 40px;
-      padding: 0 16px 0 12px;
+      padding-block: 0;
+      padding-inline: 12px 16px;
       border-radius: var(--md-sys-shape-corner-full, 9999px);
       background: var(--md-sys-color-secondary-container, light-dark(#e8def8, #4a4458));
       color: var(--md-sys-color-on-secondary-container, light-dark(#1d192b, #e8def8));
@@ -86,12 +88,15 @@ export class LitMaterialBackToTop extends LitElement {
   /** Id of the element at the top: scrolled to and focused. Empty: the window's top. */
   @property() target = "";
 
-  @property() label = "Back to top";
+  /** The button's text. Default: "Back to top", translated. */
+  @property() label?: string;
 
   /** Set while the page is scrolled past `threshold`; reflected. */
   @property({ type: Boolean, reflect: true }) visible = false;
 
   private ticking = false;
+
+  private readonly localize = new LocalizeController(this);
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -146,7 +151,7 @@ export class LitMaterialBackToTop extends LitElement {
       tabindex=${this.visible ? "0" : "-1"}
       aria-hidden=${this.visible ? "false" : "true"}
       @click=${this.onClick}
-      ><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M11 20V7.83l-5.59 5.59L4 12l8-8 8 8-1.41 1.42L13 7.83V20z" /></svg>${this.label}</a
+      ><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M11 20V7.83l-5.59 5.59L4 12l8-8 8 8-1.41 1.42L13 7.83V20z" /></svg>${this.label ?? this.localize.term("backToTop.label", "Back to top")}</a
     >`;
   }
 }

@@ -1,6 +1,7 @@
 import { css, html, LitElement, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import "@lit-material/icon-button";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import "./copy-button.js";
 import { hideIcon, showIcon } from "./icons.js";
 
@@ -74,16 +75,26 @@ export class LitMaterialClipboardCopy extends LitElement {
 
   @state() private revealed = false;
 
+  private readonly localize = new LocalizeController(this);
+
   override render() {
     const hidden = this.masked && !this.revealed;
-    const name = this.label || "Value";
+    const name = this.label;
+    // Whole sentences for each case, rather than "Show " + a translated "Value".
+    const fieldLabel = name || this.localize.term("clipboardCopy.value", "Value");
+    const showLabel = name
+      ? this.localize.term("clipboardCopy.showNamed", "Show {name}", { name })
+      : this.localize.term("clipboardCopy.show", "Show value");
+    const copyLabel = name
+      ? this.localize.term("clipboardCopy.copyNamed", "Copy {name}", { name })
+      : this.localize.term("clipboardCopy.copy", "Copy value");
     return html`
       <input
         part="field"
         type=${hidden ? "password" : "text"}
         readonly
         .value=${this.value}
-        aria-label=${name}
+        aria-label=${fieldLabel}
         autocomplete="off"
         spellcheck="false"
         @focus=${(e: FocusEvent) => (e.target as HTMLInputElement).select()}
@@ -92,7 +103,7 @@ export class LitMaterialClipboardCopy extends LitElement {
         ? html`<lit-material-icon-button
             toggle
             .selected=${this.revealed}
-            aria-label=${`Show ${name}`}
+            aria-label=${showLabel}
             @change=${(e: Event) => {
               e.stopPropagation();
               this.revealed = (e.target as HTMLElement & { selected: boolean }).selected;
@@ -102,7 +113,7 @@ export class LitMaterialClipboardCopy extends LitElement {
             <span slot="selected-icon">${hideIcon}</span>
           </lit-material-icon-button>`
         : nothing}
-      <lit-material-copy-button .value=${this.value} label=${`Copy ${name}`}></lit-material-copy-button>
+      <lit-material-copy-button .value=${this.value} label=${copyLabel}></lit-material-copy-button>
     `;
   }
 }

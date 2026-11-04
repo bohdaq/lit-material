@@ -1,5 +1,6 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./popover-styles.js";
 
 let instanceCount = 0;
@@ -54,6 +55,7 @@ export class LitMaterialPopover extends LitElement {
   @property({ type: Boolean }) dismissible = true;
 
   private explicitAnchorElement?: HTMLElement;
+  private readonly localize = new LocalizeController(this);
 
   constructor() {
     super();
@@ -116,10 +118,9 @@ export class LitMaterialPopover extends LitElement {
       top = above >= 0 ? above : Math.max(0, window.innerHeight - popoverRect.height);
     }
 
-    let left = anchorRect.left;
-    if (left + popoverRect.width > window.innerWidth) {
-      left = Math.max(0, window.innerWidth - popoverRect.width);
-    }
+    // Start edges aligned: the anchor's left in LTR, its right in RTL.
+    let left = isRtl(this) ? anchorRect.right - popoverRect.width : anchorRect.left;
+    left = Math.max(0, Math.min(left, window.innerWidth - popoverRect.width));
 
     this.style.top = `${top}px`;
     this.style.left = `${left}px`;
@@ -150,7 +151,7 @@ export class LitMaterialPopover extends LitElement {
         <slot name="header" class="header-slot" @slotchange=${this.handleHeaderSlotChange}></slot>
         ${this.dismissible
           ? html`
-              <button class="close" part="close" type="button" aria-label="Close" @click=${this.close}>
+              <button class="close" part="close" type="button" aria-label=${this.localize.term("popover.close", "Close")} @click=${this.close}>
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
                   <line x1="6" y1="18" x2="18" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>

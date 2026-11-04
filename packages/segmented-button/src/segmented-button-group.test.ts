@@ -100,6 +100,29 @@ describe("lit-material-segmented-button-group", () => {
     expect(document.activeElement).to.equal(buttons[3]);
   });
 
+  it("flips ArrowLeft/ArrowRight in RTL", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div dir="rtl">
+        <lit-material-segmented-button-group>
+          <lit-material-segmented-button selected>Day</lit-material-segmented-button>
+          <lit-material-segmented-button>Week</lit-material-segmented-button>
+          <lit-material-segmented-button>Year</lit-material-segmented-button>
+        </lit-material-segmented-button-group>
+      </div>
+    `);
+    const buttons = Array.from(wrapper.querySelectorAll("lit-material-segmented-button"));
+    buttons[0]!.shadowRoot!.querySelector("button")!.focus();
+
+    await sendKeys({ press: "ArrowLeft" });
+    expect(document.activeElement).to.equal(buttons[1]);
+
+    await sendKeys({ press: "ArrowRight" });
+    expect(document.activeElement).to.equal(buttons[0]);
+
+    await sendKeys({ press: "ArrowRight" });
+    expect(document.activeElement).to.equal(buttons[2]);
+  });
+
   it("jumps to the first/last enabled button with Home/End", async () => {
     const { buttons } = await groupFixture();
     const inner = buttons.map((button) => button.shadowRoot!.querySelector("button")!);

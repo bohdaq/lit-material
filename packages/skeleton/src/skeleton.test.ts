@@ -44,4 +44,18 @@ describe("lit-material-skeleton", () => {
     const el = await fixture<LitMaterialSkeleton>(html`<lit-material-skeleton></lit-material-skeleton>`);
     await expect(el).to.be.accessible();
   });
+
+  it("sweeps the wave from the right in RTL", async () => {
+    const ltr = await fixture<LitMaterialSkeleton>(html`<lit-material-skeleton animation="wave"></lit-material-skeleton>`);
+    const ltrBlock = ltr.shadowRoot!.querySelector(".skeleton")!;
+    expect(getComputedStyle(ltrBlock, "::after").animationName).to.equal("lit-material-skeleton-wave");
+
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div dir="rtl"><lit-material-skeleton animation="wave"></lit-material-skeleton></div>`,
+    );
+    const el = wrapper.querySelector<LitMaterialSkeleton>("lit-material-skeleton")!;
+    await el.updateComplete;
+    const block = el.shadowRoot!.querySelector(".skeleton")!;
+    expect(getComputedStyle(block, "::after").animationName).to.equal("lit-material-skeleton-wave-rtl");
+  });
 });

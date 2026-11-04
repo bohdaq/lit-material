@@ -1,5 +1,6 @@
 import { html, LitElement } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
+import { isRtl } from "@lit-material/core/localize.js";
 import type { LitMaterialTab } from "./tab.js";
 import type { LitMaterialTabPanel } from "./tab-panel.js";
 import { styles } from "./tabs-styles.js";
@@ -155,7 +156,9 @@ export class LitMaterialTabs extends LitElement {
   private updateIndicator(): void {
     const target = this.tabs[this.selected];
     if (!target || !this.indicatorElement || !this.scroller) return;
-    // Relative to the scrolled row, so the indicator scrolls with its tab.
+    // Relative to the scrolled row, so the indicator scrolls with its tab. Physical `left` on purpose: it's
+    // measured from rendered rects, which already mirror right to left, and `scrollLeft` is 0 at the start
+    // edge and negative leftwards in RTL, so the same sum places it in both directions.
     const rowRect = this.scroller.getBoundingClientRect();
     const tabRect = target.getBoundingClientRect();
     this.indicatorElement.style.left = `${tabRect.left - rowRect.left + this.scroller.scrollLeft}px`;
@@ -210,8 +213,11 @@ export class LitMaterialTabs extends LitElement {
     if (tabs.length === 0) return;
     const current = document.activeElement as LitMaterialTab | null;
     const index = current ? tabs.indexOf(current) : -1;
+    // Arrows follow reading order: right to left, ArrowLeft is "next".
+    const rtl = (event.key === "ArrowLeft" || event.key === "ArrowRight") && isRtl(this);
+    const key = rtl ? (event.key === "ArrowLeft" ? "ArrowRight" : "ArrowLeft") : event.key;
 
-    switch (event.key) {
+    switch (key) {
       case "ArrowRight": {
         event.preventDefault();
         this.select(tabs[index === -1 ? 0 : (index + 1) % tabs.length]!);

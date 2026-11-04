@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/alert",
   "version": "0.0.5",
-  "description": "Material Design 3-styled alert web component (lit-material-alert) — a persistent inline/page-level banner, distinct from the snackbar toast.",
+  "description": "Material Design 3-styled alert web component (lit-material-alert) \u2014 a persistent inline/page-level banner, distinct from the snackbar toast.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
@@ -59,6 +59,7 @@
     "analyze": "custom-elements-manifest analyze --litelement --globs \"src/**/*.ts\" --exclude \"src/**/*.test.ts\" --exclude \"src/**/*.ssr.test.ts\""
   },
   "dependencies": {
+    "@lit-material/core": "workspace:*",
     "@lit-material/tokens": "workspace:*",
     "lit": "^3.2.0"
   },

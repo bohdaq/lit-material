@@ -60,12 +60,13 @@ npm install @lit-material/search @lit-material/list @lit-material/tokens
 | Property      | Attribute     | Type      | Default     |
 | -------------- | -------------- | --------- | ----------- |
 | `value`        | `value`        | `string`  | `""`        |
-| `placeholder`  | `placeholder`  | `string`  | `"Search"`  |
+| `placeholder`  | `placeholder`  | `string`  | `"Search"`, translated |
 | `label`        | `label`        | `string`  | `""`        |
 | `disabled`     | `disabled`     | `boolean` | `false`     |
 
 `label` sets the input's accessible name when `placeholder` alone isn't descriptive enough;
-otherwise the placeholder itself is used. `focus()` delegates to the underlying `<input>`.
+otherwise the placeholder itself is used. The clear button's "Clear search" label is translated.
+`focus()` delegates to the underlying `<input>`.
 
 Slots: `leading-icon` (defaults to a magnifying-glass icon — override with a back arrow or menu
 icon), `trailing` (an avatar, extra icon buttons…, shown after the clear button).

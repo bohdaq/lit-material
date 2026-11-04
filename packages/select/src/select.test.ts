@@ -1,5 +1,6 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./select.js";
 import "./select-option.js";
 import type { LitMaterialSelect } from "./select.js";
@@ -200,5 +201,39 @@ describe("lit-material-select", () => {
     await el.updateComplete;
     await expect(el).to.be.accessible();
     el.open = false;
+  });
+
+  it("translates its validation message", async () => {
+    registerTranslation({ $code: "x-select", "select.selectOption": "Choisissez une option." });
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div lang="x-select">
+        <lit-material-select label="Size" required>
+          <lit-material-select-option value="s">Small</lit-material-select-option>
+        </lit-material-select>
+      </div>
+    `);
+    const el = wrapper.querySelector<LitMaterialSelect>("lit-material-select")!;
+    await el.updateComplete;
+    const internals = (el as unknown as { internals: ElementInternals }).internals;
+    expect(internals.validationMessage).to.equal("Choisissez une option.");
+  });
+
+  it("lines the listbox up with the trigger's right edge in RTL", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div dir="rtl" style="padding-inline-start: 200px;">
+        <lit-material-select label="Size">
+          <lit-material-select-option value="s">Small</lit-material-select-option>
+          <lit-material-select-option value="m">A much longer option label than the trigger</lit-material-select-option>
+        </lit-material-select>
+      </div>
+    `);
+    const el = wrapper.querySelector<LitMaterialSelect>("lit-material-select")!;
+    const trigger = el.shadowRoot!.querySelector("button.trigger") as HTMLButtonElement;
+    trigger.click();
+    await el.updateComplete;
+    const listbox = el.shadowRoot!.querySelector(".listbox")!.getBoundingClientRect();
+    expect(Math.abs(listbox.right - trigger.getBoundingClientRect().right)).to.be.lessThan(1);
+    el.open = false;
+    await el.updateComplete;
   });
 });

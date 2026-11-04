@@ -1,4 +1,5 @@
 import { expect, fixture, html } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./carousel.js";
 import "./carousel-item.js";
 import type { LitMaterialCarousel } from "./carousel.js";
@@ -108,5 +109,69 @@ describe("lit-material-carousel", () => {
   it("passes axe accessibility checks", async () => {
     const { el } = await carouselFixture();
     await expect(el).to.be.accessible();
+  });
+
+  it("translates its role description, slide labels and button labels for the element's language", async () => {
+    registerTranslation({
+      $code: "x-carousel",
+      "carousel.roleDescription": "carrousel",
+      "carousel.slideRoleDescription": "diapositive",
+      "carousel.slideLabel": "{index} sur {total}",
+      "carousel.previous": "Précédent",
+      "carousel.next": "Suivant",
+    });
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div lang="x-carousel">
+        <lit-material-carousel>
+          <lit-material-carousel-item>One</lit-material-carousel-item>
+          <lit-material-carousel-item aria-label="Cover">Two</lit-material-carousel-item>
+        </lit-material-carousel>
+      </div>
+    `);
+    const el = wrapper.querySelector<LitMaterialCarousel>("lit-material-carousel")!;
+    await el.updateComplete;
+    const items = el.querySelectorAll("lit-material-carousel-item");
+    expect(el.getAttribute("aria-roledescription")).to.equal("carrousel");
+    expect(items[0]!.getAttribute("aria-roledescription")).to.equal("diapositive");
+    expect(items[0]!.getAttribute("aria-label")).to.equal("1 sur 2");
+    expect(items[1]!.getAttribute("aria-label")).to.equal("Cover");
+    expect(el.shadowRoot!.querySelector(".prev")!.getAttribute("aria-label")).to.equal("Précédent");
+    expect(el.shadowRoot!.querySelector(".next")!.getAttribute("aria-label")).to.equal("Suivant");
+  });
+
+  it("keeps an author-supplied aria-roledescription", async () => {
+    const el = await fixture<LitMaterialCarousel>(html`
+      <lit-material-carousel aria-roledescription="gallery"><lit-material-carousel-item>One</lit-material-carousel-item></lit-material-carousel>
+    `);
+    el.requestUpdate();
+    await el.updateComplete;
+    expect(el.getAttribute("aria-roledescription")).to.equal("gallery");
+  });
+
+  it("swaps ArrowLeft/ArrowRight in right-to-left layouts", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div dir="rtl">
+        <lit-material-carousel item-width="300px" style="width: 400px; --lit-material-carousel-gap: 0px;">
+          <lit-material-carousel-item>One</lit-material-carousel-item>
+          <lit-material-carousel-item>Two</lit-material-carousel-item>
+          <lit-material-carousel-item>Three</lit-material-carousel-item>
+        </lit-material-carousel>
+      </div>
+    `);
+    const el = wrapper.querySelector<LitMaterialCarousel>("lit-material-carousel")!;
+    await el.updateComplete;
+    const track = el.shadowRoot!.querySelector<HTMLElement>(".track")!;
+    const prev = () => el.shadowRoot!.querySelector<HTMLButtonElement>(".nav-button.prev")!;
+    await waitFor(() => el.shadowRoot!.querySelector<HTMLButtonElement>(".nav-button.next")!.disabled === false);
+    expect(prev().disabled).to.be.true;
+
+    track.focus();
+    track.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft", bubbles: true }));
+    await waitFor(() => prev().disabled === false);
+
+    track.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+    await waitFor(() => prev().disabled === true);
+
+    expect(getComputedStyle(el.shadowRoot!.querySelector(".nav-button svg")!).transform).to.equal("matrix(-1, 0, 0, 1, 0, 0)");
   });
 });

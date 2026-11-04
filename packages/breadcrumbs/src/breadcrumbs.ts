@@ -1,5 +1,6 @@
 import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./breadcrumbs-styles.js";
 
 /**
@@ -21,12 +22,14 @@ import { styles } from "./breadcrumbs-styles.js";
 export class LitMaterialBreadcrumbs extends LitElement {
   static override styles = styles;
 
-  /** The `<nav>` landmark's accessible name. */
-  @property() label = "Breadcrumb";
+  /** The `<nav>` landmark's accessible name. Default: "Breadcrumb", translated. */
+  @property() label?: string;
+
+  private readonly localize = new LocalizeController(this);
 
   override render() {
     return html`
-      <nav class="breadcrumbs" part="nav" aria-label=${this.label}>
+      <nav class="breadcrumbs" part="nav" aria-label=${this.label ?? this.localize.term("breadcrumbs.label", "Breadcrumb")}>
         <ol class="list" part="list">
           <slot></slot>
         </ol>

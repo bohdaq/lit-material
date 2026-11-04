@@ -1,5 +1,6 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./search-bar-styles.js";
 
 /**
@@ -43,12 +44,15 @@ export class LitMaterialSearchBar extends LitElement {
   };
 
   @property() value = "";
-  @property() placeholder = "Search";
+  /** Default: "Search", translated. */
+  @property() placeholder?: string;
   /** Accessible name for the input, when `placeholder` alone isn't descriptive enough. Falls back to `placeholder`. */
   @property() label = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   @query(".input") private readonly inputElement?: HTMLInputElement;
+
+  private readonly localize = new LocalizeController(this);
 
   /** Focuses the underlying `<input>`. */
   override focus(options?: FocusOptions): void {
@@ -56,6 +60,7 @@ export class LitMaterialSearchBar extends LitElement {
   }
 
   override render() {
+    const placeholder = this.placeholder ?? this.localize.term("search.search", "Search");
     return html`
       <div class="search-bar" part="search-bar">
         <slot name="leading-icon" class="leading-icon">
@@ -69,9 +74,9 @@ export class LitMaterialSearchBar extends LitElement {
           part="input"
           type="search"
           .value=${this.value}
-          placeholder=${this.placeholder}
+          placeholder=${placeholder}
           ?disabled=${this.disabled}
-          aria-label=${this.label || this.placeholder}
+          aria-label=${this.label || placeholder}
           @input=${this.handleInput}
           @keydown=${this.handleKeydown}
         />
@@ -81,7 +86,7 @@ export class LitMaterialSearchBar extends LitElement {
                 class="clear"
                 part="clear-button"
                 type="button"
-                aria-label="Clear search"
+                aria-label=${this.localize.term("search.clearSearch", "Clear search")}
                 @click=${this.handleClearClick}
               >
                 <svg class="clear-icon" viewBox="0 0 18 18" aria-hidden="true">

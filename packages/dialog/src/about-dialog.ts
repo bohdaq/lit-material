@@ -2,6 +2,7 @@ import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import "@lit-material/button/button.js";
 import "./dialog.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 
 /**
  * An "About" dialog: the product's name and logo, its version and build
@@ -56,8 +57,10 @@ export class LitMaterialAboutDialog extends LitElement {
 
   @property({ type: Boolean, reflect: true }) open = false;
 
-  /** The close button's text. */
-  @property({ attribute: "close-label" }) closeLabel = "Close";
+  /** The close button's text. Default: "Close", translated. */
+  @property({ attribute: "close-label" }) closeLabel?: string;
+
+  private readonly localize = new LocalizeController(this);
 
   /** Opens the dialog. */
   show(): void {
@@ -76,7 +79,9 @@ export class LitMaterialAboutDialog extends LitElement {
       <span slot="headline" class="name"><slot name="logo" class="logo"></slot>${this.productName}</span>
       <div class="details"><slot></slot></div>
       <slot name="legal" class="legal"></slot>
-      <lit-material-button slot="actions" variant="text" @click=${() => this.close()}>${this.closeLabel}</lit-material-button>
+      <lit-material-button slot="actions" variant="text" @click=${() => this.close()}>
+        ${this.closeLabel ?? this.localize.term("dialog.close", "Close")}
+      </lit-material-button>
     </lit-material-dialog>`;
   }
 }

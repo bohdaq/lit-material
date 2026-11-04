@@ -1,5 +1,6 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./date-range-picker.js";
 import type { LitMaterialDateRangePicker } from "./date-range-picker.js";
 
@@ -314,6 +315,57 @@ describe("lit-material-date-range-picker", () => {
       expect(el.end).to.equal("2026-06-20");
       expect(dayButton(el, "2026-06-10").classList.contains("range-start")).to.be.true;
       expect(dayButton(el, "2026-06-20").classList.contains("range-end")).to.be.true;
+    });
+  });
+  describe("localization", () => {
+    it("translates its built-in text and labels", async () => {
+      registerTranslation({
+        $code: "x-date-range-picker",
+        "datePicker.selectDates": "Daten wählen",
+        "datePicker.startDate": "Beginn",
+        "datePicker.endDate": "Ende",
+        "datePicker.rangeHeadline": "{start} bis {end}",
+        "datePicker.cancel": "Abbrechen",
+        "datePicker.ok": "Fertig",
+        "datePicker.previousMonth": "Voriger Monat",
+        "datePicker.nextMonth": "Nächster Monat",
+      });
+      const wrapper = await fixture<HTMLDivElement>(
+        html`<div lang="x-date-range-picker">
+          <lit-material-date-range-picker variant="docked" start="2026-06-10"></lit-material-date-range-picker>
+          <lit-material-date-range-picker variant="docked"></lit-material-date-range-picker>
+        </div>`,
+      );
+      const [withStart, empty] = wrapper.querySelectorAll<LitMaterialDateRangePicker>("lit-material-date-range-picker");
+      await withStart!.updateComplete;
+      await empty!.updateComplete;
+      const root = withStart!.shadowRoot!;
+      expect(root.querySelector(".label")!.textContent?.trim()).to.equal("Daten wählen");
+      expect(root.querySelector(".headline")!.textContent?.trim()).to.match(/ bis Ende$/);
+      expect(empty!.shadowRoot!.querySelector(".headline")!.textContent?.trim()).to.equal("Daten wählen");
+      expect(cancelButton(withStart!).textContent?.trim()).to.equal("Abbrechen");
+      expect(okButton(withStart!).textContent?.trim()).to.equal("Fertig");
+      expect(root.querySelector("[part='prev-button']")!.getAttribute("aria-label")).to.equal("Voriger Monat");
+      expect(root.querySelector("[part='next-button']")!.getAttribute("aria-label")).to.equal("Nächster Monat");
+    });
+
+    it("swaps ArrowLeft/ArrowRight in right-to-left layouts", async () => {
+      const wrapper = await fixture<HTMLDivElement>(
+        html`<div dir="rtl"><lit-material-date-range-picker start="2026-06-15"></lit-material-date-range-picker></div>`,
+      );
+      const el = wrapper.querySelector<LitMaterialDateRangePicker>("lit-material-date-range-picker")!;
+      el.show();
+      await el.updateComplete;
+      dayButton(el, "2026-06-15").focus();
+
+      await sendKeys({ press: "ArrowLeft" });
+      await el.updateComplete;
+      expect(el.shadowRoot!.activeElement).to.equal(dayButton(el, "2026-06-16"));
+
+      await sendKeys({ press: "ArrowRight" });
+      await sendKeys({ press: "ArrowRight" });
+      await el.updateComplete;
+      expect(el.shadowRoot!.activeElement).to.equal(dayButton(el, "2026-06-14"));
     });
   });
 });

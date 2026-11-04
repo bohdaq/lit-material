@@ -62,6 +62,11 @@ export const styles = css`
     pointer-events: none;
   }
 
+  /* Centred on its inline-start offset, which is measured from the right in RTL. */
+  :host(:dir(rtl)) .thumb-wrap {
+    transform: translate(50%, -50%);
+  }
+
   .thumb {
     position: relative;
     width: 20px;

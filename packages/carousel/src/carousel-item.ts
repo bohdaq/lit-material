@@ -1,5 +1,6 @@
 import { html, LitElement } from "lit";
 import { customElement, state } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./carousel-item-styles.js";
 
 /**
@@ -37,13 +38,19 @@ import { styles } from "./carousel-item-styles.js";
 export class LitMaterialCarouselItem extends LitElement {
   static override styles = styles;
 
+  private readonly localize = new LocalizeController(this);
+  private roleDescriptionIsOwn = false;
+
   protected override willUpdate(): void {
     // Not connectedCallback(): attribute mutations made there don't make it
     // into SSR's serialized host tag — willUpdate() runs inside the same
     // synchronous pass that produces SSR's output (see lit-material-tooltip
     // for the fuller explanation). The guards keep this idempotent.
     if (!this.hasAttribute("role")) this.setAttribute("role", "group");
-    if (!this.hasAttribute("aria-roledescription")) this.setAttribute("aria-roledescription", "slide");
+    if (!this.hasAttribute("aria-roledescription") || this.roleDescriptionIsOwn) {
+      this.setAttribute("aria-roledescription", this.localize.term("carousel.slideRoleDescription", "slide"));
+      this.roleDescriptionIsOwn = true;
+    }
   }
 
   /**

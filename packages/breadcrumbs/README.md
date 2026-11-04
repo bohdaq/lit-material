@@ -33,10 +33,11 @@ npm install @lit-material/breadcrumbs @lit-material/tokens
 
 | Property | Attribute | Type     | Default        |
 | -------- | --------- | -------- | -------------- |
-| `label`  | `label`   | `string` | `"Breadcrumb"` |
+| `label`  | `label`   | `string` | `"Breadcrumb"`, translated |
 
 Slot: default (`lit-material-breadcrumb-item` elements, root-to-current order). `label` is the
-`<nav>` landmark's accessible name — override it for localization.
+`<nav>` landmark's accessible name; its default is translated through `@lit-material/core`'s
+`registerTranslation` (key `breadcrumbs.label`), or set it yourself.
 
 ## `lit-material-breadcrumb-item` API
 
@@ -52,7 +53,8 @@ on doesn't make sense, so `current` always wins over `href`.
 Each item draws its own trailing separator via `:host(:not(:last-of-type))::after` — the container
 does no JS work to figure out which crumb is last. Override the
 `--lit-material-breadcrumb-separator` CSS custom property (default `"/"`) for something else, e.g.
-`--lit-material-breadcrumb-separator: "›"`.
+`--lit-material-breadcrumb-separator: "›"`. In right-to-left layouts the separator is mirrored, so
+`"›"` points the reading direction there too.
 
 ## Behavior
 

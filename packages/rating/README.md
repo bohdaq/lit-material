@@ -44,13 +44,14 @@ npm install @lit-material/rating @lit-material/tokens
 | `disabled`  | `disabled`  | `boolean`        | `false`   |
 | `name`      | `name`      | `string`         | `""`      |
 | `form`      | `form`      | `string \| undefined` | `undefined`|
-| `label`     | `label`     | `string`         | `"Rating"`|
+| `label`     | `label`     | `string`         | `"Rating"`, translated |
 
 Fires `input` live while dragging/pressing a key, and `change` once the value commits — matching
 native `<input>` semantics. Form-associated via `ElementInternals` (participates in `FormData`).
 `label` is the interactive control's accessible name (there's no visible text label otherwise, so
 set something meaningful — "Rate this product," not the default) and, in `readonly` mode, is
-prefixed onto the `role="img"` announcement ("Average rating: 4.2 out of 5").
+prefixed onto the `role="img"` announcement ("Average rating: 4.2 out of 5"; the "out of" text is
+translated and the numbers formatted in the element's language).
 
 ## Behavior
 

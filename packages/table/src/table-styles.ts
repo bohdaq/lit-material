@@ -31,14 +31,14 @@ export const styles = css`
   }
   caption {
     caption-side: top;
-    text-align: left;
+    text-align: start;
     padding: 12px 16px 0;
     color: var(--md-sys-color-on-surface-variant, light-dark(#49454f, #cac4d0));
     font-size: var(--md-sys-typescale-body-small-size, 0.75rem);
   }
   th,
   td {
-    text-align: left;
+    text-align: start;
     padding: 12px 16px;
     border-bottom: 1px solid var(--md-sys-color-outline-variant, light-dark(#cac4d0, #49454f));
     vertical-align: middle;
@@ -62,7 +62,7 @@ export const styles = css`
     z-index: 1;
   }
   .num {
-    text-align: right;
+    text-align: end;
     font-variant-numeric: tabular-nums;
   }
   .mono {

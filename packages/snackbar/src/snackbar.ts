@@ -1,5 +1,6 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./snackbar-styles.js";
 
 /**
@@ -39,6 +40,7 @@ export class LitMaterialSnackbar extends LitElement {
   @property({ type: Boolean }) closable = false;
 
   private timeoutId?: number;
+  private readonly localize = new LocalizeController(this);
 
   constructor() {
     super();
@@ -104,7 +106,7 @@ export class LitMaterialSnackbar extends LitElement {
       <slot name="action" class="action"></slot>
       ${this.closable
         ? html`
-            <button class="close" part="close-button" type="button" aria-label="Dismiss" @click=${this.close}>
+            <button class="close" part="close-button" type="button" aria-label=${this.localize.term("snackbar.dismiss", "Dismiss")} @click=${this.close}>
               <svg viewBox="0 0 18 18" aria-hidden="true">
                 <path d="M5 5 L13 13 M13 5 L5 13"></path>
               </svg>

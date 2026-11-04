@@ -1,6 +1,7 @@
 import { html, LitElement, nothing, svg } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { FocusRingController, RippleController, controlLabel, controlLabelStyles, setAriaElements } from "@lit-material/core";
+import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./radio-styles.js";
 
 /**
@@ -57,6 +58,7 @@ export class LitMaterialRadio extends LitElement {
   private readonly internals: ElementInternals;
   private readonly ripple = new RippleController(this);
   private readonly focusRing = new FocusRingController(this);
+  private readonly localize = new LocalizeController(this);
 
   constructor() {
     super();
@@ -78,7 +80,8 @@ export class LitMaterialRadio extends LitElement {
   protected override updated(changed: Map<string, unknown>): void {
     // A user-given id can't be referenced from inside the shadow root.
     setAriaElements(this.renderRoot.querySelector(".native-control"), "ariaLabelledByElements", this.ariaLabelledBy, this);
-    if (changed.has("checked") || changed.has("required") || changed.has("error")) {
+    // Also on a re-render with no property change (a language change), so the validation message follows it.
+    if (changed.size === 0 || changed.has("checked") || changed.has("required") || changed.has("error")) {
       this.syncInternals();
     }
   }
@@ -99,11 +102,11 @@ export class LitMaterialRadio extends LitElement {
     if (!this.inputElement) return;
     const groupHasSelection = this.groupMembers().some((el) => el.checked);
     if (this.error) {
-      this.internals.setValidity({ customError: true }, "Invalid", this.inputElement);
+      this.internals.setValidity({ customError: true }, this.localize.term("radio.invalid", "Invalid"), this.inputElement);
     } else if (this.required && !groupHasSelection) {
       this.internals.setValidity(
         { valueMissing: true },
-        "Please select one of these options.",
+        this.localize.term("radio.selectOne", "Please select one of these options."),
         this.inputElement,
       );
     } else {
@@ -167,8 +170,10 @@ export class LitMaterialRadio extends LitElement {
 
   private handleKeydown(event: KeyboardEvent): void {
     if (this.disabled) return;
-    const forward = event.key === "ArrowDown" || event.key === "ArrowRight";
-    const backward = event.key === "ArrowUp" || event.key === "ArrowLeft";
+    // Left/Right follow reading order: in RTL, ArrowLeft moves to the next radio.
+    const rtl = isRtl(this);
+    const forward = event.key === "ArrowDown" || event.key === (rtl ? "ArrowLeft" : "ArrowRight");
+    const backward = event.key === "ArrowUp" || event.key === (rtl ? "ArrowRight" : "ArrowLeft");
     if (!forward && !backward) return;
     event.preventDefault();
 

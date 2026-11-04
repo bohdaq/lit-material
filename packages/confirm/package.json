@@ -60,6 +60,7 @@
   },
   "dependencies": {
     "@lit-material/button": "workspace:*",
+    "@lit-material/core": "workspace:*",
     "@lit-material/dialog": "workspace:*",
     "@lit-material/text-field": "workspace:*",
     "@lit-material/tokens": "workspace:*",

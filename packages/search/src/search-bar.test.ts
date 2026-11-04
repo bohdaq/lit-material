@@ -1,5 +1,6 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./search-bar.js";
 import type { LitMaterialSearchBar } from "./search-bar.js";
 
@@ -79,5 +80,18 @@ describe("lit-material-search-bar", () => {
   it("passes axe accessibility checks", async () => {
     const el = await fixture<LitMaterialSearchBar>(html`<lit-material-search-bar></lit-material-search-bar>`);
     await expect(el).to.be.accessible();
+  });
+
+  it("translates its default placeholder and clear button label", async () => {
+    registerTranslation({ $code: "x-search-bar", "search.search": "Rechercher", "search.clearSearch": "Effacer la recherche" });
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div lang="x-search-bar"><lit-material-search-bar value="abc"></lit-material-search-bar></div>`,
+    );
+    const el = wrapper.querySelector<LitMaterialSearchBar>("lit-material-search-bar")!;
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.placeholder).to.equal("Rechercher");
+    expect(input.getAttribute("aria-label")).to.equal("Rechercher");
+    expect(el.shadowRoot!.querySelector(".clear")!.getAttribute("aria-label")).to.equal("Effacer la recherche");
   });
 });

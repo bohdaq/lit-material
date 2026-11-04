@@ -1,5 +1,6 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
 import type { LitMaterialSelectOption } from "./select-option.js";
 import { styles } from "./select-styles.js";
 
@@ -61,6 +62,7 @@ export class LitMaterialSelect extends LitElement {
   @state() private touched = false;
 
   private readonly internals: ElementInternals;
+  private readonly localize = new LocalizeController(this);
   private readonly labelId = `lit-material-select-label-${++instanceCount}`;
   private readonly listboxId = `lit-material-select-listbox-${instanceCount}`;
   private readonly supportingId = `lit-material-select-supporting-${instanceCount}`;
@@ -107,6 +109,8 @@ export class LitMaterialSelect extends LitElement {
     if (changed.has("value") || changed.has("required") || changed.has("error")) {
       this.syncSelection();
       this.syncInternals();
+    } else if (changed.size === 0) {
+      this.syncInternals(); // a language change: keep the validation message in it
     }
   }
 
@@ -151,7 +155,7 @@ export class LitMaterialSelect extends LitElement {
     this.internals.setFormValue(this.value || null);
     if (!this.triggerElement) return;
     if (this.required && this.value === "") {
-      this.internals.setValidity({ valueMissing: true }, "Please select an option.", this.triggerElement);
+      this.internals.setValidity({ valueMissing: true }, this.localize.term("select.selectOption", "Please select an option."), this.triggerElement);
     } else {
       this.internals.setValidity({});
     }
@@ -169,14 +173,14 @@ export class LitMaterialSelect extends LitElement {
       top = above >= 0 ? above : Math.max(0, window.innerHeight - listboxRect.height);
     }
 
-    let left = anchorRect.left;
-    if (left + listboxRect.width > window.innerWidth) {
-      left = Math.max(0, window.innerWidth - listboxRect.width);
-    }
+    // Start edges aligned: the trigger's left in LTR, its right in RTL.
+    const width = Math.max(anchorRect.width, listboxRect.width);
+    let left = isRtl(this) ? anchorRect.right - width : anchorRect.left;
+    left = Math.max(0, Math.min(left, window.innerWidth - width));
 
     this.listboxElement.style.top = `${top}px`;
     this.listboxElement.style.left = `${left}px`;
-    this.listboxElement.style.width = `${Math.max(anchorRect.width, listboxRect.width)}px`;
+    this.listboxElement.style.width = `${width}px`;
   }
 
   /** Gives exactly one option a real, roving `tabindex`/focus — see class doc for why. */

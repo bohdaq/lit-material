@@ -1,5 +1,6 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./chip.js";
 import type { LitMaterialChip } from "./chip.js";
 
@@ -164,5 +165,13 @@ describe("lit-material-chip", () => {
     );
     const stateLayer = el.shadowRoot!.querySelector(".state-layer")!;
     expect(stateLayer.hasAttribute("data-pressed")).to.be.true;
+  });
+
+  it("translates the remove button's default label for the element's language", async () => {
+    registerTranslation({ $code: "x-chip", "chip.remove": "Retirer" });
+    const wrapper = await fixture<HTMLDivElement>(html`<div lang="x-chip"><lit-material-chip removable>Tag</lit-material-chip></div>`);
+    const el = wrapper.querySelector<LitMaterialChip>("lit-material-chip")!;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".remove")!.getAttribute("aria-label")).to.equal("Retirer");
   });
 });

@@ -146,4 +146,18 @@ describe("lit-material-slider", () => {
     );
     await expect(el).to.be.accessible();
   });
+
+  it("centres the thumb on the value, measured from the right, in RTL", async () => {
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div dir="rtl" style="width: 400px;"><lit-material-slider value="25" aria-label="Volume"></lit-material-slider></div>`,
+    );
+    const el = wrapper.querySelector<LitMaterialSlider>("lit-material-slider")!;
+    await el.updateComplete;
+    const track = el.shadowRoot!.querySelector(".track")!.getBoundingClientRect();
+    const active = el.shadowRoot!.querySelector(".track-active")!.getBoundingClientRect();
+    const thumb = el.shadowRoot!.querySelector(".thumb")!.getBoundingClientRect();
+    expect(Math.abs(active.right - track.right)).to.be.lessThan(1);
+    const expected = track.right - track.width * 0.25;
+    expect(Math.abs(thumb.left + thumb.width / 2 - expected)).to.be.lessThan(1);
+  });
 });

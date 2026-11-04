@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/data-list",
   "version": "0.1.0",
-  "description": "Material Design 3-styled data list web components (lit-material-data-list, lit-material-data-list-item, lit-material-data-list-cell) — flexible multi-cell rows, optionally expandable.",
+  "description": "Material Design 3-styled data list web components (lit-material-data-list, lit-material-data-list-item, lit-material-data-list-cell) \u2014 flexible multi-cell rows, optionally expandable.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
@@ -70,6 +70,7 @@
     "analyze": "custom-elements-manifest analyze --litelement --globs \"src/**/*.ts\" --exclude \"src/**/*.test.ts\" --exclude \"src/**/*.ssr.test.ts\""
   },
   "dependencies": {
+    "@lit-material/core": "workspace:*",
     "@lit-material/tokens": "workspace:*",
     "lit": "^3.2.0"
   },

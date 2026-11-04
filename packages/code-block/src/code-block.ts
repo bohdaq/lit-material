@@ -1,6 +1,7 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { copyText } from "@lit-material/clipboard/copy-text.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./code-block-styles.js";
 
 /**
@@ -49,6 +50,8 @@ export class LitMaterialCodeBlock extends LitElement {
 
   private copiedTimer?: ReturnType<typeof setTimeout>;
 
+  private readonly localize = new LocalizeController(this);
+
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     clearTimeout(this.copiedTimer);
@@ -90,7 +93,11 @@ export class LitMaterialCodeBlock extends LitElement {
                 ${this.copyable
                   ? html`
                       <button class="copy" part="copy" type="button" @click=${this.handleCopyClick}>
-                        ${this.copied === "ok" ? "Copied" : this.copied === "failed" ? "Copy failed" : "Copy"}
+                        ${this.copied === "ok"
+                          ? this.localize.term("codeBlock.copied", "Copied")
+                          : this.copied === "failed"
+                            ? this.localize.term("codeBlock.copyFailed", "Copy failed")
+                            : this.localize.term("codeBlock.copy", "Copy")}
                       </button>
                     `
                   : nothing}
@@ -101,7 +108,9 @@ export class LitMaterialCodeBlock extends LitElement {
         ${this.expandable
           ? html`
               <button class="expand-toggle" part="expand-toggle" type="button" @click=${this.toggleExpanded}>
-                ${this.expanded ? "Show less" : "Show more"}
+                ${this.expanded
+                  ? this.localize.term("codeBlock.showLess", "Show less")
+                  : this.localize.term("codeBlock.showMore", "Show more")}
               </button>
             `
           : nothing}

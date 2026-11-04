@@ -14,6 +14,13 @@ async function stepFixture() {
 }
 
 describe("lit-material-step", () => {
+  it("formats the step number in the element's language", async () => {
+    const wrap = await fixture<HTMLElement>(html`<div lang="ar-EG"><lit-material-step step-number="2"></lit-material-step></div>`);
+    const el = wrap.querySelector<LitMaterialStep>("lit-material-step")!;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".circle")!.textContent!.trim()).to.equal(new Intl.NumberFormat("ar-EG").format(2));
+  });
+
   it("shows the step number in the circle by default", async () => {
     const { el } = await stepFixture();
     const circle = el.shadowRoot!.querySelector(".circle")!;

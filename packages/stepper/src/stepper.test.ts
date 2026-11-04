@@ -105,6 +105,22 @@ describe("lit-material-stepper", () => {
     expect(document.activeElement).to.equal(steps[3]);
   });
 
+  it("mirrors ArrowLeft/ArrowRight right to left", async () => {
+    const wrap = await fixture<HTMLElement>(html`<div dir="rtl">
+      <lit-material-stepper>
+        <lit-material-step><span slot="label">Account</span></lit-material-step>
+        <lit-material-step><span slot="label">Shipping</span></lit-material-step>
+      </lit-material-stepper>
+    </div>`);
+    const steps = Array.from(wrap.querySelectorAll("lit-material-step")) as LitMaterialStep[];
+    await (wrap.firstElementChild as LitMaterialStepper).updateComplete;
+    buttonOf(steps[0]!).focus();
+    await sendKeys({ press: "ArrowLeft" });
+    expect(document.activeElement).to.equal(steps[1]);
+    await sendKeys({ press: "ArrowRight" });
+    expect(document.activeElement).to.equal(steps[0]);
+  });
+
   it("moves focus with ArrowDown/ArrowUp in vertical orientation instead", async () => {
     const { steps } = await stepperFixture({ orientation: "vertical" });
     buttonOf(steps[0]!).focus();

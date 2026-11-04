@@ -88,7 +88,8 @@ target segment's `selected` (and, in single-select mode, clears the others) from
 
 Keyboard support follows the [WAI-ARIA toolbar pattern](https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/)
 rather than tabs' automatic-activation model: `ArrowLeft`/`ArrowRight` move a roving tabindex
-between enabled segments (wrapping at the ends, skipping disabled ones) without selecting them;
+between enabled segments (wrapping at the ends, skipping disabled ones) without selecting them
+(in RTL, `ArrowLeft` moves to the next segment and `ArrowRight` to the previous one);
 `Home`/`End` jump to the first/last enabled segment. Because segments are real `<button>`s,
 Enter/Space already activates whichever one currently has focus — no extra keydown handling is
 needed for that part. Only one segment is ever in the tab order at a time (the selected one, if

@@ -4,3 +4,15 @@ export { themeContext, type ThemeState, type ColorScheme } from "./theme-context
 export { localeContext, type LocaleState } from "./locale-context.js";
 export { setAriaElements, type AriaElementsProperty } from "./aria-reference.js";
 export { controlLabel, controlLabelStyles } from "./control-label.js";
+export {
+  LocalizeController,
+  registerTranslation,
+  setFallbackLocale,
+  formatMessage,
+  langOf,
+  isRtl,
+  type Translation,
+  type Message,
+  type PluralMessage,
+  type MessageArgs,
+} from "./localize.js";

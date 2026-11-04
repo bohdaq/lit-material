@@ -54,7 +54,7 @@ instances.
 
 Slots: default (message text), `action` (an optional action element, e.g.
 `lit-material-button variant="text"` — activating it closes the snackbar, same as `closable`'s
-dismiss button).
+dismiss button, whose "Dismiss" label is translated).
 
 Built on the native Popover API in `manual` mode — top-layer rendering without any of `auto`
 mode's automatic dismissal, since a snackbar shouldn't disappear just because the user clicked

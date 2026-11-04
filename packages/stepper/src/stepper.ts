@@ -1,13 +1,14 @@
 import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { isRtl } from "@lit-material/core/localize.js";
 import type { LitMaterialStep, StepOrientation } from "./step.js";
 import { styles } from "./stepper-styles.js";
 
 /**
  * Groups `lit-material-step` elements into a wizard-progress indicator,
  * driving each step's `active`/`step-number`/`orientation` and roving-focus
- * keyboard navigation (Left/Right for horizontal, Up/Down for vertical, plus
- * Home/End), marked with `aria-current="step"` on the active step — the ARIA
+ * keyboard navigation (Left/Right for horizontal, mirrored right to left;
+ * Up/Down for vertical; plus Home/End), marked with `aria-current="step"` on the active step — the ARIA
  * token defined specifically for step-by-step processes.
  *
  * Step *content* is deliberately out of scope, the same way `lit-material-tabs`
@@ -118,8 +119,10 @@ export class LitMaterialStepper extends LitElement {
     const current = (this.getRootNode() as Document | ShadowRoot).activeElement as LitMaterialStep | null;
     const index = current ? steps.indexOf(current) : -1;
 
-    const forwardKey = this.orientation === "vertical" ? "ArrowDown" : "ArrowRight";
-    const backwardKey = this.orientation === "vertical" ? "ArrowUp" : "ArrowLeft";
+    // Horizontal steps follow reading order: right to left, ArrowLeft is "next".
+    const rtl = this.orientation !== "vertical" && isRtl(this);
+    const forwardKey = this.orientation === "vertical" ? "ArrowDown" : rtl ? "ArrowLeft" : "ArrowRight";
+    const backwardKey = this.orientation === "vertical" ? "ArrowUp" : rtl ? "ArrowRight" : "ArrowLeft";
 
     switch (event.key) {
       case forwardKey: {

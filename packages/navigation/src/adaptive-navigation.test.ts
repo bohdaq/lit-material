@@ -1,4 +1,5 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import { setViewport } from "@web/test-runner-commands";
 import "./adaptive-navigation.js";
 import type { LitMaterialAdaptiveNavigation, NavigationDestination } from "./adaptive-navigation.js";
@@ -56,5 +57,15 @@ describe("lit-material-adaptive-navigation", () => {
     await el.updateComplete;
     const drawerItems = el.shadowRoot!.querySelectorAll<HTMLElement & { selected: boolean }>("lit-material-navigation-drawer-item");
     expect(drawerItems[1].selected).to.be.true;
+  });
+
+  it("translates the default landmark name", async () => {
+    registerTranslation({ $code: "x-adaptive-nav", "navigation.main": "Principal" });
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div lang="x-adaptive-nav"><lit-material-adaptive-navigation .destinations=${destinations}></lit-material-adaptive-navigation></div>`,
+    );
+    const el = wrapper.querySelector<LitMaterialAdaptiveNavigation>("lit-material-adaptive-navigation")!;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector("nav")!.getAttribute("aria-label")).to.equal("Principal");
   });
 });

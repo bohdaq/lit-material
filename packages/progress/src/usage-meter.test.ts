@@ -1,4 +1,5 @@
 import { expect, fixture, html } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./usage-meter.js";
 import type { LitMaterialUsageMeter } from "./usage-meter.js";
 
@@ -61,5 +62,31 @@ describe("lit-material-usage-meter", () => {
     el.format = (n) => `${n / 1024} GiB`;
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector(".value")!.textContent!.trim()).to.equal("1.5 GiB of 4 GiB");
+  });
+
+  it("translates its text and formats numbers in the element's language", async () => {
+    registerTranslation({
+      $code: "x-usage-meter",
+      "progress.usedOfMaxWithUnit": "{value} sur {max} {unit}",
+      "progress.nearLimit": "proche de la limite",
+      "progress.valueWithState": "{value} ; {state}",
+    });
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div lang="x-usage-meter"><lit-material-usage-meter label="CPU" unit="cœurs" .value=${3.5} .max=${4}></lit-material-usage-meter></div>`,
+    );
+    const el = wrapper.querySelector<LitMaterialUsageMeter>("lit-material-usage-meter")!;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".value")!.textContent!.replace(/\s+/g, " ").trim()).to.equal(
+      "3.5 sur 4 cœurs · proche de la limite",
+    );
+    expect(el.shadowRoot!.querySelector("[role=meter]")!.getAttribute("aria-valuetext")).to.equal(
+      "3.5 sur 4 cœurs ; proche de la limite",
+    );
+    const de = await fixture<HTMLDivElement>(
+      html`<div lang="de"><lit-material-usage-meter .value=${1.5} .max=${0}></lit-material-usage-meter></div>`,
+    );
+    const deMeter = de.querySelector<LitMaterialUsageMeter>("lit-material-usage-meter")!;
+    await deMeter.updateComplete;
+    expect(deMeter.shadowRoot!.querySelector(".value")!.textContent!.trim()).to.equal("1,5, no limit");
   });
 });

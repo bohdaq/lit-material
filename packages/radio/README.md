@@ -54,7 +54,8 @@ Radios have no visible label, so set `aria-label` or `aria-labelledby`.
 
 Radios sharing the same `name` (and the same owning `<form>`, or none) form a mutually-exclusive
 group, same as native `<input type="radio">`: selecting one deselects the rest, only the checked
-radio is Tab-reachable, and Arrow Up/Down/Left/Right move and re-select within the group. Only the
+radio is Tab-reachable, and Arrow Up/Down/Left/Right move and re-select within the group (in RTL,
+Arrow Left moves to the next radio and Arrow Right to the previous one). Only the
 checked radio's `value` is submitted; `required` makes the whole group invalid until one member is
 checked. Grouping is scoped by JavaScript (not the browser's native radio grouping, which doesn't
 span separate shadow roots) — group members are found by querying the light DOM, so keep radios in

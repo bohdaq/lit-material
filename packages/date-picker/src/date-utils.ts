@@ -75,33 +75,81 @@ export function isMonthFullyOutOfRange(year: number, month: number, min?: Calend
   return false;
 }
 
-const WEEKDAY_FORMATTER = new Intl.DateTimeFormat(undefined, { weekday: "narrow" });
-const MONTH_YEAR_FORMATTER = new Intl.DateTimeFormat(undefined, { month: "long", year: "numeric" });
-const FULL_DATE_FORMATTER = new Intl.DateTimeFormat(undefined, {
-  weekday: "long",
-  month: "long",
-  day: "numeric",
-  year: "numeric",
-});
-const HEADLINE_DATE_FORMATTER = new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric" });
+const formatters = new Map<string, Intl.DateTimeFormat>();
 
-export function weekdayLabels(firstDayOfWeek: number): string[] {
+/**
+ * A `DateTimeFormat` for `lang`, built once per language and option set. An invalid `lang` falls back to the
+ * runtime's default locale rather than throwing mid-render.
+ */
+function formatter(lang: string, name: string, options: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+  const key = `${lang}|${name}`;
+  let format = formatters.get(key);
+  if (!format) {
+    try {
+      format = new Intl.DateTimeFormat(lang, options);
+    } catch {
+      format = new Intl.DateTimeFormat(undefined, options);
+    }
+    formatters.set(key, format);
+  }
+  return format;
+}
+
+const numberFormatters = new Map<string, Intl.NumberFormat>();
+
+/** A day or year number in `lang`'s digits, without grouping separators (`2026`, not `2,026`). */
+export function numberLabel(lang: string, value: number): string {
+  let format = numberFormatters.get(lang);
+  if (!format) {
+    try {
+      format = new Intl.NumberFormat(lang, { useGrouping: false });
+    } catch {
+      format = new Intl.NumberFormat(undefined, { useGrouping: false });
+    }
+    numberFormatters.set(lang, format);
+  }
+  return format.format(value);
+}
+
+interface WeekInfo {
+  firstDay: number; // 1 = Monday .. 7 = Sunday
+}
+
+/**
+ * The first day of the week for `lang` (0 = Sunday, 1 = Monday, ...), from `Intl.Locale` week info where the
+ * browser has it, else Sunday.
+ */
+export function localeFirstDayOfWeek(lang: string): number {
+  try {
+    const locale = new Intl.Locale(lang) as Intl.Locale & { getWeekInfo?: () => WeekInfo; weekInfo?: WeekInfo };
+    const info = locale.getWeekInfo?.() ?? locale.weekInfo;
+    if (info && typeof info.firstDay === "number") return info.firstDay % 7;
+  } catch {
+    // invalid language tag: fall through
+  }
+  return 0;
+}
+
+export function weekdayLabels(lang: string, firstDayOfWeek: number): string[] {
   // 2023-01-01 was a Sunday — a fixed, known-Sunday anchor to walk forward from.
   const sunday: CalendarDate = { year: 2023, month: 0, day: 1 };
+  const format = formatter(lang, "weekday", { weekday: "narrow" });
   return Array.from({ length: 7 }, (_, i) => {
     const d = addDays(sunday, firstDayOfWeek + i);
-    return WEEKDAY_FORMATTER.format(new Date(d.year, d.month, d.day));
+    return format.format(new Date(d.year, d.month, d.day));
   });
 }
 
-export function monthYearLabel(year: number, month: number): string {
-  return MONTH_YEAR_FORMATTER.format(new Date(year, month, 1));
+export function monthYearLabel(lang: string, year: number, month: number): string {
+  return formatter(lang, "monthYear", { month: "long", year: "numeric" }).format(new Date(year, month, 1));
 }
 
-export function fullDateLabel(date: CalendarDate): string {
-  return FULL_DATE_FORMATTER.format(new Date(date.year, date.month, date.day));
+export function fullDateLabel(lang: string, date: CalendarDate): string {
+  const options: Intl.DateTimeFormatOptions = { weekday: "long", month: "long", day: "numeric", year: "numeric" };
+  return formatter(lang, "full", options).format(new Date(date.year, date.month, date.day));
 }
 
-export function headlineDateLabel(date: CalendarDate): string {
-  return HEADLINE_DATE_FORMATTER.format(new Date(date.year, date.month, date.day));
+export function headlineDateLabel(lang: string, date: CalendarDate): string {
+  const options: Intl.DateTimeFormatOptions = { weekday: "short", month: "short", day: "numeric" };
+  return formatter(lang, "headline", options).format(new Date(date.year, date.month, date.day));
 }

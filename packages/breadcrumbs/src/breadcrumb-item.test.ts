@@ -60,4 +60,22 @@ describe("lit-material-breadcrumb-item", () => {
     `);
     await expect(wrapper).to.be.accessible();
   });
+
+  it("mirrors the separator in right-to-left layouts", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div dir="rtl">
+        <lit-material-breadcrumb-item href="/">Home</lit-material-breadcrumb-item>
+        <lit-material-breadcrumb-item current>Here</lit-material-breadcrumb-item>
+      </div>
+    `);
+    const first = wrapper.querySelector("lit-material-breadcrumb-item")!;
+    expect(getComputedStyle(first, "::after").transform).to.equal("matrix(-1, 0, 0, 1, 0, 0)");
+    const ltr = await fixture<HTMLDivElement>(html`
+      <div>
+        <lit-material-breadcrumb-item href="/">Home</lit-material-breadcrumb-item>
+        <lit-material-breadcrumb-item current>Here</lit-material-breadcrumb-item>
+      </div>
+    `);
+    expect(getComputedStyle(ltr.querySelector("lit-material-breadcrumb-item")!, "::after").transform).to.equal("none");
+  });
 });

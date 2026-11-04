@@ -53,6 +53,9 @@ something is loading, put `aria-busy="true"` (and, if relevant, an `aria-live` r
 eventual result) on your own container — that's a statement about your page's state, not something
 this element can make on your behalf.
 
+The `wave` animation sweeps in reading direction (from the right in RTL). Both animations stop
+under `prefers-reduced-motion: reduce`.
+
 ## License
 
 MIT

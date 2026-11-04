@@ -1,4 +1,5 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./snackbar.js";
 import type { LitMaterialSnackbar } from "./snackbar.js";
 
@@ -137,5 +138,15 @@ describe("lit-material-snackbar", () => {
     expect(el.querySelector('[slot="action"]')).to.exist;
     el.show();
     expect(el.textContent).to.equal("SavedUndo", "show() without a message keeps the text");
+  });
+
+  it("translates the dismiss button's label", async () => {
+    registerTranslation({ $code: "x-snackbar", "snackbar.dismiss": "Fermer" });
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div lang="x-snackbar"><lit-material-snackbar closable>Saved</lit-material-snackbar></div>`,
+    );
+    const el = wrapper.querySelector<LitMaterialSnackbar>("lit-material-snackbar")!;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".close")!.getAttribute("aria-label")).to.equal("Fermer");
   });
 });

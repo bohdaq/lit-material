@@ -93,8 +93,8 @@ close", and "Unsaved changes" when `dirty`, which also draws a dot.
 Follows the [WAI-ARIA tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/) with
 **automatic activation**: moving focus with the arrow keys immediately selects that tab (no
 separate activation keypress), matching real Material Design tab behavior. `ArrowLeft`/`ArrowRight`
-move focus and wrap at the ends, skipping disabled tabs; `Home`/`End` jump to the first/last
-enabled tab. Only the selected tab is in the tab order (roving `tabindex`).
+move focus and wrap at the ends, skipping disabled tabs (right to left they mirror: `ArrowLeft` goes to
+the next tab); `Home`/`End` jump to the first/last enabled tab. Only the selected tab is in the tab order (roving `tabindex`).
 
 ### Panels
 

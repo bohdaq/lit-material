@@ -70,7 +70,8 @@ disabled options), Home/End jump to the first/last, Enter/Space accept the highl
 return focus to the trigger, Escape closes without changing the value, and Tab accepts the
 highlighted option and moves focus onward (not back to the trigger) — all per the APG pattern.
 Clicking an option selects it directly; clicking outside the open listbox closes it without
-changing the value.
+changing the value. The listbox opens aligned to the trigger's start edge (its right edge in RTL),
+and the `required` validation message is translated.
 
 The APG reference pattern tracks the highlighted option via `aria-activedescendant` (an ID
 reference). That doesn't work here: the trigger lives in the select's shadow root and each option

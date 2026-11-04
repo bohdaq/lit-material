@@ -1,5 +1,6 @@
 import { css, html, LitElement, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 
 export type UsageLevel = "" | "warning" | "critical";
 
@@ -90,6 +91,8 @@ export class LitMaterialUsageMeter extends LitElement {
     }
   `;
 
+  private readonly localize = new LocalizeController(this);
+
   /** What is measured, e.g. "CPU". */
   @property() label = "";
 
@@ -108,9 +111,9 @@ export class LitMaterialUsageMeter extends LitElement {
   /** Fraction of `max` from which the meter is critical. */
   @property({ type: Number }) critical = 0.95;
 
-  /** Formats both numbers; default: up to two decimals in the page's locale. */
+  /** Formats both numbers; default: up to two decimals in the element's language. */
   @property({ attribute: false }) format: (n: number) => string = (n) =>
-    n.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    this.localize.number(n, { maximumFractionDigits: 2 });
 
   /** `warning`, `critical` or `""`, from the value; reflected for styling. */
   @property({ reflect: true }) level: UsageLevel = "";
@@ -125,15 +128,23 @@ export class LitMaterialUsageMeter extends LitElement {
   }
 
   private get text(): string {
-    const unit = this.unit ? ` ${this.unit}` : "";
-    if (this.max <= 0) return `${this.format(this.value)}${unit}, no limit`;
-    return `${this.format(this.value)} of ${this.format(this.max)}${unit}`;
+    const value = this.format(this.value);
+    const unit = this.unit;
+    if (this.max <= 0) {
+      return unit
+        ? this.localize.term("progress.noLimitWithUnit", "{value} {unit}, no limit", { value, unit })
+        : this.localize.term("progress.noLimit", "{value}, no limit", { value });
+    }
+    const max = this.format(this.max);
+    return unit
+      ? this.localize.term("progress.usedOfMaxWithUnit", "{value} of {max} {unit}", { value, max, unit })
+      : this.localize.term("progress.usedOfMax", "{value} of {max}", { value, max });
   }
 
   private get state(): string {
     if (this.max <= 0) return "";
-    if (this.value > this.max) return "over limit";
-    return this.level ? "near limit" : "";
+    if (this.value > this.max) return this.localize.term("progress.overLimit", "over limit");
+    return this.level ? this.localize.term("progress.nearLimit", "near limit") : "";
   }
 
   override render() {
@@ -155,7 +166,12 @@ export class LitMaterialUsageMeter extends LitElement {
             aria-valuemin="0"
             aria-valuemax=${this.max}
             aria-valuenow=${Math.min(this.max, Math.max(0, this.value))}
-            aria-valuetext=${state ? `${this.text}, ${state}` : `${this.text}, ${percent}%`}
+            aria-valuetext=${state
+              ? this.localize.term("progress.valueWithState", "{value}, {state}", { value: this.text, state })
+              : this.localize.term("progress.valueWithPercent", "{value}, {percent}", {
+                  value: this.text,
+                  percent: this.localize.number(percent / 100, { style: "percent" }),
+                })}
           >
             <div part="indicator" class="indicator" style="width: ${percent}%"></div>
           </div>`

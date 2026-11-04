@@ -1,5 +1,6 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./rating.js";
 import type { LitMaterialRating } from "./rating.js";
 
@@ -92,6 +93,44 @@ describe("lit-material-rating", () => {
     icons.dispatchEvent(new PointerEvent("pointerleave", { bubbles: true, composed: true }));
     await el.updateComplete;
     expect(fillPercents(el)).to.deep.equal([100, 0, 0, 0, 0]);
+  });
+
+  it("previews from the right edge in RTL", async () => {
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div dir="rtl"><lit-material-rating value="1" max="5"></lit-material-rating></div>`,
+    );
+    const el = wrapper.querySelector<LitMaterialRating>("lit-material-rating")!;
+    await el.updateComplete;
+    const icons = el.shadowRoot!.querySelector(".icons") as HTMLElement;
+    const rect = icons.getBoundingClientRect();
+    // 80% of the way from the right edge: the 4th icon in reading order.
+    icons.dispatchEvent(
+      new PointerEvent("pointermove", { clientX: rect.right - rect.width * 0.8, bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+    expect(fillPercents(el)).to.deep.equal([100, 100, 100, 100, 0]);
+  });
+
+  it("translates its labels", async () => {
+    registerTranslation({
+      $code: "x-rating",
+      "rating.rating": "Note",
+      "rating.valueText": "{value} sur {max}",
+      "rating.readonlyLabel": "{label} : {value} sur {max}",
+    });
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div lang="x-rating">
+        <lit-material-rating value="3" max="5"></lit-material-rating>
+        <lit-material-rating value="4" max="5" readonly></lit-material-rating>
+      </div>
+    `);
+    const [interactive, readonly] = Array.from(wrapper.querySelectorAll<LitMaterialRating>("lit-material-rating"));
+    await interactive.updateComplete;
+    await readonly.updateComplete;
+    const input = interactive.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-label")).to.equal("Note");
+    expect(input.getAttribute("aria-valuetext")).to.equal("3 sur 5");
+    expect(readonly.shadowRoot!.querySelector(".rating")!.getAttribute("aria-label")).to.equal("Note : 4 sur 5");
   });
 
   it("does not preview on hover when disabled", async () => {

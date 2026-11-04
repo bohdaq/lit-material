@@ -1,5 +1,6 @@
 import { html, LitElement } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./overflow-menu-styles.js";
 
 const GAP = 8;
@@ -35,8 +36,10 @@ const MORE_BUTTON_WIDTH = 32;
 export class LitMaterialOverflowMenu extends LitElement {
   static override styles = styles;
 
-  /** Accessible name for the "more" button. */
-  @property() label = "More actions";
+  /** Accessible name for the "more" button. Default: "More actions", translated. */
+  @property() label?: string;
+
+  private readonly localize = new LocalizeController(this);
 
   @state() private hasOverflow = false;
   @state() private menuOpen = false;
@@ -115,7 +118,8 @@ export class LitMaterialOverflowMenu extends LitElement {
       top = above >= 0 ? above : Math.max(0, window.innerHeight - menuRect.height);
     }
 
-    let left = anchorRect.right - menuRect.width;
+    // Align the menu's end edge with the button's (its right edge in LTR, its left edge in RTL).
+    let left = isRtl(this) ? anchorRect.left : anchorRect.right - menuRect.width;
     left = Math.max(0, Math.min(left, window.innerWidth - menuRect.width));
 
     this.menuElement.style.top = `${top}px`;
@@ -198,7 +202,7 @@ export class LitMaterialOverflowMenu extends LitElement {
           class="more"
           part="more"
           type="button"
-          aria-label=${this.label}
+          aria-label=${this.label ?? this.localize.term("overflowMenu.moreActions", "More actions")}
           aria-haspopup="true"
           aria-expanded=${this.menuOpen ? "true" : "false"}
           ?hidden=${!this.hasOverflow}

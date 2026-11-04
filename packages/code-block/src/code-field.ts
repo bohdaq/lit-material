@@ -1,11 +1,18 @@
 import { css, html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 
 /** Returns an error message for `text`, or `""` when it's fine. */
 export type CodeValidator = (text: string) => string;
 
-/** `JSON.parse` as a validator, with the line of the error when the engine reports a position. */
-export function validateJson(text: string): string {
+/**
+ * `JSON.parse` as a validator, with the line of the error when the engine reports a position.
+ * `format` builds the message from the line and the engine's own text; default `Line {line}: {message}`.
+ */
+export function validateJson(
+  text: string,
+  format: (line: number, message: string) => string = (line, message) => `Line ${line}: ${message}`,
+): string {
   if (!text.trim()) return "";
   try {
     JSON.parse(text);
@@ -16,10 +23,10 @@ export function validateJson(text: string): string {
     const line = /line (\d+)/i.exec(message)?.[1];
     if (line) {
       const plain = message.replace(/\s*\(?(at )?line \d+ column \d+( of the JSON data)?\)?/i, "");
-      return `Line ${line}: ${plain.replace(/ at position \d+$/, "")}`;
+      return format(Number(line), plain.replace(/ at position \d+$/, ""));
     }
     const plain = message.replace(/,? at position \d+(?= |$)/, "").replace(/ \(line \d+ column \d+\)$/, "");
-    return `Line ${text.slice(0, errorOffset(text)).split("\n").length}: ${plain}`;
+    return format(text.slice(0, errorOffset(text)).split("\n").length, plain);
   }
 }
 
@@ -132,6 +139,9 @@ export class LitMaterialCodeField extends LitElement {
     }
     .field {
       display: flex;
+      /* Code reads left to right even on a right-to-left page (line numbers
+         stay on its left); the label and error follow the page. */
+      direction: ltr;
       box-sizing: border-box;
       border: 1px solid var(--md-sys-color-outline, light-dark(#79747e, #938f99));
       border-radius: var(--md-sys-shape-corner-extra-small, 4px);
@@ -162,7 +172,8 @@ export class LitMaterialCodeField extends LitElement {
       flex: none;
       box-sizing: border-box;
       min-width: 3ch;
-      padding: 8px 8px 8px 12px;
+      padding-block: 8px;
+      padding-inline: 12px 8px;
       overflow: hidden;
       border-inline-end: 1px solid var(--md-sys-color-outline-variant, light-dark(#cac4d0, #49454f));
       color: var(--md-sys-color-on-surface-variant, light-dark(#49454f, #cac4d0));
@@ -227,6 +238,11 @@ export class LitMaterialCodeField extends LitElement {
   /** After Escape, Tab moves focus instead of indenting, until the next edit. */
   private tabReleased = false;
 
+  private readonly localize = new LocalizeController(this);
+
+  private readonly formatJsonError = (line: number, message: string): string =>
+    this.localize.term("codeField.jsonError", "Line {line}: {message}", { line, message });
+
   override focus(options?: FocusOptions): void {
     this.textarea?.focus(options);
   }
@@ -242,7 +258,7 @@ export class LitMaterialCodeField extends LitElement {
   }
 
   private validate(): void {
-    const check = this.validator ?? (this.language === "json" ? validateJson : undefined);
+    const check = this.validator ?? (this.language === "json" ? (text: string) => validateJson(text, this.formatJsonError) : undefined);
     this.validationMessage = check ? check(this.value) : "";
     this.invalid = Boolean(this.validationMessage);
   }

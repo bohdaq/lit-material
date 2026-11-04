@@ -1,5 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 
 export type SplitOrientation = "horizontal" | "vertical";
 
@@ -109,8 +110,10 @@ export class LitMaterialSplitPanel extends LitElement {
 
   @property({ reflect: true }) orientation: SplitOrientation = "horizontal";
 
-  /** Accessible name of the divider; name it after the start pane, e.g. "Request". */
-  @property() label = "Resize panes";
+  /** Accessible name of the divider; name it after the start pane, e.g. "Request". Default: "Resize panes", translated. */
+  @property() label?: string;
+
+  private readonly localize = new LocalizeController(this);
 
   @property({ type: Boolean, reflect: true }) disabled = false;
 
@@ -207,7 +210,7 @@ export class LitMaterialSplitPanel extends LitElement {
         class="divider"
         role="separator"
         tabindex=${this.disabled ? "-1" : "0"}
-        aria-label=${this.label}
+        aria-label=${this.label ?? this.localize.term("splitPanel.resizePanes", "Resize panes")}
         aria-controls="${this.uid}-start"
         aria-orientation=${this.orientation === "vertical" ? "horizontal" : "vertical"}
         aria-valuenow=${this.position}

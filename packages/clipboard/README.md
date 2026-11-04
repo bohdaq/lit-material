@@ -46,12 +46,13 @@ plain-http pages) or rejects. Resolves whether the copy worked; never throws.
 | -------- | --------- | ---- | ------- |
 | `value` | `value` | `string` | `""` |
 | `htmlFor` | `for` | `string` (an element id) | `""` |
-| `label` | `label` | `string` | `"Copy"` |
+| `label` | `label` | `string` | `"Copy"`, translated |
 | `disabled` | `disabled` | `boolean` | `false` |
 
 Copies `value`, or else the `value` (inputs) or trimmed text of the element with id `for` in the same
 document or shadow root. Shows a check mark for two seconds and announces "Copied" or "Couldn't copy"
-through a status region. `copy()` copies from code and resolves whether it worked. Fires `copy` with
+through a status region. Its default label and announcements are translated through
+`@lit-material/core`'s `registerTranslation` (keys `copyButton.*`, `clipboardCopy.*`). `copy()` copies from code and resolves whether it worked. Fires `copy` with
 `detail: { text, ok }`.
 
 ### `lit-material-clipboard-copy`
@@ -59,7 +60,7 @@ through a status region. `copy()` copies from code and resolves whether it worke
 | Property | Attribute | Type | Default |
 | -------- | --------- | ---- | ------- |
 | `value` | `value` | `string` | `""` |
-| `label` | `label` | `string` | `""` (accessible name; the copy button becomes "Copy {label}") |
+| `label` | `label` | `string` | `""` (accessible name; the copy button becomes "Copy {label}"; without it, "Value" / "Copy value", translated) |
 | `masked` | `masked` | `boolean` | `false` |
 
 The value sits in a read-only input (selected on focus) in a monospace face
