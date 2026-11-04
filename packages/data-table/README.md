@@ -243,7 +243,7 @@ same `lit-material-data-table`/`-row`/`-cell` elements, so it looks the same. Wh
 and export need; edits produce a new `rows` array and events, so you can save them.
 
 ```js
-import "@lit-material/data-table/data-grid.js"; // or "@lit-material/data-table"
+import "@lit-material/data-table/data-grid.js"; // its own entry point: it brings the editors with it
 ```
 
 ```html

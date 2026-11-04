@@ -1,5 +1,6 @@
 import "@lit-material/data-table";
-import type { DataGridColumn, LitMaterialDataGrid } from "@lit-material/data-table";
+import "@lit-material/data-table/data-grid.js";
+import type { DataGridColumn, LitMaterialDataGrid } from "@lit-material/data-table/data-grid.js";
 import { html, LitElement } from "lit";
 import { pageStyles } from "../../styles/page-styles.js";
 import { customElement, state } from "lit/decorators.js";
