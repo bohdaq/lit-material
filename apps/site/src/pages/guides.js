@@ -45,6 +45,22 @@ import { html } from "lit";
 import "@lit-material/button";
 
 const markup = await collectResult(render(html\`&lt;lit-material-button&gt;Save&lt;/lit-material-button&gt;\`));</code></pre>`],
+      ["vite", "A whole app with Vite", html`
+        <p><code>@lit-material/vite</code> server-renders every page of an app in dev and production: the content, the <code>&lt;title&gt;</code>, the HTTP status (redirects, 404s) and the routes' loader data, from the same routes the browser uses. Add the plugin, put <code>&lt;!--app-head--&gt;</code> and <code>&lt;!--app-html--&gt;</code> in <code>index.html</code>, and export your routes and shell from <code>src/entry-server.ts</code>:</p>
+        <pre tabindex="0"><code>// vite.config.ts
+import { litMaterial } from "@lit-material/vite";
+export default { plugins: [litMaterial({ prerender: ["/", "/about"] })] };
+
+// src/entry-server.ts
+import { html } from "lit";
+import "./app-shell.js";
+export { routes } from "./routes.js";
+export const render = () =&gt; html\`&lt;app-shell&gt;&lt;/app-shell&gt;\`;
+
+// src/main.ts
+import "@lit-material/vite/client"; // hydration support, first
+import "./app-shell.js";</code></pre>
+        <p><code>vite build</code> also builds the server and prerenders the listed paths; <code>createRequestHandler()</code> from <code>@lit-material/vite/server</code> serves the rest from any Node or Fetch server.</p>`],
       ["hydrate", "Hydrate in the browser", html`
         <p>Load the hydration support before Lit itself, then the same components. They take over the server's markup instead of rendering again.</p>
         <pre tabindex="0"><code>import "@lit-labs/ssr-client/lit-element-hydrate-support.js";

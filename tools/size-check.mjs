@@ -15,6 +15,9 @@ const limitsFile = join(root, "tools", "size-limits.json");
 const update = process.argv.includes("--update");
 const limits = existsSync(limitsFile) ? JSON.parse(readFileSync(limitsFile, "utf8")) : {};
 
+// Packages that run in Node, not the browser (build tooling): no browser bundle to budget.
+const NODE_ONLY = new Set(["@lit-material/vite"]);
+
 const sizes = {};
 for (const dir of readdirSync(join(root, "packages")).sort()) {
   const pkgDir = join(root, "packages", dir);
@@ -22,7 +25,7 @@ for (const dir of readdirSync(join(root, "packages")).sort()) {
   if (!existsSync(pkgFile)) continue;
   const pkg = JSON.parse(readFileSync(pkgFile, "utf8"));
   const entry = join(pkgDir, "dist", "index.js");
-  if (pkg.private || !existsSync(entry)) continue;
+  if (pkg.private || NODE_ONLY.has(pkg.name) || !existsSync(entry)) continue;
   const result = await build({
     stdin: { contents: `export * from ${JSON.stringify(entry)};`, resolveDir: pkgDir },
     bundle: true,

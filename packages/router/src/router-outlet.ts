@@ -4,6 +4,7 @@ import { RouteController, type CurrentRoute, type NavigationType, type RouteConf
 import { navigate, stateWithKey } from "./navigate.js";
 import { stripBasePath } from "./base-path.js";
 import { styles } from "./router-outlet-styles.js";
+import { serverRoute } from "./server-route.js";
 
 const STORAGE_KEY = "lit-material-router-scroll";
 
@@ -58,8 +59,8 @@ export class LitMaterialRouterOutlet extends LitElement {
 
   private readonly route = new RouteController(this, () => this.routes, {
     resolve: true,
-    serverPath: () => this.path,
-    serverData: () => this.data,
+    serverPath: () => this.path ?? serverRoute()?.path,
+    serverData: () => this.data ?? (this.path === undefined ? serverRoute()?.data : undefined),
     onCommit: (current, navigation) => void this.afterCommit(current, navigation),
     onError: (error) =>
       this.dispatchEvent(new CustomEvent("lit-material-route-error", { detail: { error }, bubbles: true, composed: true })),

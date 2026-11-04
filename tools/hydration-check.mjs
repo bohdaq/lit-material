@@ -24,7 +24,14 @@ const { html, unsafeStatic } = await import(req.resolve("lit/static-html.js"));
 
 const packages = readdirSync(join(root, "packages")).filter((p) => {
   const f = join(pkgDir(p), "package.json");
-  return existsSync(f) && !JSON.parse(readFileSync(f, "utf8")).private && existsSync(join(pkgDir(p), "dist", "index.js"));
+  // Packages that define elements (they have a manifest); the others (Node tooling like @lit-material/vite,
+  // or plain modules) have nothing to hydrate.
+  return (
+    existsSync(f) &&
+    !JSON.parse(readFileSync(f, "utf8")).private &&
+    existsSync(join(pkgDir(p), "dist", "index.js")) &&
+    existsSync(join(pkgDir(p), "custom-elements.json"))
+  );
 });
 const tags = [];
 const elementModules = new Set();

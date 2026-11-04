@@ -1,0 +1,70 @@
+{
+  "name": "@lit-material/vite",
+  "version": "0.0.0",
+  "description": "Vite plugin for lit-material apps: every page server-rendered in dev and production (route status, redirects, titles, loader data), the client build plus a server build, static prerendering, and a Request\u2192Response handler for any Node server.",
+  "license": "MIT",
+  "author": {
+    "name": "bohdaq",
+    "email": "bohdaq@gmail.com",
+    "url": "https://github.com/bohdaq"
+  },
+  "homepage": "https://lit.rws8.tech/guides/server-rendering/",
+  "bugs": "https://github.com/bohdaq/lit-material/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bohdaq/lit-material.git",
+    "directory": "packages/vite"
+  },
+  "keywords": [
+    "lit-material",
+    "vite",
+    "vite-plugin",
+    "ssr",
+    "prerender",
+    "lit"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "default": "./dist/server.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "default": "./dist/client.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --import tsx --test src/*.ssr.test.ts"
+  },
+  "dependencies": {
+    "@lit-labs/ssr": "^3.3.1",
+    "@lit-labs/ssr-client": "^1.1.8",
+    "@lit-material/router": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "lit": "^3.2.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0"
+  },
+  "peerDependencies": {
+    "lit": "^3.2.0",
+    "vite": ">=5"
+  }
+}

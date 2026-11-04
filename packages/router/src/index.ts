@@ -17,6 +17,7 @@ export {
 } from "./route-controller.js";
 export { resolveRoute, type ResolvedRoute, type GuardResult } from "./resolve.js";
 export { routeDataScript, ROUTE_DATA_ID } from "./route-data.js";
+export { setServerRouteProvider, serverRoute, type ServerRoute } from "./server-route.js";
 export { queryParam, parseQuery, formatQuery, type QueryParam, type QuerySchema, type QueryValues } from "./query.js";
 export { LitMaterialRouterOutlet } from "./router-outlet.js";
 export { setBasePath, getBasePath } from "./base-path.js";

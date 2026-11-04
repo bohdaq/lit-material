@@ -217,6 +217,9 @@ framework. Ordered by priority.
    `FieldArrayController` in [`@lit-material/form`](packages/form).
 8. **Full-stack layer.** A Vite plugin and preset: SSR of the whole app, per-route data loading,
    app-level hydration, more than one `create-lit-material-app` template.
+   Progress: per-route data loading (router `loader`, server data reused on the first render) and
+   [`@lit-material/vite`](packages/vite) (whole-app SSR in dev and production, prerendering, hydration) are
+   done (unreleased changesets); the `create-lit-material-app` templates are left.
 9. ~~**Developer tooling.**
    - Testing helpers for app authors (fixtures, `waitForUpdate`, role-based queries through shadow roots).
    - A devtools panel for the store and router.~~ Done (unreleased changeset):

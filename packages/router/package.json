@@ -40,6 +40,10 @@
     },
     "./vue": {
       "types": "./types/vue.d.ts"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "default": "./dist/server.js"
     }
   },
   "files": [
