@@ -1,5 +1,13 @@
 # @lit-material/code-block
 
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [be5093c]
+  - @lit-material/core@0.4.0
+  - @lit-material/clipboard@0.3.1
+
 ## 0.3.0
 
 ### Minor Changes

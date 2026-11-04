@@ -1,5 +1,12 @@
 # @lit-material/alert
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies [be5093c]
+  - @lit-material/core@0.4.0
+
 ## 0.1.0
 
 ### Minor Changes

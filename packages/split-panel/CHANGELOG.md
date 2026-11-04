@@ -1,5 +1,13 @@
 # @lit-material/split-panel
 
+## 0.2.1
+
+### Patch Changes
+
+- be5093c: Strict Content-Security-Policy and Trusted Types. Components now work under `script-src 'self'; style-src 'self'; require-trusted-types-for 'script'; trusted-types lit-html` with no `'unsafe-inline'`: inline styles that change at runtime (bar widths, tooltip positions, slider thumbs, tree indents, …) are set through the CSSOM with the new `cssProps` directive in `@lit-material/core` instead of `style` attributes, which such a policy blocks. Site-kit's search box assigns its results through a Trusted Types policy named `lit-material-site-kit`. Every package now ships a CycloneDX SBOM of its runtime dependencies at `dist/sbom.cdx.json`.
+- Updated dependencies [be5093c]
+  - @lit-material/core@0.4.0
+
 ## 0.2.0
 
 ### Minor Changes

@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/chip",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Material Design 3 chip web component (assist, filter, input, suggestion variants).",
   "license": "MIT",
   "author": {

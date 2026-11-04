@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/back-to-top",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Back-to-top button for lit-material: appears after scrolling, returns to the top and moves focus there; a plain anchor without JavaScript.",
   "license": "MIT",
   "author": {

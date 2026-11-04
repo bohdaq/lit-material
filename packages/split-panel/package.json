@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/split-panel",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Split panel for lit-material: two panes with a draggable, keyboard-operable divider.",
   "license": "MIT",
   "author": {

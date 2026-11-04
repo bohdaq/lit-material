@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/jump-links",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Jump links for lit-material: an \"On this page\" list that highlights the section in view.",
   "license": "MIT",
   "author": {
