@@ -1,5 +1,0 @@
----
-"@lit-material/router": minor
----
-
-Router v2. Routes take `redirect` (with `:params`), `guard` (sync or async: `true`, `false` to cancel, or a path to redirect to), `load` for lazy routes (the previous page stays up, with the outlet's `pending` attribute, until it settles; failures fire `lit-material-route-error`), `title` (into `document.title` through the outlet's `title-template`) and `status`. `render` gets a third argument with the `query`, and `parseQuery`/`formatQuery`/`queryParam` read and write it typed. The outlet restores scroll position on back/forward and scrolls to the top or the `#hash` target on new navigations (`scroll-restoration="none"` opts out). On the server the outlet renders the route for its `path` attribute, and `resolveRoute(routes, url)` runs redirects, guards and loads without a browser and returns the status and title, so routed pages can be prerendered. `render` is now optional (a route without it wraps its children). Size budget raised from 1.8 to 4.5 KB gzipped for these.
