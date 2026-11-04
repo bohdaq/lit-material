@@ -217,9 +217,11 @@ framework. Ordered by priority.
    `FieldArrayController` in [`@lit-material/form`](packages/form).
 8. **Full-stack layer.** A Vite plugin and preset: SSR of the whole app, per-route data loading,
    app-level hydration, more than one `create-lit-material-app` template.
-9. **Developer tooling.**
+9. ~~**Developer tooling.**
    - Testing helpers for app authors (fixtures, `waitForUpdate`, role-based queries through shadow roots).
-   - A devtools panel for the store and router.
+   - A devtools panel for the store and router.~~ Done (unreleased changeset):
+   [`@lit-material/testing`](packages/testing) and [`@lit-material/devtools`](packages/devtools)
+   (Redux DevTools extension with time travel, router log, in-page panel); `store.replaceState`.
 10. **Design hand-off.** A Figma kit matching the components and tokens.
 11. ~~**Security and compliance.** Publish an SBOM per release; document Content-Security-Policy
     (no inline styles or scripts) and Trusted Types compatibility. Release provenance already exists.~~ Done

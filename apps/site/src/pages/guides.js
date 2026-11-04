@@ -200,6 +200,35 @@ render() {
 cat node_modules/@lit-material/button/dist/sbom.cdx.json</code></pre>`],
     ],
   },
+  testing: {
+    title: "Testing and devtools",
+    lead: "Test your app the way a user meets it, by role and label through every shadow root, and watch its store and routes while you build it.",
+    sections: [
+      ["tests", "Tests", html`
+        <p><code>@lit-material/testing</code> renders with <code>fixture()</code>, which waits until every nested element has rendered, and finds controls by role, label or text through shadow roots: <code>getByLabel("Email")</code> is the <code>&lt;input&gt;</code> inside the text field, the one the user types into.</p>
+        <pre tabindex="0"><code>import { cleanup, fixture, getByLabel, getByRole, user } from "@lit-material/testing";
+
+afterEach(() =&gt; cleanup());
+
+it("signs up", async () =&gt; {
+  await fixture(html\`&lt;signup-form&gt;&lt;/signup-form&gt;\`);
+  await user.type(getByLabel("Email"), "ada@example.com");
+  await user.click(getByRole("button", { name: "Sign up" }));
+  expect(getByRole("status").textContent).to.contain("Check your inbox");
+});</code></pre>
+        <p>It works in any browser test runner. When a query finds nothing, the error lists the roles and names it did find.</p>`],
+      ["devtools", "Devtools", html`
+        <p><code>@lit-material/devtools</code> records a store's actions and states, and the router's navigations. With the Redux DevTools browser extension installed, stores show up there, time travel included; without it, the <code>&lt;lit-material-devtools&gt;</code> panel shows the same on the page.</p>
+        <pre tabindex="0"><code>if (import.meta.env.DEV) {
+  const { connectStore, connectRouter } = await import("@lit-material/devtools");
+  await import("@lit-material/devtools/panel.js");
+  connectStore(store, { name: "app" });
+  connectRouter();
+  document.body.append(document.createElement("lit-material-devtools"));
+}</code></pre>
+        <p>Loaded behind a development check like this, it adds nothing to a production build.</p>`],
+    ],
+  },
   frameworks: {
     title: "React, Vue and Angular",
     lead: "lit-material components are custom elements, so they work in any framework as they are. Every component package also ships React wrappers, JSX and Vue typings, and editor metadata, generated from its custom elements manifest.",
