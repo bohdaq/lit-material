@@ -2,7 +2,7 @@ import { isServer, type ReactiveController, type ReactiveControllerHost } from "
 import { hasData, matchRouteChain, renderRouteChain, withData, type MatchedRouteEntry } from "./route-tree.js";
 import { embeddedRouteData } from "./route-data.js";
 import { navigate, ROUTE_CHANGE_EVENT, type RouteChangeDetail } from "./navigate.js";
-import { stripBasePath } from "./base-path.js";
+import { currentLocation } from "./base-path.js";
 import { loadChain, runGuards, runLoaders, titleOf, type GuardResult, type Resolution } from "./resolve.js";
 
 /** What a route's `render`, `guard`, `redirect` and `title` functions are given. */
@@ -146,7 +146,7 @@ export class RouteController<T = unknown> implements ReactiveController {
 
   private where(): { path: string; query: URLSearchParams } {
     if (!isServer) {
-      return { path: stripBasePath(location.pathname), query: new URLSearchParams(location.search) };
+      return currentLocation();
     }
     // No location when rendering on the server: match the path the host was given, or nothing (an outlet
     // then renders empty there and the browser fills it in).

@@ -1,4 +1,4 @@
-import { getBasePath } from "./base-path.js";
+import { historyUrl } from "./base-path.js";
 
 export const ROUTE_CHANGE_EVENT = "lit-material-route-change";
 
@@ -32,10 +32,10 @@ export function stateWithKey(state: unknown = null): Record<string, unknown> {
  *
  * `path` is always relative to the app's own root, regardless of
  * `setBasePath()` — this prepends the configured base path itself before
- * writing to `history`.
+ * writing to `history` (or, in hash mode, writes it after the `#`).
  */
 export function navigate(path: string, options: NavigateOptions = {}): void {
-  const fullPath = getBasePath() + path;
+  const fullPath = historyUrl(path);
   const replace = options.replace === true;
   if (replace) {
     history.replaceState(stateWithKey(), "", fullPath);

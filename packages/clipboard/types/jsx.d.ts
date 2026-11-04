@@ -4,6 +4,7 @@
 import type { DetailedHTMLProps, HTMLAttributes } from "react";
 import type { LitMaterialClipboardCopy } from "../dist/clipboard-copy.js";
 import type { LitMaterialCopyButton } from "../dist/copy-button.js";
+import type { LitMaterialNewSecret } from "../dist/new-secret.js";
 
 type ElementProps<E, K extends keyof E> = Omit<DetailedHTMLProps<HTMLAttributes<E>, E>, K> & Partial<Pick<E, K>>;
 
@@ -17,6 +18,10 @@ declare module "react" {
       /** An icon button that copies text: `value`, or the value / text of the element whose id is in `for`. Shows a check mark for two seconds and announces "Copied" (or "Couldn't copy") to screen readers. */
       "lit-material-copy-button": ElementProps<LitMaterialCopyButton, "disabled" | "htmlFor" | "label" | "value"> & {
         "oncopy"?: (event: CustomEvent) => void;
+      };
+      /** A secret shown once, right after it was created: an access token, an API key, a recovery code. The value with a copy button, and a warning that it can't be shown again. Put a "Done" button in the `actions` slot that drops the element (and the secret) from the page. Announced to screen readers when it appears (`role="status"`), and focus goes to the value on first render, so the reader lands on it. */
+      "lit-material-new-secret": ElementProps<LitMaterialNewSecret, "label" | "value"> & {
+        "oncopy"?: (event: Event) => void;
       };
     }
   }

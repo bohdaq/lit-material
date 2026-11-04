@@ -306,6 +306,28 @@ GitHub Pages specifically has no server-side rewrites, so a direct load or refre
 the site root still 404s without a `404.html` fallback that redirects back to `index.html` — `setBasePath()`
 solves routing once you're *on* the page, not the initial static-hosting request.
 
+## Hash routing for static hosting
+
+Served as plain files with no server fallback to `index.html`, a reload of `/orgs/42` is a 404. Keep the route
+after a `#` instead: call `setRouterMode("hash")` once at startup, before the first outlet or `RouteController`.
+
+```ts
+import { routeHref, setRouterMode } from "@lit-material/router";
+
+setRouterMode("hash"); // the route lives in location.hash: /portal/#/orgs/42?tab=plan
+```
+
+```html
+<a href=${routeHref("/orgs/42")}>Acme</a>  <!-- href="#/orgs/42" -->
+```
+
+Routes, `navigate()`, guards, query parameters and titles work as in history mode: `navigate("/orgs/42")`
+writes `#/orgs/42` and keeps the page's own path. The outlet turns clicks on `#/…` links into in-app
+navigations and leaves `#id` links and links to other pages alone; a hash typed in the address bar or set by a
+script is followed too. The base path doesn't apply in this mode, and since the `#` holds the route, it doesn't
+scroll to an element id (new navigations scroll to the top, back/forward restores). Server rendering needs
+history mode: a server never sees the part after `#`.
+
 ## API
 
 | Export | Description |
@@ -324,6 +346,8 @@ solves routing once you're *on* the page, not the initial static-hosting request
 | `RouteController` | Reactive controller — same lifecycle as `RippleController`/`FocusRingController` in `@lit-material/core` — for reading `.current` (`path`, `params`, `query`, `content`, `title`) without an outlet. It only matches; guards, redirects and loads run in the outlet (pass `{ resolve: true }` to run them in your own). |
 | `setBasePath(path)` | Configures the path prefix `navigate()`/`RouteController` treat the app as deployed under — see "Deploying under a subpath." |
 | `getBasePath()` | The path prefix configured via `setBasePath()` (`""` by default). |
+| `setRouterMode(mode)`, `getRouterMode()` | `"history"` (default) or `"hash"` — see "Hash routing for static hosting". |
+| `routeHref(path)` | The `href` for an app path: `#/path` in hash mode, base path + path otherwise. |
 
 ## License
 

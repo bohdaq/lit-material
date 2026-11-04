@@ -261,6 +261,9 @@ importers:
       '@lit-material/popover':
         specifier: workspace:*
         version: link:../../packages/popover
+      '@lit-material/pricing':
+        specifier: workspace:*
+        version: link:../../packages/pricing
       '@lit-material/progress':
         specifier: workspace:*
         version: link:../../packages/progress
@@ -291,6 +294,9 @@ importers:
       '@lit-material/sidebar':
         specifier: workspace:*
         version: link:../../packages/sidebar
+      '@lit-material/sign-in':
+        specifier: workspace:*
+        version: link:../../packages/sign-in
       '@lit-material/simple-list':
         specifier: workspace:*
         version: link:../../packages/simple-list
@@ -517,6 +523,9 @@ importers:
       '@lit-material/popover':
         specifier: workspace:*
         version: link:../../packages/popover
+      '@lit-material/pricing':
+        specifier: workspace:*
+        version: link:../../packages/pricing
       '@lit-material/progress':
         specifier: workspace:*
         version: link:../../packages/progress
@@ -547,6 +556,9 @@ importers:
       '@lit-material/sidebar':
         specifier: workspace:*
         version: link:../../packages/sidebar
+      '@lit-material/sign-in':
+        specifier: workspace:*
+        version: link:../../packages/sign-in
       '@lit-material/simple-list':
         specifier: workspace:*
         version: link:../../packages/simple-list
@@ -2751,6 +2763,55 @@ importers:
         specifier: ^5.7.0
         version: 5.9.3
 
+  packages/pricing:
+    dependencies:
+      '@lit-material/button':
+        specifier: workspace:*
+        version: link:../button
+      '@lit-material/core':
+        specifier: workspace:*
+        version: link:../core
+      '@lit-material/segmented-button':
+        specifier: workspace:*
+        version: link:../segmented-button
+      '@lit-material/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
+    devDependencies:
+      '@lit-labs/ssr':
+        specifier: ^3.3.1
+        version: 3.3.1
+      '@open-wc/testing':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@web/dev-server-esbuild':
+        specifier: ^1.0.0
+        version: 1.0.5
+      '@web/test-runner':
+        specifier: ^0.19.0
+        version: 0.19.0
+      '@web/test-runner-commands':
+        specifier: ^0.9.0
+        version: 0.9.0
+      '@web/test-runner-playwright':
+        specifier: ^0.11.0
+        version: 0.11.1
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.0
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
   packages/progress:
     dependencies:
       '@lit-material/core':
@@ -3134,6 +3195,58 @@ importers:
 
   packages/sidebar:
     dependencies:
+      '@lit-material/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
+    devDependencies:
+      '@lit-labs/ssr':
+        specifier: ^3.3.1
+        version: 3.3.1
+      '@open-wc/testing':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@web/dev-server-esbuild':
+        specifier: ^1.0.0
+        version: 1.0.5
+      '@web/test-runner':
+        specifier: ^0.19.0
+        version: 0.19.0
+      '@web/test-runner-commands':
+        specifier: ^0.9.0
+        version: 0.9.0
+      '@web/test-runner-playwright':
+        specifier: ^0.11.0
+        version: 0.11.1
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.0
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
+  packages/sign-in:
+    dependencies:
+      '@lit-material/alert':
+        specifier: workspace:*
+        version: link:../alert
+      '@lit-material/button':
+        specifier: workspace:*
+        version: link:../button
+      '@lit-material/core':
+        specifier: workspace:*
+        version: link:../core
+      '@lit-material/text-field':
+        specifier: workspace:*
+        version: link:../text-field
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens

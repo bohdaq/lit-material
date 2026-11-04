@@ -47,6 +47,10 @@ import "./pages/components/truncate-page.js";
 import "./pages/components/back-to-top-page.js";
 import "./pages/components/action-list-page.js";
 import "./pages/components/about-dialog-page.js";
+import "./pages/components/sign-in-page.js";
+import "./pages/components/one-time-code-page.js";
+import "./pages/components/new-secret-page.js";
+import "./pages/components/pricing-page.js";
 import "./pages/components/app-launcher-page.js";
 import "./pages/typography-page.js";
 import "./pages/components/clipboard-page.js";
@@ -569,6 +573,30 @@ export const navEntries: NavEntry[] = [
     label: "Action list",
     group: "components",
     render: () => html`<docs-action-list-page></docs-action-list-page>`,
+  },
+  {
+    path: "/components/sign-in",
+    label: "Sign in",
+    group: "components",
+    render: () => html`<docs-sign-in-page></docs-sign-in-page>`,
+  },
+  {
+    path: "/components/one-time-code",
+    label: "One-time code",
+    group: "components",
+    render: () => html`<docs-one-time-code-page></docs-one-time-code-page>`,
+  },
+  {
+    path: "/components/new-secret",
+    label: "New secret",
+    group: "components",
+    render: () => html`<docs-new-secret-page></docs-new-secret-page>`,
+  },
+  {
+    path: "/components/pricing",
+    label: "Pricing",
+    group: "components",
+    render: () => html`<docs-pricing-page></docs-pricing-page>`,
   },
   {
     path: "/components/about-dialog",

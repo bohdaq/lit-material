@@ -67,6 +67,21 @@ The value sits in a read-only input (selected on focus) in a monospace face
 (`--lit-material-clipboard-copy-font`). `masked` shows dots with a show/hide toggle; copying still
 copies the real value. Part: `field`. Fires `copy` like the button.
 
+### `lit-material-new-secret`
+
+A secret shown once, right after it was created (an access token, an API key, recovery codes): the value with a
+copy button and a warning that it won't be shown again. It's a `role="status"` region, and focus goes to the
+value when it appears. Put a "Done" button in the `actions` slot that removes it.
+
+```html
+<lit-material-new-secret label="Access token &quot;ci&quot;" value="pat_3f9…">
+  <lit-material-button slot="actions" variant="text">Done</lit-material-button>
+</lit-material-new-secret>
+```
+
+`value`, `label`; the `warning` slot replaces the warning text; parts `container`, `value`;
+`--lit-material-new-secret-shape`.
+
 ## License
 
 MIT

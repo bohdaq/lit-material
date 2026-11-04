@@ -20,4 +20,4 @@ export { routeDataScript, ROUTE_DATA_ID } from "./route-data.js";
 export { setServerRouteProvider, serverRoute, type ServerRoute } from "./server-route.js";
 export { queryParam, parseQuery, formatQuery, type QueryParam, type QuerySchema, type QueryValues } from "./query.js";
 export { LitMaterialRouterOutlet } from "./router-outlet.js";
-export { setBasePath, getBasePath } from "./base-path.js";
+export { setBasePath, getBasePath, setRouterMode, getRouterMode, routeHref, type RouterMode } from "./base-path.js";

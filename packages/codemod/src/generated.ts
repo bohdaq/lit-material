@@ -1576,6 +1576,28 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "ripple"
     ]
   },
+  "lit-material-new-secret": {
+    "package": "@lit-material/clipboard",
+    "className": "LitMaterialNewSecret",
+    "attributes": {
+      "label": "string",
+      "value": "string"
+    },
+    "events": [
+      "copy"
+    ],
+    "slots": [
+      "actions",
+      "warning"
+    ],
+    "cssProperties": [
+      "--lit-material-new-secret-shape"
+    ],
+    "cssParts": [
+      "container",
+      "value"
+    ]
+  },
   "lit-material-number-field": {
     "package": "@lit-material/text-field",
     "className": "LitMaterialNumberField",
@@ -1606,6 +1628,34 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "decrement",
       "field",
       "increment"
+    ]
+  },
+  "lit-material-one-time-code": {
+    "package": "@lit-material/text-field",
+    "className": "LitMaterialOneTimeCode",
+    "attributes": {
+      "alphanumeric": "boolean",
+      "disabled": "boolean",
+      "error": "boolean",
+      "error-text": "string",
+      "group-size": "number",
+      "label": "string",
+      "length": "number",
+      "name": "string",
+      "required": "boolean",
+      "supporting-text": "string",
+      "value": "string"
+    },
+    "events": [
+      "complete",
+      "input"
+    ],
+    "slots": [],
+    "cssProperties": [],
+    "cssParts": [
+      "cell",
+      "cells",
+      "supporting"
     ]
   },
   "lit-material-overflow-menu": {
@@ -1662,6 +1712,57 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "body",
       "footer",
       "header"
+    ]
+  },
+  "lit-material-plan-card": {
+    "package": "@lit-material/pricing",
+    "className": "LitMaterialPlanCard",
+    "attributes": {
+      "current": "boolean",
+      "description": "string",
+      "features": "string[]",
+      "heading-level": "number",
+      "name": "string",
+      "period": "string",
+      "price": "string",
+      "price-note": "string",
+      "recommended": "boolean"
+    },
+    "events": [],
+    "slots": [
+      "",
+      "action"
+    ],
+    "cssProperties": [
+      "--lit-material-plan-card-shape"
+    ],
+    "cssParts": [
+      "badge",
+      "card",
+      "features",
+      "price"
+    ]
+  },
+  "lit-material-plan-picker": {
+    "package": "@lit-material/pricing",
+    "className": "LitMaterialPlanPicker",
+    "attributes": {
+      "heading-level": "number",
+      "period": "\"monthly\" | \"yearly\"",
+      "period-note": "string",
+      "plans": "Plan[]"
+    },
+    "events": [
+      "lit-material-period-change",
+      "lit-material-plan-select"
+    ],
+    "slots": [],
+    "cssProperties": [
+      "--lit-material-plan-picker-min-card-width"
+    ],
+    "cssParts": [
+      "plans",
+      "switch"
     ]
   },
   "lit-material-popover": {
@@ -1964,6 +2065,39 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "cssParts": [
       "content",
       "panel"
+    ]
+  },
+  "lit-material-sign-in": {
+    "package": "@lit-material/sign-in",
+    "className": "LitMaterialSignIn",
+    "attributes": {
+      "awaiting-code": "boolean",
+      "busy": "boolean",
+      "code-length": "number",
+      "email": "string",
+      "error": "string",
+      "heading": "string",
+      "method": "\"password\" | \"code\"",
+      "methods": "string",
+      "mode": "\"sign-in\" | \"sign-up\" | \"forgot\"",
+      "notice": "string",
+      "password-minlength": "number"
+    },
+    "events": [
+      "lit-material-sign-in",
+      "lit-material-sign-in-view-change"
+    ],
+    "slots": [
+      "footer",
+      "logo",
+      "providers"
+    ],
+    "cssProperties": [
+      "--lit-material-sign-in-width"
+    ],
+    "cssParts": [
+      "card",
+      "form"
     ]
   },
   "lit-material-simple-list": {

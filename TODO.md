@@ -266,3 +266,22 @@ framework. Ordered by priority.
       codemod: its directives and services don't map one to one.
     - Case studies (rws site and admin UI, hitop).
     - A support offering.
+
+## Found reviewing the HITOP Cloud portal (2026-11-04)
+
+The portal (`hitop/cloud/portal`, one Lit element in light DOM) uses only button and text-field. Most of what it
+hand-rolls already exists here (data-table/table, select/checkbox/switch, confirm, alert, snackbar,
+usage-meter, tabs, navigation, empty-state, clipboard, timestamp, skeleton, task, http); these four didn't.
+
+- ~~**Hash routing.** The portal is static files routed on `#/…`; the router was history-only.~~ Done (unreleased
+  changeset): `setRouterMode("hash")` and `routeHref()` in [`@lit-material/router`](packages/router).
+- ~~**Sign-in screen.** ~140 lines of the portal: password, mailed code, sign up, forgot password, provider
+  buttons.~~ Done (unreleased changeset): [`@lit-material/sign-in`](packages/sign-in), and
+  `lit-material-one-time-code` in [`@lit-material/text-field`](packages/text-field).
+- ~~**Plan cards.** The Plan page needs plans side by side with the current one marked.~~ Done (unreleased
+  changeset): [`@lit-material/pricing`](packages/pricing).
+- ~~**Secret shown once.** New access tokens and SCIM tokens.~~ Done (unreleased changeset):
+  `lit-material-new-secret` in [`@lit-material/clipboard`](packages/clipboard).
+- **Button hit area.** A `lit-material-button` stretched by its container (grid/flex `stretch`, `width: 100%`)
+  keeps its pill size, and clicks on the rest of the host do nothing. sign-in and pricing avoid stretching it;
+  fixing the button itself (inner button fills the host) changes how stretched buttons look for consumers.

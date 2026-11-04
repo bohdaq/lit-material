@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/clipboard",
   "version": "1.0.0",
-  "description": "Clipboard copy for lit-material: copyText() with a fallback for non-secure pages, a copy button, and a read-only value with copy (and optional masking).",
+  "description": "Clipboard copy for lit-material: copyText() with a fallback for non-secure pages, a copy button, and a read-only value with copy (and optional masking), and a newly created secret shown once.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
@@ -43,6 +43,10 @@
     "./copy-button.js": {
       "types": "./dist/copy-button.d.ts",
       "default": "./dist/copy-button.js"
+    },
+    "./new-secret.js": {
+      "types": "./dist/new-secret.d.ts",
+      "default": "./dist/new-secret.js"
     },
     "./react": {
       "types": "./dist/react.d.ts",

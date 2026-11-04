@@ -50,6 +50,10 @@
       "types": "./dist/input-group.d.ts",
       "default": "./dist/input-group.js"
     },
+    "./one-time-code.js": {
+      "types": "./dist/one-time-code.d.ts",
+      "default": "./dist/one-time-code.js"
+    },
     "./react": {
       "types": "./dist/react.d.ts",
       "default": "./dist/react.js"

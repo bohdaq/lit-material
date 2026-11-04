@@ -4,6 +4,7 @@
 import type { DefineComponent } from "vue";
 import type { LitMaterialInputGroup } from "../dist/input-group.js";
 import type { LitMaterialNumberField } from "../dist/number-field.js";
+import type { LitMaterialOneTimeCode } from "../dist/one-time-code.js";
 import type { LitMaterialTextField } from "../dist/text-field.js";
 import type { LitMaterialTextarea } from "../dist/textarea.js";
 
@@ -14,6 +15,11 @@ declare module "vue" {
     /** A number with − and + buttons beside it: replicas, cores, gigabytes. Typing works too; ArrowUp/ArrowDown step, PageUp/PageDown step by ten, Home/End jump to `min`/`max` when set. It says what's wrong in words ("Enter a number", "At least 1", translated) rather than relying on the browser's number input, whose spinners are tiny and whose validation messages can't be styled. `value` is `null` while the field is empty. */
     "lit-material-number-field": DefineComponent<Partial<Pick<LitMaterialNumberField, "disabled" | "errorText" | "label" | "max" | "min" | "name" | "readonly" | "required" | "step" | "supportingText" | "unit" | "validationMessage" | "value" | "variant">> & {
         onChange?: (event: Event) => void;
+        onInput?: (event: Event) => void;
+      }>;
+    /** A one-time code: the digits from a sign-in or confirmation mail, an authenticator app or a text message. One native input underneath a row of boxes, so typing, paste, deleting, the phone's code suggestion (`autocomplete="one-time-code"`) and screen readers all work as in a plain field. Spaces and dashes in a pasted code are dropped. Form-associated: submits `value` under `name`; `required` and an incomplete code make the form invalid. Enter submits the form. */
+    "lit-material-one-time-code": DefineComponent<Partial<Pick<LitMaterialOneTimeCode, "alphanumeric" | "disabled" | "error" | "errorText" | "groupSize" | "label" | "length" | "name" | "required" | "supportingText" | "value">> & {
+        onComplete?: (event: CustomEvent) => void;
         onInput?: (event: Event) => void;
       }>;
     /** Material Design 3 text field. */

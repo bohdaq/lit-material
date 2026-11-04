@@ -2,3 +2,4 @@ export { LitMaterialTextField, type TextFieldVariant } from "./text-field.js";
 export { LitMaterialTextarea, type TextareaVariant, type TextareaResize } from "./textarea.js";
 export { LitMaterialNumberField } from "./number-field.js";
 export { LitMaterialInputGroup } from "./input-group.js";
+export { LitMaterialOneTimeCode } from "./one-time-code.js";

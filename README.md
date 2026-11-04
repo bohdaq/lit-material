@@ -81,7 +81,7 @@ Every package is released at the same version number, so keep them on the same v
 | [`@lit-material/button`](packages/button) | Filled, outlined, text, elevated, tonal; action list for rows of actions. |
 | [`@lit-material/icon-button`](packages/icon-button) | Standard + toggle variants. |
 | [`@lit-material/fab`](packages/fab) | Floating action button. |
-| [`@lit-material/text-field`](packages/text-field) | Single-line + `lit-material-textarea` multi-line, filled + outlined, validation states; number field with −/+ steppers; input group. |
+| [`@lit-material/text-field`](packages/text-field) | Single-line + `lit-material-textarea` multi-line, filled + outlined, validation states; number field with −/+ steppers; input group; one-time code. |
 | [`@lit-material/checkbox`](packages/checkbox) | Checked, indeterminate, error, form participation. |
 | [`@lit-material/radio`](packages/radio) | Grouped selection, error, form participation. |
 | [`@lit-material/switch`](packages/switch) | On/off toggle, optional thumb icons, form participation. |
@@ -133,7 +133,9 @@ Every package is released at the same version number, so keep them on the same v
 | [`@lit-material/icon`](packages/icon) | Sizing/colour wrapper for any icon; register an SVG set once and use icons by name. |
 | [`@lit-material/overflow-menu`](packages/overflow-menu) | Responsive action row that collapses overflow into a kebab menu. |
 | [`@lit-material/color-scheme`](packages/color-scheme) | Light/dark/system toggle, persisted, with a no-flash `<head>` snippet. |
-| [`@lit-material/clipboard`](packages/clipboard) | `copyText()` with a plain-http fallback, copy button, read-only value with copy (optionally masked). |
+| [`@lit-material/clipboard`](packages/clipboard) | `copyText()` with a plain-http fallback, copy button, read-only value with copy (optionally masked); a new secret shown once. |
+| [`@lit-material/sign-in`](packages/sign-in) | Sign-in screen: password, a code by mail, sign up, password reset, single sign-on buttons. |
+| [`@lit-material/pricing`](packages/pricing) | Plan cards and a plan picker with monthly/yearly prices and the current plan. |
 | [`@lit-material/confirm`](packages/confirm) | `await confirm({...})`: destructive style, optional type-the-name-to-confirm. |
 | [`@lit-material/truncate`](packages/truncate) | End or middle ellipsis for long IDs, hashes and paths; full text kept for copy and screen readers. |
 | [`@lit-material/site-kit`](packages/site-kit) | Prerendered-site pieces that work before JS: FAQ on `<details>`, steps, terminal, keys, search dialog; theme, menu, search and reveal scripts. |
@@ -159,7 +161,7 @@ Every package is released at the same version number, so keep them on the same v
 
 | Package | |
 | --- | --- |
-| [`@lit-material/router`](packages/router) | Path matching, an SPA route outlet, and a route-reading controller. |
+| [`@lit-material/router`](packages/router) | Path matching, an SPA route outlet, and a route-reading controller; history or hash URLs. |
 | [`@lit-material/store`](packages/store) | A dependency-free, Redux-shaped state store. |
 | [`@lit-material/core`](packages/core) | Ripple/focus-ring controllers, `LocalizeController` (messages, plurals, `isRtl`), plus `themeContext`/`localeContext`. |
 | [`@lit-material/translations`](packages/translations) | Catalogs for the components' own text: Arabic, German, Spanish, French, Japanese, Polish, Ukrainian (English is built in). |

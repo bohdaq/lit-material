@@ -4,6 +4,7 @@ import * as React from "react";
 import { createComponent, type EventName } from "@lit/react";
 import { LitMaterialInputGroup } from "./input-group.js";
 import { LitMaterialNumberField } from "./number-field.js";
+import { LitMaterialOneTimeCode } from "./one-time-code.js";
 import { LitMaterialTextField } from "./text-field.js";
 import { LitMaterialTextarea } from "./textarea.js";
 
@@ -25,6 +26,18 @@ export const NumberField = createComponent({
     onInput: "input" as EventName<Event>,
   },
   displayName: "NumberField",
+});
+
+/** React wrapper for `<lit-material-one-time-code>`. */
+export const OneTimeCode = createComponent({
+  tagName: "lit-material-one-time-code",
+  elementClass: LitMaterialOneTimeCode,
+  react: React,
+  events: {
+    onComplete: "complete" as EventName<CustomEvent>,
+    onInput: "input" as EventName<Event>,
+  },
+  displayName: "OneTimeCode",
 });
 
 /** React wrapper for `<lit-material-text-field>`. */

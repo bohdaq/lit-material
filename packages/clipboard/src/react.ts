@@ -4,6 +4,7 @@ import * as React from "react";
 import { createComponent, type EventName } from "@lit/react";
 import { LitMaterialClipboardCopy } from "./clipboard-copy.js";
 import { LitMaterialCopyButton } from "./copy-button.js";
+import { LitMaterialNewSecret } from "./new-secret.js";
 
 /** React wrapper for `<lit-material-clipboard-copy>`. */
 export const ClipboardCopy = createComponent({
@@ -25,4 +26,15 @@ export const CopyButton = createComponent({
     onCopy: "copy" as EventName<CustomEvent>,
   },
   displayName: "CopyButton",
+});
+
+/** React wrapper for `<lit-material-new-secret>`. */
+export const NewSecret = createComponent({
+  tagName: "lit-material-new-secret",
+  elementClass: LitMaterialNewSecret,
+  react: React,
+  events: {
+    onCopy: "copy" as EventName<Event>,
+  },
+  displayName: "NewSecret",
 });

@@ -46,6 +46,12 @@ export const GROUPS = [
     items: ["data-table", "table", "data-list", "description-list", "tree", "log-viewer", "diff", "stat", "chart", "key-value", "code-block", "timestamp", "truncate", "format", "sortable"],
   },
   {
+    id: "accounts",
+    label: "Accounts and billing",
+    about: "Signing in, codes from mail or an app, keys shown once, and plans.",
+    items: ["sign-in", "one-time-code", "new-secret", "pricing"],
+  },
+  {
     id: "layout",
     label: "Layout and theming",
     about: "The page frame, toolbars, icons and light and dark mode.",
@@ -60,6 +66,8 @@ export const PACKAGE_OF = {
   "app-launcher": "menu",
   "adaptive-navigation": "navigation",
   "date-range-picker": "date-picker",
+  "new-secret": "clipboard",
+  "one-time-code": "text-field",
 };
 
 /** Guides: the old docs route each one shows, or null for pages written for this site. */

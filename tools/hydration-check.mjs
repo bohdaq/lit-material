@@ -69,6 +69,9 @@ cases.push(
   ["calendar month events", html`<lit-material-calendar date="2026-06-15" first-day-of-week="1" events=${j(calendarEvents)}></lit-material-calendar>`],
   ["calendar week events", html`<lit-material-calendar view="week" date="2026-06-15" first-day-of-week="1" events=${j(calendarEvents)}></lit-material-calendar>`],
   ["calendar agenda events", html`<lit-material-calendar view="agenda" date="2026-06-15" events=${j(calendarEvents)}></lit-material-calendar>`],
+  ["plan-picker plans", html`<lit-material-plan-picker plans=${j([{ id: "free", name: "Free", price: { amount: "$0" }, current: true }, { id: "team", name: "Team", price: { monthly: { amount: "$8" }, yearly: { amount: "$80" } }, features: ["Roles"], recommended: true }])}></lit-material-plan-picker>`],
+  ["plan-card features", html`<lit-material-plan-card name="Team" price="$8" period="per month" features=${j(["Roles", "Audit"])} recommended></lit-material-plan-card>`],
+  ["sign-in code step", html`<lit-material-sign-in methods="password code forgot" method="code" awaiting-code email="a@example.com"></lit-material-sign-in>`],
   ["jump-links links", html`<lit-material-jump-links links=${j([{ id: "a", text: "Install" }])}></lit-material-jump-links>`],
   ["rich-text value", html`<lit-material-rich-text-editor label="Notes" value=${'<h2>Plan</h2><p>Ship <strong>it</strong> <a href="/x">now</a><br>later</p><ul><li>one<ol><li>two</li></ol></li></ul><blockquote><p>q</p></blockquote><pre>a\n  b</pre>'}></lit-material-rich-text-editor>`],
   // Elements whose template depends on their light DOM children.

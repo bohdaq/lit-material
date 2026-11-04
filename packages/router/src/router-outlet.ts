@@ -2,7 +2,7 @@ import { LitElement, isServer, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { RouteController, type CurrentRoute, type NavigationType, type RouteConfig } from "./route-controller.js";
 import { navigate, stateWithKey } from "./navigate.js";
-import { stripBasePath } from "./base-path.js";
+import { getRouterMode, stripBasePath } from "./base-path.js";
 import { styles } from "./router-outlet-styles.js";
 import { serverRoute } from "./server-route.js";
 
@@ -153,7 +153,8 @@ export class LitMaterialRouterOutlet extends LitElement {
       window.scrollTo(0, saved);
       return;
     }
-    const id = decodeURIComponent(location.hash.slice(1));
+    // In hash mode the `#` holds the route, not an element id.
+    const id = getRouterMode() === "hash" ? "" : decodeURIComponent(location.hash.slice(1));
     const target = id ? (document.getElementById(id) ?? this.renderRoot.querySelector(`[id="${CSS.escape(id)}"]`)) : null;
     if (target) target.scrollIntoView();
     else if (navigation !== "initial") window.scrollTo(0, 0);
@@ -170,6 +171,14 @@ export class LitMaterialRouterOutlet extends LitElement {
 
     const url = new URL(anchor.href, window.location.href);
     if (url.origin !== window.location.origin) return;
+
+    if (getRouterMode() === "hash") {
+      // Only `#/…` links on this same page are routes; other `#id` links and other pages load as usual.
+      if (url.pathname !== location.pathname || url.search !== location.search || !url.hash.startsWith("#/")) return;
+      event.preventDefault();
+      navigate(url.hash.slice(1));
+      return;
+    }
 
     event.preventDefault();
     // `navigate()` always takes a base-free path (see `setBasePath()`) and adds the configured base back

@@ -172,6 +172,22 @@ match: `lit-material-text-field { --lit-material-text-field-notch-color: var(--m
 A field is at least `--lit-material-text-field-min-width` wide (default `210px`). Set it to `0`
 (and `width: 100%`) to let a grid or flex cell make it narrower.
 
+## One-time code
+
+`lit-material-one-time-code` (`@lit-material/text-field/one-time-code.js`): the digits from a sign-in mail, an
+authenticator app or a text message. One native input under a row of boxes, so paste, deleting, the phone's
+code suggestion (`autocomplete="one-time-code"`) and screen readers work as in any field; spaces and dashes in a
+pasted code are dropped. Form-associated: submits `value` under `name`, and an incomplete code keeps the form
+invalid.
+
+```html
+<lit-material-one-time-code label="Code from the email" length="6" group-size="3" name="code"></lit-material-one-time-code>
+```
+
+Attributes: `length` (6), `alphanumeric` (letters too, upper-cased), `group-size` (a gap after every n boxes),
+`label`, `supporting-text`, `error`, `error-text`, `required`, `disabled`, `name`. Fires `input` and `complete`
+(`detail.value`) when the last character is in. `clear()` empties it and focuses it.
+
 ## License
 
 MIT
