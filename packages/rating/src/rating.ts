@@ -4,6 +4,7 @@ import { customElement, property, query, state } from "lit/decorators.js";
 import { FocusRingController } from "@lit-material/core";
 import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./rating-styles.js";
+import { cssProps } from "@lit-material/core/css-props.js";
 
 const STAR_PATH =
   "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z";
@@ -134,7 +135,7 @@ export class LitMaterialRating extends LitElement {
     return html`
       <span class="icon" part="icon">
         <svg class="icon-empty" viewBox="0 0 24 24" aria-hidden="true"><path d=${STAR_PATH}></path></svg>
-        <span class="icon-fill" style="width: ${fillPercent}%">
+        <span class="icon-fill" style=${cssProps({ width: `${fillPercent}%` })}>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d=${STAR_PATH}></path></svg>
         </span>
       </span>

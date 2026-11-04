@@ -2,6 +2,7 @@ import { html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { FocusRingController, RippleController, setAriaElements } from "@lit-material/core";
 import { styles } from "./slider-styles.js";
+import { cssProps } from "@lit-material/core/css-props.js";
 
 /**
  * Material Design 3 slider — a single value between `min` and `max`, built
@@ -97,8 +98,8 @@ export class LitMaterialSlider extends LitElement {
     return html`
       <div class="slider ${this.interacting ? "interacting" : ""}" part="slider">
         <div class="track" part="track"></div>
-        <div class="track-active" part="track-active" style="width: ${percent}%"></div>
-        <div class="thumb-wrap" style="inset-inline-start: ${percent}%">
+        <div class="track-active" part="track-active" style=${cssProps({ width: `${percent}%` })}></div>
+        <div class="thumb-wrap" style=${cssProps({ insetInlineStart: `${percent}%` })}>
           <div class="value-label" part="value-label">${this.value}</div>
           <div class="state-layer" part="ripple"></div>
           <div class="focus-ring" part="focus-ring" ?hidden=${!this.focusRing.visible}></div>

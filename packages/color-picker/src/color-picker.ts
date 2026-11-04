@@ -2,6 +2,7 @@ import { html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./color-picker-styles.js";
+import { cssProps } from "@lit-material/core/css-props.js";
 
 /** A small general-purpose default palette; override via the `presets` property. */
 export const DEFAULT_PRESETS: readonly string[] = [
@@ -192,7 +193,7 @@ export class LitMaterialColorPicker extends LitElement {
           <span
             class="swatch ${hasValue ? "" : "empty"}"
             part="swatch"
-            style=${hasValue ? `background-color: ${this.value}` : ""}
+            style=${cssProps({ backgroundColor: hasValue ? this.value : undefined })}
           ></span>
           ${this.label ? html`<span class="label" part="label" id=${this.labelId}>${this.label}</span>` : nothing}
         </button>
@@ -216,7 +217,7 @@ export class LitMaterialColorPicker extends LitElement {
                   tabindex=${index === this.activePresetIndex ? "0" : "-1"}
                   aria-selected=${this.value === preset ? "true" : "false"}
                   aria-label=${preset}
-                  style="background-color: ${preset}"
+                  style=${cssProps({ backgroundColor: preset })}
                   @click=${() => this.commitValue(preset, true)}
                 >
                   ${this.value === preset

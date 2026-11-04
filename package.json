@@ -21,10 +21,12 @@
     "dev": "turbo run dev --parallel",
     "changeset": "changeset",
     "version": "changeset version",
-    "release": "pnpm build && pnpm analyze && pnpm bindings && changeset publish",
+    "release": "pnpm build && pnpm analyze && pnpm bindings && pnpm sboms && changeset publish",
     "size": "node tools/size-check.mjs",
     "hydration": "node tools/hydration-check.mjs",
     "bindings": "node tools/framework-bindings.mjs",
+    "csp": "node tools/csp-check.mjs",
+    "sboms": "node tools/sbom.mjs",
     "messages": "node tools/messages.mjs",
     "messages:check": "node tools/messages.mjs --check",
     "bindings:check": "node tools/framework-bindings.mjs --check && tsc -p tools/bindings-check && node tools/bindings-check/smoke.mjs"

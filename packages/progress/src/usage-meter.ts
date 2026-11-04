@@ -1,6 +1,7 @@
 import { css, html, LitElement, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { LocalizeController } from "@lit-material/core/localize.js";
+import { cssProps } from "@lit-material/core/css-props.js";
 
 export type UsageLevel = "" | "warning" | "critical";
 
@@ -173,7 +174,7 @@ export class LitMaterialUsageMeter extends LitElement {
                   percent: this.localize.number(percent / 100, { style: "percent" }),
                 })}
           >
-            <div part="indicator" class="indicator" style="width: ${percent}%"></div>
+            <div part="indicator" class="indicator" style=${cssProps({ width: `${percent}%` })}></div>
           </div>`
         : nothing}
     `;

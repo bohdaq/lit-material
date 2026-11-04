@@ -1,6 +1,7 @@
 import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { styles } from "./linear-progress-styles.js";
+import { cssProps } from "@lit-material/core/css-props.js";
 
 /**
  * Material Design 3 linear progress indicator.
@@ -71,7 +72,7 @@ export class LitMaterialLinearProgress extends LitElement {
 
     return html`
       <div class="track" part="track"></div>
-      <div class="indicator determinate" part="indicator" style="width: ${this.ratio * 100}%"></div>
+      <div class="indicator determinate" part="indicator" style=${cssProps({ width: `${this.ratio * 100}%` })}></div>
     `;
   }
 }

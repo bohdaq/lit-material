@@ -3,6 +3,7 @@ import { customElement, property, query, state } from "lit/decorators.js";
 import { FocusRingController, RippleController } from "@lit-material/core";
 import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./tree-item-styles.js";
+import { cssProps } from "@lit-material/core/css-props.js";
 
 const INDENT_PX = 20;
 const BASE_PADDING_PX = 12;
@@ -128,7 +129,7 @@ export class LitMaterialTreeItem extends LitElement {
       <div
         class="row ${this.selected ? "selected" : ""}"
         part="row"
-        style="padding-inline-start: ${BASE_PADDING_PX + this.depth * INDENT_PX}px"
+        style=${cssProps({ paddingInlineStart: `${BASE_PADDING_PX + this.depth * INDENT_PX}px` })}
         @click=${this.handleRowClick}
       >
         <div class="state-layer" part="ripple"></div>

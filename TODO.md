@@ -221,8 +221,11 @@ framework. Ordered by priority.
    - Testing helpers for app authors (fixtures, `waitForUpdate`, role-based queries through shadow roots).
    - A devtools panel for the store and router.
 10. **Design hand-off.** A Figma kit matching the components and tokens.
-11. **Security and compliance.** Publish an SBOM per release; document Content-Security-Policy
-    (no inline styles or scripts) and Trusted Types compatibility. Release provenance already exists.
+11. ~~**Security and compliance.** Publish an SBOM per release; document Content-Security-Policy
+    (no inline styles or scripts) and Trusted Types compatibility. Release provenance already exists.~~ Done
+    (unreleased changeset): `pnpm csp` in CI renders every element under a strict CSP with Trusted Types
+    enforced; inline styles moved to `cssProps` (CSSOM) in 13 packages; `dist/sbom.cdx.json` (CycloneDX) in
+    every package at release; guide "Security, CSP and SBOMs".
 12. **Enterprise widgets.**
     - Data grid: grouping, inline editing, CSV export.
     - Rich-text editor.

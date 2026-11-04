@@ -3,6 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import { LocalizeController } from "@lit-material/core/localize.js";
 import { formatNumber, splitAtValue, VALUE_MARKER } from "./scale.js";
 import { styles } from "./bar-chart-styles.js";
+import { cssProps } from "@lit-material/core/css-props.js";
 
 export interface BarDatum {
   name: string;
@@ -136,14 +137,14 @@ export class LitMaterialBarChart extends LitElement {
           const classes = ["row", mine ? "highlight" : "", emphasis && !mine ? "muted" : "", i === this.active ? "active" : ""].join(" ");
           return html`<div class=${classes} aria-hidden="true" @pointerenter=${() => (this.active = i)} @pointerdown=${() => (this.active = i)}>
             <span class="name">${d.name}</span>
-            <span class="track" style="--f: ${f.toFixed(4)}">
+            <span class="track" style=${cssProps({ "--f": f.toFixed(4) })}>
               <span class="bar"></span>
               ${!emphasis || mine ? html`<span class="value">${this.text(d)}</span>` : nothing}
             </span>
           </div>`;
         })}
         ${active
-          ? html`<div class="tooltip" part="tooltip" role="status" style="top: calc(${this.active} * var(--row-pitch))">
+          ? html`<div class="tooltip" part="tooltip" role="status" style=${cssProps({ top: `calc(${this.active} * var(--row-pitch))` })}>
               ${this.renderReadout(active)}
             </div>`
           : nothing}

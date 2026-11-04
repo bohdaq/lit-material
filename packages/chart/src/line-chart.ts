@@ -3,6 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import { LocalizeController } from "@lit-material/core/localize.js";
 import { formatNumber, linearTicks, niceTicks, splitAtValue, spread, VALUE_MARKER } from "./scale.js";
 import { styles } from "./line-chart-styles.js";
+import { cssProps } from "@lit-material/core/css-props.js";
 
 export interface ChartPoint {
   /** A number, or a time in milliseconds (format it with `formatX`). */
@@ -261,7 +262,7 @@ export class LitMaterialLineChart extends LitElement {
         </svg>
         ${activeX === undefined
           ? nothing
-          : html`<div class="tooltip" part="tooltip" role="status" style="left: ${tipLeft}%">
+          : html`<div class="tooltip" part="tooltip" role="status" style=${cssProps({ left: `${tipLeft}%` })}>
               <div class="tip-x">${this.fx(activeX)}</div>
               ${readout.map((r) => {
                 // Bold the number only; the unit and the series name come from one translated message around it.

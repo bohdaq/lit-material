@@ -12,6 +12,7 @@ import {
   ringAngles,
 } from "./time-utils.js";
 import { styles } from "./time-picker-styles.js";
+import { cssProps } from "@lit-material/core/css-props.js";
 
 export type TimePickerHourCycle = "12" | "24";
 type PickerMode = "hour" | "minute";
@@ -269,9 +270,9 @@ export class LitMaterialTimePicker extends LitElement {
       <div
         class="selection-line"
         part="selection-line"
-        style="height: ${radius}px; transform: rotate(${angle}deg);"
+        style=${cssProps({ height: `${radius}px`, transform: `rotate(${angle}deg)` })}
       ></div>
-      <div class="selection-dot" part="selection-dot" style="transform: translate(${x}px, ${y}px);"></div>
+      <div class="selection-dot" part="selection-dot" style=${cssProps({ transform: `translate(${x}px, ${y}px)` })}></div>
     `;
   }
 
@@ -309,7 +310,7 @@ export class LitMaterialTimePicker extends LitElement {
         class="dial-number ${selected ? "selected" : ""}"
         part="dial-number"
         type="button"
-        style="transform: translate(${x}px, ${y}px);"
+        style=${cssProps({ transform: `translate(${x}px, ${y}px)` })}
         @click=${() => this.handleNumberClick(value)}
       >
         ${label}

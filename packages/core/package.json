@@ -35,6 +35,10 @@
     "./localize.js": {
       "types": "./dist/localize.d.ts",
       "default": "./dist/localize.js"
+    },
+    "./css-props.js": {
+      "types": "./dist/css-props.d.ts",
+      "default": "./dist/css-props.js"
     }
   },
   "files": [
