@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/timestamp",
   "version": "0.0.3",
-  "description": "Material Design 3-styled timestamp web component (lit-material-timestamp) \u2014 absolute or relative date/time display on a native <time> element.",
+  "description": "Material Design 3-styled timestamp web component (lit-material-timestamp) — absolute or relative date/time display on a native <time> element.",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
