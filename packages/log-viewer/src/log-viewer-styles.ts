@@ -30,7 +30,8 @@ export const styles = css`
   }
   .line {
     position: relative;
-    padding: 0 12px 0 20px;
+    padding-block: 0;
+    padding-inline: 20px 12px;
     white-space: pre;
   }
   :host([wrap]) .line {
@@ -42,7 +43,7 @@ export const styles = css`
   }
   .mark {
     position: absolute;
-    left: 8px;
+    inset-inline-start: 8px;
     top: 0.5em;
     width: 6px;
     height: 6px;

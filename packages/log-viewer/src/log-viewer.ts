@@ -1,6 +1,7 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./log-viewer-styles.js";
 
 export type LogLevel = "error" | "warning" | "info";
@@ -51,8 +52,8 @@ export class LitMaterialLogViewer extends LitElement {
   /** Wrap long lines instead of scrolling sideways. */
   @property({ type: Boolean, reflect: true }) wrap = false;
 
-  /** The accessible name of the log region. */
-  @property() label = "Log";
+  /** The accessible name of the log region. Default: "Log", translated. */
+  @property() label?: string;
 
   /** Classifies a line; return nothing for a plain one. */
   @property({ attribute: false }) highlight?: (line: string) => LogLevel | null | undefined;
@@ -62,6 +63,8 @@ export class LitMaterialLogViewer extends LitElement {
   @state() private held: string[] = [];
 
   @query(".viewport") private readonly viewport?: HTMLElement;
+
+  private readonly localize = new LocalizeController(this);
 
   private nextId = 0;
   private following = true;
@@ -132,21 +135,36 @@ export class LitMaterialLogViewer extends LitElement {
     if (this.following) this.unseen = 0;
   }
 
+  private levelLabel(level: LogLevel): string {
+    if (level === "error") return this.localize.term("logViewer.error", "error");
+    if (level === "warning") return this.localize.term("logViewer.warning", "warning");
+    return this.localize.term("logViewer.info", "info");
+  }
+
   override render() {
+    const t = this.localize;
     return html`
       <div class="box">
-        <div class="viewport" part="viewport" role="log" aria-live="off" aria-label=${this.label} tabindex="0" @scroll=${this.onScroll}>
+        <div class="viewport" part="viewport" role="log" aria-live="off" aria-label=${this.label ?? t.term("logViewer.log", "Log")} tabindex="0" @scroll=${this.onScroll}>
           ${repeat(
             this.entries,
             (l) => l.id,
-            (l) => html`<div class="line ${l.level ?? ""}" part="line">${l.level ? html`<span class="mark" role="img" aria-label=${l.level}></span>` : nothing}${l.text}</div>`,
+            (l) => html`<div class="line ${l.level ?? ""}" part="line">${l.level ? html`<span class="mark" role="img" aria-label=${this.levelLabel(l.level)}></span>` : nothing}${l.text}</div>`,
           )}
         </div>
         ${this.unseen > 0
-          ? html`<button class="jump" part="jump" @click=${() => this.scrollToLatest()}>${this.unseen} new line${this.unseen === 1 ? "" : "s"} ↓</button>`
+          ? html`<button class="jump" part="jump" @click=${() => this.scrollToLatest()}>
+              ${t.term("logViewer.newLines", { one: "{count} new line ↓", other: "{count} new lines ↓" }, { count: this.unseen })}
+            </button>`
           : nothing}
         ${this.paused && this.held.length
-          ? html`<div class="held" role="status">Paused: ${this.held.length} line${this.held.length === 1 ? "" : "s"} waiting</div>`
+          ? html`<div class="held" role="status">
+              ${t.term(
+                "logViewer.paused",
+                { one: "Paused: {count} line waiting", other: "Paused: {count} lines waiting" },
+                { count: this.held.length },
+              )}
+            </div>`
           : nothing}
       </div>
     `;

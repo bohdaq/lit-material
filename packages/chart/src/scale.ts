@@ -76,11 +76,14 @@ function digits(locale: string): Intl.NumberFormat {
   return format;
 }
 
-/**
- * Renders `text` with the first occurrence of `marker` replaced by `value` in bold — so a translated
- * message ("{name}: {value}") keeps its word order and the value its emphasis.
- */
+/** Stands in for a value inside a translated message, so the value can be rendered (in bold) where it falls. */
 export const VALUE_MARKER = "\u{E000}";
+
+/** `text` split around the first `VALUE_MARKER`: the parts before and after it (after is "" without one). */
+export function splitAtValue(text: string): [string, string] {
+  const at = text.indexOf(VALUE_MARKER);
+  return at < 0 ? [text, ""] : [text.slice(0, at), text.slice(at + VALUE_MARKER.length)];
+}
 
 /** Push label positions apart so none is closer than `gap` to the next, keeping order. */
 export function spread(positions: number[], gap: number, min: number, max: number): number[] {
