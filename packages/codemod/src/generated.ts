@@ -1673,6 +1673,41 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "rating"
     ]
   },
+  "lit-material-rich-text-editor": {
+    "package": "@lit-material/rich-text",
+    "className": "LitMaterialRichTextEditor",
+    "attributes": {
+      "disabled": "boolean",
+      "error": "boolean",
+      "error-text": "string",
+      "label": "string",
+      "maxlength": "number | undefined",
+      "name": "string",
+      "placeholder": "string",
+      "readonly": "boolean",
+      "required": "boolean",
+      "supporting-text": "string",
+      "value": "string",
+      "variant": "\"outlined\" | \"filled\""
+    },
+    "events": [
+      "change",
+      "input"
+    ],
+    "slots": [],
+    "cssProperties": [
+      "--lit-material-rich-text-max-height",
+      "--lit-material-rich-text-min-height"
+    ],
+    "cssParts": [
+      "container",
+      "content",
+      "label",
+      "link-panel",
+      "supporting",
+      "toolbar"
+    ]
+  },
   "lit-material-router-outlet": {
     "package": "@lit-material/router",
     "className": "LitMaterialRouterOutlet",
