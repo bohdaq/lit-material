@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/vite",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Vite plugin for lit-material apps: every page server-rendered in dev and production (route status, redirects, titles, loader data), the client build plus a server build, static prerendering, and a Request→Response handler for any Node server.",
   "license": "MIT",
   "author": {

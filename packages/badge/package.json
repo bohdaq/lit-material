@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/badge",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Material Design 3 badge web component (small dot or large numeric/text badge).",
   "license": "MIT",
   "author": {

@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/popover",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Material Design 3-styled popover web component (lit-material-popover) — richer, click-triggered overlay content, distinct from the tooltip.",
   "license": "MIT",
   "author": {

@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/router",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "description": "A small router for lit-material apps: nested routes, redirects and guards, lazy routes, typed query parameters, page titles, scroll restoration, and server-side resolution for prerendering.",
   "license": "MIT",
   "author": {

@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/data-table",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Material Design 3 data table and data grid web components (sortable, selectable, paginated, resizable, virtualized; grouping, inline editing, CSV export).",
   "license": "MIT",
   "author": {
