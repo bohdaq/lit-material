@@ -195,8 +195,11 @@ framework. Ordered by priority.
    server-side matching so routed pages can be prerendered.~~ Done (unreleased changeset):
    `redirect`/`guard`/`load`/`title`/`status` on routes, `parseQuery`/`formatQuery`, outlet scroll
    restoration and `path` on the server, `resolveRoute()` in [`@lit-material/router`](packages/router).
-4. **Framework typings and wrappers**, generated from each package's `custom-elements.json`: React 18
-   wrappers via `@lit/react`, JSX `IntrinsicElements`, Vue `GlobalComponents` and Angular schema typings.
+4. ~~**Framework typings and wrappers**, generated from each package's `custom-elements.json`: React 18
+   wrappers via `@lit/react`, JSX `IntrinsicElements`, Vue `GlobalComponents` and Angular schema typings.~~
+   Done (unreleased changeset): `tools/framework-bindings.mjs` writes `/react`, `/jsx`, `/vue` entries and
+   `web-types.json` + VS Code custom data for all 73 component packages; `pnpm bindings:check` in CI. Angular
+   gets editor completion only: it doesn't type-check bindings on custom elements under `CUSTOM_ELEMENTS_SCHEMA`.
 5. **Accessibility conformance report.** axe runs in tests; publish a WCAG 2.2 AA report (VPAT format)
    per component, backed by manual NVDA/JAWS/VoiceOver passes.
 6. **i18n.** Message catalogs and plural forms on top of the locale context (or document `@lit/localize`),

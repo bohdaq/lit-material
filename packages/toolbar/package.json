@@ -39,12 +39,24 @@
     "./toolbar.js": {
       "types": "./dist/toolbar.d.ts",
       "default": "./dist/toolbar.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "default": "./dist/react.js"
+    },
+    "./jsx": {
+      "types": "./types/jsx.d.ts"
+    },
+    "./vue": {
+      "types": "./types/vue.d.ts"
     }
   },
   "files": [
     "dist",
-    "custom-elements.json"
+    "custom-elements.json",
+    "types"
   ],
+  "web-types": "./dist/web-types.json",
   "publishConfig": {
     "access": "public"
   },
@@ -57,6 +69,18 @@
   "dependencies": {
     "@lit-material/tokens": "workspace:*",
     "lit": "^3.2.0"
+  },
+  "peerDependencies": {
+    "@lit/react": "^1.0.0",
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "@lit/react": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@lit-labs/ssr": "^3.3.1",

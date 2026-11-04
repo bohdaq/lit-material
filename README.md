@@ -29,7 +29,11 @@ diffs rather than a virtual DOM — closer to what the browser is already doing 
   an element registers itself when imported and a bundler can't drop it. CI holds every package to a size
   budget (`pnpm size`, `tools/size-limits.json`).
 - **No required adapter layer.** Because these are just Custom Elements, there's no React/Vue/Angular wrapper
-  package standing between you and the component — use it directly from any of them.
+  package standing between you and the component — use it directly from any of them. When you want one, every
+  component package also ships generated bindings: React wrappers (`@lit-material/<pkg>/react`, on
+  `@lit/react`), React 19 JSX typings (`/jsx`), Vue `GlobalComponents` typings (`/vue`), and JetBrains
+  `web-types.json` / VS Code custom data for editor completion in any template, Angular's included. See
+  [React, Vue and Angular](https://lit.rws8.tech/guides/frameworks/).
 - **SSR-tested, not just browser-tested.** Every component has a real test asserting its
   [`@lit-labs/ssr`](https://www.npmjs.com/package/@lit-labs/ssr) output, not just its client-side behavior.
 - **Built on native browser APIs wherever one exists** — the Popover API (Menu, Snackbar, Tooltip), the native
