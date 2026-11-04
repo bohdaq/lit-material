@@ -106,6 +106,34 @@ initReveal();</code></pre>
         </ul>`],
     ],
   },
+  i18n: {
+    title: "Languages and right to left",
+    lead: "Components speak the language of the page: the nearest lang attribute, or <html lang>. Their own text (button names, announcements, counts) comes from message catalogs, dates and numbers from Intl, and every layout mirrors under dir=\"rtl\".",
+    sections: [
+      ["language", "Set the language", html`
+        <p>Components use the nearest <code>lang</code> attribute above them, through shadow roots, and re-render when <code>&lt;html lang&gt;</code> or <code>&lt;html dir&gt;</code> changes. Dates, numbers and the first day of the week follow it even before any catalog is loaded.</p>
+        <pre tabindex="0"><code>&lt;html lang="de"&gt;
+&lt;section lang="ar" dir="rtl"&gt;…&lt;/section&gt;</code></pre>`],
+      ["catalogs", "Load translations", html`
+        <p>English is built in. <code>@lit-material/translations</code> has Arabic, German, Spanish, French, Japanese, Polish and Ukrainian, one module each, so you ship only the ones you import.</p>
+        <pre tabindex="0"><code>import { registerTranslation } from "@lit-material/core/localize.js";
+import de from "@lit-material/translations/de.js";
+import ar from "@lit-material/translations/ar.js";
+
+registerTranslation(de, ar);</code></pre>
+        <p>A missing language or message falls back to the base language (<code>de</code> for <code>de-AT</code>), then to English. Register the same <code>$code</code> again to change single messages: <code>registerTranslation({ $code: "en", "alert.dismiss": "Close" })</code>.</p>`],
+      ["plural", "Counts and placeholders", html`
+        <p>Messages are text with <code>{name}</code> placeholders; numbers in them are formatted for the language. Counts are plural objects chosen through <code>Intl.PluralRules</code>, so Polish gets its few and many forms and Arabic all six.</p>
+        <pre tabindex="0"><code>"diff.unchangedLines": { one: "{count} unchanged line", other: "{count} unchanged lines" }</code></pre>
+        <p>To add a language, start from the <code>en</code> catalog and type yours with <code>satisfies Catalog</code>: TypeScript then fails when a component adds a message you haven't translated.</p>`],
+      ["rtl", "Right to left", html`
+        <p>Set <code>dir="rtl"</code> on <code>&lt;html&gt;</code> or any container. Layout uses logical CSS properties; tabs, radio groups, segmented buttons, steppers, date grids, trees and carousels flip their arrow keys; menus, popovers and selects open from the start edge; chevrons and other directional icons mirror. Code, clock dials and a line chart's time axis stay left to right, as they read the same way in every language.</p>`],
+      ["app-text", "Your app's own text", html`
+        <p>The catalogs cover the components' text. For your own strings use <a href="https://lit.dev/docs/localization/overview/"><code>@lit/localize</code></a>, or register keys of your own and read them with a <code>LocalizeController</code>: <code>this.localize.term("app.greeting", "Hello")</code>.</p>`],
+      ["server", "Server rendering", html`
+        <p>On the server there's no page to read <code>&lt;html lang&gt;</code> from: put <code>lang</code> on the element or call <code>setFallbackLocale()</code> before rendering, so the server's text matches the browser's when it hydrates.</p>`],
+    ],
+  },
   frameworks: {
     title: "React, Vue and Angular",
     lead: "lit-material components are custom elements, so they work in any framework as they are. Every component package also ships React wrappers, JSX and Vue typings, and editor metadata, generated from its custom elements manifest.",

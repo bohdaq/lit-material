@@ -202,8 +202,12 @@ framework. Ordered by priority.
    gets editor completion only: it doesn't type-check bindings on custom elements under `CUSTOM_ELEMENTS_SCHEMA`.
 5. **Accessibility conformance report.** axe runs in tests; publish a WCAG 2.2 AA report (VPAT format)
    per component, backed by manual NVDA/JAWS/VoiceOver passes.
-6. **i18n.** Message catalogs and plural forms on top of the locale context (or document `@lit/localize`),
-   and right-to-left styling everywhere (7 components today).
+6. ~~**i18n.** Message catalogs and plural forms on top of the locale context (or document `@lit/localize`),
+   and right-to-left styling everywhere (7 components today).~~ Done (unreleased changeset):
+   `LocalizeController` in `@lit-material/core/localize.js` (language from the nearest `lang`, plurals through
+   `Intl.PluralRules`), 201 component messages extracted to [`@lit-material/translations`](packages/translations)
+   with ar/de/es/fr/ja/pl/uk catalogs (not yet reviewed by native speakers), dates and numbers in the element's
+   language, and an RTL pass over every component (logical CSS, arrow keys, popup alignment, mirrored icons).
 7. **Data and forms.**
    - `task`: request caching with background refresh, deduplication, retries.
    - A small fetch wrapper with interceptors (auth headers, 401 handling).

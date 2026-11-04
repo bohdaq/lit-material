@@ -70,6 +70,7 @@ export const GUIDE_GROUPS = [
       { slug: "install", label: "Install", from: null },
       { slug: "server-rendering", label: "Server rendering", from: null },
       { slug: "frameworks", label: "React, Vue and Angular", from: null },
+      { slug: "i18n", label: "Languages and RTL", from: null },
       { slug: "site-kit", label: "Static sites", from: null },
     ],
   },
