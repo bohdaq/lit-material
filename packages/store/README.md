@@ -71,6 +71,7 @@ Returns a `Store<S, A>`:
 | `getState(): S`               | Current state.                                                             |
 | `dispatch(action: A): A`      | Runs the reducer, updates state, notifies subscribers, returns the action. |
 | `subscribe(listener): () => void` | Registers a listener called after every dispatch; returns an unsubscribe function. |
+| `replaceState(state: S): void` | Swaps in a whole new state without running the reducer, then notifies subscribers. For tooling — time travel in [`@lit-material/devtools`](https://github.com/bohdaq/lit-material/tree/main/packages/devtools), restoring a snapshot — not everyday updates. Optional on the `Store` interface, so hand-written stores stay valid. |
 
 ### `new StoreController(host, store, selector?)`
 

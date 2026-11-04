@@ -4,6 +4,12 @@ export interface Store<S, A> {
   getState(): S;
   dispatch(action: A): A;
   subscribe(listener: () => void): () => void;
+  /**
+   * Swaps in a whole new state without running the reducer, then notifies subscribers. For tooling such as
+   * time travel in `@lit-material/devtools` and hydrating from a snapshot; app code should dispatch actions.
+   * Optional so hand-written `Store` implementations stay valid.
+   */
+  replaceState?(state: S): void;
 }
 
 /**
@@ -15,16 +21,24 @@ export function createStore<S, A>(reducer: Reducer<S, A>, preloadedState: S): St
   let state = preloadedState;
   const listeners = new Set<() => void>();
 
+  const notify = (): void => {
+    for (const listener of listeners) {
+      listener();
+    }
+  };
+
   return {
     getState(): S {
       return state;
     },
     dispatch(action: A): A {
       state = reducer(state, action);
-      for (const listener of listeners) {
-        listener();
-      }
+      notify();
       return action;
+    },
+    replaceState(next: S): void {
+      state = next;
+      notify();
     },
     subscribe(listener: () => void): () => void {
       listeners.add(listener);
