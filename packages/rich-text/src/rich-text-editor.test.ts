@@ -52,7 +52,10 @@ async function caretAtEnd(el: LitMaterialRichTextEditor): Promise<void> {
 function paste(el: LitMaterialRichTextEditor, data: Record<string, string>): void {
   const transfer = new DataTransfer();
   for (const [type, value] of Object.entries(data)) transfer.setData(type, value);
-  contentOf(el).dispatchEvent(new ClipboardEvent("paste", { clipboardData: transfer, bubbles: true, cancelable: true, composed: true }));
+  const event = new ClipboardEvent("paste", { clipboardData: transfer, bubbles: true, cancelable: true, composed: true });
+  // Firefox's constructor ignores `clipboardData` (a real paste carries the browser's own).
+  if (event.clipboardData !== transfer) Object.defineProperty(event, "clipboardData", { value: transfer });
+  contentOf(el).dispatchEvent(event);
 }
 
 describe("lit-material-rich-text-editor", () => {
@@ -262,6 +265,9 @@ describe("lit-material-rich-text-editor", () => {
       await sendKeys({ press: "Tab" });
       expect(el.value).to.equal("<ul><li>one</li></ul>");
       expect(el.shadowRoot!.activeElement).to.not.equal(contentOf(el));
+      await new Promise((resolve) => setTimeout(resolve));
+      expect(contentOf(el).getAttribute("contenteditable")).to.equal("true");
+      expect(contentOf(el).hasAttribute("tabindex")).to.be.false;
     });
 
     it("Enter in an empty list item leaves the list; Backspace at an item's start lifts it", async () => {

@@ -1150,6 +1150,10 @@ export class LitMaterialRichTextEditor extends LitElement {
       this.run(command, { announce: true });
       return;
     }
+    if (key === "tab" && !mod && !event.altKey && escaping) {
+      this.tabOut();
+      return;
+    }
     if (key === "tab" && !mod && !event.altKey && !escaping) {
       const sel = this.selection();
       const [from, to] = M.ordered(sel);
@@ -1158,6 +1162,22 @@ export class LitMaterialRichTextEditor extends LitElement {
         this.run(event.shiftKey ? "outdent" : "indent", { announce: true });
       }
     }
+  }
+
+  /**
+   * Escape then Tab leaves the editor. Firefox's own editing indents a list item on an uncanceled Tab, so for
+   * this one key press the content is focusable but not editable, and Tab is plain focus navigation everywhere.
+   */
+  private tabOut(): void {
+    const content = this.contentEl;
+    if (!content || !this.editable) return;
+    const hadTabIndex = content.hasAttribute("tabindex");
+    if (!hadTabIndex) content.tabIndex = 0;
+    content.setAttribute("contenteditable", "false");
+    setTimeout(() => {
+      if (!hadTabIndex) content.removeAttribute("tabindex");
+      this.syncEditable();
+    });
   }
 
   private onContentFocus(): void {
