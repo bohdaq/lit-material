@@ -1,0 +1,46 @@
+{
+  "name": "{{PROJECT_NAME}}",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@lit-material/alert": "{{version:@lit-material/alert}}",
+    "@lit-material/avatar": "{{version:@lit-material/avatar}}",
+    "@lit-material/button": "{{version:@lit-material/button}}",
+    "@lit-material/clipboard": "{{version:@lit-material/clipboard}}",
+    "@lit-material/color-scheme": "{{version:@lit-material/color-scheme}}",
+    "@lit-material/confirm": "{{version:@lit-material/confirm}}",
+    "@lit-material/data-table": "{{version:@lit-material/data-table}}",
+    "@lit-material/dialog": "{{version:@lit-material/dialog}}",
+    "@lit-material/empty-state": "{{version:@lit-material/empty-state}}",
+    "@lit-material/icon-button": "{{version:@lit-material/icon-button}}",
+    "@lit-material/list": "{{version:@lit-material/list}}",
+    "@lit-material/menu": "{{version:@lit-material/menu}}",
+    "@lit-material/navigation": "{{version:@lit-material/navigation}}",
+    "@lit-material/pricing": "{{version:@lit-material/pricing}}",
+    "@lit-material/router": "{{version:@lit-material/router}}",
+    "@lit-material/select": "{{version:@lit-material/select}}",
+    "@lit-material/sign-in": "{{version:@lit-material/sign-in}}",
+    "@lit-material/skeleton": "{{version:@lit-material/skeleton}}",
+    "@lit-material/snackbar": "{{version:@lit-material/snackbar}}",
+    "@lit-material/stat": "{{version:@lit-material/stat}}",
+    "@lit-material/stepper": "{{version:@lit-material/stepper}}",
+    "@lit-material/switch": "{{version:@lit-material/switch}}",
+    "@lit-material/tabs": "{{version:@lit-material/tabs}}",
+    "@lit-material/task": "{{version:@lit-material/task}}",
+    "@lit-material/text-field": "{{version:@lit-material/text-field}}",
+    "@lit-material/tokens": "{{version:@lit-material/tokens}}",
+    "@lit-material/top-app-bar": "{{version:@lit-material/top-app-bar}}",
+    "lit": "^3.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0"
+  }
+}

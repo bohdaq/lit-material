@@ -39,7 +39,7 @@ describe("create-lit-material-app CLI", () => {
 
   it("fills in the current version of every lit-material package", () => {
     const cwd = tmpDir();
-    for (const template of ["spa", "ssr"]) {
+    for (const template of ["spa", "ssr", "console"]) {
       run([template, "--template", template], cwd);
       const pkg = JSON.parse(fs.readFileSync(path.join(cwd, template, "package.json"), "utf8")) as {
         dependencies: Record<string, string>;

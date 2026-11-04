@@ -126,7 +126,8 @@ export class LitMaterialTabs extends LitElement {
    * page's job (listen for `change`).
    */
   private get panels(): LitMaterialTabPanel[] {
-    const parent = this.parentElement;
+    // parentNode, not parentElement: at the top of a shadow root the parent is the root itself.
+    const parent = this.parentNode as ParentNode | null;
     if (!parent) return [];
     const panels: LitMaterialTabPanel[] = [];
     let seen = false;

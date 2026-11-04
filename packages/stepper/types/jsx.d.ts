@@ -2,6 +2,7 @@
 // React 19 renders custom elements natively; this types them in JSX. Load it with
 // `import type {} from "<package>/jsx";`. React 19 adds a listener for `on<event>` props as written.
 import type { DetailedHTMLProps, HTMLAttributes } from "react";
+import type { LitMaterialChecklist, LitMaterialChecklistItem } from "../dist/checklist.js";
 import type { LitMaterialStep } from "../dist/step.js";
 import type { LitMaterialStepper } from "../dist/stepper.js";
 
@@ -10,6 +11,14 @@ type ElementProps<E, K extends keyof E> = Omit<DetailedHTMLProps<HTMLAttributes<
 declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
+      /** A getting-started checklist: a heading, "2 of 4 done" with a progress bar, and the tasks. The next task to do is open; the others open on a click. Optionally dismissible, and remembered as dismissed per browser with `storage-key`. */
+      "lit-material-checklist": ElementProps<LitMaterialChecklist, "dismissible" | "heading" | "storageKey"> & {
+        "ondismiss"?: (event: Event) => void;
+      };
+      /** One task in a `lit-material-checklist`: a label, and under it what to do (text, a command to copy, a button). Its content shows while it's the next task to do, or when the reader opens it. `done` is yours to set from real state (the first workspace exists, a teammate joined): the checklist never ticks a task itself. */
+      "lit-material-checklist-item": ElementProps<LitMaterialChecklistItem, "done" | "expanded" | "label"> & {
+        "onlit-material-checklist-toggle"?: (event: Event) => void;
+      };
       /** A single step in a `lit-material-stepper` — a numbered (or checkmark/error) circle, a connector line to the next step, and a label/description. Purely presentational: it has no click handler of its own — the parent stepper listens for the bubbling click (the same `event.composedPath()` delegation `lit-material-select` and `lit-material-tab`'s parent use) and drives `active`/`stepNumber`/`orientation`/roving `tabindex` from there. `completed` and `error` are yours to set based on real state (form validity, a submitted request, ...) — they're never inferred from the step's position relative to the active one. */
       "lit-material-step": ElementProps<LitMaterialStep, "active" | "completed" | "disabled" | "error" | "orientation" | "stepNumber">;
       /** Groups `lit-material-step` elements into a wizard-progress indicator, driving each step's `active`/`step-number`/`orientation` and roving-focus keyboard navigation (Left/Right for horizontal, mirrored right to left; Up/Down for vertical; plus Home/End), marked with `aria-current="step"` on the active step — the ARIA token defined specifically for step-by-step processes. Step *content* is deliberately out of scope, the same way `lit-material-tabs` leaves panel content to the consumer: what "showing a step's content" means varies too much (a plain `<div>`, a routed view, a multi-field form...) to bake in one scheme. Listen for `change` and show your own content. */

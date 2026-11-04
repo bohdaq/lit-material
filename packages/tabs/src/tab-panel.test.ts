@@ -97,4 +97,19 @@ describe("lit-material-tab-panel", () => {
     const panels = Array.from(root.querySelectorAll("lit-material-tab-panel"));
     expect(panels.map((p) => p.selected)).to.deep.equal([true, false, true]);
   });
+
+  it("finds its panels at the top level of a shadow root", async () => {
+    const host = await fixture<HTMLDivElement>(html`<div></div>`);
+    const root = host.attachShadow({ mode: "open" });
+    root.innerHTML = `<lit-material-tabs><lit-material-tab>A</lit-material-tab><lit-material-tab>B</lit-material-tab></lit-material-tabs>
+      <lit-material-tab-panel selected>a</lit-material-tab-panel><lit-material-tab-panel>b</lit-material-tab-panel>`;
+    const tabs = root.querySelector("lit-material-tabs")!;
+    await (tabs as unknown as { updateComplete: Promise<unknown> }).updateComplete;
+    const tab = root.querySelectorAll<HTMLElement>("lit-material-tab")[1]!;
+    tab.click();
+    await (tabs as unknown as { updateComplete: Promise<unknown> }).updateComplete;
+    const panels = [...root.querySelectorAll<HTMLElement & { selected: boolean }>("lit-material-tab-panel")];
+    expect(panels.map((p) => p.selected)).to.deep.equal([false, true]);
+  });
 });
+

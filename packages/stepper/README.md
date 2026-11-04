@@ -99,6 +99,26 @@ is what actually attempts to select it, and is where the reachability check appl
 No built-in step content/panels — see `change` above. No "optional step" skip affordance beyond
 what `disabled` already gives you (an unreachable step that's excluded from the `linear` gate).
 
+## Checklist
+
+`lit-material-checklist` (`@lit-material/stepper/checklist.js`): getting started on a home page. A heading,
+"2 of 4 done" with a progress bar, and `lit-material-checklist-item`s, each a label with what to do under it.
+The next task to do is open and the others open on a click.
+
+```html
+<lit-material-checklist heading="Get started" dismissible storage-key="acme-getting-started">
+  <lit-material-checklist-item label="Install the CLI" done>…</lit-material-checklist-item>
+  <lit-material-checklist-item label="Invite a teammate">
+    People you invite get an email with a link to join.
+    <lit-material-button href="/members">Invite people</lit-material-button>
+  </lit-material-checklist-item>
+</lit-material-checklist>
+```
+
+Set `done` from real state (the first project exists, a teammate joined): the checklist never ticks a task
+itself. `dismissible` adds a close button (fires `dismiss`, hides it); with `storage-key` the dismissal is
+remembered in this browser. The `complete` slot replaces the progress line once every task is done.
+
 ## License
 
 MIT

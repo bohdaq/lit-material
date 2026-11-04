@@ -1,0 +1,8 @@
+/* Page-level rules; components style themselves. */
+html,
+body {
+  margin: 0;
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  font-family: var(--md-sys-typescale-body-large-font, system-ui, sans-serif);
+}

@@ -33,6 +33,10 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./checklist.js": {
+      "types": "./dist/checklist.d.ts",
+      "default": "./dist/checklist.js"
+    },
     "./step.js": {
       "types": "./dist/step.d.ts",
       "default": "./dist/step.js"

@@ -71,6 +71,7 @@ cases.push(
   ["calendar agenda events", html`<lit-material-calendar view="agenda" date="2026-06-15" events=${j(calendarEvents)}></lit-material-calendar>`],
   ["plan-picker plans", html`<lit-material-plan-picker plans=${j([{ id: "free", name: "Free", price: { amount: "$0" }, current: true }, { id: "team", name: "Team", price: { monthly: { amount: "$8" }, yearly: { amount: "$80" } }, features: ["Roles"], recommended: true }])}></lit-material-plan-picker>`],
   ["plan-card features", html`<lit-material-plan-card name="Team" price="$8" period="per month" features=${j(["Roles", "Audit"])} recommended></lit-material-plan-card>`],
+  ["checklist items", html`<lit-material-checklist heading="Get started" dismissible><lit-material-checklist-item label="Install" done>x</lit-material-checklist-item><lit-material-checklist-item label="Invite">y</lit-material-checklist-item></lit-material-checklist>`],
   ["sign-in code step", html`<lit-material-sign-in methods="password code forgot" method="code" awaiting-code email="a@example.com"></lit-material-sign-in>`],
   ["jump-links links", html`<lit-material-jump-links links=${j([{ id: "a", text: "Install" }])}></lit-material-jump-links>`],
   ["rich-text value", html`<lit-material-rich-text-editor label="Notes" value=${'<h2>Plan</h2><p>Ship <strong>it</strong> <a href="/x">now</a><br>later</p><ul><li>one<ol><li>two</li></ol></li></ul><blockquote><p>q</p></blockquote><pre>a\n  b</pre>'}></lit-material-rich-text-editor>`],

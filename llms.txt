@@ -49,7 +49,7 @@ Every component package also exports generated framework bindings: `@lit-materia
 - [Calendar](https://github.com/bohdaq/lit-material/tree/main/packages/calendar): `lit-material-calendar` — `view="month|week|day|agenda"`, `date` (ISO day), `events` `{id,title,start,end?,allDay?,color?,editable?}[]` (Dates or ISO strings, local time zone; JSON attr for SSR), `first-day-of-week`, `slot-minutes`, `day-max-events`, `agenda-days`, `readonly`; events `event-click` `{event}`, `slot-click` `{start,end,allDay}`, cancelable `event-change` `{event,start,end,allDay}` (controlled: the app updates `events`), `navigate` `{view,date,start,end}`.
 - [Autocomplete](https://github.com/bohdaq/lit-material/tree/main/packages/autocomplete): Text field with a filtered, data-driven option list.
 - [Accordion](https://github.com/bohdaq/lit-material/tree/main/packages/accordion): Expansion panels, single- or multi-expand.
-- [Stepper](https://github.com/bohdaq/lit-material/tree/main/packages/stepper): Wizard-progress indicator, horizontal or vertical, linear or free.
+- [Stepper](https://github.com/bohdaq/lit-material/tree/main/packages/stepper): Wizard-progress indicator, horizontal or vertical, linear or free; `lit-material-checklist` + `-item` (`label`, `done`; `dismissible`, `storage-key`) from `@lit-material/stepper/checklist.js`.
 - [Tree](https://github.com/bohdaq/lit-material/tree/main/packages/tree): Hierarchical expand-collapse list, single- or multi-select.
 - [Avatar](https://github.com/bohdaq/lit-material/tree/main/packages/avatar): Image, initials, or icon fallback.
 - [Skeleton](https://github.com/bohdaq/lit-material/tree/main/packages/skeleton): Loading placeholder — text, circular, rectangular, rounded.
@@ -114,6 +114,7 @@ Every component package also exports generated framework bindings: `@lit-materia
 ## Guides
 
 - [README](https://github.com/bohdaq/lit-material/blob/main/README.md): Why Lit/lit-material, install instructions, the full package list, and development commands.
+- create-lit-material-app `--template console`: SaaS console starter (org switcher, adaptive navigation, sign-in, members, settings tabs, checklist).
 - [Building apps guide](https://lit.rws8.tech/guides/building-apps/): Router + store + context + task + form wired together in one example.
 - [Migrate from @material/web](https://lit.rws8.tech/guides/migrate-material-web/): same `--md-sys-*` tokens; the codemod and its element-by-element table; what needs manual work.
 - [Migrate from Angular Material](https://lit.rws8.tech/guides/migrate-angular-material/): `CUSTOM_ELEMENTS_SCHEMA`, bindings, forms (`ngDefaultControl` for text fields and sliders, `(change)` or your own accessor for select/checkbox/switch), component table, dialog/snackbar services as elements.

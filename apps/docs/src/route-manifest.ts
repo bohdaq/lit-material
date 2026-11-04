@@ -51,6 +51,7 @@ import "./pages/components/sign-in-page.js";
 import "./pages/components/one-time-code-page.js";
 import "./pages/components/new-secret-page.js";
 import "./pages/components/pricing-page.js";
+import "./pages/components/checklist-page.js";
 import "./pages/components/app-launcher-page.js";
 import "./pages/typography-page.js";
 import "./pages/components/clipboard-page.js";
@@ -597,6 +598,12 @@ export const navEntries: NavEntry[] = [
     label: "Pricing",
     group: "components",
     render: () => html`<docs-pricing-page></docs-pricing-page>`,
+  },
+  {
+    path: "/components/checklist",
+    label: "Checklist",
+    group: "components",
+    render: () => html`<docs-checklist-page></docs-checklist-page>`,
   },
   {
     path: "/components/about-dialog",

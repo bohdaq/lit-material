@@ -110,7 +110,7 @@ Every package is released at the same version number, so keep them on the same v
 | [`@lit-material/calendar`](packages/calendar) | Calendar and scheduler: month, week, day and agenda views, drag, resize and keyboard moves of controlled events. |
 | [`@lit-material/autocomplete`](packages/autocomplete) | Text field with a filtered, data-driven option list. |
 | [`@lit-material/accordion`](packages/accordion) | Expansion panels, single- or multi-expand. |
-| [`@lit-material/stepper`](packages/stepper) | Wizard-progress indicator, horizontal or vertical, linear or free. |
+| [`@lit-material/stepper`](packages/stepper) | Wizard-progress indicator, horizontal or vertical, linear or free; getting-started checklist. |
 | [`@lit-material/tree`](packages/tree) | Hierarchical expand-collapse list, single- or multi-select. |
 | [`@lit-material/avatar`](packages/avatar) | Image, initials, or icon fallback. |
 | [`@lit-material/skeleton`](packages/skeleton) | Loading placeholder — text, circular, rectangular, rounded. |

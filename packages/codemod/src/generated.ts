@@ -494,6 +494,49 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "ripple"
     ]
   },
+  "lit-material-checklist": {
+    "package": "@lit-material/stepper",
+    "className": "LitMaterialChecklist",
+    "attributes": {
+      "dismissible": "boolean",
+      "heading": "string",
+      "storage-key": "string"
+    },
+    "events": [
+      "dismiss"
+    ],
+    "slots": [
+      "",
+      "complete"
+    ],
+    "cssProperties": [],
+    "cssParts": [
+      "card",
+      "dismiss",
+      "progress"
+    ]
+  },
+  "lit-material-checklist-item": {
+    "package": "@lit-material/stepper",
+    "className": "LitMaterialChecklistItem",
+    "attributes": {
+      "done": "boolean",
+      "expanded": "boolean",
+      "label": "string"
+    },
+    "events": [
+      "lit-material-checklist-toggle"
+    ],
+    "slots": [
+      ""
+    ],
+    "cssProperties": [],
+    "cssParts": [
+      "content",
+      "item",
+      "toggle"
+    ]
+  },
   "lit-material-chip": {
     "package": "@lit-material/chip",
     "className": "LitMaterialChip",

@@ -170,4 +170,12 @@ describe("lit-material-button", () => {
     expect(themed.paddingLeft).to.equal("12px");
     expect(getComputedStyle(text!.shadowRoot!.querySelector(".button")!).paddingLeft).to.equal("8px");
   });
+
+  it("fills its host when a layout stretches it, so the whole area clicks", async () => {
+    const el = await fixture<HTMLElement>(html`<lit-material-button style="width: 320px">Wide</lit-material-button>`);
+    const inner = el.shadowRoot!.querySelector<HTMLElement>(".button")!;
+    expect(inner.getBoundingClientRect().width).to.equal(320);
+    const natural = await fixture<HTMLElement>(html`<lit-material-button>Wide</lit-material-button>`);
+    expect(natural.getBoundingClientRect().width).to.be.below(200);
+  });
 });

@@ -15,6 +15,7 @@ the *project it scaffolds* certainly does — run it and see).
 ```sh
 npm create lit-material-app my-app                    # the spa template
 npm create lit-material-app my-blog -- --template ssr  # the ssr template
+npm create lit-material-app my-console -- --template console  # a SaaS console
 cd my-app
 npm install
 npm run dev
@@ -59,6 +60,23 @@ my-blog/
    ├─ posts.ts         # stands in for your API
    ├─ app-shell.ts
    └─ pages/
+```
+
+### `console`
+
+A SaaS console: the frame most dashboards rebuild by hand. A top bar with an organization switcher and an
+account menu, navigation that is a drawer, a rail or a bottom bar depending on the window, a sign-in page,
+a home page with a getting-started checklist, a members page (loading skeleton, empty state, invite dialog,
+role change in the row, confirm before removing, snackbars) and settings as tabs (a section that saves on its
+own, plans, a danger zone). A fake API in `src/api.ts` stands in for your server.
+
+```
+my-console/
+└─ src/
+   ├─ app-shell.ts     # top bar, org switcher, account menu, adaptive navigation, routes
+   ├─ api.ts           # the fake server: replace with your API
+   ├─ notify.ts        # one snackbar for the app
+   └─ pages/           # sign-in, home, members, settings
 ```
 
 Both are real, buildable Vite projects depending on the published `@lit-material/*` packages, at the

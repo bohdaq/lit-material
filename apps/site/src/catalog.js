@@ -48,8 +48,8 @@ export const GROUPS = [
   {
     id: "accounts",
     label: "Accounts and billing",
-    about: "Signing in, codes from mail or an app, keys shown once, and plans.",
-    items: ["sign-in", "one-time-code", "new-secret", "pricing"],
+    about: "Signing in, codes from mail or an app, keys shown once, plans and getting started.",
+    items: ["sign-in", "one-time-code", "new-secret", "pricing", "checklist"],
   },
   {
     id: "layout",
@@ -66,6 +66,7 @@ export const PACKAGE_OF = {
   "app-launcher": "menu",
   "adaptive-navigation": "navigation",
   "date-range-picker": "date-picker",
+  "checklist": "stepper",
   "new-secret": "clipboard",
   "one-time-code": "text-field",
 };

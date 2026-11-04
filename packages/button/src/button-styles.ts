@@ -19,6 +19,8 @@ export const styles = css`
   .button {
     position: relative;
     display: inline-flex;
+    /* Fill the host when a layout stretches it, so all of it is the button. */
+    flex: 1 1 auto;
     align-items: center;
     justify-content: center;
     gap: 8px;

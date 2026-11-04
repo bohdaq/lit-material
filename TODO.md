@@ -282,6 +282,8 @@ usage-meter, tabs, navigation, empty-state, clipboard, timestamp, skeleton, task
   changeset): [`@lit-material/pricing`](packages/pricing).
 - ~~**Secret shown once.** New access tokens and SCIM tokens.~~ Done (unreleased changeset):
   `lit-material-new-secret` in [`@lit-material/clipboard`](packages/clipboard).
-- **Button hit area.** A `lit-material-button` stretched by its container (grid/flex `stretch`, `width: 100%`)
-  keeps its pill size, and clicks on the rest of the host do nothing. sign-in and pricing avoid stretching it;
-  fixing the button itself (inner button fills the host) changes how stretched buttons look for consumers.
+- ~~**Button hit area.** A stretched `lit-material-button` kept its pill size and the rest of the host didn't
+  click.~~ Done (unreleased changeset): the inner button fills the host.
+- ~~**Console app shell** (design plan phase 0).~~ Done (unreleased changeset): `create-lit-material-app --template console`.
+- ~~**Getting-started checklist.**~~ Done (unreleased changeset): `lit-material-checklist` in [`@lit-material/stepper`](packages/stepper).
+- ~~**Tab panels at the top of a shadow root** weren't found (found building the console template).~~ Done.

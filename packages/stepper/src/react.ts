@@ -2,8 +2,31 @@
 // React 18 and 19 wrappers: properties set as properties, events as `on<Event>` props.
 import * as React from "react";
 import { createComponent, type EventName } from "@lit/react";
+import { LitMaterialChecklist, LitMaterialChecklistItem } from "./checklist.js";
 import { LitMaterialStep } from "./step.js";
 import { LitMaterialStepper } from "./stepper.js";
+
+/** React wrapper for `<lit-material-checklist>`. */
+export const Checklist = createComponent({
+  tagName: "lit-material-checklist",
+  elementClass: LitMaterialChecklist,
+  react: React,
+  events: {
+    onDismiss: "dismiss" as EventName<Event>,
+  },
+  displayName: "Checklist",
+});
+
+/** React wrapper for `<lit-material-checklist-item>`. */
+export const ChecklistItem = createComponent({
+  tagName: "lit-material-checklist-item",
+  elementClass: LitMaterialChecklistItem,
+  react: React,
+  events: {
+    onLitMaterialChecklistToggle: "lit-material-checklist-toggle" as EventName<Event>,
+  },
+  displayName: "ChecklistItem",
+});
 
 /** React wrapper for `<lit-material-step>`. */
 export const Step = createComponent({

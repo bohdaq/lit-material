@@ -21,6 +21,7 @@ function packageRoot(): string {
 export const TEMPLATES = {
   spa: "A client-rendered app: router, store, top app bar, theme toggle.",
   ssr: "A server-rendered app on @lit-material/vite: route loaders, prerendering, a Node server.",
+  console: "A SaaS console: app shell with org switcher, sign-in, members, settings, getting-started checklist.",
 } as const;
 export type TemplateName = keyof typeof TEMPLATES;
 
@@ -52,7 +53,7 @@ function usage(): string[] {
     "Usage: create-lit-material-app [directory] [--template <name>]",
     "",
     "Templates:",
-    ...Object.entries(TEMPLATES).map(([name, description]) => `  ${name.padEnd(5)} ${description}`),
+    ...Object.entries(TEMPLATES).map(([name, description]) => `  ${name.padEnd(7)} ${description}`),
     "",
   ];
 }
