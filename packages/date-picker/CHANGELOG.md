@@ -1,5 +1,11 @@
 # @lit-material/date-picker
 
+## 0.2.2
+
+### Patch Changes
+
+- 67c4799: The grid starts on the language's first day of the week in Firefox too: where `Intl.Locale` has no week info, the first day comes from CLDR's table for the language's likely region (Monday for `de`, Saturday for `ar`), instead of always Sunday.
+
 ## 0.2.1
 
 ### Patch Changes
