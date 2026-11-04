@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/codemod",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Codemods for moving to lit-material. `md-web` rewrites @material/web (md-*) usage in HTML, Lit templates, JSX/TSX and CSS: tags, variants, attributes, slots, events and imports, and reports file:line for everything that needs a person.",
   "license": "MIT",
   "author": {

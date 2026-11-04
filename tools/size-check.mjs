@@ -9,14 +9,12 @@ import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { gzipSync } from "node:zlib";
+import { NODE_ONLY } from "./node-only.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const limitsFile = join(root, "tools", "size-limits.json");
 const update = process.argv.includes("--update");
 const limits = existsSync(limitsFile) ? JSON.parse(readFileSync(limitsFile, "utf8")) : {};
-
-// Packages that run in Node, not the browser (build tooling): no browser bundle to budget.
-const NODE_ONLY = new Set(["@lit-material/vite", "@lit-material/codemod"]);
 
 const sizes = {};
 for (const dir of readdirSync(join(root, "packages")).sort()) {
