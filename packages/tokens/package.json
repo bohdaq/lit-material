@@ -32,20 +32,24 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./css/*": "./src/css/*"
+    "./css/*": "./src/css/*",
+    "./figma/*": "./figma/*"
   },
   "files": [
     "dist",
-    "src/css"
+    "src/css",
+    "figma"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --import tsx --test src/*.ssr.test.ts"
   },
   "devDependencies": {
+    "tsx": "^4.19.0",
     "typescript": "^5.7.0"
   }
 }

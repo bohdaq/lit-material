@@ -44,6 +44,58 @@ define. Classes don't reach into a shadow root: in a Lit component, add the shee
 (`import typography from "@lit-material/tokens/css/typography.css?inline"` with Vite, then
 `unsafeCSS(typography)`).
 
+## Figma
+
+`figma/tokens.light.json` and `figma/tokens.dark.json` hold the same tokens as the CSS, in the
+[W3C Design Tokens Community Group](https://www.designtokens.org/) (DTCG) format: nested groups
+(`md.sys.color.primary` for `--md-sys-color-primary`) of `$type` / `$value` tokens. They're generated
+from `src/css` by `node tools/figma-tokens.mjs` (CI fails when they're stale), and published with the
+package (`@lit-material/tokens/figma/tokens.light.json`), or download them from the repository.
+
+**One file per mode.** The colors written `light-dark(light, dark)` in CSS are split: the light value
+goes in `tokens.light.json`, the dark one in `tokens.dark.json`. Every other token is identical in both.
+This is the shape both importers want: Figma's Variables import creates one mode per file it's given
+(and only for tokens present, with the same type, in every file), and Tokens Studio treats each file as
+a token set you can switch between with a theme. A single file with per-mode `$extensions` would need
+a plugin-specific convention neither reads.
+
+### Figma Variables (native import)
+
+1. In a Figma Design file, open the **Local variables** panel and choose **Import**.
+2. Select both files. Figma creates a collection with a **light** and a **dark** mode (rename them if
+   the names come from the files), one variable per token, grouped `md/sys/color/…`, `md/sys/shape/…`.
+3. To update later, right-click a mode and choose **Import mode** with the matching file.
+
+Variables hold colors, numbers, strings and lengths. The composite tokens (shadows, easing curves,
+typography styles) have no variable type, so Figma's importer leaves them out: use Tokens Studio for
+those, or build the effect and text styles from the variables by hand.
+
+### Tokens Studio for Figma
+
+1. Open the plugin, choose a sync provider (**Local document**, or a Git provider pointed at this
+   package's `figma/` folder) and set the token format to **W3C DTCG** in the settings.
+2. Create two sets, `light` and `dark`, and paste or load each file into its set.
+3. Under **Themes**, make a `Light` theme with the `light` set enabled and a `Dark` theme with `dark`.
+4. **Export to Figma** → **Variables** (both themes become modes of one collection) and **Styles**:
+   elevation levels become effect styles and each `md.sys.typescale.<role>.style` a text style.
+   (Themes are a Tokens Studio Pro feature; on the free plan, apply one set at a time.)
+
+### What's included
+
+| Group | `$type` | Notes |
+| --- | --- | --- |
+| `md.sys.color.*` | `color` | M3 baseline scheme, hex (`#rrggbb`). |
+| `md.sys.shape.corner.*` | `dimension` | px. |
+| `md.sys.typescale.<role>.*` | `fontFamily`, `fontWeight`, `dimension` | `font`, `weight`, `size`, `line-height`, `tracking`. rem values are converted to px at 16px; the CSS value is kept in `$extensions["dev.lit-material"].css`, as is the full font stack (`$value` is its first family). |
+| `md.sys.typescale.<role>.style` | `typography` | Aliases to the five tokens above; no CSS property of its own. |
+| `md.sys.elevation.level0`–`5` | `shadow` | Layers with `#rrggbbaa` colors; `level0` (`none`) is an empty list. |
+| `md.sys.state.*` | `number` | State-layer and disabled opacities. |
+| `md.sys.motion.easing.*`, `.duration.*` | `cubicBezier`, `duration` | |
+
+A token whose CSS value is `var(--md-sys-…)` becomes a DTCG alias (`{md.sys.…}`). Only the tokens the
+CSS declares are exported: the type scale is the subset the components use (the other roles exist only as
+fallbacks in `typography.css`). These are tokens only: there are no component symbols or a Figma kit yet.
+
 ## License
 
 MIT
