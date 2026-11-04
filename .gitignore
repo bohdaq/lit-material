@@ -5,3 +5,4 @@ dist
 custom-elements.json
 .DS_Store
 wtr.local.config.js
+.e2e

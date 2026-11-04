@@ -34,6 +34,58 @@ describe("create-lit-material-app CLI", () => {
     assert.ok(fs.existsSync(path.join(cwd, "my-app", "src", "store.ts")));
     assert.ok(fs.existsSync(path.join(cwd, "my-app", "tsconfig.json")));
     assert.ok(fs.existsSync(path.join(cwd, "my-app", ".gitignore")));
+    assert.ok(!fs.existsSync(path.join(cwd, "my-app", "gitignore")));
+  });
+
+  it("fills in the current version of every lit-material package", () => {
+    const cwd = tmpDir();
+    for (const template of ["spa", "ssr"]) {
+      run([template, "--template", template], cwd);
+      const pkg = JSON.parse(fs.readFileSync(path.join(cwd, template, "package.json"), "utf8")) as {
+        dependencies: Record<string, string>;
+      };
+      for (const [name, range] of Object.entries(pkg.dependencies)) {
+        if (!name.startsWith("@lit-material/")) continue;
+        const dir = name.slice("@lit-material/".length);
+        const current = JSON.parse(fs.readFileSync(path.join(import.meta.dirname, "..", "..", dir, "package.json"), "utf8")).version;
+        assert.equal(range, `^${current}`, `${template}: ${name}`);
+      }
+      const all = fs.readdirSync(path.join(cwd, template), { recursive: true, withFileTypes: true });
+      for (const entry of all) {
+        if (!entry.isFile()) continue;
+        const text = fs.readFileSync(path.join(entry.parentPath, entry.name), "utf8");
+        assert.doesNotMatch(text, /\{\{/, `${template}: placeholder left in ${entry.name}`);
+      }
+    }
+  });
+
+  it("scaffolds the ssr template with --template ssr (and --template=ssr)", () => {
+    const cwd = tmpDir();
+    const result = run(["blog", "--template", "ssr"], cwd);
+    assert.equal(result.exitCode, 0);
+    assert.equal(result.template, "ssr");
+    for (const file of ["vite.config.ts", "server.js", "src/entry-server.ts", "src/routes.ts", "src/main.ts"]) {
+      assert.ok(fs.existsSync(path.join(cwd, "blog", file)), file);
+    }
+    assert.ok(result.messages.some((m) => m.includes("npm start")));
+    assert.equal(run(["blog2", "--template=ssr"], cwd).template, "ssr");
+  });
+
+  it("rejects an unknown template and lists the ones there are", () => {
+    const cwd = tmpDir();
+    const result = run(["x", "--template", "nope"], cwd);
+    assert.equal(result.exitCode, 1);
+    assert.ok(result.messages.some((m) => m.includes("unknown template")));
+    assert.ok(result.messages.some((m) => m.includes("ssr")));
+    assert.ok(!fs.existsSync(path.join(cwd, "x")));
+  });
+
+  it("prints usage for --help without scaffolding", () => {
+    const cwd = tmpDir();
+    const result = run(["--help"], cwd);
+    assert.equal(result.exitCode, 0);
+    assert.ok(result.messages[0]!.startsWith("Usage:"));
+    assert.equal(fs.readdirSync(cwd).length, 0);
   });
 
   it("substitutes {{PROJECT_NAME}} in every copied file", () => {
