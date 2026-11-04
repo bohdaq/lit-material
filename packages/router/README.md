@@ -1,17 +1,18 @@
 # @lit-material/router
 
-A tiny client-side router for building whole applications with
+A small router for building whole applications with
 [lit-material](https://github.com/bohdaq/lit-material) — not just individual components. Path matching
 (`/users/:id`-style, no regex/`URLPattern` dependency), an SPA route outlet that intercepts same-origin
-`<a>` clicks, and a reactive controller for reading the current route without owning an outlet.
+`<a>` clicks, and a reactive controller for reading the current route without owning an outlet. Routes can
+redirect, guard, lazy-load, read a typed query and set the page title; the outlet restores scroll position on
+back/forward; and routes resolve on the server, so routed pages can be prerendered.
 
 There's no `screenshot.png` here — the outlet itself renders nothing but the matched route's own content,
 so there's nothing package-specific to capture; see whatever component is used *inside* a route for its own
 screenshot.
 
-**Client-side routing.** Routing depends on `window.history`/`location`. On the server there's no
-location, so `lit-material-router-outlet` renders empty there (the page around it still renders)
-and the browser fills it in after hydration.
+**On the server** there's no `location`: `lit-material-router-outlet` renders the route for its `path`
+attribute, or nothing without one. See [Server rendering and prerendering](#server-rendering-and-prerendering).
 
 ## Install
 
@@ -88,8 +89,8 @@ const routes: RouteConfig<unknown>[] = [
 - Existing zero/one-argument `render` functions (`() => ...` or `(params) => ...`) keep working unchanged —
   `outlet` only matters once a route declares `children`.
 
-`RouteController`/`<lit-material-router-outlet>` need no special handling for nested routes — both already
-delegate matching to `matchRouteTree`, so nesting works the same way whether or not you own the outlet
+`RouteController`/`<lit-material-router-outlet>` need no special handling for nested routes — both
+delegate matching to `matchRouteChain`, so nesting works the same way whether or not you own the outlet
 yourself.
 
 To read the current route from a component that doesn't own the outlet (e.g. highlighting the active item
@@ -107,6 +108,140 @@ class SideNav extends LitElement {
   }
 }
 ```
+
+## Redirects and guards
+
+`redirect` sends a path elsewhere, replacing the history entry; a string target may use the matched
+`:params`. `guard` runs before a route — and everything nested in it — is shown, outermost first:
+
+- `true` (or nothing): go ahead.
+- `false`: cancel. The page still showing stays, and the address bar goes back to it.
+- a path: redirect there, e.g. to `/login` when signed out.
+
+Guards may be async. While one runs, the previous page stays up and the outlet has the `pending` attribute,
+for a progress bar. A route without `render` just wraps its children, which suits a guard layer:
+
+```ts
+const routes: RouteConfig<unknown>[] = [
+  { path: "/u/:id", redirect: "/users/:id" },
+  {
+    path: "/admin",
+    guard: async () => ((await session.user()) ? true : "/login"),
+    children: [
+      { path: "", render: () => html`<admin-home></admin-home>` },
+      { path: "users", render: () => html`<admin-users></admin-users>` },
+    ],
+  },
+];
+```
+
+A guard in the browser is for the user's sake; the server still has to check every request it serves.
+
+Cancelling a navigation the browser has already made (a link click or back/forward) puts the old URL back
+with `replaceState`, so the history entry stays, pointing at the page still showing.
+
+## Lazy routes
+
+`load` is called the first time a route matches, so the route's code stays out of the first bundle:
+
+```ts
+{ path: "/reports", load: () => import("./reports-page.js"), render: () => html`<reports-page></reports-page>` }
+```
+
+On later navigations the outlet keeps the previous page up (with `pending`) until `load` settles, so the new
+page never shows as undefined elements. On the first page load it renders straight away, so server-rendered
+markup hydrates as is, and the elements upgrade once their code arrives. A `load` that throws fires
+`lit-material-route-error` on the outlet (`detail.error`) and keeps the previous page; the next visit tries
+again. A newer navigation always wins over one still loading.
+
+## Query parameters
+
+`render` gets a third argument, `{ path, params, query }`, where `query` is the URL's `URLSearchParams`;
+`RouteController.current.query` is the same. `parseQuery` reads it typed, falling back to the default for a
+missing or malformed value (a hand-edited `?page=abc` never reaches the page as `NaN`), and `formatQuery`
+writes it back, leaving defaults out so `/users?page=1` and `/users` aren't two URLs for one page:
+
+```ts
+import { formatQuery, navigate, parseQuery, queryParam } from "@lit-material/router";
+
+const usersQuery = {
+  q: queryParam.string(),
+  page: queryParam.number(1),
+  sort: queryParam.oneOf(["name", "created"]), // first option is the default
+  archived: queryParam.boolean(),             // ?archived, ?archived=true, ?archived=1
+  tag: queryParam.list(),                      // ?tag=a&tag=b
+};
+
+const routes: RouteConfig<unknown>[] = [
+  {
+    path: "/users",
+    render: (_params, _outlet, { query }) => {
+      const { page, sort, tag } = parseQuery(usersQuery, query); // number, "name" | "created", string[]
+      return html`<user-list .page=${page} .sort=${sort} .tags=${tag}></user-list>`;
+    },
+  },
+];
+
+navigate(`/users${formatQuery(usersQuery, { page: 2, sort: "created" })}`); // /users?page=2&sort=created
+```
+
+`queryParam.number(undefined)` / `queryParam.string(undefined)` make an optional parameter
+(`number | undefined`).
+
+## Titles and scrolling
+
+The innermost matched route's `title` (a string, or a function of the route context) goes in
+`document.title`, through the outlet's `title-template`. A route without one, reached from a route with
+one, puts back the title the page started with; an app that never uses `title` keeps full control of
+`document.title`.
+
+```ts
+const routes: RouteConfig<unknown>[] = [
+  { path: "/users/:id", title: ({ params }) => `User ${params.id}`, render: /* ... */ },
+  { path: "/*", title: "Not found", status: 404, render: /* ... */ },
+];
+```
+
+```html
+<lit-material-router-outlet .routes=${routes} title-template="%s · Admin"></lit-material-router-outlet>
+```
+
+After a navigation the outlet scrolls the window to the top, or to the `#hash` target (searched in the
+document, then in the routed content). On back/forward it scrolls to where the reader was on that entry,
+including after a reload (positions are kept in `sessionStorage`). Set `scroll-restoration="none"` to leave
+scrolling to the app — for instance when the page scrolls inside its own container rather than the window.
+
+## Server rendering and prerendering
+
+`resolveRoute(routes, url)` does what the outlet does in the browser, without `location` or `history`:
+follows redirects, runs guards, and waits for every `load` on the path, so the route's elements are defined
+before rendering. It returns:
+
+| Field | |
+| --- | --- |
+| `status` | `200`, or the innermost route's `status` (say `404` on a catch-all), `404` when nothing matches, `403` when a guard cancels, `302` after a redirect. |
+| `redirect` | With `302`: where to send the client (the end of the redirect chain). |
+| `path` | The path that matched. |
+| `title` | The route's title, for the `<title>` in the head. |
+| `params`, `content` | As the outlet will render them. |
+
+Render `<lit-material-router-outlet>` with that `path` and the same routes; in the browser it matches
+`location` to the same content and hydrates without a re-render:
+
+```ts
+import { resolveRoute } from "@lit-material/router";
+
+const result = await resolveRoute(routes, request.url);
+if (result.redirect) return Response.redirect(new URL(result.redirect, request.url), 302);
+
+const body = await collectResult(render(html`
+  <title>${result.title}</title>
+  <lit-material-router-outlet .routes=${routes} path=${result.path}></lit-material-router-outlet>
+`));
+return new Response(body, { status: result.status });
+```
+
+For a static site, call it for each path you prerender and write the result to `<path>/index.html`.
 
 ## Deploying under a subpath
 
@@ -136,13 +271,17 @@ solves routing once you're *on* the page, not the initial static-hosting request
 
 | Export | Description |
 | --- | --- |
-| `<lit-material-router-outlet>` | Custom element. `.routes: RouteConfig[]` property (`children` supported, see "Nested routes"); renders the matched route's content, intercepts same-origin link clicks. |
-| `RouteConfig<T>` | `{ path, render(params, outlet), children? }` — a route, optionally with nested routes. |
+| `<lit-material-router-outlet>` | Custom element. `.routes: RouteConfig[]`; renders the matched route's content, intercepts same-origin link clicks. Attributes: `path` (used only where there's no `location`), `title-template` (default `"%s"`), `scroll-restoration` (`"restore"` / `"none"`), `pending` (read-only, reflected). `.current` is the route showing. Fires `lit-material-route-error`. |
+| `RouteConfig<T>` | `{ path, render?(params, outlet, context), children?, redirect?, guard?, load?, title?, status? }`. |
+| `RouteContext` | `{ path, params, query }` — what `render`, `guard`, `redirect` and `title` functions get. |
 | `matchRoute(pattern, pathname)` | Dependency-free path matcher. Static segments, `:name` params, trailing `*` wildcard (captured as `params.wildcard`). Returns `{ params }` or `null` if `pattern` doesn't match the *whole* `pathname`. |
 | `matchRoutePrefix(pattern, pathname)` | Like `matchRoute`, but `pattern` only has to match a prefix — returns `{ params, remaining }`, the building block nested-route matching is built on. |
-| `matchRouteTree(routes, pathname, parentParams?)` | Recursively matches a (possibly nested) route tree, composing each level's `render(params, outlet)` into the next. What `RouteController` calls internally on every navigation. |
+| `matchRouteChain(routes, pathname)` | The matched routes, outermost first, each with its params — without rendering or running guards. |
+| `matchRouteTree(routes, pathname, parentParams?, query?)` | `matchRouteChain` then render: `{ content, params, chain }`, or `null`. |
+| `resolveRoute(routes, url)` | Redirects, guards and lazy loads without a browser — see "Server rendering and prerendering". |
+| `parseQuery(schema, query)`, `formatQuery(schema, values)`, `queryParam` | Typed query parameters — see "Query parameters". |
 | `navigate(path, options?)` | Pushes (or with `{ replace: true }`, replaces) a history entry and notifies mounted outlets/controllers. |
-| `RouteController` | Reactive controller — same lifecycle as `RippleController`/`FocusRingController` in `@lit-material/core` — for reading `.current` route/params without an outlet. |
+| `RouteController` | Reactive controller — same lifecycle as `RippleController`/`FocusRingController` in `@lit-material/core` — for reading `.current` (`path`, `params`, `query`, `content`, `title`) without an outlet. It only matches; guards, redirects and loads run in the outlet (pass `{ resolve: true }` to run them in your own). |
 | `setBasePath(path)` | Configures the path prefix `navigate()`/`RouteController` treat the app as deployed under — see "Deploying under a subpath." |
 | `getBasePath()` | The path prefix configured via `setBasePath()` (`""` by default). |
 

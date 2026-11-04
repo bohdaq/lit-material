@@ -1,9 +1,11 @@
-import { LitElement } from "lit";
+import { LitElement, isServer, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { RouteController, type RouteConfig } from "./route-controller.js";
-import { navigate } from "./navigate.js";
+import { RouteController, type CurrentRoute, type NavigationType, type RouteConfig } from "./route-controller.js";
+import { navigate, stateWithKey } from "./navigate.js";
 import { stripBasePath } from "./base-path.js";
 import { styles } from "./router-outlet-styles.js";
+
+const STORAGE_KEY = "lit-material-router-scroll";
 
 /**
  * Matches `location.pathname` against `.routes` and renders the matched
@@ -13,9 +15,16 @@ import { styles } from "./router-outlet-styles.js";
  * `event.composedPath()` — so ordinary links become SPA navigations without
  * every link needing to call `navigate()` itself.
  *
- * Client-side only: routing depends on `window.history`/`location`, so this
- * element (unlike every other lit-material component) isn't SSR-safe to
- * construct — don't import it from an SSR entry point.
+ * Before showing a route it follows its `redirect`, runs its `guard`s and
+ * waits for its lazy `load()` (the previous page stays up meanwhile, with the
+ * `pending` attribute set). Once shown, it sets `document.title` from the
+ * route's `title` and scrolls: to the top (or the `#hash` target) on a new
+ * navigation, back to where the reader was on back/forward.
+ *
+ * On the server there's no `location`: it renders the route for its `path`
+ * attribute, or nothing without one. See `resolveRoute()` for prerendering.
+ *
+ * @fires lit-material-route-error - A guard or `load()` threw; `detail.error` has the error. The previous page stays.
  */
 @customElement("lit-material-router-outlet")
 export class LitMaterialRouterOutlet extends LitElement {
@@ -24,9 +33,52 @@ export class LitMaterialRouterOutlet extends LitElement {
   @property({ attribute: false })
   routes: RouteConfig<unknown>[] = [];
 
-  private readonly route = new RouteController(this, () => this.routes);
+  /** The path (with optional `?query`) to render where there's no `location`: server rendering and prerendering. Ignored in the browser. */
+  @property()
+  path?: string;
+
+  /** Wraps each route's `title` before it goes in `document.title`: `%s` stands for the route's title, e.g. `"%s · Admin"`. */
+  @property({ attribute: "title-template" })
+  titleTemplate = "%s";
+
+  /** `"restore"` (default): top of the page on new navigations, the saved position on back/forward. `"none"` leaves scrolling alone. */
+  @property({ attribute: "scroll-restoration" })
+  scrollRestoration: "restore" | "none" = "restore";
+
+  /** Set while a guard or lazy route is still resolving; the previous page is still showing. */
+  @property({ type: Boolean, reflect: true })
+  pending = false;
+
+  private readonly route = new RouteController(this, () => this.routes, {
+    resolve: true,
+    serverPath: () => this.path,
+    onCommit: (current, navigation) => void this.afterCommit(current, navigation),
+    onError: (error) =>
+      this.dispatchEvent(new CustomEvent("lit-material-route-error", { detail: { error }, bubbles: true, composed: true })),
+  });
+
+  private defaultTitle = "";
+  private titled = false;
+  private scrollPositions: Record<string, number> = {};
+  private scrollFrame = 0;
+
+  /** The route showing now: path, params, query, title. */
+  get current(): CurrentRoute<unknown> {
+    return this.route.current;
+  }
 
   override connectedCallback(): void {
+    this.defaultTitle = document.title;
+    if (this.scrollRestoration === "restore") {
+      history.scrollRestoration = "manual";
+      try {
+        this.scrollPositions = JSON.parse(sessionStorage.getItem(STORAGE_KEY) ?? "{}") as Record<string, number>;
+      } catch {
+        this.scrollPositions = {};
+      }
+      if (this.historyKey() === undefined) history.replaceState(stateWithKey(history.state), "");
+      window.addEventListener("scroll", this.handleScroll, { passive: true });
+    }
     super.connectedCallback();
     document.addEventListener("click", this.handleClick);
   }
@@ -34,6 +86,68 @@ export class LitMaterialRouterOutlet extends LitElement {
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     document.removeEventListener("click", this.handleClick);
+    window.removeEventListener("scroll", this.handleScroll);
+    cancelAnimationFrame(this.scrollFrame);
+    if (this.scrollRestoration === "restore") history.scrollRestoration = "auto";
+  }
+
+  protected override willUpdate(changed: PropertyValues<this>): void {
+    this.pending = this.route.pending;
+    // On the server nothing connects, so match here, once `path` and `routes` are set.
+    if (isServer || (this.hasUpdated && changed.has("routes"))) this.route.refresh();
+  }
+
+  private historyKey(): string | undefined {
+    const state = history.state as { litMaterialRouterKey?: unknown } | null;
+    return typeof state?.litMaterialRouterKey === "string" ? state.litMaterialRouterKey : undefined;
+  }
+
+  private readonly handleScroll = (): void => {
+    cancelAnimationFrame(this.scrollFrame);
+    this.scrollFrame = requestAnimationFrame(() => {
+      const key = this.historyKey();
+      if (key === undefined) return;
+      this.scrollPositions[key] = window.scrollY;
+      try {
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(this.scrollPositions));
+      } catch {
+        // Storage full or blocked: positions still work for this page's lifetime.
+      }
+    });
+  };
+
+  private async afterCommit(current: CurrentRoute<unknown>, navigation: NavigationType): Promise<void> {
+    if (isServer) return;
+    // Apps that never use `title` keep managing document.title themselves; only undo a title set here.
+    if (current.title !== undefined) {
+      document.title = this.titleTemplate.replace("%s", current.title);
+      this.titled = true;
+    } else if (this.titled) {
+      document.title = this.defaultTitle;
+      this.titled = false;
+    }
+
+    if (this.scrollRestoration !== "restore" || navigation === "refresh") return;
+    // Read the saved position now: the new page rendering can clamp the scroll and overwrite it.
+    const key = this.historyKey();
+    const saved = key === undefined ? undefined : this.scrollPositions[key];
+    // Let the new page render (and its own children, a frame later) before scrolling within it.
+    await this.updateComplete;
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    if (current !== this.route.current) return;
+
+    if (navigation === "pop") {
+      window.scrollTo(0, saved ?? 0);
+      return;
+    }
+    if (navigation === "initial" && saved !== undefined) {
+      window.scrollTo(0, saved);
+      return;
+    }
+    const id = decodeURIComponent(location.hash.slice(1));
+    const target = id ? (document.getElementById(id) ?? this.renderRoot.querySelector(`[id="${CSS.escape(id)}"]`)) : null;
+    if (target) target.scrollIntoView();
+    else if (navigation !== "initial") window.scrollTo(0, 0);
   }
 
   private readonly handleClick = (event: MouseEvent): void => {

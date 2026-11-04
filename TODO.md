@@ -190,9 +190,11 @@ framework. Ordered by priority.
 2. **Governance files.** `SECURITY.md` (private reporting, supported versions), `CONTRIBUTING.md`,
    code of conduct, a public roadmap and a lightweight RFC process. One maintainer is a procurement flag;
    name a second.
-3. **Router v2** (`router` 0.0.6 has nested routes and a base path only): guards and redirects,
+3. ~~**Router v2** (`router` 0.0.6 has nested routes and a base path only): guards and redirects,
    lazy-loaded routes (`import()`), typed query parameters, scroll restoration, page titles,
-   server-side matching so routed pages can be prerendered.
+   server-side matching so routed pages can be prerendered.~~ Done (unreleased changeset):
+   `redirect`/`guard`/`load`/`title`/`status` on routes, `parseQuery`/`formatQuery`, outlet scroll
+   restoration and `path` on the server, `resolveRoute()` in [`@lit-material/router`](packages/router).
 4. **Framework typings and wrappers**, generated from each package's `custom-elements.json`: React 18
    wrappers via `@lit/react`, JSX `IntrinsicElements`, Vue `GlobalComponents` and Angular schema typings.
 5. **Accessibility conformance report.** axe runs in tests; publish a WCAG 2.2 AA report (VPAT format)

@@ -53,7 +53,7 @@ import "@lit-material/button";</code></pre>`],
         <p>A property set on the server never reaches the markup, so the browser would start without it and the first render would differ. Components that render arrays take them as JSON attributes too: chart <code>data</code>, <code>series</code> and <code>values</code>, table <code>columns</code> and <code>rows</code>, dual list <code>items</code>, chip input <code>values</code>, jump links <code>links</code>.</p>
         <pre tabindex="0"><code>html\`&lt;lit-material-table caption="People" columns=\${JSON.stringify(columns)} rows=\${JSON.stringify(rows)}&gt;&lt;/lit-material-table&gt;\`</code></pre>`],
       ["client-only", "What stays in the browser", html`
-        <p>The router outlet renders empty on the server (there is no location there) and fills in after hydration. Everything that measures the page, such as chart widths or the jump links' current section, settles once the browser has laid it out.</p>`],
+        <p>The router outlet renders nothing on the server unless you give it a <code>path</code>; <code>resolveRoute()</code> from <code>@lit-material/router</code> runs redirects, guards and lazy loads first and gives you the status and title (see the <a href="/guides/router/">Router guide</a>). Everything that measures the page, such as chart widths or the jump links' current section, settles once the browser has laid it out.</p>`],
       ["checked", "How it's checked", html`
         <p>CI renders every element on the server, loads the result in Chromium, hydrates it and fails if hydration throws or changes an element's text or structure: 121 cases today. This site is rendered the same way.</p>`],
     ],

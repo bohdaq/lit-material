@@ -1,52 +1,83 @@
 import { matchRoutePrefix } from "./match.js";
-import type { RouteConfig } from "./route-controller.js";
+import type { RouteConfig, RouteContext } from "./route-controller.js";
 
 export interface MatchedTree<T> {
   content: T;
   params: Record<string, string>;
+  /** The matched routes, outermost first, each with the params captured up to its level. */
+  chain: MatchedRouteEntry<T>[];
+}
+
+export interface MatchedRouteEntry<T> {
+  route: RouteConfig<T>;
+  params: Record<string, string>;
 }
 
 /**
- * Recursively matches `pathname` against a (possibly nested) route tree.
- * Each matched level's `render(params, outlet)` is composed into the next:
- * `outlet()` returns the matched child's content, or `null` if this route
- * has no `children`, or none of them matched.
+ * Finds the chain of routes (outermost first) that matches `pathname`, without rendering anything.
  *
  * Matching rules per level:
- * - If this route's own `path` doesn't even prefix-match, try the next
- *   sibling.
- * - If it prefix-matches and consumes the *whole* remaining path, try
- *   matching `children` against `""` first (an "index" child, `path: ""`);
- *   if none match, render this route alone with an empty outlet.
- * - If it prefix-matches but path remains, a child **must** match the
- *   remainder, or this route's entire branch doesn't match — try the next
- *   sibling instead (a parent route never renders with leftover,
+ * - If this route's own `path` doesn't even prefix-match, try the next sibling.
+ * - If it prefix-matches and consumes the *whole* remaining path, try matching `children` against `""`
+ *   first (an "index" child, `path: ""`); if none match, this route ends the chain.
+ * - If it prefix-matches but path remains, a child **must** match the remainder, or this route's entire
+ *   branch doesn't match — try the next sibling instead (a parent route never renders with leftover,
  *   unaccounted-for path segments).
  */
-export function matchRouteTree<T>(
+export function matchRouteChain<T>(
   routes: RouteConfig<T>[],
   pathname: string,
   parentParams: Record<string, string> = {},
-): MatchedTree<T> | null {
+): MatchedRouteEntry<T>[] | null {
   for (const route of routes) {
     const prefixMatch = matchRoutePrefix(route.path, pathname);
     if (!prefixMatch) continue;
 
     const params = { ...parentParams, ...prefixMatch.params };
+    const entry = { route, params };
     const children = route.children ?? [];
 
     if (prefixMatch.remaining === "") {
-      const indexMatch = children.length > 0 ? matchRouteTree(children, "", params) : null;
-      if (indexMatch) {
-        return { content: route.render(params, () => indexMatch.content), params: indexMatch.params };
-      }
-      return { content: route.render(params, () => null), params };
+      const index = children.length > 0 ? matchRouteChain(children, "", params) : null;
+      return index ? [entry, ...index] : [entry];
     }
 
     if (children.length === 0) continue;
-    const childMatch = matchRouteTree(children, prefixMatch.remaining, params);
-    if (!childMatch) continue;
-    return { content: route.render(params, () => childMatch.content), params: childMatch.params };
+    const childChain = matchRouteChain(children, prefixMatch.remaining, params);
+    if (childChain) return [entry, ...childChain];
   }
   return null;
+}
+
+/**
+ * Renders a matched chain: each level's `render(params, outlet, context)` gets an `outlet()` that returns the
+ * next level's content (`null` at the innermost level). A route without `render` (a pure redirect or guard
+ * layer) passes its child's content straight through.
+ */
+export function renderRouteChain<T>(chain: MatchedRouteEntry<T>[], context: RouteContext): T | null {
+  const renderFrom = (i: number): T | null => {
+    const entry = chain[i];
+    if (!entry) return null;
+    const outlet = () => renderFrom(i + 1);
+    const ctx = { ...context, params: entry.params };
+    return entry.route.render ? entry.route.render(entry.params, outlet, ctx) : outlet();
+  };
+  return renderFrom(0);
+}
+
+/**
+ * Recursively matches `pathname` against a (possibly nested) route tree and renders it — `matchRouteChain`
+ * followed by `renderRouteChain`. What `RouteController` calls on every navigation.
+ */
+export function matchRouteTree<T>(
+  routes: RouteConfig<T>[],
+  pathname: string,
+  parentParams: Record<string, string> = {},
+  query: URLSearchParams = new URLSearchParams(),
+): MatchedTree<T> | null {
+  const chain = matchRouteChain(routes, pathname, parentParams);
+  if (!chain) return null;
+  const params = chain[chain.length - 1]!.params;
+  const content = renderRouteChain(chain, { path: pathname, params, query });
+  return { content: content as T, params, chain };
 }
