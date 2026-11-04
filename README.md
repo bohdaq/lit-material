@@ -34,6 +34,11 @@ diffs rather than a virtual DOM — closer to what the browser is already doing 
   `@lit/react`), React 19 JSX typings (`/jsx`), Vue `GlobalComponents` typings (`/vue`), and JetBrains
   `web-types.json` / VS Code custom data for editor completion in any template, Angular's included. See
   [React, Vue and Angular](https://lit.rws8.tech/guides/frameworks/).
+- **Any language, either direction.** Components take their language from the nearest `lang` attribute:
+  their own text (button names, announcements, counts with real plural rules) comes from message catalogs
+  ([`@lit-material/translations`](packages/translations)), dates and numbers from `Intl`, and every layout,
+  arrow key and directional icon mirrors under `dir="rtl"`. See
+  [Languages and right to left](https://lit.rws8.tech/guides/i18n/).
 - **SSR-tested, not just browser-tested.** Every component has a real test asserting its
   [`@lit-labs/ssr`](https://www.npmjs.com/package/@lit-labs/ssr) output, not just its client-side behavior.
 - **Built on native browser APIs wherever one exists** — the Popover API (Menu, Snackbar, Tooltip), the native
@@ -148,7 +153,8 @@ components as you like.
 | --- | --- |
 | [`@lit-material/router`](packages/router) | Path matching, an SPA route outlet, and a route-reading controller. |
 | [`@lit-material/store`](packages/store) | A dependency-free, Redux-shaped state store. |
-| [`@lit-material/core`](packages/core) | Ripple/focus-ring controllers, plus `themeContext`/`localeContext`. |
+| [`@lit-material/core`](packages/core) | Ripple/focus-ring controllers, `LocalizeController` (messages, plurals, `isRtl`), plus `themeContext`/`localeContext`. |
+| [`@lit-material/translations`](packages/translations) | Catalogs for the components' own text: Arabic, German, Spanish, French, Japanese, Polish, Ukrainian (English is built in). |
 | [`@lit-material/task`](packages/task) | A reactive controller for async work (data fetching). |
 | [`@lit-material/form`](packages/form) | A reactive controller tracking a `<form>`'s aggregate validity. |
 | [`create-lit-material-app`](packages/create-lit-material-app) | `npm create lit-material-app` — a scaffolded starting point with all of the above wired together. |

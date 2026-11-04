@@ -45,11 +45,50 @@ class ThemedWidget extends LitElement {
 The `@provide`/`@consume` decorators from `@lit/context` work the same way, if you prefer decorators
 over explicit controllers.
 
-## Locale context
+## Localization and text direction
 
-`localeContext` is the same pattern as `themeContext`, applied to i18n: a shared context key for threading
-the active locale (and an optional explicit text-direction override) down a component tree, so components
-that need to format a date or render a `dir`-aware layout can read it without prop drilling.
+Components render a few words of their own: button names ("Dismiss", "Next page"), screen-reader
+announcements, validation messages, counts. They go through `LocalizeController`, in the
+`@lit-material/core/localize.js` entry (kept separate so a component pulls in only this, about 0.9 KB
+gzipped):
+
+```ts
+import { LocalizeController, isRtl } from "@lit-material/core/localize.js";
+
+class MyElement extends LitElement {
+  private readonly localize = new LocalizeController(this);
+
+  override render() {
+    return html`
+      <button aria-label=${this.localize.term("myElement.close", "Close")}>×</button>
+      <span>${this.localize.term("myElement.files", { one: "{count} file", other: "{count} files" }, { count: 3 })}</span>
+      <span>${this.localize.date(new Date(), { month: "long" })}</span>
+    `;
+  }
+}
+```
+
+- **Language:** the nearest `lang` attribute above the element, through shadow roots, else `<html lang>`,
+  else the fallback (`"en"`, see `setFallbackLocale`). `localize.lang` has it. Components re-render when
+  `<html lang>`/`<html dir>` changes or translations are registered; after changing `lang` lower down, call
+  `localize.refresh()` on affected elements (or re-render them).
+- **Messages:** `term(key, english, args?)` returns the registered translation for the language, else its
+  base language's (`de` for `de-AT`), else the English given. `{name}` placeholders are filled from `args`,
+  numbers formatted for the language; a plural object is chosen by `args.count` through `Intl.PluralRules`.
+- **Translations:** `registerTranslation({ $code: "de", "alert.dismiss": "Schließen", ... })`, or import
+  ready catalogs from [`@lit-material/translations`](../translations). Registering a language again merges.
+- **Direction:** `isRtl(el)` is true when the element is laid out right to left (`dir` attributes, through
+  shadow roots). Components flip horizontal arrow keys, pointer maths and directional icons with it; their
+  CSS uses logical properties.
+- **Server rendering:** there's no page to read `<html lang>` from, so the element's own `lang` attribute or
+  the fallback locale applies.
+
+### Locale context
+
+`localeContext` is the `themeContext` pattern applied to the active locale — `{ locale, direction? }` —
+for app code that wants to provide it down a tree. Components don't read it: they read `lang`/`dir`
+attributes, which work without JavaScript, on the server and across frameworks. A provider should set
+`lang` and `dir` on its host (or on `<html>`) so components follow:
 
 ```ts
 import { localeContext, type LocaleState } from "@lit-material/core";
@@ -58,18 +97,18 @@ import { ContextProvider } from "@lit/context";
 class AppShell extends LitElement {
   private readonly locale = new ContextProvider(this, {
     context: localeContext,
-    initialValue: { locale: "en" } satisfies LocaleState,
+    initialValue: { locale: "de" } satisfies LocaleState,
   });
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.lang = this.locale.value.locale;
+  }
 }
 ```
 
-`@lit-material/core` only defines the key and the `LocaleState` shape (`{ locale: string; direction?: "ltr" |
-"rtl" }`) here too — none of `lit-material`'s own components have hardcoded, translatable strings (every
-visible label is slotted content or a consumer-supplied property), so the actual translation runtime is your
-app's own concern. Combine `localeContext` with
-[`@lit/localize`](https://www.npmjs.com/package/@lit/localize) (the Lit team's own message-extraction/
-translation tool) for the translated strings themselves — see the docs app's "Building apps" guide
-(`apps/docs`, `/guide/building-apps`) for a worked example wiring both together.
+For your app's own strings, use [`@lit/localize`](https://lit.dev/docs/localization/overview/) or
+`registerTranslation` with your own keys.
 
 ## `setAriaElements`
 

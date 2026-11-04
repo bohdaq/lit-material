@@ -33,6 +33,8 @@ jobs:
       - run: pnpm exec playwright install --with-deps chromium firefox webkit
 
       - run: pnpm lint
+      # The English message catalog (packages/translations/src/en.ts) matches the components' term() calls.
+      - run: pnpm messages:check
       - run: pnpm typecheck
       - run: pnpm build
       # Each package bundled alone and gzipped against tools/size-limits.json.

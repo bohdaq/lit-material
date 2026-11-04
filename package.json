@@ -25,6 +25,8 @@
     "size": "node tools/size-check.mjs",
     "hydration": "node tools/hydration-check.mjs",
     "bindings": "node tools/framework-bindings.mjs",
+    "messages": "node tools/messages.mjs",
+    "messages:check": "node tools/messages.mjs --check",
     "bindings:check": "node tools/framework-bindings.mjs --check && tsc -p tools/bindings-check && node tools/bindings-check/smoke.mjs"
   },
   "devDependencies": {
