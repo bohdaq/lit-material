@@ -234,7 +234,11 @@ framework. Ordered by priority.
 12. **Enterprise widgets.**
     - Data grid: grouping, inline editing, CSV export.
     - Rich-text editor.
-    - Calendar / scheduler.
+    - ~~Calendar / scheduler.~~ Done (unreleased changeset): [`@lit-material/calendar`](packages/calendar) —
+      month grid with "+N more", week and day time grids with overlap columns and an all-day row, agenda; drag to
+      create, drag and resize, Alt+arrow moves, all through a cancelable `event-change` on controlled `events`;
+      ARIA grids with arrow/PageUp/PageDown/Home/End/T keys (mirrored in RTL); local time zone only (`time-zone`
+      and recurrence scoped out).
 13. **Adoption.**
     - ~~Migration guides and codemods from `@material/web` and Angular Material.~~ Done (unreleased
       changeset): [`@lit-material/codemod`](packages/codemod) (`npx @lit-material/codemod md-web src`)
