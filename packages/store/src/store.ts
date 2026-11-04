@@ -17,7 +17,7 @@ export interface Store<S, A> {
  * (`getState`/`dispatch`/`subscribe`, driven by a pure reducer). Framework-agnostic —
  * has no dependency on Lit or the DOM, so it's safe to construct during SSR or in tests.
  */
-export function createStore<S, A>(reducer: Reducer<S, A>, preloadedState: S): Store<S, A> {
+export function createStore<S, A>(reducer: Reducer<S, A>, preloadedState: S): Store<S, A> & { replaceState(state: S): void } {
   let state = preloadedState;
   const listeners = new Set<() => void>();
 

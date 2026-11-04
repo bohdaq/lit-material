@@ -63,11 +63,16 @@ for (const p of packages) {
 
 // 2. Browser.
 const tags = [];
+const elementModules = new Set();
 for (const p of packages) {
   const manifest = join(pkgDir(p), "custom-elements.json");
   if (!existsSync(manifest)) continue;
   for (const mod of JSON.parse(readFileSync(manifest, "utf8")).modules ?? [])
-    for (const d of mod.declarations ?? []) if (d.customElement && d.tagName) tags.push(d.tagName);
+    for (const d of mod.declarations ?? []) {
+      if (!d.customElement || !d.tagName) continue;
+      tags.push(d.tagName);
+      elementModules.add(join(pkgDir(p), "dist", mod.path.replace(/^src\//, "").replace(/\.ts$/, ".js")));
+    }
 }
 const componentPackages = packages.filter((p) => existsSync(join(pkgDir(p), "custom-elements.json")) && existsSync(join(pkgDir(p), "dist", "index.js")));
 
@@ -101,6 +106,7 @@ await build({
   stdin: {
     contents: [
       ...componentPackages.map((p) => `import ${j(join(pkgDir(p), "dist", "index.js"))};`),
+      ...[...elementModules].map((f) => `import ${j(f)};`),
       `import { registerIcons } from ${j(join(pkgDir("icon"), "dist", "index.js"))};`,
       `registerIcons({ check: '<svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>' });`,
       `const cases = ${j(cases)};`,

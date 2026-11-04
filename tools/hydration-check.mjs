@@ -27,13 +27,20 @@ const packages = readdirSync(join(root, "packages")).filter((p) => {
   return existsSync(f) && !JSON.parse(readFileSync(f, "utf8")).private && existsSync(join(pkgDir(p), "dist", "index.js"));
 });
 const tags = [];
+const elementModules = new Set();
 for (const p of packages) {
   const manifest = join(pkgDir(p), "custom-elements.json");
   if (!existsSync(manifest)) continue;
   for (const mod of JSON.parse(readFileSync(manifest, "utf8")).modules ?? [])
-    for (const d of mod.declarations ?? []) if (d.customElement && d.tagName) tags.push(d.tagName);
+    for (const d of mod.declarations ?? []) {
+      if (!d.customElement || !d.tagName) continue;
+      tags.push(d.tagName);
+      // An element may live in its own entry point rather than the package index (devtools' panel).
+      elementModules.add(join(pkgDir(p), "dist", mod.path.replace(/^src\//, "").replace(/\.ts$/, ".js")));
+    }
 }
 for (const p of packages) await import(join(pkgDir(p), "dist", "index.js"));
+for (const file of elementModules) await import(file);
 
 const j = JSON.stringify;
 const cases = tags.map((t) => [t, html`<${unsafeStatic(t)} label="Sample" headline="Sample">Sample text</${unsafeStatic(t)}>`]);
@@ -69,7 +76,7 @@ writeFileSync(join(dir, "index.html"), `<!doctype html><html><head><meta charset
 const ssrClient = dirname(createRequire(join(root, "package.json")).resolve("@lit-labs/ssr-client/lit-element-hydrate-support.js"));
 await build({
   stdin: {
-    contents: ['import "@lit-labs/ssr-client/lit-element-hydrate-support.js";', ...packages.map((p) => `import ${j(join(pkgDir(p), "dist", "index.js"))};`), "window.__hydrated = true;"].join("\n"),
+    contents: ['import "@lit-labs/ssr-client/lit-element-hydrate-support.js";', ...packages.map((p) => `import ${j(join(pkgDir(p), "dist", "index.js"))};`), ...[...elementModules].map((f) => `import ${j(f)};`), "window.__hydrated = true;"].join("\n"),
     resolveDir: pkgDir("button"),
   },
   bundle: true,
