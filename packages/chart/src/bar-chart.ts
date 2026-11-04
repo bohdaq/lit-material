@@ -1,6 +1,7 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { formatNumber } from "./scale.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
+import { formatNumber, splitAtValue, VALUE_MARKER } from "./scale.js";
 import { styles } from "./bar-chart-styles.js";
 
 export interface BarDatum {
@@ -39,7 +40,7 @@ export class LitMaterialBarChart extends LitElement {
   /** The bars, drawn in this order unless `sort` is set. Non-finite values are skipped; negatives draw as zero. */
   @property({ type: Array }) data: BarDatum[] = [];
 
-  /** The chart's accessible name, e.g. "Requests per second, higher is better". */
+  /** The chart's accessible name, e.g. "Requests per second, higher is better". Unset, "Bar chart", translated. */
   @property() label = "";
 
   /** Name of the item to emphasise. */
@@ -51,8 +52,10 @@ export class LitMaterialBarChart extends LitElement {
   /** A unit appended to values, e.g. "req/s". */
   @property() unit = "";
 
-  /** Formats values (default: compact numbers). */
-  @property({ attribute: false }) format: (n: number) => string = formatNumber;
+  /** Formats values. Default: compact numbers in the element's language. */
+  @property({ attribute: false }) format?: (n: number) => string;
+
+  private readonly localize = new LocalizeController(this);
 
   /** The bar whose value the tooltip shows, or -1. */
   @state() private active = -1;
@@ -64,8 +67,17 @@ export class LitMaterialBarChart extends LitElement {
     return rows;
   }
 
+  private formatValue(n: number): string {
+    return this.format ? this.format(n) : formatNumber(n, this.localize.lang);
+  }
+
+  /** A value with its unit; `value` is the formatted number (or `VALUE_MARKER`). */
+  private withUnit(value: string): string {
+    return this.unit ? this.localize.term("chart.valueWithUnit", "{value} {unit}", { value, unit: this.unit }) : value;
+  }
+
   private text(d: BarDatum): string {
-    return `${this.format(d.value)}${this.unit ? ` ${this.unit}` : ""}`;
+    return this.withUnit(this.formatValue(d.value));
   }
 
   private onKey(event: KeyboardEvent, count: number): void {
@@ -85,11 +97,19 @@ export class LitMaterialBarChart extends LitElement {
     this.active = Math.min(count - 1, Math.max(0, move(this.active)));
   }
 
+  /** "name: value unit", translated, with the value (and its unit) in bold. */
+  private renderReadout(d: BarDatum) {
+    const [before, after] = splitAtValue(this.localize.term("chart.nameValue", "{name}: {value}", { name: d.name, value: VALUE_MARKER }));
+    return html`${before}<strong>${this.text(d)}</strong>${after}`;
+  }
+
   override render() {
     const rows = this.rows;
-    const name = this.label || "Bar chart";
+    const name = this.label || this.localize.term("chart.barChart", "Bar chart");
     if (rows.length === 0) {
-      return html`<div class="empty" role="img" aria-label="${name}: no data">No data</div>`;
+      return html`<div class="empty" role="img" aria-label=${this.localize.term("chart.nameNoData", "{name}: no data", { name })}>
+        ${this.localize.term("chart.noData", "No data")}
+      </div>`;
     }
     const max = Math.max(0, ...rows.map((d) => d.value)) || 1;
     const emphasis = this.highlight !== "" && rows.some((d) => d.name === this.highlight);
@@ -100,7 +120,12 @@ export class LitMaterialBarChart extends LitElement {
         class="chart"
         part="chart"
         role="img"
-        aria-label="${name}. ${rows.map((d) => `${d.name}: ${this.text(d)}`).join("; ")}"
+        aria-label=${this.localize.term("chart.labelSummary", "{label}. {summary}", {
+          label: name,
+          summary: rows
+            .map((d) => this.localize.term("chart.nameValue", "{name}: {value}", { name: d.name, value: this.text(d) }))
+            .join(this.localize.term("chart.listSeparator", "; ")),
+        })}
         tabindex="0"
         @keydown=${(e: KeyboardEvent) => this.onKey(e, rows.length)}
         @pointerleave=${() => (this.active = -1)}
@@ -120,7 +145,7 @@ export class LitMaterialBarChart extends LitElement {
         })}
         ${active
           ? html`<div class="tooltip" part="tooltip" role="status" style="top: calc(${this.active} * var(--row-pitch))">
-              ${active.name}: <strong>${this.text(active)}</strong>
+              ${this.renderReadout(active)}
             </div>`
           : nothing}
       </div>
@@ -128,12 +153,16 @@ export class LitMaterialBarChart extends LitElement {
         <caption>${name}</caption>
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Value${this.unit ? ` (${this.unit})` : ""}</th>
+            <th scope="col">${this.localize.term("chart.name", "Name")}</th>
+            <th scope="col">
+              ${this.unit
+                ? this.localize.term("chart.valueInUnit", "Value ({unit})", { unit: this.unit })
+                : this.localize.term("chart.value", "Value")}
+            </th>
           </tr>
         </thead>
         <tbody>
-          ${rows.map((d) => html`<tr><th scope="row">${d.name}</th><td>${this.format(d.value)}</td></tr>`)}
+          ${rows.map((d) => html`<tr><th scope="row">${d.name}</th><td>${this.formatValue(d.value)}</td></tr>`)}
         </tbody>
       </table>
     `;

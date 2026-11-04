@@ -60,11 +60,12 @@ export const styles = [
     }
     .bar {
       position: absolute;
-      left: 0;
+      inset-inline-start: 0;
       top: 2px;
       height: 16px;
       width: max(2px, calc((100% - var(--label)) * var(--f)));
-      border-radius: 0 4px 4px 0;
+      border-start-end-radius: 4px;
+      border-end-end-radius: 4px;
       background: var(--accent);
       transition: opacity 150ms var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
     }
@@ -80,7 +81,7 @@ export const styles = [
     .value {
       position: absolute;
       top: 2px;
-      left: calc((100% - var(--label)) * var(--f) + 6px);
+      inset-inline-start: calc((100% - var(--label)) * var(--f) + 6px);
       white-space: nowrap;
       font-variant-numeric: tabular-nums;
       font-weight: 600;
@@ -88,7 +89,7 @@ export const styles = [
 
     .tooltip {
       position: absolute;
-      right: 0;
+      inset-inline-end: 0;
       transform: translateY(-100%);
       pointer-events: none;
       padding: 6px 8px;
