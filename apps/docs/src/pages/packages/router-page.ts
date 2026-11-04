@@ -76,6 +76,15 @@ const lazyCode = [
   "}",
 ].join("\n");
 
+const loaderCode = [
+  "{",
+  '  path: "/users/:id",',
+  "  loader: ({ params, signal }) => api.get(`/users/${params.id}`, { signal }),",
+  "  title: ({ data }) => data.name,",
+  "  render: (_params, _outlet, { data }) => html`<user-page .user=${data}></user-page>`,",
+  "}",
+].join("\n");
+
 const queryCode = [
   'import { formatQuery, navigate, parseQuery, queryParam } from "@lit-material/router";',
   "",
@@ -202,6 +211,17 @@ export class DocsRouterPage extends LitElement {
       </section>
 
       <section class="doc-section">
+        <h2>Route data</h2>
+        <p>
+          <code>loader</code> loads what a route shows before it's shown: its result is <code>data</code> in
+          <code>render</code> and <code>title</code>. The previous page stays up while it loads, a newer navigation
+          aborts it, and on the server <code>resolveRoute()</code> runs it and the browser's first render reuses the
+          result (<code>routeDataScript</code>).
+        </p>
+        <pre tabindex="0"><code>${loaderCode}</code></pre>
+      </section>
+
+      <section class="doc-section">
         <h2>Query parameters</h2>
         <p>
           <code>render</code> gets a third argument with the <code>query</code> (<code>URLSearchParams</code>), as does
@@ -285,7 +305,7 @@ export class DocsRouterPage extends LitElement {
             </tr>
             <tr>
               <td><code>resolveRoute(routes, url)</code></td>
-              <td>Redirects, guards and lazy loads without a browser; returns <code>{ status, path, redirect?, title?, params, content }</code>.</td>
+              <td>Redirects, guards, lazy loads and loaders without a browser; returns <code>{ status, path, redirect?, title?, params, content, data, search }</code>.</td>
             </tr>
             <tr>
               <td><code>parseQuery(schema, query)</code> / <code>formatQuery(schema, values)</code></td>

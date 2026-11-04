@@ -10,7 +10,7 @@ declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
       /** Matches `location.pathname` against `.routes` and renders the matched route's content in place of itself (`display: contents`, so it doesn't add a layout box). Also intercepts same-origin `<a>` clicks anywhere in the document — including inside other components' shadow roots, via `event.composedPath()` — so ordinary links become SPA navigations without every link needing to call `navigate()` itself. Before showing a route it follows its `redirect`, runs its `guard`s and waits for its lazy `load()` (the previous page stays up meanwhile, with the `pending` attribute set). Once shown, it sets `document.title` from the route's `title` and scrolls: to the top (or the `#hash` target) on a new navigation, back to where the reader was on back/forward. On the server there's no `location`: it renders the route for its `path` attribute, or nothing without one. See `resolveRoute()` for prerendering. */
-      "lit-material-router-outlet": ElementProps<LitMaterialRouterOutlet, "path" | "pending" | "routes" | "scrollRestoration" | "titleTemplate"> & {
+      "lit-material-router-outlet": ElementProps<LitMaterialRouterOutlet, "data" | "path" | "pending" | "routes" | "scrollRestoration" | "titleTemplate"> & {
         "onlit-material-route-error"?: (event: Event) => void;
       };
     }

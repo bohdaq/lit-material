@@ -11,6 +11,8 @@ export interface MatchedTree<T> {
 export interface MatchedRouteEntry<T> {
   route: RouteConfig<T>;
   params: Record<string, string>;
+  /** What this route's `loader` returned, once it has run. */
+  data?: unknown;
 }
 
 /**
@@ -55,11 +57,13 @@ export function matchRouteChain<T>(
  * layer) passes its child's content straight through.
  */
 export function renderRouteChain<T>(chain: MatchedRouteEntry<T>[], context: RouteContext): T | null {
+  // A route whose loader hasn't produced data yet isn't rendered at all, rather than rendered without it.
+  if (!hasData(chain)) return null;
   const renderFrom = (i: number): T | null => {
     const entry = chain[i];
     if (!entry) return null;
     const outlet = () => renderFrom(i + 1);
-    const ctx = { ...context, params: entry.params };
+    const ctx = { ...context, params: entry.params, data: entry.data };
     return entry.route.render ? entry.route.render(entry.params, outlet, ctx) : outlet();
   };
   return renderFrom(0);
@@ -80,4 +84,14 @@ export function matchRouteTree<T>(
   const params = chain[chain.length - 1]!.params;
   const content = renderRouteChain(chain, { path: pathname, params, query });
   return { content: content as T, params, chain };
+}
+
+/** `true` when every route in the chain that has a `loader` has its data. */
+export function hasData<T>(chain: MatchedRouteEntry<T>[]): boolean {
+  return chain.every((entry) => !entry.route.loader || "data" in entry);
+}
+
+/** The chain with each entry's loader data attached (`data[i]` for entry `i`). */
+export function withData<T>(chain: MatchedRouteEntry<T>[], data: readonly unknown[]): MatchedRouteEntry<T>[] {
+  return chain.map((entry, i) => (entry.route.loader ? { ...entry, data: data[i] } : entry));
 }

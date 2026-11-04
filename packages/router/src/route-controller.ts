@@ -1,8 +1,9 @@
 import { isServer, type ReactiveController, type ReactiveControllerHost } from "lit";
-import { matchRouteChain, renderRouteChain, type MatchedRouteEntry } from "./route-tree.js";
+import { hasData, matchRouteChain, renderRouteChain, withData, type MatchedRouteEntry } from "./route-tree.js";
+import { embeddedRouteData } from "./route-data.js";
 import { navigate, ROUTE_CHANGE_EVENT, type RouteChangeDetail } from "./navigate.js";
 import { stripBasePath } from "./base-path.js";
-import { loadChain, runGuards, titleOf, type GuardResult, type Resolution } from "./resolve.js";
+import { loadChain, runGuards, runLoaders, titleOf, type GuardResult, type Resolution } from "./resolve.js";
 
 /** What a route's `render`, `guard`, `redirect` and `title` functions are given. */
 export interface RouteContext {
@@ -12,6 +13,8 @@ export interface RouteContext {
   params: Record<string, string>;
   /** The URL's query; read it typed with `parseQuery()`. */
   query: URLSearchParams;
+  /** What this route's `loader` returned (in `render`, `title` and `CurrentRoute`). */
+  data?: unknown;
 }
 
 export interface RouteConfig<T> {
@@ -45,6 +48,13 @@ export interface RouteConfig<T> {
    * time the route matches; the outlet keeps showing the previous page until it settles.
    */
   load?: () => Promise<unknown>;
+  /**
+   * Loads the route's data before it's shown, after its guards pass: the result is `context.data` in
+   * `render` and `title`. Runs alongside the other routes' loaders and `load()`s; `signal` aborts when a newer
+   * navigation starts. On the server `resolveRoute()` runs it, and the browser reuses that data for the first
+   * render (see `routeDataScript`).
+   */
+  loader?: (context: RouteContext & { signal: AbortSignal }) => unknown;
   /** Page title while this route is showing; the innermost route with one wins. */
   title?: string | ((context: RouteContext) => string);
   /** HTTP status `resolveRoute()` reports for this route — `404` on a catch-all "not found" route. */
@@ -60,6 +70,8 @@ export interface CurrentRoute<T> {
   content: T | null;
   /** The matched routes' `title`, if one declares it. */
   title?: string;
+  /** The innermost route's loader data, if it has a loader. */
+  data?: unknown;
 }
 
 /** How the current route was reached; the outlet uses it to decide where to scroll. */
@@ -73,6 +85,8 @@ export interface RouteControllerOptions<T> {
   resolve?: boolean;
   /** The path (optionally with `?query`) to match where there's no `location`, i.e. server rendering. */
   serverPath?: () => string | undefined;
+  /** Loader data for `serverPath` (from `resolveRoute()`), so routes with loaders render on the server. */
+  serverData?: () => unknown[] | undefined;
   /** Called after each new route is shown. */
   onCommit?: (current: CurrentRoute<T>, navigation: NavigationType) => void;
   /** Called when a guard or `load()` throws; the previous route stays. */
@@ -101,6 +115,7 @@ export class RouteController<T = unknown> implements ReactiveController {
   private token = 0;
   private redirects = 0;
   private committedUrl: string | undefined;
+  private loaderAbort?: AbortController;
 
   constructor(host: ReactiveControllerHost, getRoutes: () => RouteConfig<T>[], options: RouteControllerOptions<T> = {}) {
     this.host = host;
@@ -119,6 +134,7 @@ export class RouteController<T = unknown> implements ReactiveController {
 
   hostDisconnected(): void {
     this.token++; // drop any navigation still resolving
+    this.loaderAbort?.abort();
     window.removeEventListener("popstate", this.handlePop);
     window.removeEventListener(ROUTE_CHANGE_EVENT, this.handleChange);
   }
@@ -142,14 +158,24 @@ export class RouteController<T = unknown> implements ReactiveController {
 
   private plainMatch(path: string, query: URLSearchParams): CurrentRoute<T> {
     const chain = path === "" ? null : matchRouteChain(this.getRoutes(), path);
-    return this.toCurrent(path, query, chain);
+    // Loader data only exists where the server provided it: the outlet's `data` on the server, the embedded
+    // script on the first render in the browser.
+    const data = isServer ? this.options.serverData?.() : embeddedRouteData(path, searchOf(query));
+    return this.toCurrent(path, query, chain && data ? withData(chain, data) : chain);
   }
 
   private toCurrent(path: string, query: URLSearchParams, chain: MatchedRouteEntry<T>[] | null): CurrentRoute<T> {
     if (!chain) return { path, params: {}, query, content: null };
-    const params = chain[chain.length - 1]!.params;
-    const ctx = { path, params, query };
-    return { path, params, query, content: renderRouteChain(chain, ctx), title: titleOf(chain, ctx) };
+    const last = chain[chain.length - 1]!;
+    const ctx = { path, params: last.params, query };
+    return {
+      path,
+      params: last.params,
+      query,
+      content: renderRouteChain(chain, ctx),
+      title: hasData(chain) ? titleOf(chain, ctx) : undefined,
+      data: last.data,
+    };
   }
 
   private run(navigation: NavigationType): void {
@@ -187,22 +213,31 @@ export class RouteController<T = unknown> implements ReactiveController {
         else this.commit(this.toCurrent(path, query, null), navigation);
         return;
       }
+      // Loader data: what the server embedded for the first render, else run the loaders now.
+      const embedded = navigation === "initial" ? embeddedRouteData(path, searchOf(query), true) : undefined;
+      this.loaderAbort?.abort();
+      const abort = new AbortController();
+      this.loaderAbort = abort;
+      const loaders = embedded ? undefined : runLoaders(resolution.chain, { path, params: {}, query }, abort.signal);
+      const ready = embedded ? withData(resolution.chain, embedded) : resolution.chain;
       const loading = loadChain(resolution.chain);
-      const next = this.toCurrent(path, query, resolution.chain);
-      if (!loading) {
-        this.commit(next, navigation);
+      if (!loading && !loaders) {
+        this.commit(this.toCurrent(path, query, ready), navigation);
         return;
       }
-      // First paint shows the route straight away (its elements upgrade once loaded), so server-rendered
-      // markup hydrates as is; later navigations keep the old page up until the new one is ready.
-      if (navigation === "initial") this.commit(next, navigation);
+      // First paint shows the route straight away when only code is loading (its elements upgrade once
+      // loaded), so server-rendered markup hydrates as is; otherwise the old page stays up until the new one
+      // has its code and data.
+      const early = navigation === "initial" && !loaders;
+      if (early) this.commit(this.toCurrent(path, query, ready), navigation);
       else this.setPending(true);
-      loading.then(
-        () => {
-          if (token === this.token && navigation !== "initial") this.commit(next, navigation);
+      Promise.all([loading, loaders]).then(
+        ([, data]) => {
+          if (token !== this.token || early) return;
+          this.commit(this.toCurrent(path, query, data ? withData(resolution.chain, data) : ready), navigation);
         },
         (error: unknown) => {
-          if (token === this.token) this.fail(error);
+          if (token === this.token && !abort.signal.aborted) this.fail(error);
         },
       );
     };
@@ -249,3 +284,8 @@ export class RouteController<T = unknown> implements ReactiveController {
     this.run(detail?.replace ? "replace" : "push");
   };
 }
+
+const searchOf = (query: URLSearchParams): string => {
+  const text = query.toString();
+  return text ? `?${text}` : "";
+};

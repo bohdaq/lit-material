@@ -1,5 +1,5 @@
 import type { RouteConfig, RouteContext } from "./route-controller.js";
-import { matchRouteChain, renderRouteChain, type MatchedRouteEntry } from "./route-tree.js";
+import { matchRouteChain, renderRouteChain, withData, type MatchedRouteEntry } from "./route-tree.js";
 
 /**
  * What a `guard` returns: `true` (or nothing) lets the navigation through, `false` cancels it, and a string
@@ -27,7 +27,7 @@ function fillParams(target: string, params: Record<string, string>): string {
 }
 
 function contextFor<T>(entry: MatchedRouteEntry<T>, base: RouteContext): RouteContext {
-  return { ...base, params: entry.params };
+  return { ...base, params: entry.params, data: entry.data };
 }
 
 /**
@@ -92,6 +92,20 @@ export function loadChain<T>(chain: MatchedRouteEntry<T>[]): Promise<void> | und
   return pending.length > 0 ? Promise.all(pending).then(() => undefined) : undefined;
 }
 
+/**
+ * Runs every `loader` in the chain at once, each with its route's context and `signal`. Resolves to the
+ * results by chain position (`undefined` where a route has no loader), or returns `undefined` when no route
+ * in the chain has a loader.
+ */
+export function runLoaders<T>(
+  chain: MatchedRouteEntry<T>[],
+  base: RouteContext,
+  signal: AbortSignal,
+): Promise<unknown[]> | undefined {
+  if (!chain.some((entry) => entry.route.loader)) return undefined;
+  return Promise.all(chain.map((entry) => entry.route.loader?.({ ...contextFor(entry, base), signal })));
+}
+
 /** The innermost `title` in the chain, if any route declares one. */
 export function titleOf<T>(chain: MatchedRouteEntry<T>[], base: RouteContext): string | undefined {
   for (let i = chain.length - 1; i >= 0; i--) {
@@ -116,6 +130,14 @@ export interface ResolvedRoute<T> {
   title?: string;
   /** The rendered content, as the outlet will render it for the same path. `null` unless `status` is a match. */
   content: T | null;
+  /**
+   * What each route's `loader` returned, by position in the matched chain. Pass it to the outlet
+   * (`.data=${result.data}`) and embed it in the page with `routeDataScript(result)` so the browser's first
+   * render uses it instead of loading again.
+   */
+  data: unknown[];
+  /** The query string the route was resolved with (`?…` or `""`). */
+  search: string;
 }
 
 const MAX_REDIRECTS = 10;
@@ -144,21 +166,26 @@ export async function resolveRoute<T>(routes: RouteConfig<T>[], url: string | UR
       continue;
     }
     // Wherever a redirect lands, the client has to be sent there first; it gets the final status itself.
+    const search = target.search;
+    const empty = { params: {}, content: null, data: [], search };
     if (redirected) {
       const to = target.pathname + target.search + target.hash;
-      return { status: 302, path, redirect: to, params: {}, content: null };
+      return { status: 302, path, redirect: to, ...empty };
     }
-    if (resolution.kind === "not-found" || !chain) return { status: 404, path, params: {}, content: null };
-    if (resolution.kind === "blocked") return { status: 403, path, params: {}, content: null };
-    await loadChain(chain);
-    const params = chain[chain.length - 1]!.params;
+    if (resolution.kind === "not-found" || !chain) return { status: 404, path, ...empty };
+    if (resolution.kind === "blocked") return { status: 403, path, ...empty };
+    const [, data = []] = await Promise.all([loadChain(chain), runLoaders(chain, base, new AbortController().signal)]);
+    const loaded = withData(chain, data);
+    const params = loaded[loaded.length - 1]!.params;
     const ctx = { ...base, params };
     return {
-      status: chain[chain.length - 1]!.route.status ?? 200,
+      status: loaded[loaded.length - 1]!.route.status ?? 200,
       path,
       params,
-      title: titleOf(chain, ctx),
-      content: renderRouteChain(chain, ctx),
+      title: titleOf(loaded, ctx),
+      content: renderRouteChain(loaded, ctx),
+      data,
+      search,
     };
   }
   throw new Error(`@lit-material/router: more than ${MAX_REDIRECTS} redirects resolving ${String(url)}`);
