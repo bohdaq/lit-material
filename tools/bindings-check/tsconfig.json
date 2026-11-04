@@ -1,0 +1,15 @@
+{
+  // Typechecks the generated framework bindings (tools/framework-bindings.mjs) against the built
+  // packages, with fixtures that use them as an app would. Run after `pnpm build`.
+  "extends": "../tsconfig/base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "jsx": "react-jsx",
+    // The generated .d.ts files are what's under test, so they must not be skipped.
+    "skipLibCheck": false,
+    "paths": {
+      "@lit-material/*/react": ["../../packages/*/dist/react.d.ts"]
+    }
+  },
+  "include": ["*.ts", "*.tsx", "../../packages/*/types/*.d.ts"]
+}

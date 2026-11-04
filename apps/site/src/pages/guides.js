@@ -108,29 +108,43 @@ initReveal();</code></pre>
   },
   frameworks: {
     title: "React, Vue and Angular",
-    lead: "lit-material components are custom elements, so they work in any framework without a wrapper package. Here is what each one needs.",
+    lead: "lit-material components are custom elements, so they work in any framework as they are. Every component package also ships React wrappers, JSX and Vue typings, and editor metadata, generated from its custom elements manifest.",
     sections: [
       ["react", "React", html`
-        <p>React 19 sets properties on custom elements and listens to their events, so you can pass arrays and objects directly. On React 18, set object properties and add event listeners through a ref.</p>
+        <p>React 19 sets properties on custom elements and listens to their events, so the tags work directly. Load the package's JSX typings once to type them; an event prop is <code>on</code> plus the event name as written.</p>
         <pre tabindex="0"><code>import "@lit-material/table";
+import type {} from "@lit-material/table/jsx";
 
 export function People({ rows }) {
   return &lt;lit-material-table caption="People" columns={columns} rows={rows} /&gt;;
-}</code></pre>`],
+}</code></pre>
+        <p>On React 18, or for camel-case event props, use the wrappers in each package's <code>/react</code> entry. They're built on <code>@lit/react</code> (install it with <code>react</code>): properties go in as properties, and events map to <code>onChange</code>, <code>onLitMaterialRouteError</code> and so on.</p>
+        <pre tabindex="0"><code>npm install @lit/react</code></pre>
+        <pre tabindex="0"><code>import { Checkbox } from "@lit-material/checkbox/react";
+
+&lt;Checkbox label="Accept" checked={accepted} onChange={(e) =&gt; setAccepted(e.target.checked)} /&gt;</code></pre>`],
       ["vue", "Vue", html`
-        <p>Tell the compiler which tags are custom elements, then bind properties with <code>.prop</code> and listen with <code>@</code>.</p>
+        <p>Tell the compiler which tags are custom elements, then bind properties with <code>.prop</code> and listen with <code>@</code>. Load the package's Vue typings once and Volar checks the props in templates.</p>
         <pre tabindex="0"><code>// vite.config.js
-vue({ template: { compilerOptions: { isCustomElement: (tag) =&gt; tag.startsWith("lit-material-") } } })</code></pre>
+vue({ template: { compilerOptions: { isCustomElement: (tag) =&gt; tag.startsWith("lit-material-") } } })
+
+// env.d.ts
+import type {} from "@lit-material/table/vue";
+import type {} from "@lit-material/switch/vue";</code></pre>
         <pre tabindex="0"><code>&lt;lit-material-table caption="People" :columns.prop="columns" :rows.prop="rows" /&gt;
 &lt;lit-material-switch :checked="on" @change="on = $event.target.checked" /&gt;</code></pre>`],
       ["angular", "Angular", html`
-        <p>Add <code>CUSTOM_ELEMENTS_SCHEMA</code> to the component, then bind properties with <code>[ ]</code> and events with <code>( )</code>.</p>
+        <p>Add <code>CUSTOM_ELEMENTS_SCHEMA</code> to the component, then bind properties with <code>[ ]</code> and events with <code>( )</code>. Angular doesn't type-check bindings on custom elements under that schema; the editor metadata below gives completion and docs in templates.</p>
         <pre tabindex="0"><code>@Component({
   selector: "app-people",
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: \`&lt;lit-material-table caption="People" [columns]="columns" [rows]="rows"&gt;&lt;/lit-material-table&gt;\`,
 })
 export class PeopleComponent {}</code></pre>`],
+      ["editors", "Editor completion", html`
+        <p>Each package ships <code>dist/web-types.json</code>, which WebStorm and other JetBrains IDEs pick up from <code>node_modules</code> on their own, and <code>dist/vscode.html-custom-data.json</code> for VS Code:</p>
+        <pre tabindex="0"><code>// .vscode/settings.json
+{ "html.customData": ["./node_modules/@lit-material/button/dist/vscode.html-custom-data.json"] }</code></pre>`],
       ["plain", "Plain HTML", html`
         <p>Import the module and write the tag. Arrays and objects go in as properties from script, or as JSON attributes in markup.</p>`],
     ],

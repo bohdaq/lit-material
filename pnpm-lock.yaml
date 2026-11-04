@@ -17,6 +17,15 @@ importers:
       '@lit-labs/ssr-client':
         specifier: 1.1.8
         version: 1.1.8
+      '@lit/react':
+        specifier: ^1.0.8
+        version: 1.0.8(@types/react@19.3.0)
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: ^19.3.0
+        version: 19.3.0(@types/react@19.3.0)
       esbuild:
         specifier: 0.28.1
         version: 0.28.1
@@ -38,6 +47,12 @@ importers:
       playwright:
         specifier: ^1.53.0
         version: 1.61.1
+      react:
+        specifier: ^19.3.1
+        version: 19.3.1
+      react-dom:
+        specifier: ^19.3.1
+        version: 19.3.1(react@19.3.1)
       turbo:
         specifier: ^2.3.0
         version: 2.10.4
@@ -47,6 +62,9 @@ importers:
       typescript-eslint:
         specifier: ^8.64.0
         version: 8.64.0(eslint@10.7.0)(typescript@5.9.3)
+      vue:
+        specifier: ^3.5.44
+        version: 3.5.44(typescript@5.9.3)
 
   apps/app-shell-demo:
     dependencies:
@@ -614,9 +632,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -648,9 +672,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -682,9 +712,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -716,9 +752,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -750,9 +792,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -784,9 +832,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -818,9 +872,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -855,9 +915,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -892,9 +958,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -926,9 +998,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -960,9 +1038,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -997,9 +1081,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1034,9 +1124,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1071,9 +1167,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1108,9 +1210,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1142,9 +1250,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1179,9 +1293,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1222,9 +1342,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1281,9 +1407,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1315,9 +1447,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1349,9 +1487,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1383,9 +1527,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1420,9 +1570,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1457,9 +1613,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1491,9 +1653,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1525,9 +1693,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1568,9 +1742,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1602,9 +1782,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1639,9 +1825,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1673,9 +1865,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1771,9 +1969,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1808,9 +2012,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1848,9 +2058,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1882,9 +2098,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1925,9 +2147,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1962,9 +2190,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -1996,9 +2230,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2030,9 +2270,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2070,9 +2316,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2104,9 +2356,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2138,9 +2396,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2172,9 +2436,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2206,9 +2476,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2240,9 +2516,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2277,9 +2559,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2314,9 +2602,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2345,9 +2639,15 @@ importers:
 
   packages/router:
     dependencies:
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2379,9 +2679,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2419,9 +2725,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2456,9 +2768,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2490,9 +2808,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2524,9 +2848,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2558,9 +2888,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2623,9 +2959,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2660,9 +3002,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2694,9 +3042,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2728,9 +3082,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2765,9 +3125,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2799,9 +3165,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2833,9 +3205,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2867,9 +3245,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2904,9 +3288,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -2972,9 +3362,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -3006,9 +3402,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -3043,9 +3445,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -3114,9 +3522,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -3148,9 +3562,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -3182,9 +3602,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -3222,9 +3648,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -3256,9 +3688,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -3293,9 +3731,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -3330,9 +3774,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -3364,9 +3814,15 @@ importers:
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
       lit:
         specifier: ^3.2.0
         version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
     devDependencies:
       '@lit-labs/ssr':
         specifier: ^3.3.1
@@ -3399,12 +3855,25 @@ packages:
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/helper-string-parser@7.29.11':
+    resolution: {integrity: sha512-snZbO7MEDOof+hvNa97EjEY7qD7h2kwvQr5AJC3ZhQudKW5dnej6k3kP9NQV88hJwaS8vDqRLFo9rivLEhle2g==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/helper-validator-identifier@7.29.7':
     resolution: {integrity: sha512-qehxGkRj55h/ff8EMaJ+cYhyaKlHIxqYDn682wQD7RNp9UujOQsHog2uS0r2vzr4pW+sXf90NeeayjcNaX3fFg==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/parser@7.29.12':
+    resolution: {integrity: sha512-WJ7JBp/Q4+z/ImydtI7jS6NVco5++632ExBemSX+Ysb+G1lCwQ5BVo3SY+jGGOcZXI4ZccbZSUSJLNBW6eEpJg==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
   '@babel/runtime@7.29.7':
     resolution: {integrity: sha512-Nq8OhGWiZIZGV6hLHoyAKLLcJihP/xFeBMGJoUrxTX2psI8dCifzLhZISFb+VWS3wFMRDmCGw5R+dOySCqPLhw==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/types@7.29.11':
+    resolution: {integrity: sha512-WCsemW40Cpc6gouC1SrY6PBaZ+oLRlEVY9XBvZBI7il/HyUrb2nJ505wE1MHEFyDZNnrWDEuy4jL50WVHfTTSQ==}
     engines: {node: '>=6.9.0'}
 
   '@changesets/apply-release-plan@7.1.1':
@@ -4043,6 +4512,11 @@ packages:
   '@lit/context@1.1.6':
     resolution: {integrity: sha512-M26qDE6UkQbZA2mQ3RjJ3Gzd8TxP+/0obMgE5HfkfLhEEyYE3Bui4A5XHiGPjy0MUGAyxB3QgVuw2ciS0kHn6A==}
 
+  '@lit/react@1.0.8':
+    resolution: {integrity: sha512-p2+YcF+JE67SRX3mMlJ1TKCSTsgyOVdAwd/nxp3NuV1+Cb6MWALbN6nT7Ld4tpmYofcE5kcaSY1YBB9erY+6fw==}
+    peerDependencies:
+      '@types/react': 17 || 18 || 19
+
   '@lit/reactive-element@2.1.2':
     resolution: {integrity: sha512-pbCDiVMnne1lYUIaYNN5wrwQXDtHaYtg7YEFPeW+hws6U47WeFvISGUWekPGKWOP1ygrs0ef0o1VJMk1exos5A==}
 
@@ -4534,6 +5008,14 @@ packages:
   '@types/range-parser@1.2.7':
     resolution: {integrity: sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==}
 
+  '@types/react-dom@19.3.0':
+    resolution: {integrity: sha512-ZI7bU42mZXXKHn/qNLEw2IrbiINU7X5+vfgdixBHkCNpYWXjKgfQ/P+uyGb5CjOLB9UcnTeg3rylQtV2hym44Q==}
+    peerDependencies:
+      '@types/react': ^19.3.0
+
+  '@types/react@19.3.0':
+    resolution: {integrity: sha512-N0rFCuH9YoxG9/m61l9MfpJKfmLOVU0em7ipIz6TRgSSkvReLB9vL85GB+yr8Bs5leqpvg96JSwF4ZS1s4viQg==}
+
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
 
@@ -4619,6 +5101,33 @@ packages:
   '@typescript-eslint/visitor-keys@8.64.0':
     resolution: {integrity: sha512-mrtuL8Nsn6gi2H4mo5KMTp823M+3Q19Ew/i+Zlikq20tIMm99C3Ez0dCmkWWnxut20esQvTg8aUSEhMcAOXhEw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@vue/compiler-core@3.5.44':
+    resolution: {integrity: sha512-k34nCytbK8PQ1gR2mGROYOw6Pnv/mumqIdrZ3x2tbyXZDWm7ViKGLTfdB+DRrWqEQsLgGJvn0WN9jBif5zCTLQ==}
+
+  '@vue/compiler-dom@3.5.44':
+    resolution: {integrity: sha512-W5AoBFWdw1lQAKiHowkfgFKFab82oSRT6sGsPfw/q1GRjsy/ZJFLHGhJyBRIFN9APLTUduDH9U2JAiPOIyKuYg==}
+
+  '@vue/compiler-sfc@3.5.44':
+    resolution: {integrity: sha512-dzHmQ4jXTpdr5FjIQUeykVakN/uzqFbUo9/C5ikBFg3a3PeM6uRxeczx1ZbXBML0/zJstEh3ygYipzR5Z7b2Pw==}
+
+  '@vue/compiler-ssr@3.5.44':
+    resolution: {integrity: sha512-xr5gb1JVHlfXJwSlRz1FeP6uxoazdzHuMTVLE7up+4Vrqxk219CvxLPxD9NXBt47yvZW7+p4DXfyp4O1fkByIA==}
+
+  '@vue/reactivity@3.5.44':
+    resolution: {integrity: sha512-u+QJdKeBBEADkPdevsL+6E12QlYVfBD8Zcw5qjDQKtamI6l14KyqazJMobhCKelhWN5zpyKUiEDoTyHE93cqWw==}
+
+  '@vue/runtime-core@3.5.44':
+    resolution: {integrity: sha512-uEa/ndwjhrrhnOfb2p+sZy6zeoamJOISqaLSJGk/8R6nABT1ZldpzcJoPzKj+zHVomVBPcmQYyC2r4LtvDV6CQ==}
+
+  '@vue/runtime-dom@3.5.44':
+    resolution: {integrity: sha512-3fc4ARcXVhVBaJ3ujWiNZJARD6pkyRcwG+ZYhMzjKtKUp7MAY0HLwr7r3Smep3Li6ZaWT6ewdmx8XqdaD5oNZg==}
+
+  '@vue/server-renderer@3.5.44':
+    resolution: {integrity: sha512-R4S1UoH4h5Frrauv8Z5XE5TxV9oBiUSgWIC4TyVK1FK+RocRnOLwFA5Xcmo2011RlgJp+AbZCnw6afrhlgRuUQ==}
+
+  '@vue/shared@3.5.44':
+    resolution: {integrity: sha512-H82XLH0DjmSOdbEwO15x3QTo1f5PWEtv237eLpYKc0mqLu+B8hnq16lFWmuBmNurkeiG3wr+oM1FhOll/YVFRg==}
 
   '@web/browser-logs@0.4.1':
     resolution: {integrity: sha512-ypmMG+72ERm+LvP+loj9A64MTXvWMXHUOu773cPO4L1SV/VWg6xA9Pv7vkvkXQX+ItJtCJt+KQ+U6ui2HhSFUw==}
@@ -5013,6 +5522,9 @@ packages:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
+  csstype@3.2.3:
+    resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
+
   custom-elements-manifest@1.0.0:
     resolution: {integrity: sha512-j59k0ExGCKA8T6Mzaq+7axc+KVHwpEphEERU7VZ99260npu/p/9kd+Db+I3cGKxHkM5y6q5gnlXn00mzRQkX2A==}
 
@@ -5143,6 +5655,10 @@ packages:
 
   entities@6.0.1:
     resolution: {integrity: sha512-aN97NXWF6AWBTahfVOIrB/NShkzi5H7F9r1s9mD3cDj4Ko5f2qhhVoYMibXF7GlLveb/D2ioWay8lxI97Ven3g==}
+    engines: {node: '>=0.12'}
+
+  entities@7.0.1:
+    resolution: {integrity: sha512-TWrgLOFUQTH994YUyl1yT4uyavY5nNB5muff+RtWaqNVCAK408b5ZnnbNAUEWLTCpum9w6arT70i1XdQ4UeOPA==}
     engines: {node: '>=0.12'}
 
   entities@8.0.0:
@@ -5713,6 +6229,9 @@ packages:
     resolution: {integrity: sha512-MhWWlVnuab1RG5/zMRRcVGXZLCXrZTgfwMikgzCegsPnG62yDQo5JnqKkrK4jO5iKqDAZGItAqN5CtKBCBWRUA==}
     engines: {node: '>=16.14'}
 
+  magic-string@0.30.21:
+    resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
+
   make-dir@4.0.0:
     resolution: {integrity: sha512-hXdUTZYIVOt1Ex//jAQi+wTZZpUpwBj/0QsOzqegb3rGMMeJiSEu5xLHnYfBrRV4RH2+OCSOO95Is/7x1WJ4bw==}
     engines: {node: '>=10'}
@@ -5778,6 +6297,11 @@ packages:
 
   nanoid@3.3.15:
     resolution: {integrity: sha512-y7Wygv/7mEOvxTuEQDB8StXdMRBWf1kR/tlhAzBRUFkB2jfcLOAxO/SHmOO2zgz1pVgK29/kyupn059/bCHdjA==}
+    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+
+  nanoid@3.3.20:
+    resolution: {integrity: sha512-uKdg2G3GNCKQn9byYOpxbGqrT2fGO5KRt5J/8b3pok8rT6qxGWF6hxMyJiEYtAf+FVyYuD9hRaDqX5uPFYJ4ZQ==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -5967,6 +6491,10 @@ packages:
     resolution: {integrity: sha512-vuwillviilfKZsg0VGj5R/YwwcHx4SLsIOI/7K6mQkWx+l5cUHTjj5g0AasTBcyXsbfTgrwsUNmVUb5xVwyPwg==}
     engines: {node: ^10 || ^12 || >=14}
 
+  postcss@8.5.32:
+    resolution: {integrity: sha512-LJlKCCAUFKOuZxipUdYw1NzIITEsPcgyOG9LkvRJvuKj/bRzbuRY0ARXvL0pWGpsZvn8jku+LMep2eU0seHp8g==}
+    engines: {node: ^10 || ^12 || >=14}
+
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
@@ -6011,6 +6539,15 @@ packages:
   raw-body@2.5.3:
     resolution: {integrity: sha512-s4VSOf6yN0rvbRZGxs8Om5CWj6seneMwK3oDb4lWDH0UPhWcxwOWw5+qk24bxq87szX1ydrwylIOp2uG1ojUpA==}
     engines: {node: '>= 0.8'}
+
+  react-dom@19.3.1:
+    resolution: {integrity: sha512-Y0bARz53lhEC1NMCASs0/j+faB/zqt3R8hpvg1e8+61ZVJ4UL0UdC4cBbXfZMcIuhrfgeILTLe+ZeBCavQPtKQ==}
+    peerDependencies:
+      react: ^19.3.1
+
+  react@19.3.1:
+    resolution: {integrity: sha512-QNhWdt7nrgVWWQG58QuGsAR3jv3Hbe4mb4vz7w2csnHavciZJgda1CPNaldF6eVxv90ud3jUXpKlHL69gO38yw==}
+    engines: {node: '>=0.10.0'}
 
   read-yaml-file@1.1.0:
     resolution: {integrity: sha512-VIMnQi/Z4HT2Fxuwg5KrY174U1VdUIASQVWXXyqtNRtxSr9IYkn1rsI6Tb6HsrHCmB7gVpNwX6JxPTHcH6IoTA==}
@@ -6070,6 +6607,9 @@ packages:
 
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
+
+  scheduler@0.28.0:
+    resolution: {integrity: sha512-juorfCmIkIw8tT+p5BXSm6PJjQF/ycEYmKyzURCIt/RaZIhL+PulbQ9Yu2z1HdOJDdqDTlxA1+xKBmHXJsczAw==}
 
   semver@7.8.5:
     resolution: {integrity: sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==}
@@ -6135,6 +6675,10 @@ packages:
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
+    engines: {node: '>=0.10.0'}
+
+  source-map-js@1.2.2:
+    resolution: {integrity: sha512-KGj/8Y43x35aZVDtt+J4mK1hoLGHULMYfSkODJNQjNDC3oW1PqPoxMwo0pLUsWM/UEGzON/NxeHywEfNXNP3Vw==}
     engines: {node: '>=0.10.0'}
 
   source-map@0.6.1:
@@ -6363,6 +6907,14 @@ packages:
       yaml:
         optional: true
 
+  vue@3.5.44:
+    resolution: {integrity: sha512-dvvmaOCG7lAMkJTPqPwWeGMsPS6DIsFsfZDUgBp9V6mHf9b3+/wyVwYR4Es+WV6uJC0FKRxp81Obcq0ZwUcGFQ==}
+    peerDependencies:
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   web-streams-polyfill@3.3.3:
     resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
     engines: {node: '>= 8'}
@@ -6457,9 +7009,20 @@ snapshots:
       js-tokens: 4.0.0
       picocolors: 1.1.1
 
+  '@babel/helper-string-parser@7.29.11': {}
+
   '@babel/helper-validator-identifier@7.29.7': {}
 
+  '@babel/parser@7.29.12':
+    dependencies:
+      '@babel/types': 7.29.11
+
   '@babel/runtime@7.29.7': {}
+
+  '@babel/types@7.29.11':
+    dependencies:
+      '@babel/helper-string-parser': 7.29.11
+      '@babel/helper-validator-identifier': 7.29.7
 
   '@changesets/apply-release-plan@7.1.1':
     dependencies:
@@ -6972,6 +7535,10 @@ snapshots:
     dependencies:
       '@lit/reactive-element': 2.1.2
 
+  '@lit/react@1.0.8(@types/react@19.3.0)':
+    dependencies:
+      '@types/react': 19.3.0
+
   '@lit/reactive-element@2.1.2':
     dependencies:
       '@lit-labs/ssr-dom-shim': 1.6.0
@@ -7389,6 +7956,14 @@ snapshots:
 
   '@types/range-parser@1.2.7': {}
 
+  '@types/react-dom@19.3.0(@types/react@19.3.0)':
+    dependencies:
+      '@types/react': 19.3.0
+
+  '@types/react@19.3.0':
+    dependencies:
+      csstype: 3.2.3
+
   '@types/resolve@1.20.2': {}
 
   '@types/send@1.2.1':
@@ -7512,6 +8087,60 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.64.0
       eslint-visitor-keys: 5.0.1
+
+  '@vue/compiler-core@3.5.44':
+    dependencies:
+      '@babel/parser': 7.29.12
+      '@vue/shared': 3.5.44
+      entities: 7.0.1
+      estree-walker: 2.0.2
+      source-map-js: 1.2.2
+
+  '@vue/compiler-dom@3.5.44':
+    dependencies:
+      '@vue/compiler-core': 3.5.44
+      '@vue/shared': 3.5.44
+
+  '@vue/compiler-sfc@3.5.44':
+    dependencies:
+      '@babel/parser': 7.29.12
+      '@vue/compiler-core': 3.5.44
+      '@vue/compiler-dom': 3.5.44
+      '@vue/compiler-ssr': 3.5.44
+      '@vue/shared': 3.5.44
+      estree-walker: 2.0.2
+      magic-string: 0.30.21
+      postcss: 8.5.32
+      source-map-js: 1.2.2
+
+  '@vue/compiler-ssr@3.5.44':
+    dependencies:
+      '@vue/compiler-dom': 3.5.44
+      '@vue/shared': 3.5.44
+
+  '@vue/reactivity@3.5.44':
+    dependencies:
+      '@vue/shared': 3.5.44
+
+  '@vue/runtime-core@3.5.44':
+    dependencies:
+      '@vue/reactivity': 3.5.44
+      '@vue/shared': 3.5.44
+
+  '@vue/runtime-dom@3.5.44':
+    dependencies:
+      '@vue/reactivity': 3.5.44
+      '@vue/runtime-core': 3.5.44
+      '@vue/shared': 3.5.44
+      csstype: 3.2.3
+
+  '@vue/server-renderer@3.5.44':
+    dependencies:
+      '@vue/compiler-ssr': 3.5.44
+      '@vue/runtime-dom': 3.5.44
+      '@vue/shared': 3.5.44
+
+  '@vue/shared@3.5.44': {}
 
   '@web/browser-logs@0.4.1':
     dependencies:
@@ -8001,6 +8630,8 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
+  csstype@3.2.3: {}
+
   custom-elements-manifest@1.0.0: {}
 
   data-uri-to-buffer@4.0.1: {}
@@ -8092,6 +8723,8 @@ snapshots:
       strip-ansi: 6.0.1
 
   entities@6.0.1: {}
+
+  entities@7.0.1: {}
 
   entities@8.0.0: {}
 
@@ -8787,6 +9420,10 @@ snapshots:
 
   lru-cache@8.0.5: {}
 
+  magic-string@0.30.21:
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.5.5
+
   make-dir@4.0.0:
     dependencies:
       semver: 7.8.5
@@ -8831,6 +9468,8 @@ snapshots:
   nanocolors@0.2.13: {}
 
   nanoid@3.3.15: {}
+
+  nanoid@3.3.20: {}
 
   natural-compare@1.4.0: {}
 
@@ -9031,6 +9670,12 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
+  postcss@8.5.32:
+    dependencies:
+      nanoid: 3.3.20
+      picocolors: 1.1.1
+      source-map-js: 1.2.2
+
   prelude-ls@1.2.1: {}
 
   prettier@2.8.8: {}
@@ -9090,6 +9735,13 @@ snapshots:
       http-errors: 2.0.1
       iconv-lite: 0.4.24
       unpipe: 1.0.0
+
+  react-dom@19.3.1(react@19.3.1):
+    dependencies:
+      react: 19.3.1
+      scheduler: 0.28.0
+
+  react@19.3.1: {}
 
   read-yaml-file@1.1.0:
     dependencies:
@@ -9184,6 +9836,8 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
+  scheduler@0.28.0: {}
+
   semver@7.8.5: {}
 
   setprototypeof@1.1.0: {}
@@ -9252,6 +9906,8 @@ snapshots:
       smart-buffer: 4.2.0
 
   source-map-js@1.2.1: {}
+
+  source-map-js@1.2.2: {}
 
   source-map@0.6.1:
     optional: true
@@ -9455,6 +10111,16 @@ snapshots:
       '@types/node': 26.1.0
       fsevents: 2.3.3
       tsx: 4.23.0
+
+  vue@3.5.44(typescript@5.9.3):
+    dependencies:
+      '@vue/compiler-dom': 3.5.44
+      '@vue/compiler-sfc': 3.5.44
+      '@vue/runtime-dom': 3.5.44
+      '@vue/server-renderer': 3.5.44
+      '@vue/shared': 3.5.44
+    optionalDependencies:
+      typescript: 5.9.3
 
   web-streams-polyfill@3.3.3: {}
 

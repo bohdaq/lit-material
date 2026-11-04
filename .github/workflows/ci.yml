@@ -41,6 +41,9 @@ jobs:
       # throws or changes what an element shows (reads the custom-elements manifests).
       - run: pnpm analyze
       - run: pnpm hydration
+      # React wrappers, JSX and Vue typings generated from the manifests: up to date, typecheck with
+      # fixtures, and a React app clicking a wrapped and a bare element in Chromium.
+      - run: pnpm bindings:check
 
       # Each package's web-test-runner binds a fixed dev-server port, so test tasks can't run
       # turbo's default full parallelism without colliding — keep this sequential.

@@ -10,6 +10,11 @@ fetching, form validation) and a scaffolding CLI. Every component reads its visu
 is documented with a live demo in `apps/docs`. Each package's own README is the source of truth for its API and
 scope cuts — read it before assuming something is missing or unimplemented.
 
+Every component package also exports generated framework bindings: `@lit-material/<pkg>/react` (React wrappers on
+`@lit/react`; events as `onChange`-style props), `@lit-material/<pkg>/jsx` (React 19 JSX typings, load with
+`import type {} from ...`; event props are `on` + the event name as written), `@lit-material/<pkg>/vue` (Vue
+`GlobalComponents` typings), and `dist/web-types.json` / `dist/vscode.html-custom-data.json` for editors.
+
 ## Components
 
 - [Button](https://github.com/bohdaq/lit-material/tree/main/packages/button): Filled, outlined, text, elevated, tonal. `lit-material-action-list` — `align="start|end|between"`, `compact`, `label` (role=group); nest for groups.
