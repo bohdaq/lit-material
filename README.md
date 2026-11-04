@@ -164,6 +164,7 @@ components as you like.
 | [`@lit-material/vite`](packages/vite) | Vite plugin: every page server-rendered in dev and production (status, redirects, titles, loader data), server build, prerendering, a Request→Response handler. |
 | [`@lit-material/testing`](packages/testing) | Test helpers: `fixture()` that waits for nested updates, role/label/text queries through shadow roots, `user.click/type/press`. |
 | [`@lit-material/devtools`](packages/devtools) | Development-only: stores in the Redux DevTools extension (with time travel), a router log, and an in-page `<lit-material-devtools>` panel. |
+| [`@lit-material/codemod`](packages/codemod) | `npx @lit-material/codemod md-web src` — rewrites `@material/web` (`md-*`) tags, attributes, slots and imports to lit-material and reports by file and line what needs a person. |
 | [`create-lit-material-app`](packages/create-lit-material-app) | `npm create lit-material-app` — a scaffolded starting point with all of the above wired together. |
 
 The docs app's "Building apps" guide (`apps/docs`, `/guide/building-apps` — see below) walks through all six

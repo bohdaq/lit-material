@@ -1,0 +1,15 @@
+:root {
+  --md-ref-typeface-brand: "Inter";
+  --md-sys-color-primary: #4f378b;
+  --md-sys-color-surface-bright: #fef7ff;
+  --md-sys-shape-corner-medium: 12px;
+}
+
+md-filled-button {
+  --md-filled-button-container-shape: 8px;
+  --md-filled-button-label-text-font: var(--md-sys-typescale-label-large-font);
+}
+
+md-checkbox::part(focus-ring) {
+  --md-focus-ring-color: hotpink;
+}

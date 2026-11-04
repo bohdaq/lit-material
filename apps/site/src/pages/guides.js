@@ -5,6 +5,79 @@ import { unsafeStatic, html as staticHtml } from "lit/static-html.js";
 import { allGuides } from "../catalog.js";
 import { docsLayout } from "../shell.js";
 import { faq, kbd, shortcuts, steps, terminal } from "@lit-material/site-kit/templates.js";
+import { ELEMENTS, targetLabel } from "@lit-material/codemod/mappings";
+
+const cells = (columns, rows) => html`
+  <div class="table-wrap">
+    <table class="api-table">
+      <thead><tr>${columns.map((c) => html`<th scope="col">${c}</th>`)}</tr></thead>
+      <tbody>${rows.map((r) => html`<tr>${r.map((cell) => html`<td>${cell}</td>`)}</tr>`)}</tbody>
+    </table>
+  </div>`;
+
+const codeList = (items) => (items.length ? items.map((t, i) => html`${i ? ", " : ""}<code>${t}</code>`) : html`<span class="muted">none</span>`);
+
+/** One row of the @material/web table, read from the codemod's own mapping table. */
+function mdWebRow(m) {
+  if (!m.to) return [html`<code>${m.md}</code>`, html`<span class="muted">none</span>`, "", m.why];
+  const rewritten = [];
+  if (m.alternate) rewritten.push(`${m.alternate.attribute}="${m.alternate.value}" → ${m.alternate.to}`);
+  for (const [name, r] of Object.entries(m.attributes ?? {})) {
+    if (r.kind === "rename") {
+      const values = Object.entries(r.values ?? {}).filter(([a, b]) => a !== b).map(([a, b]) => `${a} → ${b}`);
+      rewritten.push(r.to === name ? `${name}: ${values.join(", ")}` : `${name} → ${r.to}${values.length ? ` (${values.join(", ")})` : ""}`);
+    } else if (r.kind === "content") rewritten.push(`${name} → text${r.alsoSet ? ` + ${r.alsoSet}` : ""}`);
+    else if (r.kind === "expand") rewritten.push(`${name} → ${r.to.join(" ")}`);
+    else if (r.kind === "byValue") rewritten.push(Object.entries(r.cases).map(([a, b]) => `${name}="${a}" → ${b || "removed"}`).join(", "));
+    else if (r.kind === "remove") rewritten.push(`${name} removed`);
+  }
+  for (const [k, v] of Object.entries(m.defaults ?? {})) rewritten.push(`adds ${v === true ? k : `${k}="${v}"`}`);
+  for (const [name, r] of Object.entries(m.events ?? {})) if (r.kind === "rename") rewritten.push(`${name} event → ${r.to}`);
+  for (const [name, r] of Object.entries(m.childSlots ?? {})) if (r === null || typeof r === "string") rewritten.push(`slot="${name}" → ${r === null ? "default slot" : `slot="${r}"`}`);
+  if (m.iconSlot) rewritten.push(`unslotted md-icon → slot="${m.iconSlot}"`);
+  const reported = [
+    ...Object.entries(m.attributes ?? {}).filter(([, r]) => r.kind === "warn").map(([n]) => n),
+    ...Object.entries(m.events ?? {}).filter(([, r]) => r.kind === "warn").map(([n]) => `${n} event`),
+    ...Object.entries(m.childSlots ?? {}).filter(([, r]) => r && typeof r === "object").map(([n]) => `slot="${n}"`),
+  ];
+  return [html`<code>${m.md}</code>`, html`<code>${targetLabel(m)}</code>`, html`<code>${m.package}</code>`, html`${codeList(rewritten)}${reported.length ? html`<br />Reported, left as is: ${codeList(reported)}` : ""}`];
+}
+
+/** Angular Material → lit-material: [Angular Material, lit-material elements, package, notes]. Tags checked against each package's custom-elements.json. */
+const ANGULAR_MATERIAL = [
+  ["mat-button, mat-flat-button, mat-stroked-button, mat-raised-button (matButton)", "lit-material-button", "button", html`<code>variant</code>: <code>text</code>, <code>filled</code>, <code>outlined</code>, <code>elevated</code>, <code>tonal</code>. <code>href</code> renders a link.`],
+  ["mat-icon-button", "lit-material-icon-button", "icon-button", html`Icon in <code>slot="icon"</code>; <code>toggle</code> + <code>selected</code> for a toggle button. Always give it an <code>aria-label</code>.`],
+  ["mat-fab, mat-mini-fab, extended fab", "lit-material-fab", "fab", html`<code>size="small"</code> for mini, <code>extended</code> with label text; <code>color</code> picks the container colour.`],
+  ["mat-form-field + matInput", "lit-material-text-field, lit-material-textarea", "text-field", html`<code>mat-label</code> → <code>label</code>, <code>mat-hint</code> → <code>supporting-text</code>, <code>mat-error</code> → <code>error-text</code> + <code>error</code>, <code>appearance="outline"</code> → <code>variant="outlined"</code>, text prefix/suffix → <code>prefix</code>/<code>suffix</code>, icon prefix/suffix → <code>leading-icon</code>/<code>trailing-icon</code> slots. Numbers: <code>lit-material-number-field</code>.`],
+  ["mat-select + mat-option", "lit-material-select, lit-material-select-option", "select", html`Single selection only: <strong>gap</strong> for <code>multiple</code> (consider <code>lit-material-dual-list-selector</code> or filter chips). No option groups.`],
+  ["mat-autocomplete", "lit-material-autocomplete", "autocomplete", html`Options are data: <code>[options]="[{ value, label }]"</code>; <code>free-text</code> accepts values outside the list.`],
+  ["mat-checkbox", "lit-material-checkbox", "checkbox", html`Label text goes in the <code>label</code> attribute; <code>indeterminate</code> as in Angular Material.`],
+  ["mat-slide-toggle", "lit-material-switch", "switch", html`<code>checked</code>, <code>change</code>; thumb icons in the <code>icon</code>/<code>selected-icon</code> slots.`],
+  ["mat-radio-group + mat-radio-button", "lit-material-radio", "radio", html`No group element (<strong>gap</strong>): radios with the same <code>name</code> form a group, with arrow-key movement; put them in a <code>fieldset</code> or <code>role="radiogroup"</code> for the group's label.`],
+  ["mat-slider", "lit-material-slider", "slider", html`One thumb only: <strong>gap</strong> for a range slider (<code>matSliderStartThumb</code>/<code>matSliderEndThumb</code>).`],
+  ["mat-chip, mat-chip-listbox, mat-chip-grid", "lit-material-chip, lit-material-chip-input", "chip", html`<code>variant</code>: <code>assist</code>, <code>filter</code>, <code>input</code>, <code>suggestion</code>. A chip grid with an input is <code>lit-material-chip-input</code> (<code>values</code>, <code>change</code>). No listbox element around chips.`],
+  ["mat-button-toggle-group", "lit-material-segmented-button-group, lit-material-segmented-button", "segmented-button", html`<code>multiselect</code> on the group.`],
+  ["MatDialog (service), mat-dialog-*", "lit-material-dialog, lit-material-confirm-dialog", "dialog, confirm", html`An element in your template, not a service: see below. <code>confirm()</code> returns a promise like <code>afterClosed()</code>.`],
+  ["mat-menu + matMenuTriggerFor", "lit-material-menu, lit-material-list-item", "menu, list", html`<code>anchor</code> (an id) or <code>show(trigger)</code>; items are <code>lit-material-list-item interactive</code>. Nested menus: <strong>gap</strong>.`],
+  ["mat-tab-group, mat-tab", "lit-material-tabs, lit-material-tab, lit-material-tab-panel", "tabs", html`<code>selectedIndex</code> → <code>selected</code>; panels follow the tabs. Tab nav bar for routing: tabs with your router's links.`],
+  ["mat-table (+ MatSort)", "lit-material-data-table (rows and cells), lit-material-table (data-driven)", "data-table, table", html`The data table sorts and selects by <em>event</em> (<code>sort-change</code>, <code>selection-change</code>): you reorder the rows, as with a server-side <code>MatTableDataSource</code>. No data source class.`],
+  ["mat-paginator", "lit-material-data-table-pagination", "data-table", html`<code>page</code>, <code>page-size</code>, <code>total</code>, <code>page-size-options</code>; <code>page-change</code> event.`],
+  ["mat-progress-bar", "lit-material-linear-progress", "progress", html`<code>value</code>/<code>max</code> or <code>indeterminate</code>; no buffer mode (<strong>gap</strong>).`],
+  ["mat-progress-spinner, mat-spinner", "lit-material-circular-progress", "progress", html`<code>indeterminate</code> for <code>mat-spinner</code>.`],
+  ["MatSnackBar (service)", "lit-material-snackbar", "snackbar", html`One element, <code>show(message)</code>: see below.`],
+  ["matTooltip (directive)", "lit-material-tooltip", "tooltip", html`An element with <code>anchor</code> set to the trigger's id.`],
+  ["mat-sidenav, mat-drawer", "lit-material-navigation-drawer, lit-material-drawer", "navigation, drawer", html`Navigation drawer: <code>variant="standard"</code> (side) or <code>"modal"</code> (over); <code>lit-material-adaptive-navigation</code> switches drawer, rail and bar by width.`],
+  ["mat-toolbar", "lit-material-top-app-bar, lit-material-toolbar", "top-app-bar, toolbar", html`App bar: <code>variant</code> <code>small</code>, <code>center-aligned</code>, <code>medium</code>, <code>large</code>. A toolbar of actions: <code>lit-material-toolbar</code>.`],
+  ["mat-expansion-panel, mat-accordion", "lit-material-accordion, lit-material-accordion-panel", "accordion", html`<code>expanded</code>, <code>toggle</code> event; <code>multi</code> on the accordion.`],
+  ["mat-stepper, mat-step", "lit-material-stepper, lit-material-step", "stepper", html`<code>selected</code>, <code>linear</code>, <code>orientation</code>; step <code>completed</code>/<code>error</code>.`],
+  ["mat-datepicker (+ date range)", "lit-material-date-picker, lit-material-date-range-picker", "date-picker", html`A picker element (<code>modal</code> or <code>docked</code>) with ISO <code>value</code> strings; it isn't attached to an input: open it from a button or a field's trailing icon. No <code>DateAdapter</code>.`],
+  ["mat-tree", "lit-material-tree, lit-material-tree-item", "tree", html`Nested items in markup, <code>expanded</code>/<code>selected</code>, <code>multiple</code>. No tree control or flattener.`],
+  ["matBadge (directive)", "lit-material-badge", "badge", html`An element you position over the host yourself (<code>value</code>, <code>max</code>).`],
+  ["mat-icon", "lit-material-icon", "icon", html`No icon font or ligatures: register SVG icons with <code>registerIcons()</code> and use <code>name</code>, or slot an <code>&lt;svg&gt;</code>.`],
+  ["mat-card", "lit-material-card", "card", html`<code>variant</code>: <code>elevated</code>, <code>filled</code>, <code>outlined</code>; <code>interactive</code> or <code>href</code> for a clickable card.`],
+  ["mat-list, mat-nav-list", "lit-material-list, lit-material-list-item", "list", html`Slots <code>leading</code>, <code>trailing</code>, <code>overline</code>, <code>supporting-text</code>; <code>href</code> for nav lists. Selection list: <strong>gap</strong> (checkboxes in <code>trailing</code>).`],
+  ["mat-divider", "lit-material-divider", "divider", html`<code>inset-start</code>/<code>inset-end</code>; <code>orientation="vertical"</code>.`],
+];
 
 const WRITTEN = {
   install: {
@@ -288,6 +361,140 @@ export class PeopleComponent {}</code></pre>`],
         <p>Import the module and write the tag. Arrays and objects go in as properties from script, or as JSON attributes in markup.</p>`],
     ],
   },
+};
+
+WRITTEN["migrate-material-web"] = {
+  title: "Migrate from @material/web",
+  lead: "lit-material reads the same Material 3 system tokens as @material/web, so a theme carries over as it is. A codemod rewrites elements, attributes, slots and imports, and lists by file and line what it left for you.",
+  sections: [
+    ["differences", "What stays and what changes", html`
+      <ul>
+        <li><strong>The same tokens.</strong> Components read the <code>--md-sys-*</code> custom properties (colour roles, typescale, shape, elevation, state), the names a Material Theme Builder export sets. Keep your theme and link <code>@lit-material/tokens/css/index.css</code> once for the baseline. The <code>.md-typescale-*</code> classes are in <code>@lit-material/tokens/css/typography.css</code> under the same names.</li>
+        <li><strong>One package per component.</strong> <code>import "@material/web/button/filled-button.js"</code> becomes <code>import "@lit-material/button"</code>, which registers every button variant.</li>
+        <li><strong>Variants are attributes.</strong> One element per component: <code>&lt;md-outlined-text-field&gt;</code> is <code>&lt;lit-material-text-field variant="outlined"&gt;</code>, <code>&lt;md-filled-tonal-button&gt;</code> is <code>&lt;lit-material-button variant="tonal"&gt;</code>. Labels that were attributes (<code>label</code> on chips and FABs) are text content.</li>
+        <li><strong>Component tokens differ.</strong> Per-component tokens such as <code>--md-filled-button-container-color</code> have no counterparts. Each lit-material element lists its own <code>--lit-material-*</code> properties and CSS parts on its page; colours and shapes come from the system tokens.</li>
+        <li><strong>Forms.</strong> Text fields, selects, checkboxes, radios, switches, sliders and buttons are form-associated through <code>ElementInternals</code>: <code>FormData</code>, constraint validation and reset work as with native controls.</li>
+        <li><strong>Server rendering.</strong> Every component is tested against <code>@lit-labs/ssr</code>, and <code>@lit-material/vite</code> renders whole apps on the server. See <a href="/guides/server-rendering/">Server rendering</a>.</li>
+        <li><strong>More components.</strong> Data table, date and time pickers, navigation drawer, rail and bar, snackbar, tooltip, stepper and the rest of the <a href="/components/">catalogue</a>, which @material/web doesn't have.</li>
+      </ul>`],
+    ["codemod", "Run the codemod", html`
+      <p>Commit first: the codemod rewrites files in place. A dry run prints every change and warning and writes nothing:</p>
+      <pre tabindex="0"><code>npx @lit-material/codemod md-web src --dry-run
+npx @lit-material/codemod md-web src</code></pre>
+      <p>It reads HTML (with parse5, a spec-compliant parser), Lit templates in <code>.ts</code>/<code>.js</code>, JSX and TSX, and CSS, and edits the text in place, so formatting, comments and expressions stay as they were. Binding syntax is kept: <code>.prefixText=\${p}</code> becomes <code>.prefix=\${p}</code>, Angular's <code>[selected]</code> becomes <code>[checked]</code>. It ends with the packages to install:</p>
+      <pre tabindex="0"><code>  changed  src/app.ts:12: &lt;md-outlined-text-field&gt; → &lt;lit-material-text-field variant="outlined"&gt;
+  changed  src/app.ts:12: &lt;md-outlined-text-field&gt; prefix-text → prefix
+  warning  src/app.ts:31: &lt;md-slider&gt; range: lit-material-slider is single-value; a two-thumb range is not supported
+
+Install what the rewritten files use:  npm install @lit-material/tokens @lit-material/button @lit-material/text-field …</code></pre>
+      <p>Anything without a confident mapping is a warning with its file and line, never a silent change: unknown <code>md-*</code> elements, attributes with no counterpart, bound values that would need mapping, class imports (<code>import { MdDialog }</code>), <code>md-*</code> names in selectors and strings, and component tokens. Running it twice changes nothing the second time. The same rewrite is a function, for your own tooling: <code>import { transform } from "@lit-material/codemod"</code>.</p>`],
+    ["mapping", "Element by element", html`
+      <p>This table is the codemod's own mapping, so it is what the codemod does. Attributes not listed carry over unchanged.</p>
+      ${cells(["@material/web", "lit-material", "Package", "Rewritten"], ELEMENTS.map(mdWebRow))}
+      <p>Imports follow the elements: <code>@material/web/&lt;folder&gt;/&lt;file&gt;.js</code> becomes the element's package, once per file. <code>@material/web/all.js</code> is reported with the imports to use instead, and left for you to replace.</p>`],
+    ["manual", "What needs a person", html`
+      <ul>
+        <li><strong>Icons.</strong> <code>&lt;md-icon&gt;settings&lt;/md-icon&gt;</code> draws a Material Symbols ligature from an icon font. <code>lit-material-icon</code> loads no font, so the word shows as text: register the SVGs with <code>registerIcons()</code> and use <code>name</code>, or slot an <code>&lt;svg&gt;</code>. The codemod reports each ligature.</li>
+        <li><strong>Script code.</strong> The codemod changes markup and imports. Code that reads <code>switch.selected</code> (now <code>checked</code>), <code>tabs.activeTabIndex</code> (now <code>selected</code>), queries <code>md-*</code> selectors, or imports md-web classes is reported, not rewritten.</li>
+        <li><strong>Labels.</strong> A <code>&lt;label for&gt;</code> pointing at <code>lit-material-checkbox</code>, <code>-radio</code> or <code>-switch</code> doesn't toggle it (checked in Chromium); wrapping the control in the <code>&lt;label&gt;</code> does. Prefer the element's <code>label</code> attribute, which also names it for assistive technology.</li>
+        <li><strong>Component tokens.</strong> Each <code>--md-&lt;component&gt;-*</code> token is reported with the lit-material element's own properties and parts to use instead.</li>
+        <li><strong>Missing pieces.</strong> No chip set, submenus, two-thumb slider, linear progress buffer, secondary tab style, or standalone ripple, focus ring and elevation elements (components draw their own). The table lists every attribute and event left in place.</li>
+      </ul>`],
+  ],
+};
+
+WRITTEN["migrate-angular-material"] = {
+  title: "Migrate from Angular Material",
+  lead: "Angular Material's components are Angular directives and services; lit-material's are custom elements, which Angular templates use with the schema for them. Here is each component's counterpart, the binding and forms patterns, and what replaces the services.",
+  sections: [
+    ["setup", "Set up an Angular app", html`
+      <p>Install the tokens and the components you use, and load the tokens stylesheet once, from <code>angular.json</code>'s <code>styles</code> or your global stylesheet:</p>
+      <pre tabindex="0"><code>npm install @lit-material/tokens @lit-material/button @lit-material/text-field</code></pre>
+      <pre tabindex="0"><code>/* src/styles.css */
+@import "@lit-material/tokens/css/index.css";</code></pre>
+      <p>Import each package for its side effect (it registers the elements) and add <code>CUSTOM_ELEMENTS_SCHEMA</code> to every component whose template uses them:</p>
+      <pre tabindex="0"><code>import { Component, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import "@lit-material/button";
+import "@lit-material/text-field";
+
+@Component({
+  selector: "app-profile",
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  template: \`
+    &lt;lit-material-text-field label="Name" [value]="name" (input)="name = $any($event.target).value"&gt;&lt;/lit-material-text-field&gt;
+    &lt;lit-material-button variant="filled" [disabled]="!name" (click)="save()"&gt;Save&lt;/lit-material-button&gt;
+  \`,
+})
+export class ProfileComponent {
+  name = "";
+  save() {}
+}</code></pre>
+      <p>Angular Material's Sass theme doesn't carry over. Set the <code>--md-sys-color-*</code> tokens, or make a palette with the <a href="/guides/theming/">theme builder</a>.</p>`],
+    ["bindings", "Properties, attributes and events", html`
+      <p><code>[value]</code> sets a property, which is how arrays and objects go in (<code>[rows]="rows"</code>, <code>[options]="options"</code>); <code>[attr.aria-label]</code> sets an attribute; <code>(change)</code> listens to an event, hyphenated names included: <code>(page-change)="onPage($any($event).detail)"</code>. Under <code>CUSTOM_ELEMENTS_SCHEMA</code> Angular doesn't type-check these bindings, and <code>$event.target</code> is a plain <code>EventTarget</code>, hence <code>$any()</code>. Each package's <code>dist/web-types.json</code> and VS Code custom data give completion in templates; see <a href="/guides/frameworks/">React, Vue and Angular</a>.</p>`],
+    ["forms", "Forms", html`
+      <p>lit-material ships no <code>ControlValueAccessor</code>, so <code>formControlName</code> and <code>ngModel</code> don't work on its elements by themselves. What the elements do, checked in Chromium on the elements themselves (not inside an Angular app):</p>
+      <ul>
+        <li><strong>Text field, textarea, slider:</strong> fire <code>input</code> on the element with <code>value</code> already updated, and <code>blur</code> reaches the element; setting <code>value</code> updates the field. That is what Angular's <code>DefaultValueAccessor</code> uses (it writes <code>value</code> and listens for <code>input</code> and <code>blur</code>), so <code>ngDefaultControl</code> selects it: <code>&lt;lit-material-text-field label="Email" formControlName="email" ngDefaultControl&gt;</code>. A slider's value is a number.</li>
+        <li><strong>Select:</strong> fires only <code>change</code>, so <code>ngDefaultControl</code> would never update the control. Bind <code>[value]</code> and <code>(change)</code>, or use an accessor like the one below with <code>value</code>.</li>
+        <li><strong>Checkbox, switch, radio:</strong> the state is <code>checked</code> and the event is <code>change</code>: <code>[checked]="on" (change)="on = $any($event.target).checked"</code>, or an accessor.</li>
+      </ul>
+      <p>An accessor for the checked-state elements is a few lines in your app (it isn't part of lit-material):</p>
+      <pre tabindex="0"><code>import { Directive, ElementRef, HostListener, forwardRef, inject } from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+
+@Directive({
+  selector: "lit-material-checkbox[formControlName], lit-material-checkbox[formControl], lit-material-checkbox[ngModel], lit-material-switch[formControlName], lit-material-switch[formControl], lit-material-switch[ngModel]",
+  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() =&gt; CheckedAccessor), multi: true }],
+})
+export class CheckedAccessor implements ControlValueAccessor {
+  private readonly el = inject&lt;ElementRef&lt;HTMLElement &amp; { checked: boolean; disabled: boolean }&gt;&gt;(ElementRef).nativeElement;
+  private onChange = (_: boolean) =&gt; {};
+  private onTouched = () =&gt; {};
+
+  @HostListener("change") changed() { this.onChange(this.el.checked); }
+  @HostListener("blur") blurred() { this.onTouched(); }
+
+  writeValue(value: boolean) { this.el.checked = !!value; }
+  registerOnChange(fn: (value: boolean) =&gt; void) { this.onChange = fn; }
+  registerOnTouched(fn: () =&gt; void) { this.onTouched = fn; }
+  setDisabledState(disabled: boolean) { this.el.disabled = disabled; }
+}</code></pre>
+      <p>The fields validate themselves (<code>required</code>, <code>minlength</code>, <code>pattern</code>, <code>min</code>/<code>max</code>) and show the browser's message once touched; Angular's validators run separately. To show an Angular error on a field, bind <code>[error]</code> and <code>[errorText]</code>. Every form field takes part in a native <code>&lt;form&gt;</code>'s <code>FormData</code>.</p>`],
+    ["components", "Component by component", html`
+      ${cells(["Angular Material", "lit-material", "Package", "Notes"], ANGULAR_MATERIAL.map(([mat, lit, pkg, notes]) => [html`<code>${mat}</code>`, codeList(lit.split(", ").filter((t) => t.startsWith("lit-material-")).map((t) => t.split(" ")[0])), codeList(pkg.split(", ").map((p) => `@lit-material/${p}`)), notes]))}`],
+    ["services", "Services become elements", html`
+      <p><strong>Dialogs.</strong> Put <code>lit-material-dialog</code> in the template and drive it with <code>open</code>; <code>close</code> fires however it closes (button, Escape, backdrop). For a yes/no question, <code>confirm()</code> from <code>@lit-material/confirm</code> creates a dialog, awaits the answer and removes it, much like <code>MatDialog.open(…).afterClosed()</code>:</p>
+      <pre tabindex="0"><code>&lt;lit-material-dialog [open]="editing" (close)="editing = false"&gt;
+  &lt;div slot="headline"&gt;Edit profile&lt;/div&gt;
+  &lt;lit-material-text-field label="Name" formControlName="name" ngDefaultControl&gt;&lt;/lit-material-text-field&gt;
+  &lt;div slot="actions"&gt;&lt;lit-material-button variant="text" (click)="editing = false"&gt;Cancel&lt;/lit-material-button&gt;&lt;/div&gt;
+&lt;/lit-material-dialog&gt;</code></pre>
+      <pre tabindex="0"><code>import { confirm } from "@lit-material/confirm";
+
+if (await confirm({ headline: "Delete project?", confirmLabel: "Delete", destructive: true })) this.delete();</code></pre>
+      <p><strong>Snack bars.</strong> Keep one <code>lit-material-snackbar</code> in the app shell and a small service that calls its <code>show(message)</code>:</p>
+      <pre tabindex="0"><code>@Injectable({ providedIn: "root" })
+export class Snackbar {
+  private element?: HTMLElement &amp; { show(message?: string): void };
+  attach(element: HTMLElement) { this.element = element as Snackbar["element"]; }
+  open(message: string) { this.element?.show(message); }
+}
+
+// In the app component, whose template has &lt;lit-material-snackbar #snack&gt;&lt;/lit-material-snackbar&gt;
+private readonly snackbar = inject(Snackbar);
+@ViewChild("snack") set snack(ref: ElementRef&lt;HTMLElement&gt;) { this.snackbar.attach(ref.nativeElement); }</code></pre>
+      <p><strong>Menus and tooltips.</strong> They're elements next to their trigger instead of directives on it: <code>&lt;lit-material-menu anchor="more"&gt;</code> opened with <code>(click)="$any(menu).show()"</code> on a template reference <code>#menu</code>, and <code>&lt;lit-material-tooltip anchor="save"&gt;Save changes&lt;/lit-material-tooltip&gt;</code> after <code>id="save"</code> on the button.</p>`],
+    ["gaps", "Gaps", html`
+      <ul>
+        <li>No <code>ControlValueAccessor</code>s and no Angular package: the patterns above, in your app.</li>
+        <li>No codemod: Angular Material templates use directives and services that don't map one to one; use the table.</li>
+        <li>No multiple select, range slider, nested menus, selection list, chip listbox element or radio group element.</li>
+        <li>No CDK equivalents (overlay, portal, a11y, drag and drop, virtual scroll); the data table virtualizes its own rows, and <code>@lit-material/sortable</code> reorders lists.</li>
+        <li>Tables don't own data: no <code>MatTableDataSource</code>, sort or paginator wiring; you sort and slice rows in response to events.</li>
+        <li>Not run inside an Angular app in this repository: the forms behaviour above was checked on the elements in Chromium, against how Angular's <code>DefaultValueAccessor</code> works.</li>
+      </ul>`],
+  ],
 };
 
 export function guidePage(slug, entry) {

@@ -72,6 +72,8 @@ export const GUIDE_GROUPS = [
       { slug: "frameworks", label: "React, Vue and Angular", from: null },
       { slug: "i18n", label: "Languages and RTL", from: null },
       { slug: "security", label: "Security and CSP", from: null },
+      { slug: "migrate-material-web", label: "From @material/web", from: null },
+      { slug: "migrate-angular-material", label: "From Angular Material", from: null },
       { slug: "site-kit", label: "Static sites", from: null },
     ],
   },

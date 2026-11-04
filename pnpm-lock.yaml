@@ -421,6 +421,9 @@ importers:
       '@lit-material/code-block':
         specifier: workspace:*
         version: link:../../packages/code-block
+      '@lit-material/codemod':
+        specifier: workspace:*
+        version: link:../../packages/codemod
       '@lit-material/color-scheme':
         specifier: workspace:*
         version: link:../../packages/color-scheme
@@ -1262,6 +1265,22 @@ importers:
       '@web/test-runner-playwright':
         specifier: ^0.11.0
         version: 0.11.1
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.0
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
+  packages/codemod:
+    dependencies:
+      parse5:
+        specifier: ^8.0.1
+        version: 8.0.1
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.20.1
       tsx:
         specifier: ^4.19.0
         version: 4.23.0
