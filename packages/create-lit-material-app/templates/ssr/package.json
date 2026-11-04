@@ -1,0 +1,24 @@
+{
+  "name": "{{PROJECT_NAME}}",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "node server.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@lit-material/button": "{{version:@lit-material/button}}",
+    "@lit-material/router": "{{version:@lit-material/router}}",
+    "@lit-material/tokens": "{{version:@lit-material/tokens}}",
+    "@lit-material/top-app-bar": "{{version:@lit-material/top-app-bar}}",
+    "@lit-material/vite": "{{version:@lit-material/vite}}",
+    "lit": "^3.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0"
+  }
+}

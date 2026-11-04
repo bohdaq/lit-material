@@ -33,15 +33,22 @@ export class DocsCliPage extends LitElement {
 
       <section class="doc-section">
         <h2>Usage</h2>
-        <pre tabindex="0"><code>npm create lit-material-app my-app
+        <pre tabindex="0"><code>npm create lit-material-app my-app                    # the spa template
+npm create lit-material-app my-blog -- --template ssr  # the ssr template
 cd my-app
 npm install
 npm run dev</code></pre>
-        <p>(Omit <code>my-app</code> to scaffold into <code>./my-lit-material-app</code>.)</p>
+        <p>(Omit <code>my-app</code> to scaffold into <code>./my-lit-material-app</code>; <code>--help</code> lists the templates.)</p>
+        <p>
+          <strong><code>spa</code></strong> (the default) is a client-rendered app with the router, store and theme
+          context wired together. <strong><code>ssr</code></strong> is a server-rendered app on
+          <code>@lit-material/vite</code>: routes with loaders, a redirect and a 404, prerendered pages on
+          <code>npm run build</code>, and a Node server for <code>npm start</code>.
+        </p>
       </section>
 
       <section class="doc-section">
-        <h2>What you get</h2>
+        <h2>What the spa template gives you</h2>
         <pre tabindex="0"><code>${scaffoldTree}</code></pre>
         <p>
           A real, buildable Vite project depending on the actual published <code>@lit-material/*</code>
@@ -59,8 +66,8 @@ npm run dev</code></pre>
         <h2>Why written by hand instead of a scaffolding framework?</h2>
         <p>
           The same reasoning the router gives for writing its own path matching instead of depending on
-          <code>@lit-labs/router</code>. The actual need here (copy a template directory, substitute one
-          placeholder, print next steps) doesn't need <code>commander</code>/<code>inquirer</code>/a
+          <code>@lit-labs/router</code>. The actual need here (copy a template directory, substitute a few
+          placeholders, print next steps) doesn't need <code>commander</code>/<code>inquirer</code>/a
           templating engine. The CLI uses only modules built into Node (<code>fs</code>/<code>path</code>/<code>url</code>).
         </p>
       </section>
