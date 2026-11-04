@@ -1,5 +1,12 @@
 # @lit-material/vite
 
+## 1.1.0
+
+### Patch Changes
+
+- Updated dependencies [a956860]
+  - @lit-material/router@1.1.0
+
 ## 1.0.0
 
 ### Major Changes

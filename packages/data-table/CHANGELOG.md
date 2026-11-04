@@ -1,5 +1,15 @@
 # @lit-material/data-table
 
+## 1.1.0
+
+### Patch Changes
+
+- Updated dependencies [a956860]
+  - @lit-material/text-field@1.1.0
+  - @lit-material/core@1.1.0
+  - @lit-material/select@1.1.0
+  - @lit-material/tokens@1.1.0
+
 ## 1.0.0
 
 ### Major Changes

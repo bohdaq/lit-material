@@ -1,5 +1,13 @@
 # @lit-material/color-scheme
 
+## 1.1.0
+
+### Patch Changes
+
+- @lit-material/core@1.1.0
+- @lit-material/icon-button@1.1.0
+- @lit-material/tokens@1.1.0
+
 ## 1.0.0
 
 ### Major Changes

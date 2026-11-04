@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/rich-text",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Material Design 3 rich-text editor web component (lit-material-rich-text-editor): a formatting toolbar over a sanitized, schema-bound contenteditable, form-associated, with its own undo history.",
   "license": "MIT",
   "author": {

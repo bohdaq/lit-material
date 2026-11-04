@@ -1,5 +1,11 @@
 # @lit-material/router
 
+## 1.1.0
+
+### Minor Changes
+
+- a956860: Hash routing for apps served as static files: `setRouterMode("hash")` keeps the route after the `#`, and `routeHref(path)` builds link hrefs for either mode.
+
 ## 1.0.0
 
 ### Major Changes

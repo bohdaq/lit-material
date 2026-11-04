@@ -1,5 +1,13 @@
 # @lit-material/dialog
 
+## 1.1.0
+
+### Patch Changes
+
+- @lit-material/button@1.1.0
+- @lit-material/core@1.1.0
+- @lit-material/tokens@1.1.0
+
 ## 1.0.0
 
 ### Major Changes

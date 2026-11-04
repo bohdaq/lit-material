@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/pricing",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Plan cards and a plan picker for lit-material: prices, features, the current plan, monthly or yearly billing.",
   "license": "MIT",
   "author": {

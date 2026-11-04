@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/log-viewer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Log viewer web component: a monospace stream of lines that follows the newest while you're at the bottom, with pause, highlighting and a line cap.",
   "license": "MIT",
   "author": {

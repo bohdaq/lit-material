@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/divider",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Material Design 3 divider web component (horizontal or vertical, optionally inset).",
   "license": "MIT",
   "author": {
