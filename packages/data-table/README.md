@@ -234,10 +234,191 @@ pager.addEventListener("page-change", async ({ detail: { page, pageSize } }) => 
 
 The footer works under `lit-material-table` too; it never touches the table.
 
+## Data grid
+
+`lit-material-data-grid` is the data-driven sibling: give it `columns` and `rows` and it sorts,
+groups (with aggregates), edits cells in place, selects, pages and exports CSV. It renders with the
+same `lit-material-data-table`/`-row`/`-cell` elements, so it looks the same. Where
+`lit-material-data-table` leaves your data to you, the grid keeps a copy, which grouping, editing
+and export need; edits produce a new `rows` array and events, so you can save them.
+
+```js
+import "@lit-material/data-table/data-grid.js"; // or "@lit-material/data-table"
+```
+
+```html
+<lit-material-data-grid id="grid" label="Employees" row-key="id" group-by="team" selectable page-size="25"></lit-material-data-grid>
+<script type="module">
+  const grid = document.querySelector("#grid");
+  grid.columns = [
+    { key: "name", header: "Name", sortable: true, editable: true },
+    { key: "team", header: "Team", sortable: true },
+    { key: "role", header: "Role", editable: true, editor: "select",
+      options: [{ value: "eng", label: "Engineer" }, { value: "mgr", label: "Manager" }] },
+    { key: "salary", header: "Salary", numeric: true, sortable: true, editable: true, aggregate: "sum",
+      format: (value) => (value == null ? "" : `$${value.toLocaleString()}`) },
+  ];
+  grid.rows = await fetch("/api/employees").then((r) => r.json());
+
+  grid.addEventListener("cell-edit", (e) => {
+    if (e.detail.column === "salary" && !(e.detail.value >= 0)) {
+      e.detail.error = "Enter a salary of 0 or more";
+      e.preventDefault(); // the editor stays open with this message
+    }
+  });
+  grid.addEventListener("edit-commit", (e) => save(e.detail.row));
+  exportButton.addEventListener("click", () => grid.downloadCSV("employees.csv", { rows: "selected" }));
+</script>
+```
+
+`columns` and `rows` (and `group-by`, `expanded-groups`, `selected`) also take JSON attributes, so
+a server-rendered page carries the data and hydrates to the same markup. `format` and function
+aggregates can only be set as properties.
+
+### Keyboard
+
+| Key | Does |
+| --- | --- |
+| Tab | Moves into the grid (one cell is in the tab order) and out again |
+| Arrow keys | Move between cells (left/right flip in right-to-left layouts) |
+| Home / End | First / last cell of the row; with Ctrl, of the grid |
+| Page Up / Page Down | Ten rows up / down |
+| Enter or Space on a sortable header | Sorts by it (again: reverses) |
+| Right / Left on a group's first cell | Expands / collapses it (Enter and Space toggle too) |
+| Left on a row's first cell | Moves to its group |
+| Enter, F2 or double-click on an editable cell | Opens the editor |
+| Enter (in the editor) | Commits and returns to the cell |
+| Tab / Shift+Tab (in the editor) | Commits and opens the next / previous editable cell |
+| Escape (in the editor) | Cancels |
+
+Moving focus out of an open editor (a click elsewhere) commits it. In the `select` editor, Space or
+ArrowDown open the list; while it's open the keys belong to it (Enter picks an option, Escape
+closes the list), then Enter commits.
+
+### API
+
+| Property | Attribute | Type | Default |
+| -------- | --------- | ---- | ------- |
+| `columns` | `columns` (JSON) | `DataGridColumn[]` | `[]` |
+| `rows` | `rows` (JSON) | `object[]` | `[]` |
+| `rowKey` | `row-key` | `string \| undefined` — the field that identifies a row; else its index | `undefined` |
+| `label` | `label` | `string` — the grid's accessible name | `""` ("Data grid") |
+| `sortKey` | `sort-key` | `string \| undefined` | `undefined` |
+| `sortDirection` | `sort-direction` | `"ascending" \| "descending"` | `"ascending"` |
+| `groupBy` | `group-by` | `string[]` — `"team"`, `"team,role"` or a JSON array; nested in order | `[]` |
+| `expandedGroups` | `expanded-groups` (JSON) | `string[]` — group ids; groups start collapsed | `[]` |
+| `selectable` | `selectable` (reflected) | `boolean` — adds a checkbox column | `false` |
+| `selected` | `selected` (JSON) | `string[]` — selected row keys | `[]` |
+| `pageSize` | `page-size` | `number` — `0` shows every row, no footer | `0` |
+| `page` | `page` | `number` (0-based) | `0` |
+| `pageSizeOptions` | `page-size-options` (JSON) | `number[]` | `[10, 25, 50]` |
+
+`DataGridColumn`:
+
+| Field | Type | |
+| ----- | ---- | - |
+| `key` | `string` | The row field, and the column's id. |
+| `header` | `string` | Header text; also the editor's label. |
+| `numeric` | `boolean` | End-aligned, tabular figures; the default editor becomes `number`. |
+| `sortable` | `boolean` | The header sorts by this column. |
+| `editable` | `boolean` | Cells can be edited. Other cells get `aria-readonly`. |
+| `editor` | `"text" \| "number" \| "select"` | `lit-material-text-field`, `lit-material-number-field` or `lit-material-select`. |
+| `options` | `(string \| number \| { value, label })[]` | Choices for `select`; a cell without `format` shows the label. The committed value keeps the option's type. |
+| `format` | `(value, row) => string \| number \| TemplateResult` | Display text. `row` is `null` for an aggregate. |
+| `aggregate` | `"sum" \| "avg" \| "min" \| "max" \| "count" \| (values, rows) => unknown` | Shown in group header rows, over every row in the group. |
+| `width` | `string \| number` | CSS length or pixels, on the header cell. |
+
+Without `format`, numbers and dates are formatted for the element's language. Sorting compares
+numbers, dates and booleans by value and text with the language's collation (numeric-aware, so
+"item 2" comes before "item 10"); empty values sort last. When sorting by the column you group by,
+the groups follow the sort direction too.
+
+Methods:
+
+- `toCSV(options?)` — the grid as CSV text, see below.
+- `downloadCSV(filename = "data.csv", options?)` — saves `toCSV()` as a file (with a byte order mark unless `bom: false`).
+- `expandAll()`, `collapseAll()`, `toggleGroup(id, force?)` — `toggleGroup` fires `group-toggle`; the other two only set `expandedGroups`.
+- `startEdit(rowKey, columnKey)`, `commitEdit()` (returns `false` when the editor stays open), `cancelEdit()`.
+- `LitMaterialDataGrid.groupId(values)` — a group's id from its values, outermost first:
+  `groupId(["Platform", "Berlin"])` is `"Platform/Berlin"` (each value URI-encoded, so `/` in a value is safe).
+
+Events (all bubble and are composed):
+
+| Event | `detail` | When |
+| ----- | -------- | ---- |
+| `sort-change` | `{ sortKey, sortDirection }` | A sortable header is activated. |
+| `selection-change` | `{ selected: string[] }` | A row or the select-all checkbox changes. |
+| `group-toggle` | `{ group, expanded, expandedGroups }` | A group is expanded or collapsed by the user (or `toggleGroup`). |
+| `cell-edit` | `{ row, column, value, oldValue, error? }` | Cancelable, before an edit is applied. `preventDefault()` keeps the editor open and shows `detail.error` (or "Invalid value"); a listener may also replace `detail.value` to normalise it. Not fired when the value didn't change, or the number editor holds something that isn't a number (it says so itself). |
+| `edit-commit` | `{ row, previousRow, column, value, oldValue }` | After `rows` holds the new row (a new object; the array is new too). |
+| `page-change` | `{ page, pageSize }` | From the pagination footer. |
+
+`cell-edit` is synchronous: to validate against a server, prevent it, check, and then set `rows`
+yourself.
+
+### Grouping and ARIA
+
+Without `group-by` the grid has the ARIA `grid` role; with it, `treegrid`. Group header rows carry
+`aria-level`, `aria-expanded`, `aria-setsize` and `aria-posinset`, and so do the rows inside them
+(their level is one deeper than their group's). Each group header row shows a button (with
+`aria-expanded`) holding the group's column, value and row count, and the columns' aggregates in
+their own cells: "Sum: 1,234", "Average: …", "Min: …", "Max: …", "Count: …" (non-empty values), or
+your function's result. Collapsed rows aren't rendered. Selectable grids set `aria-multiselectable`
+and `aria-selected` on rows; with `page-size`, rows carry `aria-rowindex` and the grid
+`aria-rowcount`. Sorting and edit errors are announced through a polite live region.
+
+### CSV export
+
+`toCSV({ columns?, rows?, bom?, delimiter?, raw?, header?, escapeFormulas? })` returns RFC 4180
+text: records separated by CRLF, and a field quoted when it holds the delimiter, a quote, CR or LF
+(quotes inside it doubled).
+
+- `columns` — column keys to export, in order (default: all).
+- `rows` — `"all"` (default: every row, in display order, whatever is collapsed or paged),
+  `"visible"` (the rows on screen: expanded groups, current page) or `"selected"`.
+- Values go through `format` unless `raw: true`; a `format` that returns a template exports the
+  raw value. Group header rows are never exported.
+- `delimiter` — default `","` (use `";"` for spreadsheets that use a decimal comma), `bom` — a
+  UTF-8 byte order mark for Excel (default `false` here, `true` for `downloadCSV`), `header` — the
+  header record (default `true`).
+- **Formula injection.** A cell starting with `=`, `+`, `-`, `@`, a tab or a carriage return would
+  run as a formula when the file is opened in a spreadsheet, so it's written with a leading `'`
+  (`=HYPERLINK(…)` becomes `'=HYPERLINK(…)`), which spreadsheets show as text. Plain numbers such as
+  `-5` or `+1` are left alone. Pass `escapeFormulas: false` for a file only programs will read.
+
+The same helpers are exported for your own use: `toCsvText(records, options)`, `csvField(text)` and
+`neutralizeFormula(text)` from `@lit-material/data-table/csv.js`.
+
+### Pagination
+
+Set `page-size` and the grid renders `lit-material-data-table-pagination` under itself and pages its
+rows, firing `page-change`. With grouping, a page is a slice of the visible rows (group header rows
+count), and aggregates are over the whole group, not the page.
+
+### Texts and direction
+
+The grid's texts (aggregate labels, row counts, "(Empty)" for a blank group value, "No rows",
+checkbox names, the announcements and "Invalid value") are translated through `@lit-material/core`'s
+`registerTranslation` (keys `dataTable.*`). In right-to-left layouts the arrow keys follow the
+reading direction and the group chevron is mirrored.
+
 ## Scope
 
-Deliberately out of scope: column reordering and multi-column sort. Both reasonable follow-ups,
-not silently missing pieces.
+Deliberately out of scope for `lit-material-data-table`: column reordering and multi-column sort.
+Both reasonable follow-ups, not silently missing pieces.
+
+For `lit-material-data-grid`, not (yet) included:
+
+- **Virtualization.** Every rendered row is in the DOM; use `page-size` for large data, or
+  `lit-material-data-table`'s virtualized mode (without grouping/editing). Roving focus and editing
+  across unmounted rows need more than the table's fixed-height window.
+- **Multi-column sort, filtering, column resizing/reordering/pinning** and a sticky header.
+- **Editing:** no type-to-edit (start typing on a cell), no editors beyond text/number/select, no
+  async `cell-edit` validation (prevent, check, then set `rows`), no undo. Editing a row's
+  `row-key` field isn't supported.
+- **Grouping:** group rows have no checkbox (selecting a group's rows), and group headers aren't
+  repeated at the top of a page that starts inside a group.
+- **CSV import**, and export of anything but the grid's own rows.
 
 ## License
 

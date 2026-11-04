@@ -36,6 +36,16 @@ export const styles = css`
     white-space: nowrap;
   }
 
+  :host([editing]) {
+    padding-block: 4px;
+    padding-inline: 8px;
+  }
+
+  :host([editing]) .content {
+    display: flex;
+    overflow: visible;
+  }
+
   .content {
     display: inline-flex;
     align-items: center;

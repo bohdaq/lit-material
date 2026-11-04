@@ -1,7 +1,7 @@
 {
   "name": "@lit-material/data-table",
   "version": "0.2.1",
-  "description": "Material Design 3 data table web components (sortable, selectable, paginated, resizable, virtualized).",
+  "description": "Material Design 3 data table and data grid web components (sortable, selectable, paginated, resizable, virtualized; grouping, inline editing, CSV export).",
   "license": "MIT",
   "author": {
     "name": "bohdaq",
@@ -22,7 +22,9 @@
     "material-design",
     "material-design-3",
     "data-table",
-    "table"
+    "data-grid",
+    "table",
+    "csv"
   ],
   "type": "module",
   "main": "./dist/index.js",
@@ -31,6 +33,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./csv.js": {
+      "types": "./dist/csv.d.ts",
+      "default": "./dist/csv.js"
+    },
+    "./data-grid.js": {
+      "types": "./dist/data-grid.d.ts",
+      "default": "./dist/data-grid.js"
     },
     "./data-table-cell.js": {
       "types": "./dist/data-table-cell.d.ts",
@@ -76,6 +86,8 @@
   },
   "dependencies": {
     "@lit-material/core": "workspace:*",
+    "@lit-material/select": "workspace:*",
+    "@lit-material/text-field": "workspace:*",
     "@lit-material/tokens": "workspace:*",
     "lit": "^3.2.0"
   },
