@@ -55,6 +55,40 @@ describe("createStore (no browser)", () => {
   });
 });
 
+describe("store.replaceState (no browser)", () => {
+  it("swaps in the given state without running the reducer and notifies subscribers", () => {
+    let reducerCalls = 0;
+    const store = createStore((state: CounterState, action: CounterAction) => {
+      reducerCalls++;
+      return counterReducer(state, action);
+    }, { count: 0 });
+    let notified = 0;
+    store.subscribe(() => notified++);
+
+    const snapshot = { count: 42 };
+    store.replaceState!(snapshot);
+
+    assert.equal(store.getState(), snapshot);
+    assert.equal(notified, 1);
+    assert.equal(reducerCalls, 0);
+
+    // Later dispatches reduce from the replaced state.
+    store.dispatch({ type: "increment" });
+    assert.equal(store.getState().count, 43);
+  });
+
+  it("updates a StoreController host like a dispatch would", () => {
+    const store = createStore(counterReducer, { count: 0 });
+    const host = createFakeHost();
+    const controller = new StoreController(host, store, (state) => state.count);
+    controller.hostConnected();
+
+    store.replaceState!({ count: 7 });
+    assert.equal(host.requestUpdateCount, 1);
+    assert.equal(controller.value, 7);
+  });
+});
+
 describe("StoreController (no browser)", () => {
   it("constructs against a plain host object, without any DOM", () => {
     const store = createStore(counterReducer, { count: 0 });
