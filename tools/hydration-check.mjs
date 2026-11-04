@@ -51,6 +51,8 @@ for (const file of elementModules) await import(file);
 
 const j = JSON.stringify;
 const cases = tags.map((t) => [t, html`<${unsafeStatic(t)} label="Sample" headline="Sample">Sample text</${unsafeStatic(t)}>`]);
+// Overlapping timed events and a multi-day all-day one, for lit-material-calendar.
+const calendarEvents = [{ id: 1, title: "Standup", start: "2026-06-15T09:00", end: "2026-06-15T09:30" }, { id: 2, title: "Review", start: "2026-06-15T09:15", end: "2026-06-15T10:00", color: "#386a20" }, { id: 3, title: "Offsite", start: "2026-06-16", end: "2026-06-18" }];
 cases.push(
   ["bar-chart data", html`<lit-material-bar-chart label="Requests" data=${j([{ name: "api", value: 30 }, { name: "web", value: 12 }])}></lit-material-bar-chart>`],
   ["line-chart series", html`<lit-material-line-chart label="Load" series=${j([{ name: "cpu", points: [{ x: 0, y: 1 }, { x: 1, y: 3 }] }])}></lit-material-line-chart>`],
@@ -58,10 +60,15 @@ cases.push(
   ["chip-input values", html`<lit-material-chip-input label="Tags" values=${j(["alpha", "beta"])}></lit-material-chip-input>`],
   ["pagination page-size-options", html`<lit-material-data-table-pagination page-size-options=${j([5, 20])}></lit-material-data-table-pagination>`],
   ["dual-list items", html`<lit-material-dual-list-selector items=${j([{ value: "a", label: "Apples" }])} selected=${j(["a"])}></lit-material-dual-list-selector>`],
+  ["data-grid rows", html`<lit-material-data-grid row-key="id" sort-key="name" selectable columns=${j([{ key: "name", header: "Name", sortable: true }, { key: "n", header: "N", numeric: true, width: 80 }])} rows=${j([{ id: 1, name: "Ada", n: 1200 }, { id: 2, name: "Alan", n: 3 }])}></lit-material-data-grid>`],
+  ["data-grid groups", html`<lit-material-data-grid row-key="id" group-by="team" expanded-groups=${j(["a"])} page-size="10" columns=${j([{ key: "name", header: "Name" }, { key: "n", header: "N", numeric: true, aggregate: "sum" }])} rows=${j([{ id: 1, team: "a", name: "Ada", n: 1 }, { id: 2, team: "b", name: "Alan", n: 2 }])}></lit-material-data-grid>`],
   ["table rows", html`<lit-material-table caption="People" columns=${j([{ key: "name", label: "Name" }])} rows=${j([{ name: "Ada" }])}></lit-material-table>`],
   ["diff texts", html`<lit-material-diff original="a\nb\nc" modified="a\nx\nc" mode="split"></lit-material-diff>`],
   ["change-list changes", html`<lit-material-change-list changes=${j([{ path: "$.a", kind: "changed", before: 1, after: 2 }])}></lit-material-change-list>`],
   ["merge-view sides", html`<lit-material-merge-view base="1" sides=${j([{ label: "Mine", text: "a\nB" }, { label: "Base", text: "a\nb" }])}></lit-material-merge-view>`],
+  ["calendar month events", html`<lit-material-calendar date="2026-06-15" first-day-of-week="1" events=${j(calendarEvents)}></lit-material-calendar>`],
+  ["calendar week events", html`<lit-material-calendar view="week" date="2026-06-15" first-day-of-week="1" events=${j(calendarEvents)}></lit-material-calendar>`],
+  ["calendar agenda events", html`<lit-material-calendar view="agenda" date="2026-06-15" events=${j(calendarEvents)}></lit-material-calendar>`],
   ["jump-links links", html`<lit-material-jump-links links=${j([{ id: "a", text: "Install" }])}></lit-material-jump-links>`],
   ["rich-text value", html`<lit-material-rich-text-editor label="Notes" value=${'<h2>Plan</h2><p>Ship <strong>it</strong> <a href="/x">now</a><br>later</p><ul><li>one<ol><li>two</li></ol></li></ul><blockquote><p>q</p></blockquote><pre>a\n  b</pre>'}></lit-material-rich-text-editor>`],
   // Elements whose template depends on their light DOM children.

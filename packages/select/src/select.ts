@@ -127,6 +127,15 @@ export class LitMaterialSelect extends LitElement {
     return this.options.filter((option) => !option.disabled);
   }
 
+  /**
+   * The focused option. Options are this element's light DOM, so they're focused in the root it sits in:
+   * `document.activeElement` is the shadow host instead when the select is inside another shadow root.
+   */
+  private get focusedOption(): LitMaterialSelectOption | null {
+    const root = this.getRootNode() as Document | ShadowRoot;
+    return (root.activeElement ?? null) as LitMaterialSelectOption | null;
+  }
+
   private get selectedOption(): LitMaterialSelectOption | undefined {
     return this.options.find((option) => option.value === this.value);
   }
@@ -202,7 +211,7 @@ export class LitMaterialSelect extends LitElement {
   }
 
   private acceptActive(refocusTrigger: boolean): void {
-    const active = this.options.find((option) => option === document.activeElement);
+    const active = this.options.find((option) => option === this.focusedOption);
     if (active && !active.disabled && active.value !== this.value) {
       this.value = active.value;
       this.dispatchEvent(new Event("change", { bubbles: true }));
@@ -283,7 +292,7 @@ export class LitMaterialSelect extends LitElement {
   private readonly handleListboxKeydown = (event: KeyboardEvent): void => {
     if (!this.open) return;
     const options = this.navigableOptions;
-    const current = document.activeElement as LitMaterialSelectOption | null;
+    const current = this.focusedOption;
     const index = current ? options.indexOf(current) : -1;
 
     switch (event.key) {

@@ -232,12 +232,22 @@ framework. Ordered by priority.
     enforced; inline styles moved to `cssProps` (CSSOM) in 13 packages; `dist/sbom.cdx.json` (CycloneDX) in
     every package at release; guide "Security, CSP and SBOMs".
 12. **Enterprise widgets.**
-    - Data grid: grouping, inline editing, CSV export.
+    - ~~Data grid: grouping, inline editing, CSV export.~~ Done (unreleased changeset):
+      `lit-material-data-grid` in `@lit-material/data-table` (`data-grid.js`), data-driven `columns`/`rows`
+      (JSON attributes too) rendered with the table's row/cell elements: sorting, checkbox selection,
+      nested `group-by` with sum/avg/min/max/count/function aggregates as a treegrid, inline editing with
+      text/number/select editors and a cancelable `cell-edit`, roving-tabindex cell navigation, built-in
+      pagination, and RFC 4180 `toCSV()`/`downloadCSV()` with formula-injection escaping. No
+      virtualization, filtering or multi-sort (see its README's Scope).
     - ~~Rich-text editor.~~ Done (unreleased changeset): [`@lit-material/rich-text`](packages/rich-text)
       (`lit-material-rich-text-editor`): own document model and undo history instead of `execCommand`,
       schema-bound sanitizer for paste and `value` (no Trusted Types policy needed), ARIA toolbar, link
       panel with safe schemes, form-associated, SSR + hydration, `getText()`/`getMarkdown()`.
-    - Calendar / scheduler.
+    - ~~Calendar / scheduler.~~ Done (unreleased changeset): [`@lit-material/calendar`](packages/calendar) —
+      month grid with "+N more", week and day time grids with overlap columns and an all-day row, agenda; drag to
+      create, drag and resize, Alt+arrow moves, all through a cancelable `event-change` on controlled `events`;
+      ARIA grids with arrow/PageUp/PageDown/Home/End/T keys (mirrored in RTL); local time zone only (`time-zone`
+      and recurrence scoped out).
 13. **Adoption.**
     - ~~Migration guides and codemods from `@material/web` and Angular Material.~~ Done (unreleased
       changeset): [`@lit-material/codemod`](packages/codemod) (`npx @lit-material/codemod md-web src`)

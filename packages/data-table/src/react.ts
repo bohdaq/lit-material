@@ -2,10 +2,27 @@
 // React 18 and 19 wrappers: properties set as properties, events as `on<Event>` props.
 import * as React from "react";
 import { createComponent, type EventName } from "@lit/react";
+import { LitMaterialDataGrid } from "./data-grid.js";
 import { LitMaterialDataTable } from "./data-table.js";
 import { LitMaterialDataTableCell } from "./data-table-cell.js";
 import { LitMaterialDataTablePagination } from "./data-table-pagination.js";
 import { LitMaterialDataTableRow } from "./data-table-row.js";
+
+/** React wrapper for `<lit-material-data-grid>`. */
+export const DataGrid = createComponent({
+  tagName: "lit-material-data-grid",
+  elementClass: LitMaterialDataGrid,
+  react: React,
+  events: {
+    onGroupToggle: "group-toggle" as EventName<CustomEvent>,
+    onCellEdit: "cell-edit" as EventName<CustomEvent>,
+    onEditCommit: "edit-commit" as EventName<CustomEvent>,
+    onSelectionChange: "selection-change" as EventName<CustomEvent>,
+    onSortChange: "sort-change" as EventName<Event>,
+    onPageChange: "page-change" as EventName<Event>,
+  },
+  displayName: "DataGrid",
+});
 
 /** React wrapper for `<lit-material-data-table>`. */
 export const DataTable = createComponent({

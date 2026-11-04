@@ -17,6 +17,7 @@
     "@lit-material/badge": "workspace:*",
     "@lit-material/breadcrumbs": "workspace:*",
     "@lit-material/button": "workspace:*",
+    "@lit-material/calendar": "workspace:*",
     "@lit-material/card": "workspace:*",
     "@lit-material/carousel": "workspace:*",
     "@lit-material/chart": "workspace:*",

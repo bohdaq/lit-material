@@ -1,4 +1,5 @@
 import { expect, fixture, html } from "@open-wc/testing";
+import { render } from "lit";
 import { sendKeys } from "@web/test-runner-commands";
 import { registerTranslation } from "@lit-material/core/localize.js";
 import "./select.js";
@@ -73,6 +74,32 @@ describe("lit-material-select", () => {
     expect(el.open).to.be.true;
     expect(document.activeElement).to.equal(el.querySelector('[value="m"]'));
     el.open = false;
+  });
+
+  it("navigates and accepts options by keyboard inside another element's shadow root", async () => {
+    const host = await fixture<HTMLDivElement>(html`<div></div>`);
+    const root = host.attachShadow({ mode: "open" });
+    render(
+      html`<lit-material-select label="Size">
+        <lit-material-select-option value="s">Small</lit-material-select-option>
+        <lit-material-select-option value="m">Medium</lit-material-select-option>
+      </lit-material-select>`,
+      root,
+    );
+    const el = root.querySelector<LitMaterialSelect>("lit-material-select")!;
+    await el.updateComplete;
+    (el.shadowRoot!.querySelector("button.trigger") as HTMLButtonElement).focus();
+    await sendKeys({ press: "ArrowDown" });
+    await el.updateComplete;
+    expect(el.open).to.be.true;
+    // The options are focused in the shadow root the select sits in, not in the document.
+    expect(root.activeElement).to.equal(el.querySelector('[value="s"]'));
+    await sendKeys({ press: "ArrowDown" });
+    expect(root.activeElement).to.equal(el.querySelector('[value="m"]'));
+    await sendKeys({ press: "Enter" });
+    await el.updateComplete;
+    expect(el.value).to.equal("m");
+    expect(el.open).to.be.false;
   });
 
   it("moves the highlight with ArrowDown/ArrowUp without wrapping, and skips disabled options", async () => {
