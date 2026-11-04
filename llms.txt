@@ -4,7 +4,7 @@
 > mega-bundle, no required adapter layer, SSR-ready.
 
 lit-material is a pnpm + Turborepo monorepo published as independently installable `@lit-material/*` npm
-packages (one per component), plus a handful of app-shell primitives (router, state store, context, data
+packages (one per component, all released at the same version), plus a handful of app-shell primitives (router, state store, context, data
 fetching, form validation) and a scaffolding CLI. Every component reads its visual design from
 `@lit-material/tokens`'s CSS custom properties, is tested against both a real browser and `@lit-labs/ssr`, and
 is documented with a live demo in `apps/docs`. Each package's own README is the source of truth for its API and
@@ -115,6 +115,9 @@ Every component package also exports generated framework bindings: `@lit-materia
 - [Building apps guide](https://lit.rws8.tech/guides/building-apps/): Router + store + context + task + form wired together in one example.
 - [Migrate from @material/web](https://lit.rws8.tech/guides/migrate-material-web/): same `--md-sys-*` tokens; the codemod and its element-by-element table; what needs manual work.
 - [Migrate from Angular Material](https://lit.rws8.tech/guides/migrate-angular-material/): `CUSTOM_ELEMENTS_SCHEMA`, bindings, forms (`ngDefaultControl` for text fields and sliders, `(change)` or your own accessor for select/checkbox/switch), component table, dialog/snackbar services as elements.
+
+- [Versioning and support](https://github.com/bohdaq/lit-material/blob/main/VERSIONING.md): every package shares one version (install them at the same version); semver, what counts as public API, deprecation (a minor ahead, 6 months), previous major supported 12 months; browsers and Node supported.
+- [Contributing](https://github.com/bohdaq/lit-material/blob/main/CONTRIBUTING.md): setup, every CI check and the command for it, component conventions (localize, RTL, CSP, SSR, a11y), changesets, the RFC process in `rfcs/`.
 
 ## Optional
 

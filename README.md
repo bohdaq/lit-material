@@ -71,6 +71,9 @@ npm install @lit-material/tokens @lit-material/button
 properties (color, type, shape, elevation, motion) every component reads from. Link it once, use as many
 components as you like.
 
+Every package is released at the same version number, so keep them on the same version
+([versioning and support](VERSIONING.md)).
+
 ## Components
 
 | Package | |
@@ -215,6 +218,14 @@ If the workflow fails with `E404 … PUT https://registry.npmjs.org/@lit-materia
 trusted publisher: run the script for it and re-run the workflow (`gh workflow run release.yml`). A failed run
 pushes no tags for the packages that did publish; tag those at the "Version packages" commit by hand
 (`git tag @lit-material/<name>@<version> <sha> && git push origin <tag>`).
+
+## Project
+
+- [Versioning and support](VERSIONING.md): every package is released at the same version, with semver,
+  deprecations announced a minor ahead, and the previous major supported for 12 months.
+- [Security](SECURITY.md): report vulnerabilities privately through GitHub.
+- [Contributing](CONTRIBUTING.md), [code of conduct](CODE_OF_CONDUCT.md), [maintainers](MAINTAINERS.md),
+  [roadmap](ROADMAP.md) and [RFCs](rfcs/README.md).
 
 ## Using this repo with AI
 

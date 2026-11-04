@@ -184,12 +184,18 @@ What lit-material still lacks to be picked the way React, Angular or Angular Mat
 The goal is "the complete kit for building apps on Lit", not a new rendering framework: Lit is the
 framework. Ordered by priority.
 
-1. **1.0 and a support policy.** Every package is 0.x. Ship 1.0 with a written semver, deprecation and
+1. ~~**1.0 and a support policy.** Every package is 0.x. Ship 1.0 with a written semver, deprecation and
    long-term-support policy, and link versions (Changesets `linked`/`fixed`) or publish an
-   all-components package so 81 independent versions don't need a compatibility matrix.
-2. **Governance files.** `SECURITY.md` (private reporting, supported versions), `CONTRIBUTING.md`,
-   code of conduct, a public roadmap and a lightweight RFC process. One maintainer is a procurement flag;
-   name a second.
+   all-components package so 81 independent versions don't need a compatibility matrix.~~ Done (unreleased
+   changeset): all 89 published packages in one Changesets `fixed` group and a major changeset taking them
+   to 1.0.0 together; [VERSIONING.md](VERSIONING.md) (public API, semver, deprecations a minor ahead and
+   6 months, previous major supported 12 months, browsers/Node/Lit) and the "Versions and support" guide.
+2. **Governance files.** ~~`SECURITY.md` (private reporting, supported versions), `CONTRIBUTING.md`,
+   code of conduct, a public roadmap and a lightweight RFC process.~~ Done: [SECURITY.md](SECURITY.md)
+   (GitHub private vulnerability reporting, response targets, scope), [CONTRIBUTING.md](CONTRIBUTING.md)
+   (checks, conventions, decisions), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) (Contributor Covenant 2.1),
+   [ROADMAP.md](ROADMAP.md), [rfcs/](rfcs/README.md), [MAINTAINERS.md](MAINTAINERS.md). One maintainer is a
+   procurement flag; name a second. (Still open: MAINTAINERS.md asks for one.)
 3. ~~**Router v2** (`router` 0.0.6 has nested routes and a base path only): guards and redirects,
    lazy-loaded routes (`import()`), typed query parameters, scroll restoration, page titles,
    server-side matching so routed pages can be prerendered.~~ Done (unreleased changeset):
