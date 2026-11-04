@@ -134,6 +134,48 @@ registerTranslation(de, ar);</code></pre>
         <p>On the server there's no page to read <code>&lt;html lang&gt;</code> from: put <code>lang</code> on the element or call <code>setFallbackLocale()</code> before rendering, so the server's text matches the browser's when it hydrates.</p>`],
     ],
   },
+  data: {
+    title: "Data and forms",
+    lead: "Fetch with @lit-material/http, cache and refresh with TaskController, validate with FormController: three small pieces that fit together without a framework.",
+    sections: [
+      ["client", "An HTTP client", html`
+        <p><code>createHttp</code> wraps <code>fetch</code>: a base URL, JSON in and out, query objects, timeouts, and an <code>HttpError</code> with the status and parsed body for anything outside 200–299. Interceptors add headers and can refresh a token and retry once on 401.</p>
+        <pre tabindex="0"><code>import { createHttp } from "@lit-material/http";
+
+export const api = createHttp({ baseUrl: "/api", headers: () => ({ Authorization: \`Bearer \${session.token}\` }) });
+
+api.use({
+  response: async (response, { retry, attempt }) =&gt;
+    response.status === 401 &amp;&amp; attempt === 1 ? (await session.refresh(), retry()) : response,
+});</code></pre>`],
+      ["cache", "Cached data", html`
+        <p>Give a task a <code>key</code> and its result is shared: every component asking for the same key shows it at once and shares one request, a stale value shows while a fresh one loads, and <code>retry</code> handles flaky networks.</p>
+        <pre tabindex="0"><code>private readonly user = new TaskController(this, {
+  task: ([id], signal) =&gt; api.get(\`/users/\${id}\`, { signal }),
+  args: () =&gt; [this.userId] as const,
+  key: ([id]) =&gt; ["user", id],
+  staleTime: 30_000,
+  retry: 2,
+  refetchOnFocus: true,
+});</code></pre>
+        <p>After a change, <code>taskCache.invalidate(["user"])</code> re-fetches every user on screen, and <code>taskCache.set(key, value)</code> shows a value everywhere straight away.</p>`],
+      ["forms", "Validated forms", html`
+        <p><code>FormController</code> reads a form's values (dotted names nest: <code>items.0.name</code>), runs field validators, sync or async, and any Standard Schema (zod, valibot, arktype), and shows the messages on the fields themselves. <code>handleSubmit</code> runs everything and calls you only with valid values.</p>
+        <pre tabindex="0"><code>private readonly form = new FormController(this, {
+  form: () =&gt; this.formEl,
+  schema: signupSchema,                       // a zod schema, say
+  validators: {
+    email: async (value, _values, signal) =&gt;
+      (await api.get("/emails/taken", { query: { value }, signal })) ? "Already registered" : undefined,
+  },
+});
+
+render() {
+  return html\`&lt;form @submit=\${this.form.handleSubmit((values) =&gt; api.post("/signup", values))}&gt;…&lt;/form&gt;\`;
+}</code></pre>
+        <p>Repeating rows use a <code>FieldArrayController</code>: stable keys for <code>repeat()</code>, and <code>append</code>, <code>remove</code> and <code>move</code>.</p>`],
+    ],
+  },
   frameworks: {
     title: "React, Vue and Angular",
     lead: "lit-material components are custom elements, so they work in any framework as they are. Every component package also ships React wrappers, JSX and Vue typings, and editor metadata, generated from its custom elements manifest.",

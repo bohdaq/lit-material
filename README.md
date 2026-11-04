@@ -155,8 +155,9 @@ components as you like.
 | [`@lit-material/store`](packages/store) | A dependency-free, Redux-shaped state store. |
 | [`@lit-material/core`](packages/core) | Ripple/focus-ring controllers, `LocalizeController` (messages, plurals, `isRtl`), plus `themeContext`/`localeContext`. |
 | [`@lit-material/translations`](packages/translations) | Catalogs for the components' own text: Arabic, German, Spanish, French, Japanese, Polish, Ukrainian (English is built in). |
-| [`@lit-material/task`](packages/task) | A reactive controller for async work (data fetching). |
-| [`@lit-material/form`](packages/form) | A reactive controller tracking a `<form>`'s aggregate validity. |
+| [`@lit-material/task`](packages/task) | A reactive controller for async work (data fetching): keyed cache with stale-while-revalidate, request deduplication, retries, background refresh. |
+| [`@lit-material/http`](packages/http) | A small `fetch` client: base URL, JSON, query objects, typed errors, timeouts, interceptors (auth headers, refresh-and-retry on 401). |
+| [`@lit-material/form`](packages/form) | A reactive controller for a `<form>`: values, sync/async field validators, Standard Schema (zod, valibot), errors shown on the fields, field arrays, `handleSubmit`. |
 | [`create-lit-material-app`](packages/create-lit-material-app) | `npm create lit-material-app` — a scaffolded starting point with all of the above wired together. |
 
 The docs app's "Building apps" guide (`apps/docs`, `/guide/building-apps` — see below) walks through all six

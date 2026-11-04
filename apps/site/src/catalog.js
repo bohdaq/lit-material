@@ -89,6 +89,7 @@ export const GUIDE_GROUPS = [
       { slug: "store", label: "Store", from: "/packages/store" },
       { slug: "task", label: "Task", from: "/packages/task" },
       { slug: "form", label: "Form", from: "/packages/form" },
+      { slug: "data", label: "Data and forms", from: null },
       { slug: "core", label: "Core", from: "/packages/core" },
       { slug: "create-app", label: "Create an app", from: "/packages/cli" },
     ],
