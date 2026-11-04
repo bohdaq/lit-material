@@ -1,4 +1,5 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./code-block.js";
 import type { LitMaterialCodeBlock } from "./code-block.js";
 
@@ -121,5 +122,23 @@ describe("lit-material-code-block", () => {
     expect(box.borderTopLeftRadius).to.equal("3px");
     expect(box.backgroundColor).to.equal("rgb(1, 2, 3)");
     expect(getComputedStyle(el.shadowRoot!.querySelector(".pre")!).fontFamily).to.equal("serif");
+  });
+
+  it("translates its button texts for the element's language", async () => {
+    registerTranslation({ $code: "x-code-block", "codeBlock.copy": "Copier", "codeBlock.showMore": "Afficher plus", "codeBlock.showLess": "Afficher moins" });
+    const wrap = await fixture<HTMLDivElement>(html`<div lang="x-code-block"><lit-material-code-block expandable>x</lit-material-code-block></div>`);
+    const el = wrap.querySelector<LitMaterialCodeBlock>("lit-material-code-block")!;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".copy")!.textContent!.trim()).to.equal("Copier");
+    expect(el.shadowRoot!.querySelector(".expand-toggle")!.textContent!.trim()).to.equal("Afficher plus");
+    el.expanded = true;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".expand-toggle")!.textContent!.trim()).to.equal("Afficher moins");
+  });
+
+  it("keeps the code left to right on a right-to-left page", async () => {
+    const wrap = await fixture<HTMLDivElement>(html`<div dir="rtl"><lit-material-code-block>f();</lit-material-code-block></div>`);
+    const el = wrap.querySelector<LitMaterialCodeBlock>("lit-material-code-block")!;
+    expect(getComputedStyle(el.shadowRoot!.querySelector("pre")!).direction).to.equal("ltr");
   });
 });

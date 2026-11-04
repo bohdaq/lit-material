@@ -1,5 +1,6 @@
 import { html, LitElement, nothing, svg } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./data-table-pagination-styles.js";
 
 // Material icons first_page, chevron_left, chevron_right, last_page (Apache 2.0).
@@ -46,12 +47,19 @@ export class LitMaterialDataTablePagination extends LitElement {
   /** Disables every control, e.g. while a page loads. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
+  private readonly localize = new LocalizeController(this);
+
+  // Whether the current aria-label is one *we* set (kept in sync with the
+  // language) rather than one the author supplied.
+  private labelIsOwn = false;
+
   protected override willUpdate(): void {
     if (!this.hasAttribute("role")) {
       this.setAttribute("role", "group");
     }
-    if (!this.hasAttribute("aria-label")) {
-      this.setAttribute("aria-label", "Pagination");
+    if (!this.hasAttribute("aria-label") || this.labelIsOwn) {
+      this.setAttribute("aria-label", this.localize.term("dataTable.pagination", "Pagination"));
+      this.labelIsOwn = true;
     }
   }
 
@@ -93,40 +101,42 @@ export class LitMaterialDataTablePagination extends LitElement {
     const page = this.clampedPage;
     const isFirst = page <= 0;
     const isLast = page >= this.pageCount - 1;
-    const range = this.unknownTotal ? `Page ${page + 1}` : `${this.rangeStart}–${this.rangeEnd} of ${this.total}`;
+    const range = this.unknownTotal
+      ? this.localize.term("dataTable.page", "Page {page}", { page: page + 1 })
+      : this.localize.term("dataTable.range", "{from}–{to} of {total}", { from: this.rangeStart, to: this.rangeEnd, total: this.total });
     return html`
       <div class="page-size">
-        <label id="page-size-label">Rows per page</label>
+        <label id="page-size-label">${this.localize.term("dataTable.rowsPerPage", "Rows per page")}</label>
         <select
           aria-labelledby="page-size-label"
           ?disabled=${this.disabled}
           .value=${String(this.pageSize)} @change=${this.handlePageSizeChange}>
           ${this.pageSizeOptions.map(
-            (size) => html`<option value=${size} ?selected=${size === this.pageSize}>${size}</option>`,
+            (size) => html`<option value=${size} ?selected=${size === this.pageSize}>${this.localize.number(size)}</option>`,
           )}
         </select>
       </div>
       <div class="range">${range}</div>
       <div class="controls">
-        <button type="button" aria-label="First page" ?disabled=${this.disabled || isFirst} @click=${this.handleFirst}>
+        <button type="button" aria-label=${this.localize.term("dataTable.firstPage", "First page")} ?disabled=${this.disabled || isFirst} @click=${this.handleFirst}>
           ${firstIcon}
         </button>
         <button
           type="button"
-          aria-label="Previous page"
+          aria-label=${this.localize.term("dataTable.previousPage", "Previous page")}
           ?disabled=${this.disabled || isFirst}
           @click=${this.handlePrevious}
         >
           ${previousIcon}
         </button>
-        <button type="button" aria-label="Next page" ?disabled=${this.disabled || isLast} @click=${this.handleNext}>
+        <button type="button" aria-label=${this.localize.term("dataTable.nextPage", "Next page")} ?disabled=${this.disabled || isLast} @click=${this.handleNext}>
           ${nextIcon}
         </button>
         ${this.unknownTotal
           ? nothing
           : html`<button
               type="button"
-              aria-label="Last page"
+              aria-label=${this.localize.term("dataTable.lastPage", "Last page")}
               ?disabled=${this.disabled || isLast}
               @click=${this.handleLast}
             >

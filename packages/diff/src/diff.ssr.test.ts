@@ -11,8 +11,8 @@ describe("lit-material-diff (SSR)", () => {
     const out = await collectResult(render(html`<lit-material-diff original="a\nb" modified="a\nc"></lit-material-diff>`));
     assert.match(out, /shadowrootmode="open"/);
     assert.match(out, /<tr class="removed">/);
-    assert.match(out, /Removed: <\/span>(<!--[^>]*-->)*b/);
-    assert.match(out, /Added: <\/span>(<!--[^>]*-->)*c/);
+    assert.match(out, /Removed: (<!--[^>]*-->)*<\/span>(<!--[^>]*-->)*b/);
+    assert.match(out, /Added: (<!--[^>]*-->)*<\/span>(<!--[^>]*-->)*c/);
   });
 
   it("renders a change list and a merge view from JSON attributes", async () => {

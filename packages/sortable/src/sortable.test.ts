@@ -2,6 +2,7 @@ import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { render } from "lit";
 import { repeat } from "lit/directives/repeat.js";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./sortable.js";
 import type { LitMaterialSortable, SortDetail } from "./sortable.js";
 
@@ -262,5 +263,31 @@ describe("lit-material-sortable layout=grid", () => {
     pointer("pointerup", document, c.left + 5, c.top + 20);
     await frames();
     expect(order()).to.deep.equal(["A", "C", "B", "D", "E", "F"]);
+  });
+});
+
+describe("lit-material-sortable localization", () => {
+  it("translates the handle hint and the announcements", async () => {
+    registerTranslation({
+      $code: "x-sortable",
+      "sortable.instructions": "Espace pour réordonner",
+      "sortable.pickedUp": "{name} saisi, position {position} sur {total}.",
+      "sortable.movedToOf": "{name} déplacé en position {position} sur {total}.",
+      "sortable.droppedAt": "{name} déposé en position {position} sur {total}.",
+    });
+    const { el, host, order } = await list();
+    host.setAttribute("lang", "x-sortable");
+    el.requestUpdate(); // only <html lang> is observed
+    await el.updateComplete;
+    expect(handle(el, "Alpha").getAttribute("aria-description")).to.equal("Espace pour réordonner");
+    handle(el, "Alpha").focus();
+    await sendKeys({ press: "Space" });
+    expect(el.announcement).to.equal("⋮Alpha saisi, position 1 sur 4.");
+    await sendKeys({ press: "ArrowDown" });
+    await frames();
+    expect(order()).to.deep.equal(["Beta", "Alpha", "Gamma", "Delta"]);
+    expect(el.announcement).to.equal("⋮Alpha déplacé en position 2 sur 4.");
+    await sendKeys({ press: "Space" });
+    expect(el.announcement).to.equal("⋮Alpha déposé en position 2 sur 4.");
   });
 });

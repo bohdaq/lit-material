@@ -1,6 +1,7 @@
 import { html, LitElement } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { FocusRingController, RippleController } from "@lit-material/core";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./tree-item-styles.js";
 
 const INDENT_PX = 20;
@@ -71,6 +72,7 @@ export class LitMaterialTreeItem extends LitElement {
 
   private readonly focusRing = new FocusRingController(this);
   private readonly ripple = new RippleController(this);
+  private readonly localize = new LocalizeController(this);
 
   // Not the constructor: a custom element constructor must not gain
   // attributes per the spec's conformance requirements, and this also needs
@@ -138,7 +140,7 @@ export class LitMaterialTreeItem extends LitElement {
                 part="chevron"
                 type="button"
                 tabindex="-1"
-                aria-label=${this.expanded ? "Collapse" : "Expand"}
+                aria-label=${this.expanded ? this.localize.term("tree.collapse", "Collapse") : this.localize.term("tree.expand", "Expand")}
                 @click=${this.handleChevronClick}
               >
                 <svg class="chevron-icon" viewBox="0 0 24 24" aria-hidden="true">

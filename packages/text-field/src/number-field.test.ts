@@ -1,5 +1,6 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./number-field.js";
 import type { LitMaterialNumberField } from "./number-field.js";
 
@@ -86,5 +87,30 @@ describe("lit-material-number-field", () => {
   it("shows the unit in the field", async () => {
     const el = await numberField(html`<lit-material-number-field label="Disk" unit="GiB" value="20"></lit-material-number-field>`);
     expect(textField(el).getAttribute("suffix")).to.equal("GiB");
+  });
+
+  it("translates its buttons and messages", async () => {
+    registerTranslation({
+      $code: "x-number",
+      "textField.decreaseLabel": "Moins {label}",
+      "textField.increaseValue": "Plus",
+      "textField.atLeast": "Au moins {min}",
+      "textField.enterANumber": "Saisissez un nombre",
+    });
+    const wrap = await fixture<HTMLElement>(html`<div lang="x-number">
+      <lit-material-number-field label="Répliques" value="0" min="5"></lit-material-number-field>
+      <lit-material-number-field></lit-material-number-field>
+    </div>`);
+    const [labelled, bare] = Array.from(wrap.querySelectorAll<LitMaterialNumberField>("lit-material-number-field"));
+    await labelled!.updateComplete;
+    expect(labelled!.shadowRoot!.querySelector("[part=decrement]")!.getAttribute("aria-label")).to.equal("Moins Répliques");
+    expect(bare!.shadowRoot!.querySelector("[part=increment]")!.getAttribute("aria-label")).to.equal("Plus");
+    expect(bare!.shadowRoot!.querySelector("[part=decrement]")!.getAttribute("aria-label")).to.equal("Decrease value");
+    expect(textField(labelled!).errorText).to.equal("Au moins 5");
+    // A language switch re-renders the message too.
+    wrap.setAttribute("lang", "en");
+    labelled!.requestUpdate();
+    await labelled!.updateComplete;
+    expect(textField(labelled!).errorText).to.equal("At least 5");
   });
 });

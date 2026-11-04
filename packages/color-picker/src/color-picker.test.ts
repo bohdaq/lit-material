@@ -1,5 +1,6 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./color-picker.js";
 import type { LitMaterialColorPicker } from "./color-picker.js";
 
@@ -157,6 +158,51 @@ describe("lit-material-color-picker", () => {
     trigger.click();
     await el.updateComplete;
     await expect(el).to.be.accessible();
+    el.open = false;
+  });
+
+  it("translates its accessible names and validation message for the element's language", async () => {
+    registerTranslation({
+      $code: "x-color-picker",
+      "colorPicker.dialogLabel": "Sélecteur de couleur",
+      "colorPicker.presets": "Préréglages",
+      "colorPicker.customColor": "Couleur personnalisée",
+      "colorPicker.hexValue": "Valeur hexadécimale",
+      "colorPicker.valueMissing": "Choisissez une couleur.",
+    });
+    const wrap = await fixture<HTMLDivElement>(html`<div lang="x-color-picker"><lit-material-color-picker required></lit-material-color-picker></div>`);
+    const el = wrap.querySelector<LitMaterialColorPicker>("lit-material-color-picker")!;
+    await el.updateComplete;
+    const root = el.shadowRoot!;
+    expect(root.querySelector(".panel")!.getAttribute("aria-label")).to.equal("Sélecteur de couleur");
+    expect(root.querySelector(".presets")!.getAttribute("aria-label")).to.equal("Préréglages");
+    expect(root.querySelector(".custom-input")!.getAttribute("aria-label")).to.equal("Couleur personnalisée");
+    expect(root.querySelector(".hex-input")!.getAttribute("aria-label")).to.equal("Valeur hexadécimale");
+    expect(el.checkValidity()).to.be.false;
+    expect((el as unknown as { internals: ElementInternals }).internals.validationMessage).to.equal("Choisissez une couleur.");
+  });
+
+  it("swaps ArrowLeft/ArrowRight among presets in right-to-left layouts, and opens at the trigger's right edge", async () => {
+    const wrap = await fixture<HTMLDivElement>(html`
+      <div dir="rtl" style="display: flex; justify-content: center">
+        <lit-material-color-picker label="Accent" .presets=${["#ff0000", "#00ff00", "#0000ff"]}></lit-material-color-picker>
+      </div>
+    `);
+    const el = wrap.querySelector<LitMaterialColorPicker>("lit-material-color-picker")!;
+    const trigger = el.shadowRoot!.querySelector("button.trigger") as HTMLButtonElement;
+    trigger.click();
+    await el.updateComplete;
+    const presets = el.shadowRoot!.querySelectorAll(".preset");
+    expect(el.shadowRoot!.activeElement).to.equal(presets[0]);
+    await sendKeys({ press: "ArrowLeft" });
+    expect(el.shadowRoot!.activeElement).to.equal(presets[1]);
+    await sendKeys({ press: "ArrowRight" });
+    expect(el.shadowRoot!.activeElement).to.equal(presets[0]);
+
+    const panel = el.shadowRoot!.querySelector<HTMLElement>(".panel")!;
+    const triggerRight = trigger.getBoundingClientRect().right;
+    const panelRect = panel.getBoundingClientRect();
+    if (triggerRight - panelRect.width >= 0) expect(panelRect.right).to.be.closeTo(triggerRight, 1);
     el.open = false;
   });
 });

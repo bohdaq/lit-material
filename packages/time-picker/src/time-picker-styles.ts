@@ -97,6 +97,21 @@ export const styles = css`
     color: var(--md-sys-color-on-surface, #1c1b1f);
   }
 
+  /* Right to left, the time still reads hours:minutes from the left (as it's written in RTL scripts), with the
+     AM/PM toggle at the inline end. The dial is a clock face, not reading order, so it doesn't mirror. */
+  :host(:dir(rtl)) .minute {
+    order: 1;
+  }
+  :host(:dir(rtl)) .colon {
+    order: 2;
+  }
+  :host(:dir(rtl)) .hour {
+    order: 3;
+  }
+  :host(:dir(rtl)) .period-toggle {
+    order: 4;
+  }
+
   .period-toggle {
     display: flex;
     flex-direction: column;

@@ -31,8 +31,8 @@ npm install @lit-material/dual-list @lit-material/tokens
 | ---------------- | ----------------- | ---------------------------------------- | ------------- |
 | `items`          | `items` (JSON)                 | `{ value, label, disabled? }[]`          | `[]`          |
 | `selected`       | `selected` (JSON)                 | `string[]` (chosen values)               | `[]`          |
-| `availableLabel` | `available-label` | `string`                                 | `"Available"` |
-| `chosenLabel`    | `chosen-label`    | `string`                                 | `"Chosen"`    |
+| `availableLabel` | `available-label` | `string`                                 | `"Available"`, translated |
+| `chosenLabel`    | `chosen-label`    | `string`                                 | `"Chosen"`, translated |
 | `filterable`     | `filterable`      | `boolean`                                | `false`       |
 | `disabled`       | `disabled` (reflected) | `boolean`                           | `false`       |
 

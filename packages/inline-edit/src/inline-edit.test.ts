@@ -1,5 +1,6 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./inline-edit.js";
 import type { LitMaterialInlineEdit } from "./inline-edit.js";
 
@@ -86,5 +87,31 @@ describe("lit-material-inline-edit", () => {
     el.disabled = true;
     await el.edit();
     expect(el.editing).to.be.false;
+  });
+
+  it("translates its button and field labels", async () => {
+    registerTranslation({
+      $code: "x-inline-edit",
+      "inlineEdit.editNamed": "{name} bearbeiten",
+      "inlineEdit.edit": "Wert bearbeiten",
+      "inlineEdit.saveNamed": "{name} speichern",
+      "inlineEdit.cancelNamed": "Bearbeiten von {name} abbrechen",
+      "inlineEdit.value": "Wert",
+    });
+    const wrapper = await fixture<HTMLDivElement>(html`<div lang="x-inline-edit">
+      <lit-material-inline-edit label="Projektname" value="web"></lit-material-inline-edit>
+      <lit-material-inline-edit value="web"></lit-material-inline-edit>
+    </div>`);
+    const [named, unnamed] = wrapper.querySelectorAll<LitMaterialInlineEdit>("lit-material-inline-edit");
+    await named!.updateComplete;
+    await unnamed!.updateComplete;
+    expect(button(unnamed!, "Wert bearbeiten")).to.exist;
+    await named!.edit();
+    await settle(named!);
+    expect(button(named!, "Projektname speichern")).to.exist;
+    expect(button(named!, "Bearbeiten von Projektname abbrechen")).to.exist;
+    await unnamed!.edit();
+    await settle(unnamed!);
+    expect(field(unnamed!).getAttribute("aria-label")).to.equal("Wert");
   });
 });

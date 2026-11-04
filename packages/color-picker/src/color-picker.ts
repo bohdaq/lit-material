@@ -1,5 +1,6 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./color-picker-styles.js";
 
 /** A small general-purpose default palette; override via the `presets` property. */
@@ -65,6 +66,7 @@ export class LitMaterialColorPicker extends LitElement {
   @state() private hexDraft = "";
 
   private readonly internals: ElementInternals;
+  private readonly localize = new LocalizeController(this);
   private readonly panelId = `lit-material-color-picker-panel-${++instanceCount}`;
   private readonly labelId = `lit-material-color-picker-label-${instanceCount}`;
 
@@ -92,9 +94,9 @@ export class LitMaterialColorPicker extends LitElement {
   }
 
   protected override updated(changed: Map<string, unknown>): void {
-    if (changed.has("value") || changed.has("required")) {
-      this.syncInternals();
-    }
+    // Every update, not only on value/required changes: the validation message
+    // follows a language change too.
+    this.syncInternals();
     if (changed.has("open")) {
       if (this.open) {
         if (!this.panelElement?.matches(":popover-open")) {
@@ -117,7 +119,7 @@ export class LitMaterialColorPicker extends LitElement {
     this.internals.setFormValue(this.value || null);
     if (!this.triggerElement) return;
     if (this.required && !this.value) {
-      this.internals.setValidity({ valueMissing: true }, "Please choose a color.", this.triggerElement);
+      this.internals.setValidity({ valueMissing: true }, this.localize.term("colorPicker.valueMissing", "Please choose a color."), this.triggerElement);
     } else {
       this.internals.setValidity({});
     }
@@ -135,10 +137,12 @@ export class LitMaterialColorPicker extends LitElement {
       top = above >= 0 ? above : Math.max(0, window.innerHeight - panelRect.height);
     }
 
-    let left = anchorRect.left;
+    // Aligned with the trigger's start edge: its left, or its right in right-to-left layouts.
+    let left = isRtl(this) ? anchorRect.right - panelRect.width : anchorRect.left;
     if (left + panelRect.width > window.innerWidth) {
-      left = Math.max(0, window.innerWidth - panelRect.width);
+      left = window.innerWidth - panelRect.width;
     }
+    left = Math.max(0, left);
 
     this.panelElement.style.top = `${top}px`;
     this.panelElement.style.left = `${left}px`;
@@ -197,11 +201,11 @@ export class LitMaterialColorPicker extends LitElement {
           part="panel"
           id=${this.panelId}
           role="dialog"
-          aria-label=${this.label || "Color picker"}
+          aria-label=${this.label || this.localize.term("colorPicker.dialogLabel", "Color picker")}
           popover="auto"
           @keydown=${this.handlePanelKeydown}
         >
-          <div class="presets" role="listbox" aria-label="Presets">
+          <div class="presets" role="listbox" aria-label=${this.localize.term("colorPicker.presets", "Presets")}>
             ${this.presets.map(
               (preset, index) => html`
                 <button
@@ -233,7 +237,7 @@ export class LitMaterialColorPicker extends LitElement {
               type="color"
               .value=${this.value || "#000000"}
               ?disabled=${this.disabled}
-              aria-label="Custom color"
+              aria-label=${this.localize.term("colorPicker.customColor", "Custom color")}
               @input=${this.handleCustomInput}
               @change=${this.handleCustomChange}
             />
@@ -246,7 +250,7 @@ export class LitMaterialColorPicker extends LitElement {
               placeholder="#rrggbb"
               .value=${this.hexDraft}
               ?disabled=${this.disabled}
-              aria-label="Hex value"
+              aria-label=${this.localize.term("colorPicker.hexValue", "Hex value")}
               @input=${this.handleHexInput}
               @change=${this.handleHexChange}
               @keydown=${this.handleHexKeydown}
@@ -276,7 +280,10 @@ export class LitMaterialColorPicker extends LitElement {
     const index = buttons.indexOf(current as HTMLButtonElement);
     if (index === -1) return;
 
-    switch (event.key) {
+    // Horizontal arrows follow reading order: in right-to-left layouts ArrowLeft moves forward.
+    const rtl = isRtl(this);
+    const key = rtl && event.key === "ArrowLeft" ? "ArrowRight" : rtl && event.key === "ArrowRight" ? "ArrowLeft" : event.key;
+    switch (key) {
       case "ArrowRight":
       case "ArrowDown": {
         event.preventDefault();

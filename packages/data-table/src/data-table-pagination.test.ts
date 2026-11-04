@@ -1,4 +1,5 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./data-table-pagination.js";
 import type { LitMaterialDataTablePagination } from "./data-table-pagination.js";
 
@@ -110,5 +111,65 @@ describe("lit-material-data-table-pagination", () => {
     await el.updateComplete;
     const controls = el.shadowRoot!.querySelectorAll<HTMLButtonElement | HTMLSelectElement>("button, select");
     expect(Array.from(controls).every((c) => c.disabled)).to.be.true;
+  });
+
+  it("translates its texts and formats its numbers for the element's language", async () => {
+    registerTranslation({
+      $code: "x-data-table",
+      "dataTable.pagination": "Pagination FR",
+      "dataTable.rowsPerPage": "Lignes par page",
+      "dataTable.range": "{from}–{to} sur {total}",
+      "dataTable.page": "Page {page} FR",
+      "dataTable.firstPage": "Première page",
+      "dataTable.previousPage": "Page précédente",
+      "dataTable.nextPage": "Page suivante",
+      "dataTable.lastPage": "Dernière page",
+    });
+    const wrap = await fixture<HTMLDivElement>(html`
+      <div lang="x-data-table">
+        <lit-material-data-table-pagination total="1200" page-size="1000" .pageSizeOptions=${[1000]}></lit-material-data-table-pagination>
+      </div>
+    `);
+    const el = wrap.querySelector<LitMaterialDataTablePagination>("lit-material-data-table-pagination")!;
+    await el.updateComplete;
+    const root = el.shadowRoot!;
+    expect(el.getAttribute("aria-label")).to.equal("Pagination FR");
+    expect(root.querySelector("label")!.textContent).to.equal("Lignes par page");
+    // A private-use tag isn't a language Intl knows: numbers fall back to the default locale (en).
+    expect(root.querySelector(".range")!.textContent).to.equal("1–1,000 sur 1,200");
+    expect(root.querySelector("option")!.textContent).to.equal("1,000");
+    const labels = Array.from(root.querySelectorAll("button")).map((b) => b.getAttribute("aria-label"));
+    expect(labels).to.deep.equal(["Première page", "Page précédente", "Page suivante", "Dernière page"]);
+    el.unknownTotal = true;
+    await el.updateComplete;
+    expect(root.querySelector(".range")!.textContent).to.equal("Page 1 FR");
+  });
+
+  it("keeps an author-supplied aria-label", async () => {
+    const el = await fixture<LitMaterialDataTablePagination>(
+      html`<lit-material-data-table-pagination aria-label="Pods pages" total="5"></lit-material-data-table-pagination>`,
+    );
+    el.page = 0;
+    el.requestUpdate();
+    await el.updateComplete;
+    expect(el.getAttribute("aria-label")).to.equal("Pods pages");
+  });
+
+  it("formats numbers in the element's language (de groups thousands with a dot)", async () => {
+    const wrap = await fixture<HTMLDivElement>(html`
+      <div lang="de"><lit-material-data-table-pagination total="1200" page-size="1000"></lit-material-data-table-pagination></div>
+    `);
+    const el = wrap.querySelector<LitMaterialDataTablePagination>("lit-material-data-table-pagination")!;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".range")!.textContent).to.equal("1–1.000 of 1.200");
+  });
+
+  it("mirrors its arrow icons in right-to-left layouts", async () => {
+    const wrap = await fixture<HTMLDivElement>(html`
+      <div dir="rtl"><lit-material-data-table-pagination total="97"></lit-material-data-table-pagination></div>
+    `);
+    const el = wrap.querySelector<LitMaterialDataTablePagination>("lit-material-data-table-pagination")!;
+    await el.updateComplete;
+    expect(getComputedStyle(el.shadowRoot!.querySelector("button svg")!).transform).to.equal("matrix(-1, 0, 0, 1, 0, 0)");
   });
 });

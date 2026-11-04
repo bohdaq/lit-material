@@ -46,7 +46,7 @@ npm install @lit-material/time-picker @lit-material/tokens
 | `open`       | `open`          | `boolean`                | `false`        |
 | `value`      | `value`         | `string \| undefined`   | `undefined`    |
 | `hourCycle`  | `hour-cycle`    | `"12" \| "24"`           | `"12"`         |
-| `label`      | `label`         | `string`                  | `"Select time"` |
+| `label`      | `label`         | `string`                  | `"Select time"`, translated |
 
 `value` is a 24-hour `"HH:MM"` string (e.g. `"14:05"`) regardless of `hourCycle` — that only
 controls the dial and displayed hour, not how the value is stored, the same way `<input

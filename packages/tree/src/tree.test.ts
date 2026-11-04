@@ -1,5 +1,6 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./tree.js";
 import "./tree-item.js";
 import type { LitMaterialTree } from "./tree.js";
@@ -185,5 +186,49 @@ describe("lit-material-tree", () => {
     docs.expanded = true;
     await docs.updateComplete;
     await expect(el).to.be.accessible();
+  });
+
+  it("swaps ArrowLeft/ArrowRight right to left", async () => {
+    const wrap = await fixture<HTMLElement>(html`<div dir="rtl">
+      <lit-material-tree>
+        <lit-material-tree-item id="docs">
+          <span slot="label">Documents</span>
+          <lit-material-tree-item id="resume"><span slot="label">Resume.pdf</span></lit-material-tree-item>
+        </lit-material-tree-item>
+      </lit-material-tree>
+    </div>`);
+    const docs = wrap.querySelector<LitMaterialTreeItem>("#docs")!;
+    const resume = wrap.querySelector<LitMaterialTreeItem>("#resume")!;
+    await docs.updateComplete;
+    // The collapsed chevron is mirrored to point left.
+    expect(getComputedStyle(docs.shadowRoot!.querySelector(".chevron-icon")!).transform).to.equal("matrix(-1, 0, 0, 1, 0, 0)");
+    docs.focus();
+    await sendKeys({ press: "ArrowLeft" });
+    expect(docs.expanded).to.be.true;
+    await sendKeys({ press: "ArrowLeft" });
+    expect(document.activeElement).to.equal(resume);
+    await sendKeys({ press: "ArrowRight" });
+    expect(document.activeElement).to.equal(docs);
+    await sendKeys({ press: "ArrowRight" });
+    expect(docs.expanded).to.be.false;
+  });
+
+  it("translates the chevron's label", async () => {
+    registerTranslation({ $code: "x-tree", "tree.expand": "Déplier", "tree.collapse": "Replier" });
+    const wrap = await fixture<HTMLElement>(html`<div lang="x-tree">
+      <lit-material-tree>
+        <lit-material-tree-item id="docs">
+          <span slot="label">Documents</span>
+          <lit-material-tree-item><span slot="label">Resume.pdf</span></lit-material-tree-item>
+        </lit-material-tree-item>
+      </lit-material-tree>
+    </div>`);
+    const docs = wrap.querySelector<LitMaterialTreeItem>("#docs")!;
+    await docs.updateComplete;
+    const chevron = () => docs.shadowRoot!.querySelector(".chevron")!;
+    expect(chevron().getAttribute("aria-label")).to.equal("Déplier");
+    docs.expanded = true;
+    await docs.updateComplete;
+    expect(chevron().getAttribute("aria-label")).to.equal("Replier");
   });
 });

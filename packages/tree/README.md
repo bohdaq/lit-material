@@ -87,7 +87,8 @@ Down/Up move focus to the next/previous *visible* node — collapsed branches' c
 entirely — without wrapping past the first/last node, unlike `lit-material-tabs`' roving tabindex.
 Right expands a collapsed branch (focus stays put) or moves focus into its first child if already
 expanded; on a leaf node, it does nothing. Left is the mirror: collapses an expanded branch, or
-moves focus to the parent node. Home/End jump to the first/last visible node. Enter/Space select
+moves focus to the parent node. Right to left, Left and Right swap (Left expands), and the chevron
+points left. Home/End jump to the first/last visible node. Enter/Space select
 the focused node — matching the exact WAI-ARIA Tree View keyboard spec.
 
 No typeahead (jump to a node by typing its first letter) — a reasonable scope cut for a first

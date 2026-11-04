@@ -119,7 +119,14 @@ export class LitMaterialNumberField extends LitElement {
 
   protected override willUpdate(changed: Map<string, unknown>): void {
     if (changed.has("value")) this.draft = null;
+  }
+
+  protected override update(changed: Map<string, unknown>): void {
+    // Here rather than in willUpdate: the message is in the element's language, which is read afresh
+    // after willUpdate (LocalizeController's hostUpdate). A change made before super.update() is rendered
+    // without another update.
     this.validationMessage = this.check();
+    super.update(changed);
   }
 
   private clamp(n: number): number {

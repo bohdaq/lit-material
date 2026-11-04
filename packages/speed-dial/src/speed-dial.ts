@@ -1,6 +1,7 @@
 import { html, LitElement } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { FocusRingController, RippleController } from "@lit-material/core";
+import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
 import type { LitMaterialSpeedDialAction } from "./speed-dial-action.js";
 import { styles } from "./speed-dial-styles.js";
 
@@ -44,14 +45,15 @@ export class LitMaterialSpeedDial extends LitElement {
   @property({ type: Boolean, reflect: true }) open = false;
   @property({ reflect: true }) direction: SpeedDialDirection = "up";
   @property({ type: Boolean, reflect: true }) disabled = false;
-  /** The trigger's accessible name — required, since it's an icon-only button. */
-  @property() label = "Actions";
+  /** The trigger's accessible name — required, since it's an icon-only button. Default: "Actions", translated. */
+  @property() label?: string;
 
   @query(".trigger") private readonly triggerElement?: HTMLButtonElement;
   @query(".actions") private readonly actionsElement?: HTMLDivElement;
 
   private readonly ripple = new RippleController(this);
   private readonly focusRing = new FocusRingController(this);
+  private readonly localize = new LocalizeController(this);
   private readonly actionsId = `lit-material-speed-dial-actions-${++instanceCount}`;
 
   constructor() {
@@ -105,7 +107,6 @@ export class LitMaterialSpeedDial extends LitElement {
     const triggerRect = this.triggerElement.getBoundingClientRect();
     const actionsRect = this.actionsElement.getBoundingClientRect();
     const gap = 16;
-    const isRtl = getComputedStyle(this).direction === "rtl";
 
     if (this.direction === "up") {
       this.actionsElement.style.top = `${triggerRect.top - actionsRect.height - gap}px`;
@@ -116,7 +117,7 @@ export class LitMaterialSpeedDial extends LitElement {
     // Align the actions column's inline-end edge with the trigger's inline-end
     // edge (physically: right edge in LTR, left edge in RTL) so mini-FABs
     // stack directly above/below the trigger regardless of writing direction.
-    if (isRtl) {
+    if (isRtl(this)) {
       this.actionsElement.style.left = `${triggerRect.left}px`;
       this.actionsElement.style.removeProperty("right");
     } else {
@@ -138,7 +139,7 @@ export class LitMaterialSpeedDial extends LitElement {
           aria-haspopup="true"
           aria-expanded=${this.open ? "true" : "false"}
           aria-controls=${this.actionsId}
-          aria-label=${this.label}
+          aria-label=${this.label ?? this.localize.term("speedDial.actions", "Actions")}
           ?disabled=${this.disabled}
           @click=${this.handleTriggerClick}
         >

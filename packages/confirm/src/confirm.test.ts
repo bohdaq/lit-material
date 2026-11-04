@@ -1,5 +1,6 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./confirm-dialog.js";
 import type { LitMaterialConfirmDialog } from "./confirm-dialog.js";
 import { confirm } from "./confirm.js";
@@ -104,5 +105,30 @@ describe("confirm()", () => {
     parts(el).ok.shadowRoot!.querySelector("button")!.click();
     expect(await result).to.be.true;
     expect(document.querySelector("lit-material-confirm-dialog")).to.be.null;
+  });
+});
+
+describe("confirm translations", () => {
+  it("translates the default button labels and the type-to-confirm label", async () => {
+    registerTranslation({
+      $code: "x-confirm",
+      "confirm.confirm": "Valider",
+      "confirm.cancel": "Annuler",
+      "confirm.typeToConfirm": "Saisissez {text} pour valider",
+    });
+    const wrap = await fixture<HTMLDivElement>(html`
+      <div lang="x-confirm"><lit-material-confirm-dialog headline="Supprimer ?" require-text="web"></lit-material-confirm-dialog></div>
+    `);
+    const el = wrap.querySelector<LitMaterialConfirmDialog>("lit-material-confirm-dialog")!;
+    void el.show();
+    await el.updateComplete;
+    const { cancel, ok, field } = parts(el);
+    expect(cancel.textContent!.trim()).to.equal("Annuler");
+    expect(ok.textContent!.trim()).to.equal("Valider");
+    expect(field!.getAttribute("label")).to.equal("Saisissez web pour valider");
+    el.confirmLabel = "Supprimer";
+    await el.updateComplete;
+    expect(ok.textContent!.trim()).to.equal("Supprimer");
+    el.close();
   });
 });

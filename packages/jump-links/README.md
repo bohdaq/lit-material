@@ -38,7 +38,7 @@ html`<lit-material-jump-links links=${JSON.stringify(toc)} offset="96"></lit-mat
 | -------- | --------- | ----------------------------- | ---------------- |
 | `links`  | `links` (JSON) | `{ id, text, depth? }[]` | `[]`             |
 | `htmlFor`| `for`     | `string` (container id)       | `""`             |
-| `label`  | `label`   | `string` (heading, nav name)  | `"On this page"` |
+| `label`  | `label`   | `string` (heading, nav name)  | `"On this page"`, translated |
 | `offset` | `offset`  | `number` (sticky header px)   | `0`              |
 
 `current` holds the id of the section in view. Parts: `nav`, `title`, `link`.

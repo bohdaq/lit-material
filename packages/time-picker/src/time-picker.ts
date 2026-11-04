@@ -1,12 +1,12 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import {
   angleFromCenter,
   angleToIndex,
   formatTime,
   hour12To24,
   hour24To12,
-  pad2,
   parseTime,
   pointAtAngle,
   ringAngles,
@@ -80,7 +80,8 @@ export class LitMaterialTimePicker extends LitElement {
   /** The confirmed time, as a 24-hour "HH:MM" string (e.g. "14:05"). */
   @property() value?: string;
   @property({ attribute: "hour-cycle" }) hourCycle: TimePickerHourCycle = "12";
-  @property() label = "Select time";
+  /** The headline above the time. Default: "Select time", translated. */
+  @property() label?: string;
 
   @state() private mode: PickerMode = "hour";
   @state() private pendingHour: number;
@@ -90,6 +91,7 @@ export class LitMaterialTimePicker extends LitElement {
   @query("dialog") private readonly dialogElement?: HTMLDialogElement;
   @query(".dial") private readonly dialElement?: HTMLElement;
   private reopenOnClose = false;
+  private readonly localize = new LocalizeController(this);
   private hasInitializedFromValue = false;
 
   constructor() {
@@ -142,9 +144,14 @@ export class LitMaterialTimePicker extends LitElement {
     }
   }
 
+  /** A dial or field number in the element's language (its digits), optionally zero-padded to two. */
+  private digits(value: number, padded = false): string {
+    return this.localize.number(value, padded ? { minimumIntegerDigits: 2 } : undefined);
+  }
+
   private get displayHour(): string {
-    if (this.hourCycle === "24") return pad2(this.pendingHour);
-    return String(hour24To12(this.pendingHour).hour12);
+    if (this.hourCycle === "24") return this.digits(this.pendingHour, true);
+    return this.digits(hour24To12(this.pendingHour).hour12);
   }
 
   private getSelectionAngle(): number {
@@ -174,13 +181,13 @@ export class LitMaterialTimePicker extends LitElement {
         @click=${this.handleBackdropClick}
       >
         <div class="container" part="container" tabindex="-1" autofocus>
-          <div class="label" part="label" id="time-headline">${this.label}</div>
+          <div class="label" part="label" id="time-headline">${this.label ?? this.localize.term("timePicker.selectTime", "Select time")}</div>
           <div class="time-display" part="time-display">
             <button
               class="field hour ${this.mode === "hour" ? "active" : ""}"
               part="hour-field"
               type="button"
-              aria-label="Hour"
+              aria-label=${this.localize.term("timePicker.hour", "Hour")}
               @click=${this.handleHourFieldClick}
             >
               ${this.displayHour}
@@ -190,10 +197,10 @@ export class LitMaterialTimePicker extends LitElement {
               class="field minute ${this.mode === "minute" ? "active" : ""}"
               part="minute-field"
               type="button"
-              aria-label="Minutes"
+              aria-label=${this.localize.term("timePicker.minutes", "Minutes")}
               @click=${this.handleMinuteFieldClick}
             >
-              ${pad2(this.pendingMinute)}
+              ${this.digits(this.pendingMinute, true)}
             </button>
             ${this.hourCycle === "12" ? this.renderPeriodToggle() : nothing}
           </div>
@@ -202,7 +209,9 @@ export class LitMaterialTimePicker extends LitElement {
               class="dial"
               part="dial"
               role="group"
-              aria-label=${this.mode === "hour" ? "Hour" : "Minutes"}
+              aria-label=${this.mode === "hour"
+                ? this.localize.term("timePicker.hour", "Hour")
+                : this.localize.term("timePicker.minutes", "Minutes")}
               @pointerdown=${this.handlePointerDown}
               @pointermove=${this.handlePointerMove}
               @pointerup=${this.handlePointerUp}
@@ -215,9 +224,11 @@ export class LitMaterialTimePicker extends LitElement {
           </div>
           <div class="actions" part="actions">
             <button class="text-button" part="cancel-button" type="button" @click=${this.handleCancelClick}>
-              Cancel
+              ${this.localize.term("timePicker.cancel", "Cancel")}
             </button>
-            <button class="text-button" part="ok-button" type="button" @click=${this.handleOkClick}>OK</button>
+            <button class="text-button" part="ok-button" type="button" @click=${this.handleOkClick}>
+              ${this.localize.term("timePicker.ok", "OK")}
+            </button>
           </div>
         </div>
       </dialog>
@@ -235,7 +246,7 @@ export class LitMaterialTimePicker extends LitElement {
           aria-pressed=${!isPM}
           @click=${() => this.setPeriod(false)}
         >
-          AM
+          ${this.localize.term("timePicker.am", "AM")}
         </button>
         <button
           class="period ${isPM ? "selected" : ""}"
@@ -244,7 +255,7 @@ export class LitMaterialTimePicker extends LitElement {
           aria-pressed=${isPM}
           @click=${() => this.setPeriod(true)}
         >
-          PM
+          ${this.localize.term("timePicker.pm", "PM")}
         </button>
       </div>
     `;
@@ -271,23 +282,23 @@ export class LitMaterialTimePicker extends LitElement {
       return angles.map((angle, i) => {
         const hour12 = i === 0 ? 12 : i;
         const value = hour12To24(hour12, isPM);
-        return this.renderDialButton(value, String(hour12), angle, OUTER_RADIUS);
+        return this.renderDialButton(value, this.digits(hour12), angle, OUTER_RADIUS);
       });
     }
     const outer = angles.map((angle, i) => {
       const value = i === 0 ? 12 : i;
-      return this.renderDialButton(value, String(value), angle, OUTER_RADIUS);
+      return this.renderDialButton(value, this.digits(value), angle, OUTER_RADIUS);
     });
     const inner = angles.map((angle, i) => {
       const value = i === 0 ? 0 : i + 12;
-      return this.renderDialButton(value, pad2(value), angle, INNER_RADIUS);
+      return this.renderDialButton(value, this.digits(value, true), angle, INNER_RADIUS);
     });
     return [...outer, ...inner];
   }
 
   private renderMinuteNumbers() {
     const angles = ringAngles(12);
-    return angles.map((angle, i) => this.renderDialButton(i * 5, pad2(i * 5), angle, OUTER_RADIUS));
+    return angles.map((angle, i) => this.renderDialButton(i * 5, this.digits(i * 5, true), angle, OUTER_RADIUS));
   }
 
   private renderDialButton(value: number, label: string, angleDeg: number, radius: number) {

@@ -1,5 +1,6 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./timestamp-styles.js";
 
 export type TimestampDateFormat = "full" | "long" | "medium" | "short" | "none";
@@ -50,8 +51,19 @@ export class LitMaterialTimestamp extends LitElement {
   @property({ attribute: "date-format" }) dateFormat: TimestampDateFormat = "medium";
   @property({ attribute: "time-format" }) timeFormat: TimestampTimeFormat = "none";
   @property({ type: Boolean, reflect: true }) relative = false;
-  /** BCP 47 locale tag. Defaults to the browser's own locale when unset. */
+  /** BCP 47 locale tag. When unset, the element's language (the nearest `lang` attribute, else `<html lang>`). */
   @property() locale = "";
+
+  private readonly localize = new LocalizeController(this);
+
+  /** `make` for `locale`, or the element's language; an invalid tag falls back to the runtime's default. */
+  private intl<T>(make: (locale: string | undefined) => T): T {
+    try {
+      return make(this.locale || this.localize.lang);
+    } catch {
+      return make(undefined);
+    }
+  }
 
   private refreshTimer?: ReturnType<typeof setInterval>;
 
@@ -90,12 +102,12 @@ export class LitMaterialTimestamp extends LitElement {
     if (this.dateFormat !== "none") options.dateStyle = this.dateFormat;
     if (this.timeFormat !== "none") options.timeStyle = this.timeFormat;
     if (!options.dateStyle && !options.timeStyle) return "";
-    return new Intl.DateTimeFormat(this.locale || undefined, options).format(date);
+    return this.intl((locale) => new Intl.DateTimeFormat(locale, options)).format(date);
   }
 
   private formatRelative(date: Date): string {
     const { value, unit } = pickRelativeUnit(date.getTime() - Date.now());
-    return new Intl.RelativeTimeFormat(this.locale || undefined, { numeric: "auto" }).format(value, unit);
+    return this.intl((locale) => new Intl.RelativeTimeFormat(locale, { numeric: "auto" })).format(value, unit);
   }
 
   override render() {

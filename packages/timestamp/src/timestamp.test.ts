@@ -83,4 +83,19 @@ describe("lit-material-timestamp", () => {
     );
     await expect(el).to.be.accessible();
   });
+
+  it("formats in the element's language unless locale is set", async () => {
+    const wrap = await fixture<HTMLElement>(html`<div lang="de-DE">
+      <lit-material-timestamp date="2024-01-15T10:30:00.000Z" date-format="long"></lit-material-timestamp>
+      <lit-material-timestamp date="2024-01-15T10:30:00.000Z" date-format="long" locale="en-US"></lit-material-timestamp>
+      <lit-material-timestamp date=${new Date(Date.now() - 2 * 3600_000).toISOString()} relative></lit-material-timestamp>
+    </div>`);
+    const [german, english, relative] = Array.from(wrap.querySelectorAll<LitMaterialTimestamp>("lit-material-timestamp"));
+    await Promise.all([german, english, relative].map((el) => el!.updateComplete));
+    const text = (el: LitMaterialTimestamp) => el.shadowRoot!.querySelector("time")!.textContent!.trim();
+    const date = new Date("2024-01-15T10:30:00.000Z");
+    expect(text(german!)).to.equal(new Intl.DateTimeFormat("de-DE", { dateStyle: "long" }).format(date));
+    expect(text(english!)).to.equal(new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(date));
+    expect(text(relative!)).to.equal(new Intl.RelativeTimeFormat("de-DE", { numeric: "auto" }).format(-2, "hour"));
+  });
 });

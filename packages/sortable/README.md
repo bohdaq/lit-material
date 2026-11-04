@@ -57,7 +57,8 @@ default the text), `data-sort-handle` on the handle (default: the item). While d
   the drop line stands between items, and from the keyboard ←/→ move one place and ↑/↓ a row.
 - Handles get `aria-description="Press Space to reorder"` unless they have one; pick-up, moves and
   drops are announced from one live region the sortables share, appended to `<body>`, so a list with
-  `role="list"` holds only its items.
+  `role="list"` holds only its items. The hint and the announcements are translated (positions are
+  formatted in the list's language).
 - Lists that share a `group` accept each other's items by pointer.
 
 ## License

@@ -46,14 +46,16 @@ document.querySelector("lit-material-color-picker").presets = ["#ff0000", "#00ff
 | `presets`  | —          | `readonly string[]`     | 10 general-purpose colors (`DEFAULT_PRESETS` export) |
 
 Form-associated via `ElementInternals` (participates in `FormData`, validation, and form reset);
-`required` makes an empty value invalid. Fires `change` when the committed value changes via user
+`required` makes an empty value invalid. Its validation message and the panel's accessible names are
+translated through `@lit-material/core`'s `registerTranslation` (keys `colorPicker.*`); the panel
+opens aligned with the trigger's start edge, so its right edge in right-to-left layouts. Fires `change` when the committed value changes via user
 interaction (preset click, native color input commit, or a valid hex typed into the text field).
 
 ## Keyboard interaction
 
 Enter/Space or click on the trigger opens the panel, highlighting the preset matching the current
 value (or the first preset). Once open: Arrow Right/Down and Arrow Left/Up move the highlight
-among presets (no wrapping), Home/End jump to the first/last, Enter/Space (native `<button>`
+among presets (no wrapping; in right-to-left layouts Arrow Left moves forward and Arrow Right back), Home/End jump to the first/last, Enter/Space (native `<button>`
 behavior) select the highlighted preset and return focus to the trigger, and Escape closes the
 panel without changing the value. Clicking outside the open panel closes it (native `popover="auto"`
 light-dismiss) without changing the value. The hex text input and native color input are reachable

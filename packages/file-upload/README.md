@@ -46,6 +46,9 @@ Methods: `removeFile(index)` — removes one file by index.
 Slot: default — overrides the dropzone's instructions text (`label` is the simpler option for plain
 text; use the slot for richer markup).
 
+With no `label`, the instructions ("Drag and drop a file here, or click to browse", or "files" with
+`multiple`), the remove buttons' labels and the file sizes are translated for the element's language.
+
 Fires `change` whenever the file selection changes (add or remove).
 
 ## Behavior

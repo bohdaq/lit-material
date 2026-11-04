@@ -1,19 +1,23 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 import { styles } from "./file-upload-styles.js";
 
 let instanceCount = 0;
 
-function formatFileSize(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  const units = ["KB", "MB", "GB", "TB"];
+function formatFileSize(localize: LocalizeController, bytes: number): string {
+  if (bytes < 1024) return localize.term("fileUpload.bytes", "{size} B", { size: bytes });
   let value = bytes / 1024;
   let unitIndex = 0;
-  while (value >= 1024 && unitIndex < units.length - 1) {
+  while (value >= 1024 && unitIndex < 3) {
     value /= 1024;
     unitIndex += 1;
   }
-  return `${value.toFixed(1)} ${units[unitIndex]}`;
+  const size = localize.number(value, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  if (unitIndex === 0) return localize.term("fileUpload.kilobytes", "{size} KB", { size });
+  if (unitIndex === 1) return localize.term("fileUpload.megabytes", "{size} MB", { size });
+  if (unitIndex === 2) return localize.term("fileUpload.gigabytes", "{size} GB", { size });
+  return localize.term("fileUpload.terabytes", "{size} TB", { size });
 }
 
 /**
@@ -56,6 +60,10 @@ export class LitMaterialFileUpload extends LitElement {
   @property({ type: Boolean, reflect: true }) multiple = false;
   @property() accept = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
+  /**
+   * The dropzone's instructions. Default: "Drag and drop a file here, or click to browse" (or "files", with
+   * `multiple`), translated.
+   */
   @property() label = "";
   @property() name = "";
 
@@ -63,6 +71,7 @@ export class LitMaterialFileUpload extends LitElement {
   @state() private dragging = false;
 
   private readonly internals: ElementInternals;
+  private readonly localize = new LocalizeController(this);
   private readonly inputId = `lit-material-file-upload-input-${++instanceCount}`;
 
   constructor() {
@@ -149,8 +158,8 @@ export class LitMaterialFileUpload extends LitElement {
 
   override render() {
     const defaultInstructions = this.multiple
-      ? "Drag and drop files here, or click to browse"
-      : "Drag and drop a file here, or click to browse";
+      ? this.localize.term("fileUpload.instructionsMultiple", "Drag and drop files here, or click to browse")
+      : this.localize.term("fileUpload.instructions", "Drag and drop a file here, or click to browse");
 
     return html`
       <div
@@ -181,12 +190,12 @@ export class LitMaterialFileUpload extends LitElement {
                   (file, index) => html`
                     <li class="file-row" part="file-row">
                       <span class="file-name" part="file-name">${file.name}</span>
-                      <span class="file-size" part="file-size">${formatFileSize(file.size)}</span>
+                      <span class="file-size" part="file-size">${formatFileSize(this.localize, file.size)}</span>
                       <button
                         class="remove"
                         part="remove"
                         type="button"
-                        aria-label="Remove ${file.name}"
+                        aria-label=${this.localize.term("fileUpload.removeFile", "Remove {name}", { name: file.name })}
                         @click=${() => this.removeFile(index)}
                       >
                         <svg viewBox="0 0 24 24" aria-hidden="true">

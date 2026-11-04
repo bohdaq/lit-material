@@ -206,6 +206,11 @@ range, and button disabled-state itself:
 Fires `page-change` (`detail: { page, pageSize }`) when a nav button is clicked or the page-size
 select changes (which also resets `page` back to `0`).
 
+Its texts ("Rows per page", "1–10 of 97", "Page N", the buttons' names and its own "Pagination"
+label) are translated through `@lit-material/core`'s `registerTranslation` (keys `dataTable.*`), and
+its numbers are formatted for the element's language. In right-to-left layouts the first/previous/
+next/last icons are mirrored.
+
 ### Server-side and cursor paging
 
 For an API that returns a total, set `total` and fetch on `page-change`. For a cursor-paged API

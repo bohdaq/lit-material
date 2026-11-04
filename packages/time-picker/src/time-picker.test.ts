@@ -1,4 +1,5 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./time-picker.js";
 import type { LitMaterialTimePicker } from "./time-picker.js";
 
@@ -229,5 +230,49 @@ describe("lit-material-time-picker", () => {
     el.show();
     await el.updateComplete;
     await expect(el).to.be.accessible();
+  });
+
+  it("translates its text and formats digits in the element's language", async () => {
+    registerTranslation({
+      $code: "x-time",
+      "timePicker.selectTime": "Choisir l'heure",
+      "timePicker.hour": "Heure",
+      "timePicker.cancel": "Annuler",
+      "timePicker.ok": "Valider",
+      "timePicker.am": "matin",
+      "timePicker.pm": "soir",
+    });
+    const wrap = await fixture<HTMLElement>(html`<div lang="x-time"><lit-material-time-picker value="14:05"></lit-material-time-picker></div>`);
+    const el = wrap.querySelector<LitMaterialTimePicker>("lit-material-time-picker")!;
+    await el.updateComplete;
+    const root = el.shadowRoot!;
+    expect(root.querySelector("#time-headline")!.textContent!.trim()).to.equal("Choisir l'heure");
+    expect(hourField(el).getAttribute("aria-label")).to.equal("Heure");
+    expect(cancelButton(el).textContent!.trim()).to.equal("Annuler");
+    expect(okButton(el).textContent!.trim()).to.equal("Valider");
+    expect(root.querySelector("[part=am-button]")!.textContent!.trim()).to.equal("matin");
+    expect(root.querySelector("[part=pm-button]")!.textContent!.trim()).to.equal("soir");
+    el.label = "Départ";
+    await el.updateComplete;
+    expect(root.querySelector("#time-headline")!.textContent!.trim()).to.equal("Départ");
+
+    wrap.setAttribute("lang", "ar-EG");
+    el.requestUpdate();
+    await el.updateComplete;
+    const nf = new Intl.NumberFormat("ar-EG", { minimumIntegerDigits: 2 });
+    expect(minuteField(el).textContent!.trim()).to.equal(nf.format(5));
+  });
+
+  it("keeps hours:minutes left to right, with AM/PM at the end, right to left", async () => {
+    const wrap = await fixture<HTMLElement>(html`<div dir="rtl"><lit-material-time-picker value="14:05"></lit-material-time-picker></div>`);
+    const el = wrap.querySelector<LitMaterialTimePicker>("lit-material-time-picker")!;
+    el.show();
+    await el.updateComplete;
+    const hour = hourField(el).getBoundingClientRect();
+    const minute = minuteField(el).getBoundingClientRect();
+    const toggle = el.shadowRoot!.querySelector("[part=period-toggle]")!.getBoundingClientRect();
+    expect(hour.right).to.be.at.most(minute.left);
+    expect(toggle.right).to.be.at.most(hour.left);
+    el.close();
   });
 });
