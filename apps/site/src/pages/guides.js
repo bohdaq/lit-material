@@ -265,6 +265,23 @@ render() {
         <p>Repeating rows use a <code>FieldArrayController</code>: stable keys for <code>repeat()</code>, and <code>append</code>, <code>remove</code> and <code>move</code>.</p>`],
     ],
   },
+  versions: {
+    title: "Versions and support",
+    lead: "Every lit-material package is released at the same version and follows semantic versioning; the previous major gets security fixes for a year.",
+    sections: [
+      ["one-version", "One version for everything", html`
+        <p>All <code>@lit-material/*</code> packages and <code>create-lit-material-app</code> are published together at one version number. Install any set of them at the same version and they work together: there's no compatibility matrix to check.</p>
+        <pre tabindex="0"><code>npm install @lit-material/button@1.2.0 @lit-material/dialog@1.2.0</code></pre>
+        <p>A new version doesn't mean every package changed: each package's <code>CHANGELOG.md</code> lists its own changes.</p>`],
+      ["semver", "What a version number promises", html`
+        <p>Patches fix bugs (accessibility fixes included). Minors add components, properties, events, slots, parts, custom properties and messages, and can deprecate. Only a major removes or breaks anything, with a migration note. The public API is each package's <code>exports</code> and types, each element's tag, properties, attributes, events, slots, CSS parts and custom properties, the <code>--md-sys-*</code> tokens, the translation keys, and keyboard and ARIA behaviour. Internal shadow DOM and class names aren't.</p>`],
+      ["deprecations", "Deprecations", html`
+        <p>An API is deprecated in a minor (marked <code>@deprecated</code> in the types and <code>custom-elements.json</code>, and in the changelog), keeps working for at least six months, and is removed in the next major. Where the change can be automated, <code>@lit-material/codemod</code> does it.</p>`],
+      ["support", "Support windows and platforms", html`
+        <p>The current major gets every fix. The previous major gets security and critical fixes for 12 months after the next major ships. Supported: the latest two versions of Chrome, Edge, Firefox and Safari (CI runs Chromium, Firefox and WebKit), and Node's active and maintenance LTS releases for server rendering and the CLIs.</p>
+        <p>Report vulnerabilities privately through <a href="https://github.com/bohdaq/lit-material/security/advisories/new">GitHub</a>. The full policy is <a href="https://github.com/bohdaq/lit-material/blob/main/VERSIONING.md">VERSIONING.md</a>.</p>`],
+    ],
+  },
   security: {
     title: "Security, CSP and SBOMs",
     lead: "lit-material runs under a strict Content-Security-Policy with Trusted Types enforced, and every published package carries an SBOM and npm provenance.",
