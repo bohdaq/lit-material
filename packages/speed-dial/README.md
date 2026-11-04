@@ -45,7 +45,7 @@ above).
 | `open`      | `open`      | `boolean`        | `false`   |
 | `direction` | `direction` | `"up" \| "down"`  | `"up"`    |
 | `disabled`  | `disabled`  | `boolean`        | `false`   |
-| `label`     | `label`     | `string`         | `"Actions"`|
+| `label`     | `label`     | `string`         | `"Actions"`, translated |
 
 Slots: `icon` (the trigger's icon), default (`lit-material-speed-dial-action` elements, closest to
 the trigger first). Fires `close` when the speed dial closes, for any reason (an action's

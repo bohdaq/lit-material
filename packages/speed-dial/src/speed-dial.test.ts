@@ -1,5 +1,6 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./speed-dial.js";
 import "./speed-dial-action.js";
 import type { LitMaterialSpeedDial } from "./speed-dial.js";
@@ -173,5 +174,34 @@ describe("lit-material-speed-dial", () => {
     trigger.click();
     await el.updateComplete;
     await expect(el).to.be.accessible();
+  });
+
+  it("translates the trigger's default label", async () => {
+    registerTranslation({ $code: "x-speed-dial", "speedDial.actions": "Aktionen" });
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div lang="x-speed-dial"><lit-material-speed-dial><svg slot="icon" viewBox="0 0 24 24"></svg></lit-material-speed-dial></div>`,
+    );
+    const el = wrapper.querySelector<LitMaterialSpeedDial>("lit-material-speed-dial")!;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".trigger")!.getAttribute("aria-label")).to.equal("Aktionen");
+  });
+
+  it("lines the actions up with the trigger's left edge in RTL", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div dir="rtl" style="padding-inline-start: 200px; padding-block-start: 300px;">
+        <lit-material-speed-dial label="Actions">
+          <svg slot="icon" viewBox="0 0 24 24"></svg>
+          <lit-material-speed-dial-action label="One"><svg slot="icon" viewBox="0 0 24 24"></svg></lit-material-speed-dial-action>
+        </lit-material-speed-dial>
+      </div>
+    `);
+    const el = wrapper.querySelector<LitMaterialSpeedDial>("lit-material-speed-dial")!;
+    el.show();
+    await el.updateComplete;
+    const trigger = el.shadowRoot!.querySelector(".trigger")!.getBoundingClientRect();
+    const actions = el.shadowRoot!.querySelector(".actions")!.getBoundingClientRect();
+    expect(Math.abs(actions.left - trigger.left)).to.be.lessThan(1);
+    el.close();
+    await el.updateComplete;
   });
 });

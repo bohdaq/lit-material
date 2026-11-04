@@ -63,6 +63,10 @@ and `copyable="false"` together mean no header at all, not an empty band.
 hiding it outright — useful for long snippets where you want a compact default without losing the
 option to see everything.
 
+The button texts ("Copy", "Copied", "Copy failed", "Show more", "Show less") are translated through
+`@lit-material/core`'s `registerTranslation` (keys `codeBlock.*`). The code itself always reads left
+to right, also on a right-to-left page.
+
 ## Code field
 
 `lit-material-code-field` is the editable counterpart: a plain-text editor for YAML, JSON, a
@@ -91,7 +95,9 @@ script or a Dockerfile, with line numbers, no wrapping or spell-check.
 | `invalid`    | `invalid` (reflected, read it) | `boolean` | `false` |
 
 `validationMessage` holds the current error, `checkValidity()` re-runs the check, and
-`validateJson(text)` is exported. Events: `input`, `change`. Custom properties:
+`validateJson(text, format?)` is exported (`format(line, message)` builds the error; the element passes
+a translated `codeField.jsonError`, "Line {line}: {message}"). The editing area stays left to right
+on a right-to-left page; the label and error follow the page. Events: `input`, `change`. Custom properties:
 `--lit-material-code-field-font`, `-font-size`, `-min-height` (default `8lh`), `-max-height`
 (default `24lh`). Parts: `field`, `gutter`, `textarea`, `error`.
 

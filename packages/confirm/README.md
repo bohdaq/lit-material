@@ -51,8 +51,8 @@ const ok = await confirm({
 | ------ | ---- | ------- |
 | `headline` | `string` | required |
 | `message` | `string` | `""` |
-| `confirmLabel` | `string` | `"Confirm"` |
-| `cancelLabel` | `string` | `"Cancel"` |
+| `confirmLabel` | `string` | `"Confirm"`, translated |
+| `cancelLabel` | `string` | `"Cancel"`, translated |
 | `destructive` | `boolean` | `false` |
 | `requireText` | `string` | `""` (no field) |
 | `container` | `HTMLElement` | `document.body` |
@@ -63,8 +63,8 @@ const ok = await confirm({
 | -------- | --------- | ---- | ------- |
 | `headline` | `headline` | `string` | `""` |
 | `message` | `message` | `string` | `""` |
-| `confirmLabel` | `confirm-label` | `string` | `"Confirm"` |
-| `cancelLabel` | `cancel-label` | `string` | `"Cancel"` |
+| `confirmLabel` | `confirm-label` | `string` | `"Confirm"`, translated |
+| `cancelLabel` | `cancel-label` | `string` | `"Cancel"`, translated |
 | `destructive` | `destructive` | `boolean` | `false` |
 | `requireText` | `require-text` | `string` | `""` |
 | `open` | `open` | `boolean` | `false` |

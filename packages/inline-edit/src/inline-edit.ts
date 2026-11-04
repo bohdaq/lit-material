@@ -2,6 +2,7 @@ import { css, html, LitElement, nothing } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import "@lit-material/icon-button";
 import "@lit-material/text-field/text-field.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 
 // Material icons edit, check, close (Apache 2.0).
 const svg = (d: string) => html`<svg viewBox="0 0 24 24" aria-hidden="true"><path d=${d}></path></svg>`;
@@ -111,6 +112,8 @@ export class LitMaterialInlineEdit extends LitElement {
 
   @query(".edit") private readonly editButton?: HTMLElement;
 
+  private readonly localize = new LocalizeController(this);
+
   /** Opens the field with the current value selected. */
   async edit(): Promise<void> {
     if (this.disabled || this.editing) return;
@@ -183,7 +186,11 @@ export class LitMaterialInlineEdit extends LitElement {
   }
 
   override render() {
-    const name = this.label || "value";
+    const t = this.localize;
+    const label = this.label;
+    const editLabel = label
+      ? t.term("inlineEdit.editNamed", "Edit {name}", { name: label })
+      : t.term("inlineEdit.edit", "Edit value");
     if (!this.editing) {
       return html`<span
           part="value"
@@ -192,12 +199,18 @@ export class LitMaterialInlineEdit extends LitElement {
           >${this.value || this.placeholder}</span
         ><lit-material-icon-button
           class="edit"
-          aria-label=${`Edit ${name}`}
+          aria-label=${editLabel}
           ?disabled=${this.disabled}
           @click=${() => void this.edit()}
           ><span slot="icon">${editIcon}</span></lit-material-icon-button
         >`;
     }
+    const saveLabel = label
+      ? t.term("inlineEdit.saveNamed", "Save {name}", { name: label })
+      : t.term("inlineEdit.save", "Save value");
+    const cancelLabel = label
+      ? t.term("inlineEdit.cancelNamed", "Cancel editing {name}", { name: label })
+      : t.term("inlineEdit.cancel", "Cancel editing value");
     return html`<form
       @submit=${(e: Event) => {
         e.preventDefault();
@@ -208,7 +221,7 @@ export class LitMaterialInlineEdit extends LitElement {
       <lit-material-text-field
         variant="outlined"
         label=${this.label || nothing}
-        aria-label=${this.label ? nothing : name}
+        aria-label=${label ? nothing : t.term("inlineEdit.value", "value")}
         .value=${this.draft}
         error-text=${this.error}
         ?error=${Boolean(this.error)}
@@ -219,10 +232,10 @@ export class LitMaterialInlineEdit extends LitElement {
         }}
         @change=${(e: Event) => e.stopPropagation()}
       ></lit-material-text-field>
-      <lit-material-icon-button class="action" aria-label=${`Save ${name}`} ?disabled=${this.busy} @click=${() => void this.commit()}
+      <lit-material-icon-button class="action" aria-label=${saveLabel} ?disabled=${this.busy} @click=${() => void this.commit()}
         ><span slot="icon">${saveIcon}</span></lit-material-icon-button
       >
-      <lit-material-icon-button class="action" aria-label=${`Cancel editing ${name}`} ?disabled=${this.busy} @click=${() => void this.cancel()}
+      <lit-material-icon-button class="action" aria-label=${cancelLabel} ?disabled=${this.busy} @click=${() => void this.cancel()}
         ><span slot="icon">${cancelIcon}</span></lit-material-icon-button
       >
     </form>`;

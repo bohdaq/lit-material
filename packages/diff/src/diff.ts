@@ -2,6 +2,7 @@ import { css, html, LitElement, nothing, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { diffLines, hunks, sideBySide, stats, type DiffLine, type Hunk } from "./lines.js";
 import { diffColors } from "./styles.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 
 export type DiffMode = "unified" | "split";
 
@@ -115,19 +116,21 @@ export class LitMaterialDiff extends LitElement {
   /** Unchanged lines kept around each change; `-1` keeps every line. */
   @property({ type: Number }) context = 3;
 
-  /** Accessible name of the table, such as "Changes to config.yaml". */
-  @property() label = "Changes";
+  /** Accessible name of the table, such as "Changes to config.yaml". Default: "Changes", translated. */
+  @property() label?: string;
 
-  /** Column heading for the original side. */
-  @property({ attribute: "original-label" }) originalLabel = "Before";
+  /** Column heading for the original side. Default: "Before", translated. */
+  @property({ attribute: "original-label" }) originalLabel?: string;
 
-  /** Column heading for the modified side. */
-  @property({ attribute: "modified-label" }) modifiedLabel = "After";
+  /** Column heading for the modified side. Default: "After", translated. */
+  @property({ attribute: "modified-label" }) modifiedLabel?: string;
 
   /** Hides the added and removed counts. */
   @property({ type: Boolean, attribute: "hide-stats" }) hideStats = false;
 
   private lines: DiffLine[] = [];
+
+  private readonly localize = new LocalizeController(this);
 
   protected override willUpdate(changed: PropertyValues<this>): void {
     if (changed.has("original") || changed.has("modified")) this.lines = diffLines(this.original ?? "", this.modified ?? "");
@@ -145,23 +148,52 @@ export class LitMaterialDiff extends LitElement {
 
   override render() {
     const { added, removed } = stats(this.lines);
-    if (!added && !removed) return html`<p class="empty">No differences.</p>`;
+    const t = this.localize;
+    if (!added && !removed) return html`<p class="empty">${t.term("diff.noDifferences", "No differences.")}</p>`;
     const groups = this.groups();
     const last = groups[groups.length - 1]!;
     const split = this.mode === "split";
+    const label = this.label ?? t.term("diff.changes", "Changes");
+    const originalLabel = this.originalLabel ?? t.term("diff.before", "Before");
+    const modifiedLabel = this.modifiedLabel ?? t.term("diff.after", "After");
     return html`
       ${this.hideStats
         ? nothing
         : html`<div class="head">
-            <span class="stats" part="stats"><span class="plus">+${added}<span class="visually-hidden"> added</span></span><span class="minus">−${removed}<span class="visually-hidden"> removed</span></span></span>
+            <span class="stats" part="stats"
+              ><span class="plus"
+                ><span aria-hidden="true">+${t.number(added)}</span
+                ><span class="visually-hidden"
+                  >${t.term("diff.addedCount", { one: "{count} added", other: "{count} added" }, {
+                    count: added,
+                  })}</span
+                ></span
+              ><span class="minus"
+                ><span aria-hidden="true">−${t.number(removed)}</span
+                ><span class="visually-hidden"
+                  >${t.term("diff.removedCount", { one: "{count} removed", other: "{count} removed" }, {
+                    count: removed,
+                  })}</span
+                ></span
+              ></span
+            >
           </div>`}
-      <div class="region" tabindex="0" role="region" aria-label=${this.label}>
+      <div class="region" tabindex="0" role="region" aria-label=${label}>
         <table part="table">
-          <caption class="visually-hidden">${this.label}</caption>
+          <caption class="visually-hidden">${label}</caption>
           <thead>
             ${split
-              ? html`<tr><th scope="col" colspan="3">${this.originalLabel}</th><th scope="col" colspan="3" class="split-divider">${this.modifiedLabel}</th></tr>`
-              : html`<tr><th scope="col"><span class="visually-hidden">${this.originalLabel} line</span></th><th scope="col"><span class="visually-hidden">${this.modifiedLabel} line</span></th><th scope="col"><span class="visually-hidden">Change</span></th><th scope="col">Line</th></tr>`}
+              ? html`<tr><th scope="col" colspan="3">${originalLabel}</th><th scope="col" colspan="3" class="split-divider">${modifiedLabel}</th></tr>`
+              : html`<tr>
+                  <th scope="col">
+                    <span class="visually-hidden">${t.term("diff.sideLine", "{side} line", { side: originalLabel })}</span>
+                  </th>
+                  <th scope="col">
+                    <span class="visually-hidden">${t.term("diff.sideLine", "{side} line", { side: modifiedLabel })}</span>
+                  </th>
+                  <th scope="col"><span class="visually-hidden">${t.term("diff.change", "Change")}</span></th>
+                  <th scope="col">${t.term("diff.line", "Line")}</th>
+                </tr>`}
           </thead>
           <tbody>
             ${groups.map((g, i) => {
@@ -176,7 +208,12 @@ export class LitMaterialDiff extends LitElement {
 
   private fold(hidden: number, split: boolean) {
     if (hidden <= 0) return nothing;
-    return html`<tr class="fold"><td colspan=${split ? 6 : 4}>${hidden} unchanged ${hidden === 1 ? "line" : "lines"}</td></tr>`;
+    const text = this.localize.term(
+      "diff.unchangedLines",
+      { one: "{count} unchanged line", other: "{count} unchanged lines" },
+      { count: hidden },
+    );
+    return html`<tr class="fold"><td colspan=${split ? 6 : 4}>${text}</td></tr>`;
   }
 
   private unifiedRows(g: Hunk) {
@@ -208,7 +245,10 @@ export class LitMaterialDiff extends LitElement {
   }
 
   private marker(op: string) {
-    return op === "added" ? html`<span class="visually-hidden">Added: </span>` : op === "removed" ? html`<span class="visually-hidden">Removed: </span>` : nothing;
+    const t = this.localize;
+    if (op === "added") return html`<span class="visually-hidden">${`${t.term("diff.addedLine", "Added:")} `}</span>`;
+    if (op === "removed") return html`<span class="visually-hidden">${`${t.term("diff.removedLine", "Removed:")} `}</span>`;
+    return nothing;
   }
 }
 

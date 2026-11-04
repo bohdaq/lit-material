@@ -1,4 +1,5 @@
 import { expect, fixture, html } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./index.js";
 import type { LitMaterialChangeList, LitMaterialDiff, LitMaterialMergeView } from "./index.js";
 
@@ -75,5 +76,88 @@ describe("lit-material-merge-view", () => {
     const slot = sides[0]!.querySelector("slot")!;
     expect(slot.assignedElements()[0]!.textContent).to.equal("Keep mine");
     await expect(el).to.be.accessible();
+  });
+});
+
+describe("diff localization", () => {
+  registerTranslation({
+    $code: "x-diff",
+    "diff.noDifferences": "Keine Unterschiede.",
+    "diff.changes": "Änderungen",
+    "diff.before": "Vorher",
+    "diff.after": "Nachher",
+    "diff.sideLine": "Zeile {side}",
+    "diff.line": "Zeile",
+    "diff.unchangedLines": { one: "{count} unveränderte Zeile", other: "{count} unveränderte Zeilen" },
+    "diff.addedLine": "Neu:",
+    "diff.removedLine": "Entfernt:",
+    "diff.addedCount": { one: "{count} hinzugefügt", other: "{count} hinzugefügt" },
+    "diff.kindChanged": "geändert",
+    "diff.changedTo": "zu",
+    "diff.base": "Basis",
+    "diff.sameAs": "Wie {side}",
+    "diff.newAndDropped": "{added} neu, {dropped} entfernt",
+    "diff.sideText": "{side}, Text",
+  });
+
+  const inLang = async <T extends HTMLElement>(template: unknown, tag: string) => {
+    const wrapper = await fixture<HTMLDivElement>(html`<div lang="x-diff">${template}</div>`);
+    const el = wrapper.querySelector<T & { updateComplete: Promise<boolean> }>(tag)!;
+    await el.updateComplete;
+    return el;
+  };
+
+  it("translates the diff's built-in text", async () => {
+    const empty = await inLang(html`<lit-material-diff original="a" modified="a"></lit-material-diff>`, "lit-material-diff");
+    expect(empty.shadowRoot!.textContent).to.contain("Keine Unterschiede.");
+
+    const el = await inLang<LitMaterialDiff>(html`<lit-material-diff .original=${before} .modified=${after} context="2"></lit-material-diff>`, "lit-material-diff");
+    const root = el.shadowRoot!;
+    expect(root.querySelector(".region")!.getAttribute("aria-label")).to.equal("Änderungen");
+    expect(root.querySelector("thead")!.textContent).to.contain("Zeile Vorher").and.contain("Zeile Nachher");
+    expect(rows(el).find((r) => r.classList.contains("fold"))!.textContent!.trim()).to.equal("2 unveränderte Zeilen");
+    expect(root.querySelector("tr.added td.text")!.textContent).to.match(/^Neu: /);
+    expect(root.querySelector(".stats")!.textContent).to.contain("2 hinzugefügt");
+
+    el.mode = "split";
+    await el.updateComplete;
+    expect([...root.querySelectorAll("thead th")].map((th) => th.textContent)).to.deep.equal(["Vorher", "Nachher"]);
+  });
+
+  it("translates the change list's built-in text", async () => {
+    const el = await inLang<LitMaterialChangeList>(
+      html`<lit-material-change-list .changes=${[{ path: "$.id", kind: "changed", before: 1, after: 2 }]}></lit-material-change-list>`,
+      "lit-material-change-list",
+    );
+    const root = el.shadowRoot!;
+    expect(root.querySelector("ul")!.getAttribute("aria-label")).to.equal("Änderungen");
+    expect(root.querySelector(".kind")!.textContent).to.equal("geändert");
+    expect(root.querySelector("li .visually-hidden")!.textContent).to.equal("zu");
+  });
+
+  it("translates the merge view's notes", async () => {
+    const el = await inLang<LitMaterialMergeView>(
+      html`<lit-material-merge-view
+        base="2"
+        .sides=${[
+          { label: "Mine", text: "a\nB\nc" },
+          { label: "Theirs", text: "a\nb\nc" },
+          { label: "Original", text: "a\nb\nc" },
+        ]}
+      ></lit-material-merge-view>`,
+      "lit-material-merge-view",
+    );
+    const sides = [...el.shadowRoot!.querySelectorAll("section")];
+    expect(sides.map((s) => s.querySelector(".note")!.textContent)).to.deep.equal(["1 neu, 1 entfernt", "Wie Original", "Basis"]);
+    expect(sides[0]!.querySelector(".region")!.getAttribute("aria-label")).to.equal("Mine, Text");
+  });
+
+  it("keeps explicit labels", async () => {
+    const el = await inLang<LitMaterialDiff>(
+      html`<lit-material-diff original="a" modified="b" label="Edits" original-label="Old" modified-label="New" mode="split"></lit-material-diff>`,
+      "lit-material-diff",
+    );
+    expect(el.shadowRoot!.querySelector(".region")!.getAttribute("aria-label")).to.equal("Edits");
+    expect([...el.shadowRoot!.querySelectorAll("thead th")].map((th) => th.textContent)).to.deep.equal(["Old", "New"]);
   });
 });

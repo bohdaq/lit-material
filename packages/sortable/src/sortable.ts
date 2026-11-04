@@ -1,5 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
 
 /**
  * One live region for every sortable, in <body>: inside the list it would be
@@ -128,6 +129,11 @@ export class LitMaterialSortable extends LitElement {
   /** The last announcement, also read by tests. */
   announcement = "";
 
+  private readonly localize = new LocalizeController(this);
+
+  /** Handles whose `aria-description` this list set (and so keeps in the current language). */
+  private readonly describedHandles = new WeakSet<HTMLElement>();
+
   private drag?: {
     item: HTMLElement;
     from: number;
@@ -165,12 +171,26 @@ export class LitMaterialSortable extends LitElement {
     for (const item of this.items) {
       const handle = this.handleOf(item);
       handle.style.touchAction = "none";
-      if (!handle.hasAttribute("aria-description")) {
-        handle.setAttribute("aria-description", "Press Space to reorder");
-      }
+      if (!handle.hasAttribute("aria-description")) this.describedHandles.add(handle);
       if (handle.tabIndex < 0 && !handle.hasAttribute("tabindex")) handle.tabIndex = 0;
     }
+    this.describeHandles();
   };
+
+  /** Sets the reorder hint on the handles that had none, in the list's current language. */
+  private describeHandles(): void {
+    const hint = this.localize.term("sortable.instructions", "Press Space to reorder");
+    for (const item of this.items) {
+      const handle = this.handleOf(item);
+      if (this.describedHandles.has(handle) && handle.getAttribute("aria-description") !== hint) {
+        handle.setAttribute("aria-description", hint);
+      }
+    }
+  }
+
+  protected override updated(): void {
+    this.describeHandles(); // a language change re-renders the list
+  }
 
   private handleOf(item: HTMLElement): HTMLElement {
     return item.querySelector<HTMLElement>("[data-sort-handle]") ?? item;
@@ -186,7 +206,7 @@ export class LitMaterialSortable extends LitElement {
   }
 
   private nameOf(item: HTMLElement): string {
-    return item.dataset.sortLabel || item.textContent?.trim().replace(/\s+/g, " ") || "Item";
+    return item.dataset.sortLabel || item.textContent?.trim().replace(/\s+/g, " ") || this.localize.term("sortable.item", "Item");
   }
 
   private announce(message: string): void {
@@ -253,7 +273,22 @@ export class LitMaterialSortable extends LitElement {
     if (!drag.active || !target || to === null) return;
     if (target === this && to === drag.from) return;
     this.emit(drag.item, drag.from, to, target);
-    this.announce(`${this.nameOf(drag.item)} moved to position ${to + 1}${target === this ? "" : ` in ${target.label || "the other list"}`}`);
+    const name = this.nameOf(drag.item);
+    const position = to + 1;
+    this.announce(
+      target === this
+        ? this.localize.term("sortable.movedTo", "{name} moved to position {position}", { name, position })
+        : target.label
+          ? this.localize.term("sortable.movedToList", "{name} moved to position {position} in {list}", {
+              name,
+              position,
+              list: target.label,
+            })
+          : this.localize.term("sortable.movedToOtherList", "{name} moved to position {position} in the other list", {
+              name,
+              position,
+            }),
+    );
   };
 
   private readonly onPointerCancel = (): void => this.endPointerDrag();
@@ -293,7 +328,7 @@ export class LitMaterialSortable extends LitElement {
   }
 
   private get rtl(): boolean {
-    return getComputedStyle(this).direction === "rtl";
+    return isRtl(this);
   }
 
   /**
@@ -368,9 +403,21 @@ export class LitMaterialSortable extends LitElement {
         const index = this.items.indexOf(item);
         this.grabbed = { item, origin: index, index };
         item.setAttribute("data-sort-grabbed", "");
-        this.announce(`${this.nameOf(item)} picked up, position ${index + 1} of ${count}. ↑ and ↓ to move, Space to drop, Escape to cancel.`);
+        this.announce(
+          this.localize.term(
+            "sortable.pickedUp",
+            "{name} picked up, position {position} of {total}. ↑ and ↓ to move, Space to drop, Escape to cancel.",
+            { name: this.nameOf(item), position: index + 1, total: count },
+          ),
+        );
       } else {
-        this.drop(`${this.nameOf(item)} dropped at position ${grabbed.index + 1} of ${count}.`);
+        this.drop(
+          this.localize.term("sortable.droppedAt", "{name} dropped at position {position} of {total}.", {
+            name: this.nameOf(item),
+            position: grabbed.index + 1,
+            total: count,
+          }),
+        );
       }
       return;
     }
@@ -379,7 +426,13 @@ export class LitMaterialSortable extends LitElement {
       event.preventDefault();
       event.stopPropagation();
       if (grabbed.index !== grabbed.origin) this.moveGrabbed(grabbed.origin);
-      this.drop(`${this.nameOf(item)} back at position ${grabbed.origin + 1} of ${count}.`);
+      this.drop(
+        this.localize.term("sortable.cancelled", "{name} back at position {position} of {total}.", {
+          name: this.nameOf(item),
+          position: grabbed.origin + 1,
+          total: count,
+        }),
+      );
       return;
     }
     const row = this.columns;
@@ -391,7 +444,13 @@ export class LitMaterialSortable extends LitElement {
     const to = jump ?? Math.min(count - 1, Math.max(0, grabbed.index + step!));
     if (to === grabbed.index) return;
     this.moveGrabbed(to);
-    this.announce(`${this.nameOf(item)} moved to position ${to + 1} of ${count}.`);
+    this.announce(
+      this.localize.term("sortable.movedToOf", "{name} moved to position {position} of {total}.", {
+        name: this.nameOf(item),
+        position: to + 1,
+        total: count,
+      }),
+    );
   };
 
   private moveGrabbed(to: number): void {
@@ -445,7 +504,12 @@ export class LitMaterialSortable extends LitElement {
         const active = document.activeElement;
         if (active && this.contains(active)) return;
         if (event.relatedTarget && this.contains(event.relatedTarget as Node)) return;
-        this.drop(`${this.nameOf(grabbed.item)} dropped at position ${grabbed.index + 1}.`);
+        this.drop(
+          this.localize.term("sortable.droppedAtPosition", "{name} dropped at position {position}.", {
+            name: this.nameOf(grabbed.item),
+            position: grabbed.index + 1,
+          }),
+        );
       }),
     );
   };

@@ -1,5 +1,6 @@
 import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { isRtl } from "@lit-material/core/localize.js";
 import type { LitMaterialTreeItem } from "./tree-item.js";
 import { styles } from "./tree-styles.js";
 
@@ -138,8 +139,11 @@ export class LitMaterialTree extends LitElement {
     // deeply that tree itself is nested.
     const current = (this.getRootNode() as Document | ShadowRoot).activeElement as LitMaterialTreeItem | null;
     const index = current ? items.indexOf(current) : -1;
+    // Right to left, the tree is indented from the right: ArrowLeft expands (inwards) and ArrowRight collapses.
+    const horizontal = event.key === "ArrowLeft" || event.key === "ArrowRight";
+    const key = horizontal && isRtl(this) ? (event.key === "ArrowLeft" ? "ArrowRight" : "ArrowLeft") : event.key;
 
-    switch (event.key) {
+    switch (key) {
       case "ArrowDown": {
         event.preventDefault();
         // Per the APG pattern, Up/Down don't wrap (unlike lit-material-tabs'

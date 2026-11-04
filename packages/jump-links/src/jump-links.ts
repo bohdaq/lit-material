@@ -1,5 +1,6 @@
 import { css, html, LitElement, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 
 export interface JumpLink {
   /** The target element's id. */
@@ -55,7 +56,8 @@ export class LitMaterialJumpLinks extends LitElement {
     a {
       display: block;
       margin-inline-start: -1px;
-      padding: 4px 0 4px calc(12px + var(--indent, 0px));
+      padding-block: 4px;
+      padding-inline: calc(12px + var(--indent, 0px)) 0;
       border-inline-start: 2px solid transparent;
       color: var(--md-sys-color-on-surface-variant, light-dark(#49454f, #cac4d0));
       text-decoration: none;
@@ -83,8 +85,8 @@ export class LitMaterialJumpLinks extends LitElement {
   /** Id of a container whose `h2`/`h3` headings with ids become the links. */
   @property({ attribute: "for" }) htmlFor = "";
 
-  /** Heading above the links; empty hides it. Also names the `<nav>`. */
-  @property() label = "On this page";
+  /** Heading above the links; empty hides it. Also names the `<nav>`. Default: "On this page", translated. */
+  @property() label?: string;
 
   /** Pixels covered by a sticky header: a section counts as current once its top passes this line. */
   @property({ type: Number }) offset = 0;
@@ -97,6 +99,8 @@ export class LitMaterialJumpLinks extends LitElement {
   private observer?: MutationObserver;
 
   private ticking = false;
+
+  private readonly localize = new LocalizeController(this);
 
   private get entries(): JumpLink[] {
     return this.htmlFor ? this.collected : this.links;
@@ -181,8 +185,10 @@ export class LitMaterialJumpLinks extends LitElement {
     const entries = this.entries;
     if (entries.length === 0) return nothing;
     const top = Math.min(...entries.map((e) => e.depth ?? 2));
-    return html`<nav part="nav" aria-label=${this.label || "On this page"}>
-      ${this.label ? html`<p part="title" class="title" aria-hidden="true">${this.label}</p>` : nothing}
+    const fallback = this.localize.term("jumpLinks.onThisPage", "On this page");
+    const label = this.label ?? fallback;
+    return html`<nav part="nav" aria-label=${label || fallback}>
+      ${label ? html`<p part="title" class="title" aria-hidden="true">${label}</p>` : nothing}
       <ol>
         ${entries.map(
           (entry) => html`<li>

@@ -3,6 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import "@lit-material/icon-button";
 import "@lit-material/text-field/text-field.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 
 export interface DualListItem {
   value: string;
@@ -144,6 +145,10 @@ export class LitMaterialDualListSelector extends LitElement {
       height: 100%;
       fill: currentColor;
     }
+    /* The chevrons point from one list to the other, and the lists swap sides right to left. */
+    :host(:dir(rtl)) .controls svg {
+      transform: scaleX(-1);
+    }
     @media (max-width: 600px) {
       :host {
         flex-direction: column;
@@ -152,7 +157,8 @@ export class LitMaterialDualListSelector extends LitElement {
         flex-direction: row;
         justify-content: center;
       }
-      .controls svg {
+      .controls svg,
+      :host(:dir(rtl)) .controls svg {
         transform: rotate(90deg);
       }
     }
@@ -164,9 +170,11 @@ export class LitMaterialDualListSelector extends LitElement {
   /** The chosen values. */
   @property({ type: Array }) selected: string[] = [];
 
-  @property({ attribute: "available-label" }) availableLabel = "Available";
+  /** Heading of the list of items to pick from. Default: "Available", translated. */
+  @property({ attribute: "available-label" }) availableLabel?: string;
 
-  @property({ attribute: "chosen-label" }) chosenLabel = "Chosen";
+  /** Heading of the list of picked items. Default: "Chosen", translated. */
+  @property({ attribute: "chosen-label" }) chosenLabel?: string;
 
   /** Adds a filter field above each list. */
   @property({ type: Boolean }) filterable = false;
@@ -183,6 +191,24 @@ export class LitMaterialDualListSelector extends LitElement {
   private anchor: Record<Side, string | null> = { available: null, chosen: null };
 
   private readonly uid = `dual-list-${++nextId}`;
+
+  private readonly localize = new LocalizeController(this);
+
+  private label(side: Side): string {
+    return side === "available"
+      ? (this.availableLabel ?? this.localize.term("dualList.available", "Available"))
+      : (this.chosenLabel ?? this.localize.term("dualList.chosen", "Chosen"));
+  }
+
+  /** A list's label inside a sentence ("Move marked to chosen"). */
+  private lowerLabel(side: Side): string {
+    const label = this.label(side);
+    try {
+      return label.toLocaleLowerCase(this.localize.lang);
+    } catch {
+      return label.toLowerCase();
+    }
+  }
 
   private visible(side: Side): DualListItem[] {
     const chosen = new Set(this.selected);
@@ -296,7 +322,8 @@ export class LitMaterialDualListSelector extends LitElement {
   }
 
   private renderPane(side: Side) {
-    const label = side === "available" ? this.availableLabel : this.chosenLabel;
+    const label = this.label(side);
+    const t = this.localize;
     const items = this.visible(side);
     const total = side === "chosen" ? this.selected.length : this.items.length - this.selected.length;
     const marked = this.marks[side].size;
@@ -305,12 +332,14 @@ export class LitMaterialDualListSelector extends LitElement {
     return html`<div part="pane" class="pane">
       <div class="header">
         <span id="${listId}-label">${label}</span>
-        <span class="count" aria-live="polite">${marked ? `${marked} of ${total} marked` : `${total}`}</span>
+        <span class="count" aria-live="polite"
+          >${marked ? t.term("dualList.markedCount", "{marked} of {total} marked", { marked, total }) : t.number(total)}</span
+        >
       </div>
       ${this.filterable
         ? html`<lit-material-text-field
             variant="outlined"
-            label=${`Filter ${label.toLowerCase()}`}
+            label=${t.term("dualList.filter", "Filter {list}", { list: this.lowerLabel(side) })}
             type="search"
             autocomplete="off"
             .value=${this.filters[side]}
@@ -334,7 +363,9 @@ export class LitMaterialDualListSelector extends LitElement {
         }}
       >
         ${items.length === 0
-          ? html`<li class="empty" role="presentation">${this.filters[side] ? "No matches" : "Nothing here"}</li>`
+          ? html`<li class="empty" role="presentation">${this.filters[side]
+              ? t.term("dualList.noMatches", "No matches")
+              : t.term("dualList.empty", "Nothing here")}</li>`
           : repeat(
               items,
               (item) => item.value,
@@ -365,29 +396,32 @@ export class LitMaterialDualListSelector extends LitElement {
     const movableMarked = (side: Side) => this.movable(side, this.marks[side]).length > 0;
     const movableAll = (side: Side) => this.visible(side).some((i) => !i.disabled);
     const off = this.disabled;
+    const t = this.localize;
+    const toChosen = this.lowerLabel("chosen");
+    const toAvailable = this.lowerLabel("available");
     return html`
       ${this.renderPane("available")}
-      <div class="controls" role="group" aria-label="Move items">
+      <div class="controls" role="group" aria-label=${t.term("dualList.moveItems", "Move items")}>
         <lit-material-icon-button
-          aria-label=${`Move marked to ${this.chosenLabel.toLowerCase()}`}
+          aria-label=${t.term("dualList.moveMarked", "Move marked to {list}", { list: toChosen })}
           ?disabled=${off || !movableMarked("available")}
           @click=${() => this.move("available", this.marks.available)}
           ><span slot="icon">${addIcon}</span></lit-material-icon-button
         >
         <lit-material-icon-button
-          aria-label=${`Move all shown to ${this.chosenLabel.toLowerCase()}`}
+          aria-label=${t.term("dualList.moveAllShown", "Move all shown to {list}", { list: toChosen })}
           ?disabled=${off || !movableAll("available")}
           @click=${() => this.move("available", this.visible("available").map((i) => i.value))}
           ><span slot="icon">${addAllIcon}</span></lit-material-icon-button
         >
         <lit-material-icon-button
-          aria-label=${`Move all shown to ${this.availableLabel.toLowerCase()}`}
+          aria-label=${t.term("dualList.moveAllShown", "Move all shown to {list}", { list: toAvailable })}
           ?disabled=${off || !movableAll("chosen")}
           @click=${() => this.move("chosen", this.visible("chosen").map((i) => i.value))}
           ><span slot="icon">${removeAllIcon}</span></lit-material-icon-button
         >
         <lit-material-icon-button
-          aria-label=${`Move marked to ${this.availableLabel.toLowerCase()}`}
+          aria-label=${t.term("dualList.moveMarked", "Move marked to {list}", { list: toAvailable })}
           ?disabled=${off || !movableMarked("chosen")}
           @click=${() => this.move("chosen", this.marks.chosen)}
           ><span slot="icon">${removeIcon}</span></lit-material-icon-button

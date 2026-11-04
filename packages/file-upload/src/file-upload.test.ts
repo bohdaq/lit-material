@@ -1,4 +1,5 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./file-upload.js";
 import type { LitMaterialFileUpload } from "./file-upload.js";
 
@@ -177,5 +178,33 @@ describe("lit-material-file-upload", () => {
     el.files = [makeFile("a.txt"), makeFile("b.txt")];
     await el.updateComplete;
     await expect(el).to.be.accessible();
+  });
+
+  it("translates its instructions, remove labels and sizes", async () => {
+    registerTranslation({
+      $code: "x-file-upload",
+      "fileUpload.instructionsMultiple": "Dateien hierher ziehen oder klicken",
+      "fileUpload.removeFile": "{name} entfernen",
+      "fileUpload.kilobytes": "{size} KiB",
+      "fileUpload.bytes": "{size} Byte",
+    });
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div lang="x-file-upload"><lit-material-file-upload multiple></lit-material-file-upload></div>`,
+    );
+    const el = wrapper.querySelector<LitMaterialFileUpload>("lit-material-file-upload")!;
+    el.files = [makeFile("a.txt", "x".repeat(1536)), makeFile("b.txt", "hi")];
+    await el.updateComplete;
+    const root = el.shadowRoot!;
+    expect(root.querySelector(".instructions")!.textContent!.trim()).to.equal("Dateien hierher ziehen oder klicken");
+    expect(root.querySelector(".remove")!.getAttribute("aria-label")).to.equal("a.txt entfernen");
+    expect([...root.querySelectorAll(".file-size")].map((s) => s.textContent)).to.deep.equal(["1.5 KiB", "2 Byte"]);
+  });
+
+  it("formats sizes for the element's language", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`<div lang="de"><lit-material-file-upload></lit-material-file-upload></div>`);
+    const el = wrapper.querySelector<LitMaterialFileUpload>("lit-material-file-upload")!;
+    el.files = [makeFile("a.txt", "x".repeat(1536))];
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".file-size")!.textContent).to.equal("1,5 KB");
   });
 });

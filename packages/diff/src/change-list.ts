@@ -1,6 +1,7 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { diffColors } from "./styles.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 
 export type ChangeKind = "added" | "removed" | "changed";
 
@@ -61,7 +62,12 @@ export class LitMaterialChangeList extends LitElement {
         font-size: var(--md-sys-typescale-label-small-size, 0.75rem);
       }
       .arrow {
+        display: inline-block;
         color: var(--diff-muted);
+      }
+      /* Points from the old value to the new one, in reading order. */
+      :host(:dir(rtl)) .arrow {
+        transform: scaleX(-1);
       }
     `,
   ];
@@ -69,22 +75,31 @@ export class LitMaterialChangeList extends LitElement {
   /** The changes, in the order to show them. */
   @property({ type: Array }) changes: Change[] = [];
 
-  /** Accessible name of the list. */
-  @property() label = "Changes";
+  /** Accessible name of the list. Default: "Changes", translated. */
+  @property() label?: string;
+
+  private readonly localize = new LocalizeController(this);
+
+  private kindLabel(kind: ChangeKind): string {
+    if (kind === "added") return this.localize.term("diff.kindAdded", "added");
+    if (kind === "removed") return this.localize.term("diff.kindRemoved", "removed");
+    return this.localize.term("diff.kindChanged", "changed");
+  }
 
   override render() {
     const changes = this.changes ?? [];
-    if (!changes.length) return html`<p class="empty">No differences.</p>`;
-    return html`<ul part="list" aria-label=${this.label}>
+    const t = this.localize;
+    if (!changes.length) return html`<p class="empty">${t.term("diff.noDifferences", "No differences.")}</p>`;
+    return html`<ul part="list" aria-label=${this.label ?? t.term("diff.changes", "Changes")}>
       ${changes.map(
         (c) => html`<li class=${c.kind} part="item">
           <code part="path">${c.path}</code>
-          <span class="kind">${c.kind}</span>
+          <span class="kind">${this.kindLabel(c.kind)}</span>
           ${c.kind === "added"
             ? html`<ins>${show(c.after)}</ins>`
             : c.kind === "removed"
               ? html`<del>${show(c.before)}</del>`
-              : html`<del>${show(c.before)}</del><span class="arrow" aria-hidden="true">→</span><span class="visually-hidden">to</span><ins>${show(c.after)}</ins>`}
+              : html`<del>${show(c.before)}</del><span class="arrow" aria-hidden="true">→</span><span class="visually-hidden">${t.term("diff.changedTo", "to")}</span><ins>${show(c.after)}</ins>`}
         </li>`,
       )}
     </ul>`;

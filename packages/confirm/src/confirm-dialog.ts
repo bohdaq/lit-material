@@ -4,6 +4,7 @@ import "@lit-material/button/button.js";
 import "@lit-material/dialog";
 import "@lit-material/text-field/text-field.js";
 import type { LitMaterialDialog } from "@lit-material/dialog";
+import { LocalizeController } from "@lit-material/core/localize.js";
 
 /**
  * A confirmation dialog: a headline, a message, Cancel and a confirm button,
@@ -58,11 +59,11 @@ export class LitMaterialConfirmDialog extends LitElement {
   /** Supporting text under the headline. */
   @property() message = "";
 
-  /** The confirm button's label. */
-  @property({ attribute: "confirm-label" }) confirmLabel = "Confirm";
+  /** The confirm button's label. Default: "Confirm", translated. */
+  @property({ attribute: "confirm-label" }) confirmLabel?: string;
 
-  /** The cancel button's label. */
-  @property({ attribute: "cancel-label" }) cancelLabel = "Cancel";
+  /** The cancel button's label. Default: "Cancel", translated. */
+  @property({ attribute: "cancel-label" }) cancelLabel?: string;
 
   /** Paint the confirm button in the error colour. */
   @property({ type: Boolean }) destructive = false;
@@ -81,6 +82,8 @@ export class LitMaterialConfirmDialog extends LitElement {
   @query("lit-material-dialog") private readonly dialog?: LitMaterialDialog;
 
   private resolve?: (confirmed: boolean) => void;
+
+  private readonly localize = new LocalizeController(this);
 
   private get textMatches(): boolean {
     return this.requireText === "" || this.typed === this.requireText;
@@ -137,16 +140,16 @@ export class LitMaterialConfirmDialog extends LitElement {
           ${this.requireText
             ? html`<lit-material-text-field
                 variant="outlined"
-                label=${`Type ${this.requireText} to confirm`}
+                label=${this.localize.term("confirm.typeToConfirm", "Type {text} to confirm", { text: this.requireText })}
                 autocomplete="off"
                 .value=${this.typed}
                 @input=${(e: Event) => (this.typed = (e.target as HTMLInputElement).value)}
               ></lit-material-text-field>`
             : nothing}
           <div class="actions">
-            <lit-material-button class="cancel" variant="text" @click=${() => this.close(false)}>${this.cancelLabel}</lit-material-button>
+            <lit-material-button class="cancel" variant="text" @click=${() => this.close(false)}>${this.cancelLabel ?? this.localize.term("confirm.cancel", "Cancel")}</lit-material-button>
             <lit-material-button class=${this.destructive ? "confirm destructive" : "confirm"} type="submit" ?disabled=${!this.textMatches}
-              >${this.confirmLabel}</lit-material-button
+              >${this.confirmLabel ?? this.localize.term("confirm.confirm", "Confirm")}</lit-material-button
             >
           </div>
         </form>

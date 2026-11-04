@@ -1,4 +1,5 @@
 import { expect, fixture, html } from "@open-wc/testing";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./jump-links.js";
 import type { LitMaterialJumpLinks } from "./jump-links.js";
 
@@ -88,5 +89,31 @@ describe("lit-material-jump-links", () => {
     await frames();
     await el.updateComplete;
     expect(el.current).to.equal("b");
+  });
+
+  it("translates its default heading", async () => {
+    registerTranslation({ $code: "x-jump-links", "jumpLinks.onThisPage": "Auf dieser Seite" });
+    const wrapper = await fixture<HTMLDivElement>(html`<div lang="x-jump-links">
+      <lit-material-jump-links .links=${[{ id: "a", text: "A" }]}></lit-material-jump-links>
+      <lit-material-jump-links label="" .links=${[{ id: "a", text: "A" }]}></lit-material-jump-links>
+    </div>`);
+    const [titled, untitled] = wrapper.querySelectorAll<LitMaterialJumpLinks>("lit-material-jump-links");
+    await titled!.updateComplete;
+    await untitled!.updateComplete;
+    expect(titled!.shadowRoot!.querySelector(".title")!.textContent).to.equal("Auf dieser Seite");
+    expect(titled!.shadowRoot!.querySelector("nav")!.getAttribute("aria-label")).to.equal("Auf dieser Seite");
+    expect(untitled!.shadowRoot!.querySelector(".title")).to.not.exist;
+    expect(untitled!.shadowRoot!.querySelector("nav")!.getAttribute("aria-label")).to.equal("Auf dieser Seite");
+  });
+
+  it("indents links from the start edge in right-to-left layouts", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`<div dir="rtl">
+      <lit-material-jump-links .links=${[{ id: "a", text: "A" }]}></lit-material-jump-links>
+    </div>`);
+    const el = wrapper.querySelector<LitMaterialJumpLinks>("lit-material-jump-links")!;
+    await el.updateComplete;
+    const style = getComputedStyle(el.shadowRoot!.querySelector("a")!);
+    expect(style.paddingRight).to.equal("12px");
+    expect(style.paddingLeft).to.equal("0px");
   });
 });

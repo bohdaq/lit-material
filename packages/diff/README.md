@@ -44,15 +44,15 @@ import { diffLines, sideBySide, hunks, stats } from "@lit-material/diff/lines.js
 | `modified` | `modified` | `string` | `""` |
 | `mode` | `mode` (reflected) | `"unified" \| "split"` | `"unified"` |
 | `context` | `context` | `number` (unchanged lines kept around each change; `-1` keeps all) | `3` |
-| `label` | `label` | `string` (accessible name) | `"Changes"` |
-| `originalLabel` | `original-label` | `string` | `"Before"` |
-| `modifiedLabel` | `modified-label` | `string` | `"After"` |
+| `label` | `label` | `string` (accessible name) | `"Changes"`, translated |
+| `originalLabel` | `original-label` | `string` | `"Before"`, translated |
+| `modifiedLabel` | `modified-label` | `string` | `"After"`, translated |
 | `hideStats` | `hide-stats` | `boolean` | `false` |
 | `diff` | — | `DiffLine[]` (read only) | |
 
 Parts `table`, `stats`. Custom properties `--lit-material-diff-added-background`, `--lit-material-diff-added-color`, `--lit-material-diff-removed-background`, `--lit-material-diff-removed-color`, `--lit-material-diff-font`, `--lit-material-diff-max-height`.
 
-`lit-material-change-list`: `changes` (`{ path, kind: "added" | "removed" | "changed", before?, after? }[]`, property or JSON attribute), `label`. Values that aren't strings are shown as JSON. Parts `list`, `item`, `path`.
+`lit-material-change-list`: `changes` (`{ path, kind: "added" | "removed" | "changed", before?, after? }[]`, property or JSON attribute), `label` (default `"Changes"`, translated). Values that aren't strings are shown as JSON. Parts `list`, `item`, `path`.
 
 `lit-material-merge-view`: `sides` (`{ label, text }[]`, property or JSON attribute), `base` (index of the side the others are compared with, default `0`). Slots `side-0`, `side-1`, … for each side's actions. Parts `side`, `heading`, `lines`.
 

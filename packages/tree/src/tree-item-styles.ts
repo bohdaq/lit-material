@@ -108,6 +108,14 @@ export const styles = css`
     transform: rotate(90deg);
   }
 
+  /* The collapsed chevron points inwards, along the reading direction; expanded, it still points down. */
+  :host(:dir(rtl)) .chevron-icon {
+    transform: scaleX(-1);
+  }
+  :host(:dir(rtl)[expanded]) .chevron-icon {
+    transform: scaleX(-1) rotate(90deg);
+  }
+
   .leading {
     display: flex;
     flex: none;

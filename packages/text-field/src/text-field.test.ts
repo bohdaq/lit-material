@@ -1,3 +1,4 @@
+import { registerTranslation } from "@lit-material/core/localize.js";
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
 import "./text-field.js";
@@ -236,5 +237,13 @@ describe("lit-material-text-field", () => {
     el.shadowRoot!.querySelector("input")!.focus();
     await sendKeys({ press: "Enter" });
     expect(el.value).to.equal("");
+  });
+
+  it("formats the character counter in the element's language", async () => {
+    registerTranslation({ $code: "x-tf", "textField.characterCount": "{count} sur {max}" });
+    const wrap = await fixture<HTMLElement>(html`<div lang="x-tf"><lit-material-text-field label="Name" maxlength="10" value="abc"></lit-material-text-field></div>`);
+    const el = wrap.firstElementChild as HTMLElement & { updateComplete: Promise<unknown> };
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".counter")!.textContent?.trim()).to.equal("3 sur 10");
   });
 });

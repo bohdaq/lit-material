@@ -1,5 +1,6 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./code-field.js";
 import { validateJson, type LitMaterialCodeField } from "./code-field.js";
 
@@ -109,5 +110,27 @@ describe("validateJson", () => {
     expect(validateJson('{\n  "a": 1,\n  "b": [1, 2,]\n}')).to.match(/^Line 3: /);
     expect(validateJson('{\n  "a": "x\\"y",\n  b: 2\n}')).to.match(/^Line 3: /);
     expect(validateJson('[\n  1,\n  2')).to.match(/^Line 3: /);
+  });
+});
+
+describe("lit-material-code-field translations", () => {
+  it("translates the JSON error for the element's language", async () => {
+    registerTranslation({ $code: "x-code-field", "codeField.jsonError": "Ligne {line} : {message}" });
+    const wrap = await fixture<HTMLDivElement>(html`
+      <div lang="x-code-field"><lit-material-code-field language="json" .value=${'{\n"a": }'}></lit-material-code-field></div>
+    `);
+    const el = wrap.querySelector<LitMaterialCodeField>("lit-material-code-field")!;
+    await el.updateComplete;
+    expect(el.validationMessage).to.match(/^Ligne 2 : /);
+  });
+
+  it("keeps the editing area left to right on a right-to-left page", async () => {
+    const wrap = await fixture<HTMLDivElement>(html`<div dir="rtl"><lit-material-code-field></lit-material-code-field></div>`);
+    const el = wrap.querySelector<LitMaterialCodeField>("lit-material-code-field")!;
+    expect(getComputedStyle(el.shadowRoot!.querySelector("textarea")!).direction).to.equal("ltr");
+  });
+
+  it("formats validateJson's message with a given formatter", () => {
+    expect(validateJson('{\n"a": }', (line) => `L${line}`)).to.equal("L2");
   });
 });

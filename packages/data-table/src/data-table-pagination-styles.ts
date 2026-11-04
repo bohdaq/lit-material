@@ -31,7 +31,8 @@ export const styles = css`
     background: transparent;
     color: inherit;
     font: inherit;
-    padding: 4px 24px 4px 4px;
+    padding-block: 4px;
+    padding-inline: 4px 24px;
     cursor: pointer;
   }
 
@@ -67,6 +68,11 @@ export const styles = css`
     width: 24px;
     height: 24px;
     fill: currentColor;
+  }
+
+  /* First/previous/next/last point in reading direction. */
+  :host(:dir(rtl)) button svg {
+    transform: scaleX(-1);
   }
 
   button:hover:not(:disabled) {

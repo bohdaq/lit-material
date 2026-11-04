@@ -40,7 +40,7 @@ npm install @lit-material/timestamp @lit-material/tokens
 | `locale`     | `locale`      | `string`                                              | `""`       |
 
 `date` is an ISO 8601 date-time string. `locale` is a BCP 47 tag (`"en-US"`, `"fr-FR"`, …);
-unset defaults to the browser's own locale.
+unset, it follows the element's language (the nearest `lang` attribute, else `<html lang>`).
 
 Slot: default — fallback content shown when `date` is empty or unparseable.
 

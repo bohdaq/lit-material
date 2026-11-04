@@ -7,7 +7,8 @@ export const styles = css`
     bottom: 24px;
     transform: translateX(-50%);
     margin: 0;
-    padding: 6px 8px 6px 16px;
+    padding-block: 6px;
+    padding-inline: 16px 8px;
     border: none;
     box-sizing: border-box;
     display: none;

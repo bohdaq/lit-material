@@ -2,6 +2,7 @@ import { css, html, LitElement, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { diffLines, type DiffLine } from "./lines.js";
 import { diffColors } from "./styles.js";
+import { LocalizeController } from "@lit-material/core/localize.js";
 
 export interface MergeSide {
   label: string;
@@ -90,6 +91,9 @@ export class LitMaterialMergeView extends LitElement {
       li.added {
         box-shadow: inset 3px 0 var(--diff-added-fg);
       }
+      :host(:dir(rtl)) li.added {
+        box-shadow: inset -3px 0 var(--diff-added-fg);
+      }
     `,
   ];
 
@@ -100,6 +104,23 @@ export class LitMaterialMergeView extends LitElement {
   @property({ type: Number }) base = 0;
 
   private compared: { lines: DiffLine[]; dropped: number }[] = [];
+
+  private readonly localize = new LocalizeController(this);
+
+  private note(index: number, added: number, dropped: number): string {
+    const t = this.localize;
+    if (index === this.base) return t.term("diff.base", "Base");
+    if (added && dropped) {
+      return t.term("diff.newAndDropped", "{added} new or changed, {dropped} dropped", { added, dropped });
+    }
+    if (added) {
+      return t.term("diff.newOrChanged", { one: "{count} new or changed", other: "{count} new or changed" }, { count: added });
+    }
+    if (dropped) return t.term("diff.dropped", { one: "{count} dropped", other: "{count} dropped" }, { count: dropped });
+    const baseLabel = this.sides?.[this.base]?.label;
+    if (baseLabel === undefined) return t.term("diff.sameAsBase", "Same as the base");
+    return t.term("diff.sameAs", "Same as {side}", { side: baseLabel });
+  }
 
   protected override willUpdate(changed: PropertyValues<this>): void {
     if (!changed.has("sides") && !changed.has("base")) return;
@@ -118,21 +139,16 @@ export class LitMaterialMergeView extends LitElement {
       ${sides.map((s, i) => {
         const c = this.compared[i] ?? { lines: [], dropped: 0 };
         const added = c.lines.filter((l) => l.op === "added").length;
-        const note =
-          i === this.base
-            ? "Base"
-            : !added && !c.dropped
-              ? `Same as ${sides[this.base]?.label ?? "the base"}`
-              : [added && `${added} new or changed`, c.dropped && `${c.dropped} dropped`].filter(Boolean).join(", ");
+        const note = this.note(i, added, c.dropped);
         return html`<section part="side" aria-labelledby=${`h${i}`}>
           <header>
             <h3 id=${`h${i}`} part="heading">${s.label}</h3>
             <span class="note">${note}</span>
             <slot name=${`side-${i}`}></slot>
           </header>
-          <div class="region" tabindex="0" role="region" aria-label=${`${s.label}, text`}>
+          <div class="region" tabindex="0" role="region" aria-label=${this.localize.term("diff.sideText", "{side}, text", { side: s.label })}>
             <ol part="lines">
-              ${c.lines.map((l) => html`<li class=${l.op}>${l.op === "added" ? html`<span class="visually-hidden">New: </span>` : ""}${l.text || " "}</li>`)}
+              ${c.lines.map((l) => html`<li class=${l.op}>${l.op === "added" ? html`<span class="visually-hidden">${`${this.localize.term("diff.newLine", "New:")} `}</span>` : ""}${l.text || " "}</li>`)}
             </ol>
           </div>
         </section>`;

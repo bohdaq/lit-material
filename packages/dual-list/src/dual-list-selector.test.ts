@@ -1,5 +1,6 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { registerTranslation } from "@lit-material/core/localize.js";
 import "./dual-list-selector.js";
 import type { DualListItem, LitMaterialDualListSelector } from "./dual-list-selector.js";
 
@@ -99,5 +100,44 @@ describe("lit-material-dual-list-selector", () => {
     option(el, "Read").click();
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector(".count")!.textContent).to.equal("1 of 4 marked");
+  });
+
+  it("translates its built-in labels and announcements", async () => {
+    registerTranslation({
+      $code: "x-dual-list",
+      "dualList.available": "Verfügbar",
+      "dualList.chosen": "Gewählt",
+      "dualList.moveItems": "Einträge verschieben",
+      "dualList.moveMarked": "Markierte nach „{list}“",
+      "dualList.moveAllShown": "Alle angezeigten nach „{list}“",
+      "dualList.filter": "{list} filtern",
+      "dualList.markedCount": "{marked} von {total} markiert",
+      "dualList.empty": "Leer",
+    });
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div lang="x-dual-list">
+        <lit-material-dual-list-selector filterable .items=${ITEMS}></lit-material-dual-list-selector>
+      </div>`,
+    );
+    const el = wrapper.querySelector<LitMaterialDualListSelector>("lit-material-dual-list-selector")!;
+    await el.updateComplete;
+    const root = el.shadowRoot!;
+    expect(root.querySelector(`[id$="-available-label"]`)!.textContent).to.equal("Verfügbar");
+    expect(root.querySelector(".controls")!.getAttribute("aria-label")).to.equal("Einträge verschieben");
+    expect(button(el, "Markierte nach „gewählt“")).to.exist;
+    expect(button(el, "Alle angezeigten nach „verfügbar“")).to.exist;
+    expect(root.querySelector("lit-material-text-field")!.getAttribute("label")).to.equal("verfügbar filtern");
+    expect(list(el, "chosen").textContent!.trim()).to.equal("Leer");
+    option(el, "Read").click();
+    await el.updateComplete;
+    expect(root.querySelector(".count")!.textContent).to.equal("1 von 4 markiert");
+  });
+
+  it("keeps explicit list labels", async () => {
+    const el = await fixture<LitMaterialDualListSelector>(
+      html`<lit-material-dual-list-selector .items=${ITEMS} chosen-label="Granted"></lit-material-dual-list-selector>`,
+    );
+    expect(button(el, "Move marked to granted")).to.exist;
+    expect(button(el, "Move all shown to available")).to.exist;
   });
 });

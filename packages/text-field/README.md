@@ -109,7 +109,8 @@ A number with − and + buttons beside it, for replicas, cores, gigabytes:
 
 ArrowUp/ArrowDown step, PageUp/PageDown step by ten, Home/End jump to `min`/`max`. The buttons
 disable at the ends of the range. Text that isn't a number, or is out of range, shows "Enter a
-number", "At least 10" or "At most 500" under the field; `value` keeps the last good number and
+number", "At least 10" or "At most 500" under the field (translated, like the − and + buttons'
+names, "Decrease Disk" and "Increase Disk"); `value` keeps the last good number and
 is `null` while the field is empty. Steps don't drift (`0.1` + `0.2` is `0.3`). From an empty
 field the first step lands on `min` (or `0`).
 
