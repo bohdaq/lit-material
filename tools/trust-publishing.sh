@@ -34,8 +34,15 @@ for dir in "${dirs[@]}"; do
     continue
   fi
   echo "trust $pkg"
-  # One failure (a missed 2FA prompt) must not skip the rest.
-  $NPM trust github "$pkg" --repo "$REPO" --file "$FILE" --allow-publish --yes || failed+=("$dir")
+  # One failure (a missed 2FA prompt) must not skip the rest. E409 means a trust
+  # already exists: the list above can come back empty when its 2FA lapses.
+  if ! out=$($NPM trust github "$pkg" --repo "$REPO" --file "$FILE" --allow-publish --yes 2>&1 | tee /dev/stderr); then
+    if grep -q "E409" <<<"$out"; then
+      echo "ok   $pkg (already trusted)"
+    else
+      failed+=("$dir")
+    fi
+  fi
 done
 
 if [ ${#failed[@]} -gt 0 ]; then
