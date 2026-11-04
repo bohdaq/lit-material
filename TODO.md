@@ -208,10 +208,13 @@ framework. Ordered by priority.
    `Intl.PluralRules`), 201 component messages extracted to [`@lit-material/translations`](packages/translations)
    with ar/de/es/fr/ja/pl/uk catalogs (not yet reviewed by native speakers), dates and numbers in the element's
    language, and an RTL pass over every component (logical CSS, arrow keys, popup alignment, mirrored icons).
-7. **Data and forms.**
+7. ~~**Data and forms.**
    - `task`: request caching with background refresh, deduplication, retries.
    - A small fetch wrapper with interceptors (auth headers, 401 handling).
-   - `form`: async and schema validators (zod-style) and field arrays.
+   - `form`: async and schema validators (zod-style) and field arrays.~~ Done (unreleased changesets):
+   `TaskController` `key`/`staleTime`/`retry`/`refetch*` with a shared `TaskCache`; new
+   [`@lit-material/http`](packages/http); `FormController` validators, Standard Schema, `handleSubmit` and
+   `FieldArrayController` in [`@lit-material/form`](packages/form).
 8. **Full-stack layer.** A Vite plugin and preset: SSR of the whole app, per-route data loading,
    app-level hydration, more than one `create-lit-material-app` template.
 9. **Developer tooling.**
