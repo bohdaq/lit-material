@@ -68,8 +68,8 @@ off-by-one-day bugs in negative-UTC-offset timezones.
 
 Month names, weekday headers, day/year numbers and the per-day `aria-label`s are formatted in the
 element's language (the nearest `lang` attribute, else `<html lang>`). Without `first-day-of-week`,
-the grid starts on that language's first day of the week where the browser exposes
-`Intl.Locale` week info, and on Sunday where it doesn't.
+the grid starts on that language's first day of the week: from `Intl.Locale` week info where the
+browser exposes it, else from CLDR's table for the language's likely region (Firefox), else Sunday.
 
 Methods: `show()` resets the view to `value` (or today) and, for `modal`, opens the picker
 (equivalent to resetting state then `open = true`) — for `docked`, only the reset happens, useful
