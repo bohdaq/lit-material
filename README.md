@@ -104,6 +104,7 @@ components as you like.
 | [`@lit-material/progress`](packages/progress) | Linear and circular progress indicators, usage meter for quotas. |
 | [`@lit-material/date-picker`](packages/date-picker) | Modal or docked date picker and date range picker. |
 | [`@lit-material/time-picker`](packages/time-picker) | Clock-dial dialog, 12- or 24-hour. |
+| [`@lit-material/calendar`](packages/calendar) | Calendar and scheduler: month, week, day and agenda views, drag, resize and keyboard moves of controlled events. |
 | [`@lit-material/autocomplete`](packages/autocomplete) | Text field with a filtered, data-driven option list. |
 | [`@lit-material/accordion`](packages/accordion) | Expansion panels, single- or multi-expand. |
 | [`@lit-material/stepper`](packages/stepper) | Wizard-progress indicator, horizontal or vertical, linear or free. |

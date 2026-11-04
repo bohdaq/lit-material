@@ -357,6 +357,40 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "ripple"
     ]
   },
+  "lit-material-calendar": {
+    "package": "@lit-material/calendar",
+    "className": "LitMaterialCalendar",
+    "attributes": {
+      "agenda-days": "number",
+      "date": "string | undefined",
+      "day-max-events": "number",
+      "events": "CalendarEvent[]",
+      "first-day-of-week": "number | undefined",
+      "readonly": "boolean",
+      "scroll-to-hour": "number",
+      "slot-minutes": "number",
+      "view": "\"month\" | \"week\" | \"day\" | \"agenda\""
+    },
+    "events": [
+      "event-change",
+      "event-click",
+      "navigate",
+      "slot-click"
+    ],
+    "slots": [],
+    "cssProperties": [
+      "--lit-material-calendar-height",
+      "--lit-material-calendar-slot-height"
+    ],
+    "cssParts": [
+      "agenda",
+      "event",
+      "grid",
+      "title",
+      "toolbar",
+      "views"
+    ]
+  },
   "lit-material-card": {
     "package": "@lit-material/card",
     "className": "LitMaterialCard",

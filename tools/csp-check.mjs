@@ -78,6 +78,8 @@ const componentPackages = packages.filter((p) => existsSync(join(pkgDir(p), "cus
 
 // States whose templates set inline styles, beyond each element's defaults.
 const j = JSON.stringify;
+// Overlapping timed events and a multi-day all-day one, for lit-material-calendar.
+const calendarEvents = [{ id: 1, title: "Standup", start: "2026-06-15T09:00", end: "2026-06-15T09:30" }, { id: 2, title: "Review", start: "2026-06-15T09:15", end: "2026-06-15T10:00", color: "#386a20" }, { id: 3, title: "Offsite", start: "2026-06-16", end: "2026-06-18" }];
 const extra = [
   `<lit-material-bar-chart label="Requests" data='${j([{ name: "api", value: 30 }, { name: "web", value: 12 }])}'></lit-material-bar-chart>`,
   `<lit-material-line-chart label="Load" series='${j([{ name: "cpu", points: [{ x: 0, y: 1 }, { x: 1, y: 3 }, { x: 2, y: 2 }] }])}'></lit-material-line-chart>`,
@@ -94,6 +96,9 @@ const extra = [
   `<lit-material-color-picker label="Accent" value="#6750a4"></lit-material-color-picker>`,
   `<lit-material-time-picker variant="docked" value="09:30"></lit-material-time-picker>`,
   `<lit-material-icon name="check"></lit-material-icon>`,
+  `<lit-material-calendar date="2026-06-15" events='${j(calendarEvents)}'></lit-material-calendar>`,
+  `<lit-material-calendar view="week" date="2026-06-15" events='${j(calendarEvents)}'></lit-material-calendar>`,
+  `<lit-material-calendar view="agenda" date="2026-06-15" events='${j(calendarEvents)}'></lit-material-calendar>`,
   `<lit-material-data-grid row-key="id" group-by="team" expanded-groups='${j(["a"])}' columns='${j([{ key: "name", header: "Name", width: 120 }, { key: "n", header: "N", numeric: true, aggregate: "sum" }])}' rows='${j([{ id: 1, team: "a", name: "Ada", n: 1 }, { id: 2, team: "b", name: "Alan", n: 2 }])}'></lit-material-data-grid>`,
 ];
 

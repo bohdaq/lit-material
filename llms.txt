@@ -46,6 +46,7 @@ Every component package also exports generated framework bindings: `@lit-materia
 - [Progress](https://github.com/bohdaq/lit-material/tree/main/packages/progress): Linear and circular progress indicators, usage meter for quotas (warning/critical thresholds).
 - [Date Picker](https://github.com/bohdaq/lit-material/tree/main/packages/date-picker): Modal or docked date picker and date range picker.
 - [Time Picker](https://github.com/bohdaq/lit-material/tree/main/packages/time-picker): Clock-dial dialog, 12- or 24-hour.
+- [Calendar](https://github.com/bohdaq/lit-material/tree/main/packages/calendar): `lit-material-calendar` — `view="month|week|day|agenda"`, `date` (ISO day), `events` `{id,title,start,end?,allDay?,color?,editable?}[]` (Dates or ISO strings, local time zone; JSON attr for SSR), `first-day-of-week`, `slot-minutes`, `day-max-events`, `agenda-days`, `readonly`; events `event-click` `{event}`, `slot-click` `{start,end,allDay}`, cancelable `event-change` `{event,start,end,allDay}` (controlled: the app updates `events`), `navigate` `{view,date,start,end}`.
 - [Autocomplete](https://github.com/bohdaq/lit-material/tree/main/packages/autocomplete): Text field with a filtered, data-driven option list.
 - [Accordion](https://github.com/bohdaq/lit-material/tree/main/packages/accordion): Expansion panels, single- or multi-expand.
 - [Stepper](https://github.com/bohdaq/lit-material/tree/main/packages/stepper): Wizard-progress indicator, horizontal or vertical, linear or free.
