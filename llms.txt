@@ -88,7 +88,7 @@ scope cuts — read it before assuming something is missing or unimplemented.
 
 ## App shell
 
-- [Router](https://github.com/bohdaq/lit-material/tree/main/packages/router): Path matching, an SPA route outlet, a route-reading controller.
+- [Router](https://github.com/bohdaq/lit-material/tree/main/packages/router): Path matching, nested routes, redirects and guards, lazy routes, typed query parameters, page titles, scroll restoration, server-side resolution for prerendering; an SPA route outlet and a route-reading controller.
 - [Store](https://github.com/bohdaq/lit-material/tree/main/packages/store): A dependency-free, Redux-shaped state store.
 - [Core](https://github.com/bohdaq/lit-material/tree/main/packages/core): Ripple/focus-ring controllers, `themeContext`, `localeContext`.
 - [Task](https://github.com/bohdaq/lit-material/tree/main/packages/task): A reactive controller for async work (data fetching).
