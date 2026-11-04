@@ -117,18 +117,33 @@ interface WeekInfo {
 
 /**
  * The first day of the week for `lang` (0 = Sunday, 1 = Monday, ...), from `Intl.Locale` week info where the
- * browser has it, else Sunday.
+ * browser has it, else CLDR's first day for the language's likely region (Monday for most), else Sunday.
  */
 export function localeFirstDayOfWeek(lang: string): number {
   try {
     const locale = new Intl.Locale(lang) as Intl.Locale & { getWeekInfo?: () => WeekInfo; weekInfo?: WeekInfo };
     const info = locale.getWeekInfo?.() ?? locale.weekInfo;
     if (info && typeof info.firstDay === "number") return info.firstDay % 7;
+    // No week info (Firefox): CLDR's first day for the language's likely region.
+    const region = locale.maximize().region;
+    if (region) return regionFirstDayOfWeek(region);
   } catch {
     // invalid language tag: fall through
   }
   return 0;
 }
+
+/** CLDR's first day of the week for a region (0 = Sunday, 1 = Monday, ...), for runtimes without `Intl.Locale` week info. */
+export function regionFirstDayOfWeek(region: string): number {
+  if (SUNDAY_FIRST.includes(region)) return 0;
+  if (SATURDAY_FIRST.includes(region)) return 6;
+  return region === "MV" ? 5 : 1;
+}
+
+// CLDR weekData firstDay (the same table as @lit-material/calendar); every other region starts on Monday.
+const SUNDAY_FIRST =
+  "AG AS BD BR BS BT BW BZ CA CO DM DO ET GT GU HK HN ID IL IN IS JM JP KE KH KR LA MH MM MO MT MX MZ NI NP PA PE PH PK PR PT PY SA SG SV TH TT TW UM US VE VI WS YE ZA ZW".split(" ");
+const SATURDAY_FIRST = "AF BH DJ DZ EG IQ IR JO KW LY OM QA SD SY".split(" ");
 
 export function weekdayLabels(lang: string, firstDayOfWeek: number): string[] {
   // 2023-01-01 was a Sunday — a fixed, known-Sunday anchor to walk forward from.

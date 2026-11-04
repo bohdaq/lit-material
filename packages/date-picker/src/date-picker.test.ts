@@ -325,7 +325,7 @@ describe("lit-material-date-picker", () => {
       expect(root.querySelector('.day[data-iso="2026-06-15"]')!.getAttribute("aria-label")).to.contain("Juni");
     });
 
-    it("starts the week on the language's first day where the browser knows it", async () => {
+    it("starts the week on the language's first day", async () => {
       const wrapper = await fixture<HTMLDivElement>(
         html`<div lang="de">
           <lit-material-date-picker variant="docked" value="2026-06-15"></lit-material-date-picker>
@@ -335,11 +335,10 @@ describe("lit-material-date-picker", () => {
       const [auto, sunday] = wrapper.querySelectorAll<LitMaterialDatePicker>("lit-material-date-picker");
       await auto!.updateComplete;
       await sunday!.updateComplete;
-      const locale = new Intl.Locale("de") as Intl.Locale & { getWeekInfo?: () => unknown; weekInfo?: unknown };
-      const knowsWeekInfo = !!(locale.getWeekInfo?.() ?? locale.weekInfo);
-      // June 1, 2026 is a Monday: a Monday-first grid has no leading blank cell.
+      // June 1, 2026 is a Monday: a Monday-first grid has no leading blank cell — in every browser, including
+      // ones without Intl.Locale week info (Firefox), which fall back to CLDR's region table.
       const firstCell = (el: LitMaterialDatePicker) => el.shadowRoot!.querySelector("tbody td")!;
-      expect(firstCell(auto!).classList.contains("empty")).to.equal(!knowsWeekInfo);
+      expect(firstCell(auto!).classList.contains("empty")).to.be.false;
       expect(firstCell(sunday!).classList.contains("empty")).to.be.true;
     });
 
