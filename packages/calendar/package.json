@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/calendar",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Material Design 3 styled calendar and scheduler web component: month, week, day and agenda views with drag, resize and keyboard moves.",
   "license": "MIT",
   "author": {

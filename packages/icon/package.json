@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/icon",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Material Design 3-styled standalone icon web component (lit-material-icon) — consistent sizing and color for any icon content (SVG, emoji, image); ships no icon set of its own.",
   "license": "MIT",
   "author": {

@@ -1,5 +1,11 @@
 # @lit-material/translations
 
+## 1.2.1
+
+### Patch Changes
+
+- @lit-material/core@1.2.1
+
 ## 1.2.0
 
 ### Minor Changes

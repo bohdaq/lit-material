@@ -1,5 +1,11 @@
 # @lit-material/divider
 
+## 1.2.1
+
+### Patch Changes
+
+- @lit-material/tokens@1.2.1
+
 ## 1.2.0
 
 ### Patch Changes

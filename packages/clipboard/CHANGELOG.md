@@ -1,5 +1,13 @@
 # @lit-material/clipboard
 
+## 1.2.1
+
+### Patch Changes
+
+- @lit-material/core@1.2.1
+- @lit-material/icon-button@1.2.1
+- @lit-material/tokens@1.2.1
+
 ## 1.2.0
 
 ### Patch Changes

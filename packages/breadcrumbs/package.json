@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/breadcrumbs",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Material Design 3-styled breadcrumbs web components (lit-material-breadcrumbs, lit-material-breadcrumb-item).",
   "license": "MIT",
   "author": {

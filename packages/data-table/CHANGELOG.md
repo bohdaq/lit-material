@@ -1,5 +1,14 @@
 # @lit-material/data-table
 
+## 1.2.1
+
+### Patch Changes
+
+- @lit-material/core@1.2.1
+- @lit-material/select@1.2.1
+- @lit-material/text-field@1.2.1
+- @lit-material/tokens@1.2.1
+
 ## 1.2.0
 
 ### Patch Changes

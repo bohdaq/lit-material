@@ -1,5 +1,15 @@
 # @lit-material/sign-in
 
+## 1.2.1
+
+### Patch Changes
+
+- @lit-material/alert@1.2.1
+- @lit-material/button@1.2.1
+- @lit-material/core@1.2.1
+- @lit-material/text-field@1.2.1
+- @lit-material/tokens@1.2.1
+
 ## 1.2.0
 
 ### Patch Changes

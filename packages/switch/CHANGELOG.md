@@ -1,5 +1,13 @@
 # @lit-material/switch
 
+## 1.2.1
+
+### Patch Changes
+
+- 2ce76a1: A `lit-material-switch` with a long `label` in a narrow row no longer shrinks its track under the label text.
+  - @lit-material/core@1.2.1
+  - @lit-material/tokens@1.2.1
+
 ## 1.2.0
 
 ### Patch Changes

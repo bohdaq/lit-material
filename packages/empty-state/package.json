@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/empty-state",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Empty state web component: an icon, a headline, guidance text and actions for a view with nothing to show yet.",
   "license": "MIT",
   "author": {
