@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/autocomplete",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Material Design 3 autocomplete web component (lit-material-autocomplete): a text field with a filtered option list.",
   "license": "MIT",
   "author": {

@@ -1,5 +1,11 @@
 # @lit-material/simple-list
 
+## 1.3.0
+
+### Patch Changes
+
+- @lit-material/tokens@1.3.0
+
 ## 1.2.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/http",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "A small fetch wrapper for lit-material apps: base URL, JSON in and out, query objects, typed HTTP errors, timeouts, and request/response interceptors (auth headers, refresh-and-retry on 401). No dependencies.",
   "license": "MIT",
   "author": {

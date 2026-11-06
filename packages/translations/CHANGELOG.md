@@ -1,5 +1,15 @@
 # @lit-material/translations
 
+## 1.3.0
+
+### Minor Changes
+
+- 029f811: New `@lit-material/world-map`: countries shaded by a value per country (choropleth) on a square-root scale, with a legend, keyboard reading highest first, optional selection (`change`), countries too small to draw listed under the map, and a screen-reader table. Shapes from Natural Earth 1:110m (public domain), about 12 kB gzipped.
+
+### Patch Changes
+
+- @lit-material/core@1.3.0
+
 ## 1.2.1
 
 ### Patch Changes

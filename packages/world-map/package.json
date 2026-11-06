@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/world-map",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "World map web component: countries shaded by a value (choropleth), with keyboard reading, selection and a screen-reader table.",
   "license": "MIT",
   "author": {

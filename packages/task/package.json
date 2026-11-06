@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/task",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "A dependency-free reactive controller for async work (data fetching) tied to a Lit host's reactive properties.",
   "license": "MIT",
   "author": {

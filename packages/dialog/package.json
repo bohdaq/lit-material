@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/dialog",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Material Design 3 dialog web component, built on the native <dialog> element.",
   "license": "MIT",
   "author": {

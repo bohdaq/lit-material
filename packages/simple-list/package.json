@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/simple-list",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Material Design 3-styled simple list web components (lit-material-simple-list, lit-material-simple-list-item) — a plain, lightweight list of links, no ripple or leading/trailing icons.",
   "license": "MIT",
   "author": {

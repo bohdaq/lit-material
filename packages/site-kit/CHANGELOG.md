@@ -1,5 +1,11 @@
 # @lit-material/site-kit
 
+## 1.3.0
+
+### Minor Changes
+
+- 5a9c802: `initInstall()` (`@lit-material/site-kit/client/install.js`) with `installToggle()` and `installPanel()` templates: an install button opens its panel, and install tabs marked `data-os` start on the visitor's OS. `guessOs()` is exported too.
+
 ## 1.2.1
 
 ## 1.2.0
