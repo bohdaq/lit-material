@@ -290,7 +290,17 @@
     :root:not([data-theme="light"]) .lm-theme-toggle .lm-moon { display: inline-flex; }
   }
 
+  /* Install panel: fades and slides in once initInstall() adds .open. */
+  .lm-install-panel {
+    margin-block-start: 16px;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 150ms var(--md-sys-motion-easing-standard, ease), transform 250ms var(--md-sys-motion-easing-standard, ease);
+  }
+  .lm-install-panel.open { opacity: 1; transform: none; }
+
   @media (prefers-reduced-motion: reduce) {
+    .lm-install-panel { transition: none; }
     .lm-faq summary::after,
     .lm-search .search-skeleton,
     .lm-terminal .t-typing::after { transition: none; animation: none; }

@@ -13,7 +13,7 @@ npm install @lit-material/site-kit
 On the server (Lit SSR or a prerender step):
 
 ```js
-import { faq, steps, terminal, kbd, shortcuts, searchDialog, searchButton, themeToggle, menuToggle } from "@lit-material/site-kit/templates.js";
+import { faq, steps, terminal, kbd, shortcuts, searchDialog, searchButton, themeToggle, menuToggle, installToggle, installPanel } from "@lit-material/site-kit/templates.js";
 import { themeBootScript } from "@lit-material/site-kit/client/theme.js";
 
 const head = `<script>${themeBootScript("my-theme")}</script>`;
@@ -28,13 +28,14 @@ In the browser:
 
 ```js
 import "@lit-material/site-kit/css/site-kit.css";
-import { initThemeToggle, initMenu, initSearch, initTerminal, initReveal } from "@lit-material/site-kit";
+import { initThemeToggle, initMenu, initSearch, initTerminal, initReveal, initInstall } from "@lit-material/site-kit";
 
 initThemeToggle({ key: "my-theme" });
 initMenu();
 initSearch({ emptyHint: "Try a setting name." });
 initTerminal();
 initReveal();
+initInstall();
 ```
 
 Each script is also its own entry point (`@lit-material/site-kit/client/menu.js` and so on), with no Lit, so it loads small and early. Importing any module has no side effects: nothing touches the DOM until you call an `init` function.
@@ -51,6 +52,7 @@ Each script is also its own entry point (`@lit-material/site-kit/client/menu.js`
 | `themeToggle({ light, dark })` | `initThemeToggle({ key })`, `themeBootScript(key)` | `[data-theme-toggle]`; sets `data-theme` on `<html>` |
 | `menuToggle({ controls })` | `initMenu({ breakpoint })` | `[data-menu-toggle][aria-controls]`; panel gets `.open`, `<html>` gets `.menu-open` |
 | none | `initReveal({ selector, rootMargin })` | `.reveal` gets `.in`; hide only under `html.js` |
+| `installToggle({ controls, label, icon })`, `installPanel(id, content)` | `initInstall({ os })`, `guessOs()` | `[data-install-toggle][aria-controls]`; panel gets `.open`; `lit-material-tab[data-os="windows\|mac\|linux"]` starts on the visitor's OS |
 
 `initSearch` loads Pagefind from `/pagefind/pagefind.js` on first use. Pass `load` to use another index with the same `search(query) → { results: [{ data() }] }` shape.
 

@@ -109,3 +109,15 @@ export function menuToggle({ controls = "mobile-menu", className = "lm-menu-togg
     <span class="lm-menu-icon" aria-hidden="true"><span></span><span></span></span>
   </button>`;
 }
+
+/**
+ * A button that shows the install panel `controls` names (`initInstall()`), and that panel, hidden until
+ * then. Put install tabs inside it: tabs with `data-os="windows|mac|linux"` start on the visitor's OS.
+ */
+export function installToggle({ controls, label, icon, className = "lm-install-toggle" }: { controls: string; label: string; icon?: TemplateResult; className?: string }): TemplateResult {
+  return html`<button class=${className} type="button" data-install-toggle aria-expanded="false" aria-controls=${controls}>${icon ?? nothing}${label}</button>`;
+}
+
+export function installPanel(id: string, content: unknown, { className = "lm-install-panel" }: { className?: string } = {}): TemplateResult {
+  return html`<div class=${className} id=${id} hidden>${content}</div>`;
+}

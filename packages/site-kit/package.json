@@ -58,6 +58,10 @@
       "types": "./dist/client/reveal.d.ts",
       "default": "./dist/client/reveal.js"
     },
+    "./client/install.js": {
+      "types": "./dist/client/install.d.ts",
+      "default": "./dist/client/install.js"
+    },
     "./css/site-kit.css": "./css/site-kit.css"
   },
   "files": [
