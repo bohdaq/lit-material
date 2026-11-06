@@ -91,4 +91,6 @@ write(
 const AI = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "PerplexityBot", "Perplexity-User", "Google-Extended", "Applebot-Extended", "CCBot"];
 write("robots.txt", ["User-agent: *", "Allow: /", "", ...AI.flatMap((ua) => [`User-agent: ${ua}`, "Allow: /", ""]), `Sitemap: ${ORIGIN}/sitemap.xml`, ""].join("\n"));
 copyFileSync(join(site, "src", "brand", "favicon.ico"), join(dist, "favicon.ico"));
+// IndexNow key file (Bing, Yandex…): proves ownership when changed pages are announced.
+write("2c32426256ab5e82b6a7fa63c90848c0.txt", "2c32426256ab5e82b6a7fa63c90848c0\n");
 console.log("brand files, llms.txt, sitemap.xml and robots.txt written");
