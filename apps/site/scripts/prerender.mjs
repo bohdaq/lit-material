@@ -2,6 +2,7 @@
 // brand files, llms.txt, sitemap.xml and robots.txt. Runs after `vite build`
 // (needs dist/.vite/manifest.json) and `vite build --ssr` (.ssr/entry.js).
 import { build } from "esbuild";
+import { execFileSync } from "node:child_process";
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
@@ -68,7 +69,26 @@ for (const f of readdirSync(join(site, "src", "brand")).filter((f) => f.endsWith
 }
 copyFileSync(join(repo, "llms.txt"), join(dist, "llms.txt"));
 
-const indexed = all.filter((p) => !p.meta.noindex).map((p) => p.meta.path);
-write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${indexed.map((p) => `  <url><loc>${ORIGIN}${p}</loc></url>`).join("\n")}\n</urlset>\n`);
-write("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${ORIGIN}/sitemap.xml\n`);
+// lastmod only where it's known: a component page changes with its package.
+const lastmod = (dir) => {
+  try {
+    return execFileSync("git", ["-C", repo, "log", "-1", "--format=%cs", "--", dir], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim() || null;
+  } catch {
+    return null;
+  }
+};
+const indexed = all.filter((p) => !p.meta.noindex);
+write(
+  "sitemap.xml",
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${indexed
+    .map((p) => {
+      const date = p.meta.sourceDir ? lastmod(p.meta.sourceDir) : null;
+      return `  <url><loc>${ORIGIN}${p.meta.path}</loc>${date ? `<lastmod>${date}</lastmod>` : ""}</url>`;
+    })
+    .join("\n")}\n</urlset>\n`,
+);
+// AI crawlers and assistants are welcome: the docs are written to be quoted.
+const AI = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "PerplexityBot", "Perplexity-User", "Google-Extended", "Applebot-Extended", "CCBot"];
+write("robots.txt", ["User-agent: *", "Allow: /", "", ...AI.flatMap((ua) => [`User-agent: ${ua}`, "Allow: /", ""]), `Sitemap: ${ORIGIN}/sitemap.xml`, ""].join("\n"));
+copyFileSync(join(site, "src", "brand", "favicon.ico"), join(dist, "favicon.ico"));
 console.log("brand files, llms.txt, sitemap.xml and robots.txt written");

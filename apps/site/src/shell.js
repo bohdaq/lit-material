@@ -11,6 +11,35 @@ import { themeBootScript } from "@lit-material/site-kit/client/theme.js";
 export const ORIGIN = "https://lit.rws8.tech";
 export const REPO = "https://github.com/bohdaq/lit-material";
 
+/** Structured data for a docs page (a component or a guide): the article and its breadcrumb trail. */
+export function articleLd({ title, description, path, crumbs }) {
+  const url = `${ORIGIN}${path}`;
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      headline: title,
+      description,
+      url,
+      inLanguage: "en",
+      isPartOf: { "@type": "WebSite", name: "lit-material", url: `${ORIGIN}/` },
+      author: { "@type": "Organization", name: "lit-material", url: `${ORIGIN}/` },
+      publisher: { "@type": "Organization", name: "lit-material", url: `${ORIGIN}/` },
+      about: { "@type": "SoftwareSourceCode", name: "lit-material", codeRepository: REPO },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [{ name: "lit-material", item: `${ORIGIN}/` }, ...crumbs, { name: title, item: url }].map((c, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: c.name,
+        ...(c.item ? { item: c.item } : {}),
+      })),
+    },
+  ];
+}
+
 const NAV = [
   ["/components/", "Components"],
   ["/guides/install/", "Guides", "/guides/"],
@@ -138,10 +167,12 @@ export function documentHtml({ title, description, path, body, assets, noindex =
 ${noindex ? '<meta name="robots" content="noindex">' : ""}
 <link rel="canonical" href="${ORIGIN}${canonical}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <meta property="og:type" content="website">
 <meta property="og:title" content="${escape(title)}">
 <meta property="og:description" content="${escape(description)}">
 <meta property="og:url" content="${ORIGIN}${canonical}">
+<meta property="og:site_name" content="lit-material">
 <meta property="og:image" content="${ORIGIN}/brand/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#16120F">

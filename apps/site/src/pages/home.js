@@ -165,6 +165,24 @@ export function structuredData() {
   return [
     {
       "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": `${ORIGIN}/#organization`,
+      name: "lit-material",
+      url: `${ORIGIN}/`,
+      logo: `${ORIGIN}/favicon.svg`,
+      sameAs: [REPO, "https://www.npmjs.com/org/lit-material", "https://rws8.tech/", "https://hitop.rws8.tech/"],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": `${ORIGIN}/#website`,
+      name: "lit-material",
+      url: `${ORIGIN}/`,
+      inLanguage: "en",
+      publisher: { "@id": `${ORIGIN}/#organization` },
+    },
+    {
+      "@context": "https://schema.org",
       "@type": "SoftwareSourceCode",
       name: "lit-material",
       description: meta.description,
@@ -172,6 +190,7 @@ export function structuredData() {
       programmingLanguage: "TypeScript",
       license: "https://opensource.org/licenses/MIT",
       url: `${ORIGIN}/`,
+      author: { "@id": `${ORIGIN}/#organization` },
     },
     {
       "@context": "https://schema.org",

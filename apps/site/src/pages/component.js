@@ -5,7 +5,7 @@ import { html, nothing } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { unsafeStatic, html as staticHtml } from "lit/static-html.js";
 import { GROUPS } from "../catalog.js";
-import { docsLayout, REPO } from "../shell.js";
+import { docsLayout, REPO, articleLd } from "../shell.js";
 import { icon } from "../icons.js";
 import { elementsForPage, formatBytes, functionsOf, labelOf, packageDirOf, packageInfo } from "../packages.js";
 
@@ -79,7 +79,15 @@ export function componentPage(slug, entry) {
     path: `/components/${slug}/`,
     title: `${label}: a Material 3 web component · lit-material`,
     description: description.length > 150 ? `${description.slice(0, 147).replace(/\s\S*$/, "")}…` : description,
+    // For the sitemap's lastmod: the package's last commit (prerender.mjs).
+    sourceDir: `packages/${dir}`,
   };
+  meta.jsonLd = articleLd({
+    title: label,
+    description: meta.description,
+    path: meta.path,
+    crumbs: [{ name: "Components", item: `https://lit.rws8.tech/components/` }, { name: group.label, item: `https://lit.rws8.tech/components/#${group.id}` }],
+  });
   const toc = [
     { id: "example", text: "Example" },
     { id: "install", text: "Install" },

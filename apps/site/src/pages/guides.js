@@ -3,7 +3,7 @@
 import { html } from "lit";
 import { unsafeStatic, html as staticHtml } from "lit/static-html.js";
 import { allGuides } from "../catalog.js";
-import { docsLayout } from "../shell.js";
+import { docsLayout, articleLd } from "../shell.js";
 import { faq, kbd, shortcuts, steps, terminal } from "@lit-material/site-kit/templates.js";
 import { ELEMENTS, targetLabel } from "@lit-material/codemod/mappings";
 
@@ -520,6 +520,7 @@ export function guidePage(slug, entry) {
   const path = `/guides/${slug}/`;
   if (written) {
     const meta = { path, title: `${written.title} · lit-material`, description: written.lead };
+    meta.jsonLd = articleLd({ title: written.title, description: written.lead, path, crumbs: [{ name: "Guides", item: "https://lit.rws8.tech/guides/install/" }] });
     return {
       meta,
       render: () =>
@@ -539,6 +540,7 @@ export function guidePage(slug, entry) {
   const result = entry.render({});
   const tag = /<(docs-[a-z0-9-]+)/.exec(result.strings.join(""))?.[1];
   const meta = { path, title: `${guide.label} · lit-material`, description: `${guide.label}: a lit-material guide.` };
+  meta.jsonLd = articleLd({ title: guide.label, description: meta.description, path, crumbs: [{ name: "Guides", item: "https://lit.rws8.tech/guides/install/" }] });
   return {
     meta,
     render: () =>
