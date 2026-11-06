@@ -380,6 +380,42 @@ export class PeopleComponent {}</code></pre>`],
   },
 };
 
+// Facts about the other libraries checked against their docs and repositories on 2026-11-06 (sources in the guide).
+WRITTEN.compare = {
+  title: "lit-material vs Material Web, Web Awesome and Vaadin",
+  lead: "lit-material is for consoles and admin UIs: Material 3 components plus the parts those apps need that Material Web leaves out (data tables, log viewers, charts, navigation shells, forms), each its own npm package, all rendering on the server.",
+  sections: [
+    ["short-answer", "Short answer", html`
+      <p>Use <strong>lit-material</strong> for a Material 3 console or admin UI. Use <strong>Material Web</strong> for a few plain Material 3 controls, knowing it has been in maintenance mode since June 2024. Use <strong>Web Awesome</strong> (formerly Shoelace) for a framework-agnostic design system that isn't Material. Use <strong>Vaadin</strong> for business apps with a Java backend, or its web components on their own.</p>
+      <p>Facts about the other libraries were checked on 2026-11-06 (<a href="#sources">sources</a>). Tell us on <a href="https://github.com/bohdaq/lit-material/issues">GitHub</a> if something has changed.</p>`],
+    ["at-a-glance", "At a glance", cells(
+      ["", "lit-material", "Material Web (@material/web)", "Web Awesome / Shoelace", "Vaadin"],
+      [
+        ["Design", "Material 3", "Material 3, official token-based theming", "Its own (several themes, customisable with CSS)", "Lumo or Aura (Material theme removed in Vaadin 25)"],
+        ["Admin parts (table, log viewer, charts, navigation shell)", "Yes, all free", "No: core controls (buttons, fields, lists, menus, dialogs, tabs); navigation bar and drawer only in experimental labs", "Partly: app shell (wa-page) free; data grid (experimental) and charts in paid Pro", "Yes: grid and app layout free; charts, Grid Pro and dashboard commercial"],
+        ["Server rendering (Lit SSR)", "Every component, tested in CI", "Compatible per the maintainers, not documented or tested", "Web Awesome: yes, experimental; Shoelace: no", "Server-driven Java UI (Flow) or React with Java (Hilla); components not server-rendered"],
+        ["Packaging", "One npm package per component", "One package, per-component imports", "One package, per-component imports; Pro separate", "Framework; also one npm package per web component"],
+        ["Status", "Active", "Maintenance mode since June 2024 (not deprecated)", "Shoelace archived (May 2026); active as Web Awesome 3", "Active, with commercial support"],
+        ["License", "MIT", "Apache-2.0", "MIT core; Pro commercial", "Apache-2.0 core; commercial Pro components and tools"],
+      ],
+    )],
+    ["when", "When to choose which", html`
+      <ul>
+        <li><strong>lit-material</strong>: a console, dashboard or admin UI that should look Material 3, render on the server and ship only the components it uses.</li>
+        <li><strong>Material Web</strong>: a few Material 3 controls in an existing app, from Google's own implementation; it gets fixes but no new features, and Material 3 Expressive isn't implemented. <a href="/guides/migrate-material-web/">Moving to lit-material</a> keeps your theme.</li>
+        <li><strong>Web Awesome</strong>: a framework-agnostic design system that isn't Material, with about 70 free components; its paid Pro adds a data grid and charts.</li>
+        <li><strong>Vaadin</strong>: a Java team building business apps end to end (Flow, or React with Hilla), or mature standalone web components with a virtualized grid and commercial support.</li>
+      </ul>
+      <p>Next: <a href="/guides/install/">Install lit-material</a> · <a href="/guides/server-rendering/">Server rendering</a> · <a href="/guides/migrate-material-web/">Migrating from Material Web</a></p>`],
+    ["sources", "Sources", html`
+      <ul>
+        <li>Material Web: <a href="https://github.com/material-components/material-web">repository</a>, <a href="https://github.com/material-components/material-web/discussions/5642">maintenance mode announcement</a>, <a href="https://github.com/material-components/material-web/issues/4245">server rendering</a>, <a href="https://www.npmjs.com/package/@material/web">npm</a></li>
+        <li>Web Awesome and Shoelace: <a href="https://webawesome.com/docs/">docs</a>, <a href="https://webawesome.com/docs/components/">components</a>, <a href="https://webawesome.com/docs/ssr/">server rendering</a>, <a href="https://webawesome.com/pro/">Pro</a>, <a href="https://github.com/shoelace-style/shoelace">Shoelace repository</a></li>
+        <li>Vaadin: <a href="https://github.com/vaadin/web-components">web components</a>, <a href="https://vaadin.com/docs/latest/upgrading">upgrading to 25</a>, <a href="https://vaadin.com/pricing">pricing</a></li>
+      </ul>`],
+  ],
+};
+
 WRITTEN["migrate-material-web"] = {
   title: "Migrate from @material/web",
   lead: "lit-material reads the same Material 3 system tokens as @material/web, so a theme carries over as it is. A codemod rewrites elements, attributes, slots and imports, and lists by file and line what it left for you.",

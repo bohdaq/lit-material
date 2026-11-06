@@ -95,7 +95,7 @@ export function render() {
       <section class="hero container">
         <div class="hero-text">
           <h1 class="hero-heading">Material 3 components <br />for the consoles you ship</h1>
-          <p class="lead">Lit web components for admin UIs and dashboards: tables, logs, forms and charts, each a package of its own. Render them on the server and use them from any framework.</p>
+          <p class="lead">lit-material is a free (MIT) library of Material 3 web components for consoles and admin UIs: buttons and fields, plus data tables, log viewers, charts and navigation shells. Each component is its own npm package, works in any framework or none, and renders on the server with Lit SSR.</p>
           ${cta("install-hero")}
           <p class="proof-line">${stats.packages} packages · tested in Chromium, Firefox and WebKit · MIT licensed</p>
         </div>

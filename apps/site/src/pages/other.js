@@ -22,7 +22,7 @@ export const componentsIndex = {
       content: html`
         <article class="docs-article" data-pagefind-body>
           <h1>Components</h1>
-          <p class="docs-lead">Grouped the way Material 3 groups them, plus the data and console components admin UIs need. Each one is a package you install on its own.</p>
+          <p class="docs-lead">lit-material has ${GROUPS.reduce((n, g) => n + g.items.length, 0)} components, grouped by what they're for: ${GROUPS.map((g) => g.label.toLowerCase()).join(", ")}. Each is a package you install on its own, and every page shows a live example, the install line and the full API.</p>
           ${GROUPS.map(
             (g) => html`
               <section class="component-group" aria-labelledby=${g.id}>
