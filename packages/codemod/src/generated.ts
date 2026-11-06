@@ -2836,6 +2836,32 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "label",
       "value"
     ]
+  },
+  "lit-material-world-map": {
+    "package": "@lit-material/world-map",
+    "className": "LitMaterialWorldMap",
+    "attributes": {
+      "data": "CountryValues",
+      "label": "string",
+      "selectable": "boolean",
+      "selected": "string",
+      "unit": "string"
+    },
+    "events": [
+      "change"
+    ],
+    "slots": [],
+    "cssProperties": [
+      "--lit-material-world-map-border",
+      "--lit-material-world-map-empty",
+      "--lit-material-world-map-fill"
+    ],
+    "cssParts": [
+      "elsewhere",
+      "legend",
+      "map",
+      "tooltip"
+    ]
   }
 };
 

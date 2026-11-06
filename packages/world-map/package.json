@@ -1,0 +1,93 @@
+{
+  "name": "@lit-material/world-map",
+  "version": "1.2.1",
+  "description": "World map web component: countries shaded by a value (choropleth), with keyboard reading, selection and a screen-reader table.",
+  "license": "MIT",
+  "author": {
+    "name": "bohdaq",
+    "email": "bohdaq@gmail.com",
+    "url": "https://github.com/bohdaq"
+  },
+  "homepage": "https://lit.rws8.tech/components/world-map/",
+  "bugs": "https://github.com/bohdaq/lit-material/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bohdaq/lit-material.git",
+    "directory": "packages/world-map"
+  },
+  "keywords": [
+    "lit",
+    "web-components",
+    "lit-material",
+    "material-design",
+    "material-design-3",
+    "world-map",
+    "choropleth",
+    "map",
+    "geo",
+    "analytics"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "default": "./dist/react.js"
+    },
+    "./jsx": {
+      "types": "./types/jsx.d.ts"
+    },
+    "./vue": {
+      "types": "./types/vue.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "custom-elements.json",
+    "types"
+  ],
+  "web-types": "./dist/web-types.json",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "web-test-runner && node --import tsx --test src/*.ssr.test.ts",
+    "analyze": "custom-elements-manifest analyze --litelement --globs \"src/**/*.ts\" --exclude \"src/**/*.test.ts\" --exclude \"src/**/*.ssr.test.ts\"",
+    "generate": "node scripts/generate.mjs"
+  },
+  "dependencies": {
+    "@lit-material/core": "workspace:*",
+    "@lit-material/tokens": "workspace:*",
+    "lit": "^3.2.0"
+  },
+  "peerDependencies": {
+    "@lit/react": "^1.0.0",
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "@lit/react": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@lit-labs/ssr": "^3.3.1",
+    "@open-wc/testing": "^4.0.0",
+    "@web/dev-server-esbuild": "^2.0.0",
+    "@web/test-runner": "^1.0.0",
+    "@web/test-runner-commands": "^1.0.1",
+    "@web/test-runner-playwright": "^1.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  },
+  "customElements": "custom-elements.json"
+}

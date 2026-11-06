@@ -61,6 +61,7 @@ import "./pages/components/log-viewer-page.js";
 import "./pages/components/diff-page.js";
 import "./pages/components/table-page.js";
 import "./pages/components/chart-page.js";
+import "./pages/components/world-map-page.js";
 import "./pages/components/adaptive-navigation-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -658,6 +659,12 @@ export const navEntries: NavEntry[] = [
     label: "Chart",
     group: "components",
     render: () => html`<docs-chart-page></docs-chart-page>`,
+  },
+  {
+    path: "/components/world-map",
+    label: "World Map",
+    group: "components",
+    render: () => html`<docs-world-map-page></docs-world-map-page>`,
   },
   {
     path: "/components/adaptive-navigation",

@@ -364,6 +364,17 @@ const uk = {
   "timePicker.selectTime": "Виберіть час",
   "tree.collapse": "Згорнути",
   "tree.expand": "Розгорнути",
+  "worldMap.country": "Країна",
+  "worldMap.labelTop": "{label}. Найвищі: {top}",
+  "worldMap.listSeparator": "; ",
+  "worldMap.nameNoData": "{name}: немає даних",
+  "worldMap.nameValue": "{name}: {value}",
+  "worldMap.notOnMap": "Не на мапі",
+  "worldMap.readoutSelected": "{readout}, вибрано",
+  "worldMap.value": "Значення",
+  "worldMap.valueInUnit": "Значення ({unit})",
+  "worldMap.valueWithUnit": "{value} {unit}",
+  "worldMap.worldMap": "Мапа світу",
 } satisfies Catalog;
 
 export default uk;

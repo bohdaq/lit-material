@@ -319,6 +319,17 @@ const ja = {
   "timePicker.selectTime": "時刻を選択",
   "tree.collapse": "折りたたむ",
   "tree.expand": "展開",
+  "worldMap.country": "国",
+  "worldMap.labelTop": "{label}。上位: {top}",
+  "worldMap.listSeparator": "、",
+  "worldMap.nameNoData": "{name}: データなし",
+  "worldMap.nameValue": "{name}: {value}",
+  "worldMap.notOnMap": "地図に表示されない国",
+  "worldMap.readoutSelected": "{readout}、選択済み",
+  "worldMap.value": "値",
+  "worldMap.valueInUnit": "値（{unit}）",
+  "worldMap.valueWithUnit": "{value} {unit}",
+  "worldMap.worldMap": "世界地図",
 } satisfies Catalog;
 
 export default ja;

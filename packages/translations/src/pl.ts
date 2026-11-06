@@ -364,6 +364,17 @@ const pl = {
   "timePicker.selectTime": "Wybierz godzinę",
   "tree.collapse": "Zwiń",
   "tree.expand": "Rozwiń",
+  "worldMap.country": "Kraj",
+  "worldMap.labelTop": "{label}. Najwyższe: {top}",
+  "worldMap.listSeparator": "; ",
+  "worldMap.nameNoData": "{name}: brak danych",
+  "worldMap.nameValue": "{name}: {value}",
+  "worldMap.notOnMap": "Poza mapą",
+  "worldMap.readoutSelected": "{readout}, zaznaczony",
+  "worldMap.value": "Wartość",
+  "worldMap.valueInUnit": "Wartość ({unit})",
+  "worldMap.valueWithUnit": "{value} {unit}",
+  "worldMap.worldMap": "Mapa świata",
 } satisfies Catalog;
 
 export default pl;

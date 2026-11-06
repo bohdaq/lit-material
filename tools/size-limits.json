@@ -86,5 +86,6 @@
   "@lit-material/top-app-bar": 2000,
   "@lit-material/translations": 4000,
   "@lit-material/tree": 5100,
-  "@lit-material/truncate": 1100
+  "@lit-material/truncate": 1100,
+  "@lit-material/world-map": 19400
 }

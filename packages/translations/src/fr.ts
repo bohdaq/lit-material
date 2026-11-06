@@ -339,6 +339,17 @@ const fr = {
   "timePicker.selectTime": "Sélectionner l'heure",
   "tree.collapse": "Réduire",
   "tree.expand": "Développer",
+  "worldMap.country": "Pays",
+  "worldMap.labelTop": "{label}. Les plus élevés : {top}",
+  "worldMap.listSeparator": " ; ",
+  "worldMap.nameNoData": "{name} : aucune donnée",
+  "worldMap.nameValue": "{name} : {value}",
+  "worldMap.notOnMap": "Hors de la carte",
+  "worldMap.readoutSelected": "{readout}, sélectionné",
+  "worldMap.value": "Valeur",
+  "worldMap.valueInUnit": "Valeur ({unit})",
+  "worldMap.valueWithUnit": "{value} {unit}",
+  "worldMap.worldMap": "Carte du monde",
 } satisfies Catalog;
 
 export default fr;

@@ -94,6 +94,7 @@
       "@lit-material/tree",
       "@lit-material/truncate",
       "@lit-material/vite",
+      "@lit-material/world-map",
       "create-lit-material-app"
     ]
   ],

@@ -25,6 +25,7 @@
     "@lit-material/card": "workspace:*",
     "@lit-material/carousel": "workspace:*",
     "@lit-material/chart": "workspace:*",
+    "@lit-material/world-map": "workspace:*",
     "@lit-material/checkbox": "workspace:*",
     "@lit-material/chip": "workspace:*",
     "@lit-material/clipboard": "workspace:*",

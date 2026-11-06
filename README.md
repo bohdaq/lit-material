@@ -155,6 +155,7 @@ Every package is released at the same version number, so keep them on the same v
 | [`@lit-material/log-viewer`](packages/log-viewer) | Monospace line stream that follows the newest line, with pause, highlighting and a line cap. |
 | [`@lit-material/table`](packages/table) | Data-driven semantic `<table>`: caption, headers, numeric and monospace columns. |
 | [`@lit-material/chart`](packages/chart) | Line chart, bar chart and sparkline: crosshair tooltip, keyboard access, screen-reader table. |
+| [`@lit-material/world-map`](packages/world-map) | Countries shaded by a value (choropleth): keyboard reading, selection, small countries listed, screen-reader table. |
 | [`@lit-material/tokens`](packages/tokens) | Color, type, shape, elevation, and motion design tokens; opt-in typography classes for plain HTML. |
 
 ## Building a whole app

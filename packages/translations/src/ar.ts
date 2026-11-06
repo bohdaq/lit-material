@@ -382,6 +382,17 @@ const ar = {
   "timePicker.selectTime": "اختيار الوقت",
   "tree.collapse": "تصغير",
   "tree.expand": "توسيع",
+  "worldMap.country": "البلد",
+  "worldMap.labelTop": "{label}. الأعلى: {top}",
+  "worldMap.listSeparator": "؛ ",
+  "worldMap.nameNoData": "{name}: لا توجد بيانات",
+  "worldMap.nameValue": "{name}: {value}",
+  "worldMap.notOnMap": "غير ظاهرة على الخريطة",
+  "worldMap.readoutSelected": "{readout}، محدد",
+  "worldMap.value": "القيمة",
+  "worldMap.valueInUnit": "القيمة ({unit})",
+  "worldMap.valueWithUnit": "{value} {unit}",
+  "worldMap.worldMap": "خريطة العالم",
 } satisfies Catalog;
 
 export default ar;

@@ -319,6 +319,17 @@ const de = {
   "timePicker.selectTime": "Uhrzeit auswählen",
   "tree.collapse": "Minimieren",
   "tree.expand": "Maximieren",
+  "worldMap.country": "Land",
+  "worldMap.labelTop": "{label}. Höchste Werte: {top}",
+  "worldMap.listSeparator": "; ",
+  "worldMap.nameNoData": "{name}: keine Daten",
+  "worldMap.nameValue": "{name}: {value}",
+  "worldMap.notOnMap": "Nicht auf der Karte",
+  "worldMap.readoutSelected": "{readout}, ausgewählt",
+  "worldMap.value": "Wert",
+  "worldMap.valueInUnit": "Wert ({unit})",
+  "worldMap.valueWithUnit": "{value} {unit}",
+  "worldMap.worldMap": "Weltkarte",
 } satisfies Catalog;
 
 export default de;

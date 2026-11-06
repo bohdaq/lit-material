@@ -321,6 +321,17 @@ const en = {
   "timePicker.selectTime": "Select time",
   "tree.collapse": "Collapse",
   "tree.expand": "Expand",
+  "worldMap.country": "Country",
+  "worldMap.labelTop": "{label}. Highest: {top}",
+  "worldMap.listSeparator": "; ",
+  "worldMap.nameNoData": "{name}: no data",
+  "worldMap.nameValue": "{name}: {value}",
+  "worldMap.notOnMap": "Not on the map",
+  "worldMap.readoutSelected": "{readout}, selected",
+  "worldMap.value": "Value",
+  "worldMap.valueInUnit": "Value ({unit})",
+  "worldMap.valueWithUnit": "{value} {unit}",
+  "worldMap.worldMap": "World map",
 } satisfies Translation;
 
 export default en;

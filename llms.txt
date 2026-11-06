@@ -94,6 +94,7 @@ Every component package also exports generated framework bindings: `@lit-materia
 - [Log Viewer](https://github.com/bohdaq/lit-material/tree/main/packages/log-viewer): Monospace line stream that follows the newest line, with pause, highlighting and a line cap.
 - [Table](https://github.com/bohdaq/lit-material/tree/main/packages/table): Data-driven semantic `<table>`: caption, headers, numeric and monospace columns.
 - [Chart](https://github.com/bohdaq/lit-material/tree/main/packages/chart): Line chart, bar chart (with one highlighted item) and sparkline: crosshair tooltip, keyboard access, screen-reader table.
+- [World map](https://github.com/bohdaq/lit-material/tree/main/packages/world-map): `lit-material-world-map` — `data` `{US: 120, de: 40}` (ISO alpha-2, any case; JSON attr for SSR), `label`, `unit`, `selectable` + `selected`, `.format`; `change` `{code, value}` (`""`/`null` when cleared); square-root shading of one colour, legend, countries too small to draw listed under the map; `COUNTRIES`/`VIEWBOX` exported.
 
 ## App shell
 

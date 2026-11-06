@@ -43,7 +43,7 @@ export const GROUPS = [
     id: "data",
     label: "Data and consoles",
     about: "What admin UIs show all day: tables, logs, metrics, settings and code.",
-    items: ["data-table", "table", "data-list", "description-list", "tree", "log-viewer", "diff", "stat", "chart", "key-value", "code-block", "timestamp", "truncate", "format", "sortable"],
+    items: ["data-table", "table", "data-list", "description-list", "tree", "log-viewer", "diff", "stat", "chart", "world-map", "key-value", "code-block", "timestamp", "truncate", "format", "sortable"],
   },
   {
     id: "accounts",
