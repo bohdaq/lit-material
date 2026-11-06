@@ -92,7 +92,9 @@ for (const [name, template] of cases) {
 
 const dir = mkdtempSync(join(tmpdir(), "lit-material-hydration-"));
 writeFileSync(join(dir, "index.html"), `<!doctype html><html><head><meta charset="utf-8"></head><body>${parts.join("\n")}<script type="module" src="./client.js"></script></body></html>`);
-const ssrClient = dirname(createRequire(join(root, "package.json")).resolve("@lit-labs/ssr-client/lit-element-hydrate-support.js"));
+// require.resolve takes the package's "node" condition (ssr-client/node/…); alias the package root so the
+// bundle gets the browser build.
+const ssrClient = dirname(createRequire(join(root, "package.json")).resolve("@lit-labs/ssr-client/lit-element-hydrate-support.js")).replace(/[\\/]node$/, "");
 await build({
   stdin: {
     contents: ['import "@lit-labs/ssr-client/lit-element-hydrate-support.js";', ...packages.map((p) => `import ${j(join(pkgDir(p), "dist", "index.js"))};`), ...[...elementModules].map((f) => `import ${j(f)};`), "window.__hydrated = true;"].join("\n"),
