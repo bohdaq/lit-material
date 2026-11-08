@@ -89,7 +89,7 @@ export function footer() {
           <li><a href="/privacy/">Privacy</a></li>
           <li><a href=${`${REPO}/blob/main/LICENSE`}>MIT license</a></li>
         </ul>
-        <p class="footer-family">Part of the <a href="https://rws8.tech/">rws8.tech</a> family, with <a href="https://hitop.rws8.tech/">HITOP</a>.</p>
+        <p class="footer-family">Part of the <a href="https://rws8.tech/">rws8.tech</a> family, with <a href="https://hitop.rws8.tech/">HITOP</a>. Built by <a href="https://bohdantsap.com/" rel="author">Bohdan Tsap</a>.</p>
       </div>
     </footer>`;
 }
