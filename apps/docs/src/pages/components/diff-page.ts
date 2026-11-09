@@ -77,6 +77,19 @@ export class DocsDiffPage extends LitElement {
         </lit-material-merge-view>
       </section>
       <section>
+        <h2>Conflict resolver</h2>
+        <p>
+          The same file changed on two devices. Each side marks the lines only it has; keep yours, theirs or both (a radio group), edit the
+          result if needed, then <em>Use result</em> fires <code>resolve</code> with the text.
+        </p>
+        <lit-material-conflict-resolver
+          yours-note="Priya · laptop · 10:12"
+          theirs-note="Jonas · desktop · 10:31"
+          yours=${"checks:\n  - status == 201\n  - schema: CreateOrderResponse\n  - time < 300ms"}
+          theirs=${"checks:\n  - status == 201\n  - header Location exists\n  - time < 300ms"}
+        ></lit-material-conflict-resolver>
+      </section>
+      <section>
         <h2>Without a DOM</h2>
         <p><code>diffLines</code>, <code>sideBySide</code>, <code>hunks</code> and <code>stats</code> work in Node and workers:</p>
         <pre tabindex="0"><code>import { diffLines, stats } from "@lit-material/diff/lines.js";

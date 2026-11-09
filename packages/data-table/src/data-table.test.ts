@@ -157,4 +157,19 @@ describe("lit-material-data-table", () => {
     // Untouched column (index 0, the checkbox column) is left alone.
     expect((rows[1]!.children[0] as HTMLElement).style.width).to.equal("");
   });
+
+  it("density compact tightens the cells' padding", async () => {
+    const el = await fixture<LitMaterialDataTable>(html`
+      <lit-material-data-table>
+        <lit-material-data-table-row><lit-material-data-table-cell>Maya</lit-material-data-table-cell></lit-material-data-table-row>
+      </lit-material-data-table>
+    `);
+    const cell = el.querySelector("lit-material-data-table-cell")!;
+    expect(getComputedStyle(cell).paddingTop).to.equal("12px");
+    el.density = "compact";
+    await el.updateComplete;
+    expect(el.getAttribute("density")).to.equal("compact");
+    expect(getComputedStyle(cell).paddingTop).to.equal("6px");
+    expect(getComputedStyle(cell).paddingLeft).to.equal("12px");
+  });
 });

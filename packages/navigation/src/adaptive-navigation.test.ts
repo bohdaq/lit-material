@@ -68,4 +68,27 @@ describe("lit-material-adaptive-navigation", () => {
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector("nav")!.getAttribute("aria-label")).to.equal("Principal");
   });
+
+  it("compact rail with badges: a dot or a count, named for screen readers", async () => {
+    await setViewport({ width: 1200, height: 800 });
+    const ds: NavigationDestination[] = [
+      { label: "Collections", icon: "▤" },
+      { label: "Conflicts", icon: "⇆", badge: true, badgeLabel: "2 conflicts" },
+      { label: "Runs", icon: "▶", badge: 3 },
+    ];
+    const el = await fixture<LitMaterialAdaptiveNavigation>(
+      html`<lit-material-adaptive-navigation compact expanded="rail" .destinations=${ds}></lit-material-adaptive-navigation>`,
+    );
+    expect(shown(el)).to.deep.equal(["rail"]);
+    const rail = el.shadowRoot!.querySelector<HTMLElement & { compact: boolean }>("lit-material-navigation-rail")!;
+    expect(rail.compact).to.be.true;
+    const items = [...el.shadowRoot!.querySelectorAll("lit-material-navigation-rail-item")];
+    expect(items[1].querySelector(".badge")!.classList.contains("count")).to.be.false;
+    expect(items[2].querySelector(".badge")!.textContent).to.equal("3");
+    // The icon and badge are aria-hidden; the accessible text is the label and the badge's meaning.
+    expect(items[1].querySelector(".visually-hidden")!.textContent).to.equal(", 2 conflicts");
+    expect(items[1].querySelector(".badge")!.getAttribute("aria-hidden")).to.equal("true");
+    await setViewport({ width: 400, height: 800 });
+    expect(shown(el)).to.deep.equal(["bar"]);
+  });
 });

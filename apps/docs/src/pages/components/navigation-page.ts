@@ -58,6 +58,20 @@ export class DocsNavigationPage extends LitElement {
       </section>
 
       <section>
+        <h2>Compact rail</h2>
+        <p>Icon-only and 56px wide for dense app shells; each label is a tooltip on hover and focus, and still the item's accessible name.</p>
+        <lit-material-navigation-rail
+          compact
+          selected="0"
+          style="height: 220px; border: 1px solid var(--md-sys-color-outline-variant, #cac4d0); border-radius: 12px;"
+        >
+          <lit-material-navigation-rail-item><span slot="icon">▤</span>Collections</lit-material-navigation-rail-item>
+          <lit-material-navigation-rail-item><span slot="icon">◷</span>History</lit-material-navigation-rail-item>
+          <lit-material-navigation-rail-item><span slot="icon">▶</span>Runs</lit-material-navigation-rail-item>
+        </lit-material-navigation-rail>
+      </section>
+
+      <section>
         <h2>Navigation Bar</h2>
         <lit-material-navigation-bar
           selected="0"

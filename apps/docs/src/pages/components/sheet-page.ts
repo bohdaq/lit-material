@@ -29,6 +29,7 @@ export class DocsSheetPage extends LitElement {
         <h2>Side Sheet</h2>
         <lit-material-button variant="outlined" @click=${this.openSideSheet}>Open details</lit-material-button>
 
+        <p>Set <code>--lit-material-side-sheet-width</code> for a wider panel, such as an assistant beside an editor.</p>
         <lit-material-side-sheet id="demo-side-sheet" variant="modal">
           <span slot="header">Details</span>
           <p>Contextual content lives here — filters, a form, a details panel.</p>

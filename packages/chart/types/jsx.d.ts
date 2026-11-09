@@ -5,6 +5,7 @@ import type { DetailedHTMLProps, HTMLAttributes } from "react";
 import type { LitMaterialBarChart } from "../dist/bar-chart.js";
 import type { LitMaterialLineChart } from "../dist/line-chart.js";
 import type { LitMaterialSparkline } from "../dist/sparkline.js";
+import type { LitMaterialStatusStrip } from "../dist/status-strip.js";
 
 type ElementProps<E, K extends keyof E> = Omit<DetailedHTMLProps<HTMLAttributes<E>, E>, K> & Partial<Pick<E, K>>;
 
@@ -17,6 +18,8 @@ declare module "react" {
       "lit-material-line-chart": ElementProps<LitMaterialLineChart, "formatX" | "formatY" | "height" | "label" | "series" | "unit" | "yMin">;
       /** A sparkline: a word-sized line showing the shape of a series, beside the number it explains (a stat tile, a table cell). No axes, so it states its range for screen readers: "label: latest X, from MIN to MAX". */
       "lit-material-sparkline": ElementProps<LitMaterialSparkline, "format" | "label" | "showLast" | "values">;
+      /** A row of thin bars, one per run, oldest first: the last 24 checks of a monitor, the recent CI runs of a branch. Green passed, red failed, amber warned (slow, flaky), grey no data. Failed bars are also hatched, so the difference doesn't rest on colour alone. The strip is one `role="img"` whose name says how many passed and how the latest run went; each bar's `label` is its tooltip. `items` is a property, or a JSON attribute for server rendering. */
+      "lit-material-status-strip": ElementProps<LitMaterialStatusStrip, "items" | "label">;
     }
   }
 }

@@ -56,6 +56,33 @@ Parts `table`, `stats`. Custom properties `--lit-material-diff-added-background`
 
 `lit-material-merge-view`: `sides` (`{ label, text }[]`, property or JSON attribute), `base` (index of the side the others are compared with, default `0`). Slots `side-0`, `side-1`, … for each side's actions. Parts `side`, `heading`, `lines`.
 
+### `lit-material-conflict-resolver`
+
+One conflict between two versions of a text (a sync conflict, a merge conflict in YAML or JSON):
+yours and theirs side by side, each marking the lines only it has, a radio group to keep yours,
+theirs or both, and an editable result.
+
+```html
+<lit-material-conflict-resolver yours-note="Priya · 10:12" theirs-note="Jonas · 10:31"></lit-material-conflict-resolver>
+<script type="module">
+  const r = document.querySelector("lit-material-conflict-resolver");
+  r.yours = mine;
+  r.theirs = server;
+  r.addEventListener("resolve", (e) => save(e.detail.text)); // { text, choice, edited }
+</script>
+```
+
+| Property | Attribute | Default |
+| --- | --- | --- |
+| `yours`, `theirs` | `yours`, `theirs` | `""` |
+| `yoursLabel`, `theirsLabel` | `yours-label`, `theirs-label` | "Yours", "Theirs" (translated) |
+| `yoursNote`, `theirsNote` | `yours-note`, `theirs-note` | `""` — who and when |
+| `choice` | `choice` | `"both"` (`yours`, `theirs`, `both`) |
+| `value` | `value` | the result text, from the choice unless set or edited |
+
+Events: `change` (`{ choice }`), `resolve` (`{ text, choice, edited }`). `keepBoth(yours, theirs)` and
+`resolveText(choice, yours, theirs)` are exported for use without the element.
+
 ## Behavior
 
 - `diffLines` trims the common head and tail, then runs an LCS on the rest. Above 4 million cells (`limit`) it reports the middle as removed then added rather than stall the page.

@@ -14,6 +14,12 @@ export const styles = css`
     display: none;
   }
 
+  /* Compact rows for dense tools: the cells (light DOM children) inherit these. */
+  :host([density="compact"]) {
+    --lit-material-data-table-cell-padding-block: 6px;
+    --lit-material-data-table-cell-padding-inline: 12px;
+  }
+
   .table {
     display: table;
     width: 100%;

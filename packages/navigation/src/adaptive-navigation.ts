@@ -14,6 +14,10 @@ export interface NavigationDestination {
   icon?: TemplateResult | string;
   href?: string;
   disabled?: boolean;
+  /** A badge on the icon: `true` for a dot, or a short count or text. Say what it means in `badgeLabel`. */
+  badge?: boolean | number | string;
+  /** The badge's meaning for screen readers ("2 conflicts"); without it a dot is silent. */
+  badgeLabel?: string;
 }
 
 /**
@@ -68,6 +72,33 @@ export class LitMaterialAdaptiveNavigation extends LitElement {
       align-items: center;
       justify-content: center;
     }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 6px;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--md-sys-color-error, #b3261e);
+      color: var(--md-sys-color-on-error, #fff);
+      font-size: 0.6875rem;
+      line-height: 1;
+    }
+    .badge.count {
+      min-width: 16px;
+      height: 16px;
+      padding-inline: 4px;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
     [slot="icon"] svg {
       width: 100%;
       height: 100%;
@@ -77,6 +108,9 @@ export class LitMaterialAdaptiveNavigation extends LitElement {
   @property({ attribute: false }) destinations: NavigationDestination[] = [];
 
   @property({ type: Number }) selected = -1;
+
+  /** The rail is icon-only and 56px wide, labels as tooltips (`lit-material-navigation-rail` `compact`). */
+  @property({ type: Boolean, reflect: true }) compact = false;
 
   /** What expanded windows show: `drawer` (default) or `rail`. */
   @property({ reflect: true }) expanded: "drawer" | "rail" = "drawer";
@@ -95,7 +129,14 @@ export class LitMaterialAdaptiveNavigation extends LitElement {
   }
 
   private icon(d: NavigationDestination) {
-    return d.icon === undefined ? nothing : html`<span slot="icon" aria-hidden="true">${d.icon}</span>`;
+    const icon = d.icon === undefined ? nothing : html`<span slot="icon" aria-hidden="true">${d.icon}</span>`;
+    if (d.badge === undefined || d.badge === false) return icon;
+    const text = d.badge === true ? "" : String(d.badge);
+    return html`${icon}<span slot="badge" class=${text ? "badge count" : "badge"} aria-hidden="true">${text}</span>`;
+  }
+
+  private itemLabel(d: NavigationDestination) {
+    return d.badgeLabel ? html`${d.label}<span class="visually-hidden">, ${d.badgeLabel}</span>` : d.label;
   }
 
   override render() {
@@ -105,19 +146,19 @@ export class LitMaterialAdaptiveNavigation extends LitElement {
         <div class="drawer">
           <lit-material-navigation-drawer .selected=${this.selected} @change=${this.onChange}>
             ${ds.map((d, i) => html`<lit-material-navigation-drawer-item ?selected=${i === this.selected} ?disabled=${!!d.disabled} href=${d.href ?? nothing}
-              >${this.icon(d)}${d.label}</lit-material-navigation-drawer-item>`)}
+              >${this.icon(d)}${this.itemLabel(d)}</lit-material-navigation-drawer-item>`)}
           </lit-material-navigation-drawer>
         </div>
         <div class="rail">
-          <lit-material-navigation-rail .selected=${this.selected} @change=${this.onChange}>
+          <lit-material-navigation-rail ?compact=${this.compact} .selected=${this.selected} @change=${this.onChange}>
             ${ds.map((d, i) => html`<lit-material-navigation-rail-item ?selected=${i === this.selected} ?disabled=${!!d.disabled} href=${d.href ?? nothing}
-              >${this.icon(d)}${d.label}</lit-material-navigation-rail-item>`)}
+              >${this.icon(d)}${this.itemLabel(d)}</lit-material-navigation-rail-item>`)}
           </lit-material-navigation-rail>
         </div>
         <div class="bar">
           <lit-material-navigation-bar .selected=${this.selected} @change=${this.onChange}>
             ${ds.map((d, i) => html`<lit-material-navigation-bar-item ?selected=${i === this.selected} ?disabled=${!!d.disabled} href=${d.href ?? nothing}
-              >${this.icon(d)}${d.label}</lit-material-navigation-bar-item>`)}
+              >${this.icon(d)}${this.itemLabel(d)}</lit-material-navigation-bar-item>`)}
           </lit-material-navigation-bar>
         </div>
       </nav>

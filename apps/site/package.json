@@ -81,6 +81,7 @@
     "@lit-material/slider": "workspace:*",
     "@lit-material/snackbar": "workspace:*",
     "@lit-material/sortable": "workspace:*",
+    "@lit-material/status-bar": "workspace:*",
     "@lit-material/speed-dial": "workspace:*",
     "@lit-material/split-panel": "workspace:*",
     "@lit-material/stat": "workspace:*",

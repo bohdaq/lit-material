@@ -14,7 +14,7 @@ export const styles = css`
     flex-direction: column;
     box-sizing: border-box;
     gap: 4px;
-    width: 400px;
+    width: var(--lit-material-side-sheet-width, 400px);
     max-width: 100%;
     height: 100%;
     background-color: var(--md-sys-color-surface-container-low, #f7f2fa);

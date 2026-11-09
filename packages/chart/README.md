@@ -107,6 +107,25 @@ and the default number format uses the element's language.
 
 The array properties above also take a JSON attribute, so markup rendered on the server carries the data and hydrates to the same output.
 
+### `lit-material-status-strip`
+
+One bar per run, oldest first: the last 24 checks of a monitor, the recent CI runs of a branch.
+
+```html
+<lit-material-status-strip label="Checkout, last 24 runs"></lit-material-status-strip>
+<script type="module">
+  document.querySelector("lit-material-status-strip").items = runs.map((r) => ({
+    status: r.ok ? "pass" : "fail", // pass | fail | warn | none
+    label: `${r.time} · ${r.status}`, // the bar's tooltip
+  }));
+</script>
+```
+
+The strip is one `role="img"` named "Checkout, last 24 runs: 22 of 24 passed, 2 failed, latest
+passed" (translated). Failed bars are hatched as well as red. Colours:
+`--lit-material-status-strip-{pass,fail,warn,none}`; size: `--lit-material-status-strip-height`
+(24px), `--lit-material-status-strip-gap` (2px).
+
 ## Accessibility
 
 The chart is a focusable `role="img"` named by `label` plus a summary (latest value and range per

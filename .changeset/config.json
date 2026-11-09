@@ -52,6 +52,7 @@
       "@lit-material/log-viewer",
       "@lit-material/menu",
       "@lit-material/method-tag",
+      "@lit-material/status-bar",
       "@lit-material/navigation",
       "@lit-material/overflow-menu",
       "@lit-material/page",

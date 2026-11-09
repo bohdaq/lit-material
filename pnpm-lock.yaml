@@ -344,6 +344,9 @@ importers:
       '@lit-material/status':
         specifier: workspace:*
         version: link:../../packages/status
+      '@lit-material/status-bar':
+        specifier: workspace:*
+        version: link:../../packages/status-bar
       '@lit-material/stepper':
         specifier: workspace:*
         version: link:../../packages/stepper
@@ -624,6 +627,9 @@ importers:
       '@lit-material/status':
         specifier: workspace:*
         version: link:../../packages/status
+      '@lit-material/status-bar':
+        specifier: workspace:*
+        version: link:../../packages/status-bar
       '@lit-material/stepper':
         specifier: workspace:*
         version: link:../../packages/stepper
@@ -3823,6 +3829,49 @@ importers:
 
   packages/status:
     dependencies:
+      '@lit-material/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
+    devDependencies:
+      '@lit-labs/ssr':
+        specifier: ^3.3.1
+        version: 3.3.1
+      '@open-wc/testing':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@web/dev-server-esbuild':
+        specifier: ^2.0.0
+        version: 2.0.0
+      '@web/test-runner':
+        specifier: ^1.0.0
+        version: 1.0.0(yauzl@2.10.0)
+      '@web/test-runner-commands':
+        specifier: ^1.0.1
+        version: 1.0.1
+      '@web/test-runner-playwright':
+        specifier: ^1.0.0
+        version: 1.0.0
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.0
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
+  packages/status-bar:
+    dependencies:
+      '@lit-material/core':
+        specifier: workspace:*
+        version: link:../core
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens

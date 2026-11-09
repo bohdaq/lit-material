@@ -7,6 +7,7 @@ import { html } from "lit";
 import { LitMaterialLineChart } from "./line-chart.js";
 import { LitMaterialSparkline } from "./sparkline.js";
 import { LitMaterialBarChart } from "./bar-chart.js";
+import "./status-strip.js";
 
 describe("chart (SSR)", () => {
   it("constructs without a browser", () => {
@@ -42,5 +43,12 @@ describe("chart (SSR)", () => {
     assert.match(lines, /cpu/);
     const spark = await collectResult(render(html`<lit-material-sparkline label="Trend" values=${JSON.stringify([1, 4, 2])}></lit-material-sparkline>`));
     assert.match(spark, /<polyline points="0/);
+  });
+
+  it("renders the status strip from a JSON attribute with its summary", async () => {
+    const items = JSON.stringify([{ status: "pass" }, { status: "fail", label: "10:42 · 500" }, { status: "pass" }]);
+    const out = await collectResult(render(html`<lit-material-status-strip label="Checkout" items=${items}></lit-material-status-strip>`));
+    assert.match(out, /aria-label="Checkout: 2 of 3 passed, 1 failed, latest passed"/);
+    assert.match(out, /class="bar fail"[^>]*title="10:42 · 500"/);
   });
 });

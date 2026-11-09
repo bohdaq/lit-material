@@ -27,6 +27,8 @@ export type SideSheetPosition = "start" | "end";
  * @csspart header - The header slot's container.
  * @csspart content - The default slot's container.
  *
+ * @cssprop --lit-material-side-sheet-width - The panel's width (default `400px`; never wider than the window).
+ *
  * @fires cancel - `modal` only: re-dispatched from the native `cancel` event. Cancelable:
  *   calling `preventDefault()` stops the sheet from closing.
  * @fires close - `modal` only: re-dispatched from the native `close` event.

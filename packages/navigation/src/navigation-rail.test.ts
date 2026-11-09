@@ -72,4 +72,22 @@ describe("lit-material-navigation-rail", () => {
     const { el } = await railFixture();
     await expect(el).to.be.accessible();
   });
+
+  it("compact: 56px wide, items icon-only with the label as a tooltip and the accessible name", async () => {
+    const { el, items } = await railFixture();
+    el.compact = true;
+    await el.updateComplete;
+    await items[0].updateComplete;
+    expect(items.every((item) => item.compact)).to.be.true;
+    expect(el.shadowRoot!.querySelector<HTMLElement>(".rail")!.getBoundingClientRect().width).to.equal(56);
+    const label = items[0].shadowRoot!.querySelector<HTMLElement>(".label")!;
+    expect(getComputedStyle(label).position).to.equal("absolute");
+    expect(getComputedStyle(label).opacity).to.equal("0");
+    const button = items[0].shadowRoot!.querySelector("button")!;
+    expect(items[0].textContent!.trim()).to.equal("Music");
+    button.focus();
+    await new Promise((r) => setTimeout(r, 150));
+    expect(getComputedStyle(label).opacity).to.equal("1");
+    await expect(el).to.be.accessible();
+  });
 });

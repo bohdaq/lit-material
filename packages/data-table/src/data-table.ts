@@ -52,9 +52,17 @@ import { cssProps } from "@lit-material/core/css-props.js";
  * set (see `lit-material-data-table-row`'s docs) since virtualized rows are
  * positioned with `transform`, which native table layout can't do.
  *
+ * `density="compact"` halves the cells' vertical padding (6px instead of
+ * 12px) for dense tools such as admin consoles and API clients; set
+ * `--lit-material-data-table-cell-padding-block` / `-inline` for any other
+ * spacing.
+ *
  * @element lit-material-data-table
  *
  * @slot - `lit-material-data-table-row` elements (in virtualized mode, the header row only).
+ *
+ * @cssprop --lit-material-data-table-cell-padding-block - Cell padding above and below (default `12px`, compact `6px`).
+ * @cssprop --lit-material-data-table-cell-padding-inline - Cell padding at the sides (default `16px`, compact `12px`).
  *
  * @csspart table - The table layout container.
  * @csspart viewport - The scrollable viewport, in virtualized mode.
@@ -67,6 +75,9 @@ import { cssProps } from "@lit-material/core/css-props.js";
 @customElement("lit-material-data-table")
 export class LitMaterialDataTable extends LitElement {
   static override styles = styles;
+
+  /** Row spacing: `comfortable` (default) or `compact`. */
+  @property({ reflect: true }) density: "comfortable" | "compact" = "comfortable";
 
   @property({ attribute: "sort-key" }) sortKey?: string;
   @property({ attribute: "sort-direction" }) sortDirection: SortDirection = "ascending";

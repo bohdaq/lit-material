@@ -158,6 +158,23 @@ export class DocsDataTablePage extends LitElement {
       <p style="color: var(--md-sys-color-on-surface-variant, #49454f);">${this.log}</p>
       <p>Drag the "Name" column's trailing edge to resize it — the whole column, header and body cells alike, follows.</p>
 
+      <h2>Compact density</h2>
+      <p><code>density="compact"</code> halves the rows' vertical padding for dense tools.</p>
+      <lit-material-data-table density="compact">
+        <lit-material-data-table-row header>
+          <lit-material-data-table-cell header>Person</lit-material-data-table-cell>
+          <lit-material-data-table-cell header>Role</lit-material-data-table-cell>
+        </lit-material-data-table-row>
+        <lit-material-data-table-row>
+          <lit-material-data-table-cell>Maya Kowalski</lit-material-data-table-cell>
+          <lit-material-data-table-cell>Owner</lit-material-data-table-cell>
+        </lit-material-data-table-row>
+        <lit-material-data-table-row>
+          <lit-material-data-table-cell>Jonas Berg</lit-material-data-table-cell>
+          <lit-material-data-table-cell>Admin</lit-material-data-table-cell>
+        </lit-material-data-table-row>
+      </lit-material-data-table>
+
       <h2>Pagination</h2>
       <p>
         <code>lit-material-data-table-pagination</code> is a standalone footer control — it doesn't touch the

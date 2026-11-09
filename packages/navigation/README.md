@@ -108,6 +108,11 @@ Slots: default (label text), `icon` (leading icon), `badge` (a trailing count or
 Slots: default (`lit-material-navigation-rail-item` elements), `fab` (an optional FAB shown above
 the items).
 
+**Compact rail.** `compact` makes the rail icon-only and 56px wide: each item's label becomes a
+tooltip on hover and keyboard focus and stays its accessible name. For dense app shells (an IDE, an
+API client). `lit-material-adaptive-navigation` takes `compact` too, and its destinations take
+`badge` (`true` for a dot, or a short count) with `badgeLabel` for screen readers.
+
 ### `lit-material-navigation-rail-item`
 
 | Property   | Attribute  | Type      | Default |

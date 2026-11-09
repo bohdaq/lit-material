@@ -123,4 +123,50 @@ export const styles = css`
       transition: none;
     }
   }
+
+  /* Compact (icon-only) rail: a 40px square target, the label as a tooltip. */
+  :host([compact]) .item {
+    min-height: 44px;
+    padding-block: 2px;
+  }
+
+  :host([compact]) .icon-container {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--md-sys-shape-corner-medium, 12px);
+  }
+
+  :host([compact]) slot.badge::slotted(*) {
+    top: 2px;
+    inset-inline-end: 2px;
+  }
+
+  :host([compact]) .label {
+    position: absolute;
+    top: 50%;
+    inset-inline-start: calc(50% + 28px);
+    z-index: 1;
+    max-width: 16rem;
+    padding: 4px 8px;
+    border-radius: var(--md-sys-shape-corner-extra-small, 4px);
+    background: var(--md-sys-color-inverse-surface, #313033);
+    color: var(--md-sys-color-inverse-on-surface, #f4eff4);
+    font-size: var(--md-sys-typescale-body-small-size, 0.75rem);
+    line-height: 1rem;
+    translate: 0 -50%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 100ms linear;
+  }
+
+  :host([compact]) .item:hover .label,
+  :host([compact]:focus-within) .label {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :host([compact]) .label {
+      transition: none;
+    }
+  }
 `;

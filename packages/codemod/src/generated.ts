@@ -92,6 +92,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "package": "@lit-material/navigation",
     "className": "LitMaterialAdaptiveNavigation",
     "attributes": {
+      "compact": "boolean",
       "expanded": "\"drawer\" | \"rail\"",
       "label": "string | undefined",
       "selected": "number"
@@ -785,6 +786,38 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "cssProperties": [],
     "cssParts": []
   },
+  "lit-material-conflict-resolver": {
+    "package": "@lit-material/diff",
+    "className": "LitMaterialConflictResolver",
+    "attributes": {
+      "choice": "\"yours\" | \"theirs\" | \"both\"",
+      "theirs": "string",
+      "theirs-label": "string",
+      "theirs-note": "string",
+      "value": "string",
+      "yours": "string",
+      "yours-label": "string",
+      "yours-note": "string"
+    },
+    "events": [
+      "change",
+      "resolve"
+    ],
+    "slots": [],
+    "cssProperties": [
+      "--lit-material-conflict-resolver-theirs-color",
+      "--lit-material-conflict-resolver-yours-color",
+      "--lit-material-diff-max-height"
+    ],
+    "cssParts": [
+      "choices",
+      "heading",
+      "lines",
+      "pane",
+      "resolve",
+      "result"
+    ]
+  },
   "lit-material-copy-button": {
     "package": "@lit-material/clipboard",
     "className": "LitMaterialCopyButton",
@@ -886,6 +919,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "package": "@lit-material/data-table",
     "className": "LitMaterialDataTable",
     "attributes": {
+      "density": "\"comfortable\" | \"compact\"",
       "overscan": "number",
       "row-height": "number",
       "sort-direction": "\"none\" | \"ascending\" | \"descending\"",
@@ -899,7 +933,10 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "slots": [
       ""
     ],
-    "cssProperties": [],
+    "cssProperties": [
+      "--lit-material-data-table-cell-padding-block",
+      "--lit-material-data-table-cell-padding-inline"
+    ],
     "cssParts": [
       "spacer",
       "table",
@@ -1653,6 +1690,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "className": "LitMaterialNavigationRail",
     "attributes": {
       "alignment": "\"top\" | \"center\" | \"bottom\"",
+      "compact": "boolean",
       "selected": "number"
     },
     "events": [
@@ -1673,6 +1711,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "package": "@lit-material/navigation",
     "className": "LitMaterialNavigationRailItem",
     "attributes": {
+      "compact": "boolean",
       "disabled": "boolean",
       "href": "string",
       "selected": "boolean",
@@ -1689,6 +1728,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "focus-ring",
       "icon-container",
       "item",
+      "label",
       "ripple"
     ]
   },
@@ -2157,7 +2197,9 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "",
       "header"
     ],
-    "cssProperties": [],
+    "cssProperties": [
+      "--lit-material-side-sheet-width"
+    ],
     "cssParts": [
       "content",
       "dialog",
@@ -2470,6 +2512,69 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "cssParts": [
       "icon",
       "status"
+    ]
+  },
+  "lit-material-status-bar": {
+    "package": "@lit-material/status-bar",
+    "className": "LitMaterialStatusBar",
+    "attributes": {
+      "label": "string"
+    },
+    "events": [],
+    "slots": [
+      "",
+      "end"
+    ],
+    "cssProperties": [
+      "--lit-material-status-bar-background",
+      "--lit-material-status-bar-color",
+      "--lit-material-status-bar-height"
+    ],
+    "cssParts": [
+      "bar"
+    ]
+  },
+  "lit-material-status-bar-item": {
+    "package": "@lit-material/status-bar",
+    "className": "LitMaterialStatusBarItem",
+    "attributes": {
+      "button": "boolean",
+      "description": "string",
+      "href": "string",
+      "tone": "\"neutral\" | \"success\" | \"warning\" | \"error\""
+    },
+    "events": [
+      "click"
+    ],
+    "slots": [
+      "",
+      "icon"
+    ],
+    "cssProperties": [],
+    "cssParts": [
+      "item"
+    ]
+  },
+  "lit-material-status-strip": {
+    "package": "@lit-material/chart",
+    "className": "LitMaterialStatusStrip",
+    "attributes": {
+      "items": "StatusStripItem[]",
+      "label": "string"
+    },
+    "events": [],
+    "slots": [],
+    "cssProperties": [
+      "--lit-material-status-strip-fail",
+      "--lit-material-status-strip-gap",
+      "--lit-material-status-strip-height",
+      "--lit-material-status-strip-none",
+      "--lit-material-status-strip-pass",
+      "--lit-material-status-strip-warn"
+    ],
+    "cssParts": [
+      "bar",
+      "strip"
     ]
   },
   "lit-material-step": {

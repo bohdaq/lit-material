@@ -25,7 +25,7 @@ export const GROUPS = [
     id: "navigation",
     label: "Navigation",
     about: "Moving between views, sections and steps.",
-    items: ["navigation", "adaptive-navigation", "top-app-bar", "tabs", "breadcrumbs", "drawer", "sidebar", "search", "command-palette", "kbd", "stepper", "jump-links", "back-to-top", "app-launcher"],
+    items: ["navigation", "adaptive-navigation", "top-app-bar", "tabs", "breadcrumbs", "drawer", "sidebar", "search", "command-palette", "kbd", "status-bar", "stepper", "jump-links", "back-to-top", "app-launcher"],
   },
   {
     id: "selection",

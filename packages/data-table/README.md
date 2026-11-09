@@ -128,6 +128,10 @@ Notes:
 - Sorting and row-selection delegation both keep working on virtualized rows exactly as they do on
   slotted ones.
 
+**Density.** `density="compact"` (reflected) sets the cells' padding to 6px × 12px instead of
+12px × 16px, for dense tools. Any other spacing: `--lit-material-data-table-cell-padding-block` and
+`--lit-material-data-table-cell-padding-inline` on the table.
+
 ### `lit-material-data-table-row`
 
 | Property   | Attribute  | Type      | Default |

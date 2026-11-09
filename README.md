@@ -158,6 +158,7 @@ Every package is released at the same version number, so keep them on the same v
 | [`@lit-material/table`](packages/table) | Data-driven semantic `<table>`: caption, headers, numeric and monospace columns. |
 | [`@lit-material/chart`](packages/chart) | Line chart, bar chart and sparkline: crosshair tooltip, keyboard access, screen-reader table. |
 | [`@lit-material/timing-waterfall`](packages/timing-waterfall) | Where a request's time went: DNS, connect, waiting, download as one stacked bar and legend. |
+| [`@lit-material/status-bar`](packages/status-bar) | Thin app status bar: open file, save state, connection, shortcut hints; text, button and link items. |
 | [`@lit-material/method-tag`](packages/method-tag) | HTTP/API method as a monospace label coloured by method (GET, POST, PUT, PATCH, DELETE, others). |
 | [`@lit-material/world-map`](packages/world-map) | Countries shaded by a value (choropleth): keyboard reading, selection, small countries listed, screen-reader table. |
 | [`@lit-material/tokens`](packages/tokens) | Color, type, shape, elevation, and motion design tokens; opt-in typography classes for plain HTML. |

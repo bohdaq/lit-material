@@ -24,6 +24,10 @@ export type NavigationRailAlignment = "top" | "center" | "bottom";
  * @csspart fab - The fab slot's container.
  * @csspart items - The items slot's container.
  *
+ * With `compact` the rail is 56px wide and icon-only: each item's label
+ * becomes a tooltip on hover and keyboard focus (it stays the item's
+ * accessible name), for dense app shells such as an IDE or API client.
+ *
  * @fires change - Fires when `selected` changes via an item click.
  */
 @customElement("lit-material-navigation-rail")
@@ -36,6 +40,9 @@ export class LitMaterialNavigationRail extends LitElement {
   /** Index of the selected item. `-1` means no selection. */
   @property({ type: Number }) selected = -1;
 
+  /** Icon-only, 56px wide; labels show as tooltips. */
+  @property({ type: Boolean, reflect: true }) compact = false;
+
   constructor() {
     super();
     this.addEventListener("click", this.handleClick);
@@ -47,7 +54,7 @@ export class LitMaterialNavigationRail extends LitElement {
   }
 
   protected override updated(changed: Map<string, unknown>): void {
-    if (changed.has("selected")) this.syncSelected();
+    if (changed.has("selected") || changed.has("compact")) this.syncSelected();
   }
 
   private get items(): LitMaterialNavigationRailItem[] {
@@ -58,6 +65,7 @@ export class LitMaterialNavigationRail extends LitElement {
   private syncSelected(): void {
     this.items.forEach((item, index) => {
       item.selected = index === this.selected;
+      item.compact = this.compact;
     });
   }
 

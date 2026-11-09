@@ -18,11 +18,15 @@ import { styles } from "./navigation-rail-item-styles.js";
  *
  * @slot - The label text.
  * @slot icon - The icon.
+ * In a `compact` rail the label is a tooltip beside the icon, shown on hover
+ * and keyboard focus; it is still the item's accessible name.
+ *
  * @slot badge - Optional badge content (a count or dot), positioned over the icon's top-end corner
  *   (top-right in LTR, top-left in RTL).
  *
  * @csspart item - The `<button>` or `<a>` (layout only, no background of its own).
  * @csspart icon-container - The pill-shaped active indicator behind the icon.
+ * @csspart label - The label (the tooltip in a compact rail).
  * @csspart ripple - The state-layer element the hover/press feedback is drawn on.
  * @csspart focus-ring - The focus indicator element.
  */
@@ -37,6 +41,8 @@ export class LitMaterialNavigationRailItem extends LitElement {
 
   @property({ type: Boolean, reflect: true }) selected = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
+  /** Icon-only: the label shows as a tooltip on hover and focus. Set by a `compact` rail. */
+  @property({ type: Boolean, reflect: true }) compact = false;
 
   /** If set, renders the item as a link (`<a>`) instead of a `<button>`. */
   @property() href = "";
@@ -59,7 +65,7 @@ export class LitMaterialNavigationRailItem extends LitElement {
         <slot name="icon" class="icon"></slot>
         <slot name="badge" class="badge"></slot>
       </span>
-      <span class="label"><slot></slot></span>
+      <span class="label" part="label"><slot></slot></span>
     `;
   }
 

@@ -66,6 +66,9 @@ LTR) by default, since a side sheet is typically evoked alongside primary naviga
 
 Slots: default (the sheet's content), `header` (a title, a close button…).
 
+`--lit-material-side-sheet-width` sets the panel's width (default `400px`; never wider than the
+window), e.g. a wider assistant panel beside an editor.
+
 ### `lit-material-bottom-sheet`
 
 | Property                | Attribute                | Type                    | Default    |

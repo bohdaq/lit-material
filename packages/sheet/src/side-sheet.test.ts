@@ -97,4 +97,11 @@ describe("lit-material-side-sheet", () => {
     const el = await fixture<LitMaterialSideSheet>(html`<lit-material-side-sheet>Content</lit-material-side-sheet>`);
     await expect(el).to.be.accessible();
   });
+
+  it("takes its width from --lit-material-side-sheet-width", async () => {
+    const el = await fixture<LitMaterialSideSheet>(
+      html`<lit-material-side-sheet style="--lit-material-side-sheet-width: 470px">Agent</lit-material-side-sheet>`,
+    );
+    expect(el.shadowRoot!.querySelector<HTMLElement>(".sheet")!.getBoundingClientRect().width).to.equal(470);
+  });
 });

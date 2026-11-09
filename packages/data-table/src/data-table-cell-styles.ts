@@ -5,7 +5,7 @@ export const styles = css`
     display: table-cell;
     position: relative;
     box-sizing: border-box;
-    padding: 12px 16px;
+    padding: var(--lit-material-data-table-cell-padding-block, 12px) var(--lit-material-data-table-cell-padding-inline, 16px);
     vertical-align: middle;
     color: var(--md-sys-color-on-surface, #1c1b1f);
     font-family: var(--md-sys-typescale-body-medium-font, Roboto, system-ui, sans-serif);

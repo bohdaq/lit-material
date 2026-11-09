@@ -16,7 +16,7 @@ declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
       /** One set of destinations shown as M3 prescribes for the window's width: a navigation bar on compact windows (under 600px), a rail on medium ones (600–839px), and a drawer — or a rail, with `expanded="rail"` — on expanded ones (840px and up). All three are rendered and CSS shows one, so it needs no script to pick and server-rendered markup is already right; the hidden ones are out of the accessibility tree. `selected` is shared, and `change` fires (with the new index in `selected`) whichever one was used. Place the bar yourself — e.g. the host fixed or sticky at the bottom on compact windows: it sits where the element is. */
-      "lit-material-adaptive-navigation": ElementProps<LitMaterialAdaptiveNavigation, "destinations" | "expanded" | "label" | "selected"> & {
+      "lit-material-adaptive-navigation": ElementProps<LitMaterialAdaptiveNavigation, "compact" | "destinations" | "expanded" | "label" | "selected"> & {
         "onchange"?: (event: Event) => void;
       };
       /** Material Design 3 navigation bar — a row of primary destinations (`lit-material-navigation-bar-item` elements) sharing a bar's width equally, typically docked to the bottom of the screen for compact window sizes. Selection is index-based and managed here (like `lit-material-tabs` and `lit-material-navigation-rail`): set `selected` to reflect your current route/section, and each item's own `selected` is kept in sync automatically. Clicking an item updates `selected` and fires `change` — items themselves don't manage selection. Unlike `lit-material-navigation-rail`, there's no `alignment` property or `fab` slot — a bottom bar is a single row of equally-shared destinations, not a strip with room to position things along its length. */
@@ -34,11 +34,11 @@ declare module "react" {
       /** A single destination inside a `lit-material-navigation-drawer` — a pill-shaped row with a leading icon and a label, following the MD3 navigation drawer item spec. Renders as a real `<button>` by default, or an `<a>` when `href` is set — both get the same ripple/focus-ring treatment as `lit-material-list-item`. `selected` is normally managed by the parent drawer (see its docs), not set directly. */
       "lit-material-navigation-drawer-item": ElementProps<LitMaterialNavigationDrawerItem, "disabled" | "href" | "selected" | "target">;
       /** Material Design 3 navigation rail — a narrow, always-visible vertical bar of primary destinations (`lit-material-navigation-rail-item` elements), typically docked to one edge for medium/large window sizes. Selection is index-based and managed here (like `lit-material-tabs`): set `selected` to reflect your current route/section, and each item's own `selected` is kept in sync automatically. Clicking an item updates `selected` and fires `change` — items themselves don't manage selection. */
-      "lit-material-navigation-rail": ElementProps<LitMaterialNavigationRail, "alignment" | "selected"> & {
+      "lit-material-navigation-rail": ElementProps<LitMaterialNavigationRail, "alignment" | "compact" | "selected"> & {
         "onchange"?: (event: Event) => void;
       };
       /** A single destination inside a `lit-material-navigation-rail` — an icon in a pill-shaped active indicator, with a small label below it, following the MD3 navigation rail item spec. Renders as a real `<button>` by default, or an `<a>` when `href` is set. The ripple/focus-ring are scoped to the icon's indicator pill (not the whole item), matching how the indicator itself is the only part that visibly reacts to press/focus in the spec. `selected` is normally managed by the parent rail (see its docs), not set directly. */
-      "lit-material-navigation-rail-item": ElementProps<LitMaterialNavigationRailItem, "disabled" | "href" | "selected" | "target">;
+      "lit-material-navigation-rail-item": ElementProps<LitMaterialNavigationRailItem, "compact" | "disabled" | "href" | "selected" | "target">;
     }
   }
 }

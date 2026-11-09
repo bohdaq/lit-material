@@ -5,6 +5,7 @@ import { createComponent } from "@lit/react";
 import { LitMaterialBarChart } from "./bar-chart.js";
 import { LitMaterialLineChart } from "./line-chart.js";
 import { LitMaterialSparkline } from "./sparkline.js";
+import { LitMaterialStatusStrip } from "./status-strip.js";
 
 /** React wrapper for `<lit-material-bar-chart>`. */
 export const BarChart = createComponent({
@@ -28,4 +29,12 @@ export const Sparkline = createComponent({
   elementClass: LitMaterialSparkline,
   react: React,
   displayName: "Sparkline",
+});
+
+/** React wrapper for `<lit-material-status-strip>`. */
+export const StatusStrip = createComponent({
+  tagName: "lit-material-status-strip",
+  elementClass: LitMaterialStatusStrip,
+  react: React,
+  displayName: "StatusStrip",
 });

@@ -3,6 +3,7 @@
 // `import type {} from "<package>/jsx";`. React 19 adds a listener for `on<event>` props as written.
 import type { DetailedHTMLProps, HTMLAttributes } from "react";
 import type { LitMaterialChangeList } from "../dist/change-list.js";
+import type { LitMaterialConflictResolver } from "../dist/conflict-resolver.js";
 import type { LitMaterialDiff } from "../dist/diff.js";
 import type { LitMaterialMergeView } from "../dist/merge-view.js";
 
@@ -13,6 +14,11 @@ declare module "react" {
     interface IntrinsicElements {
       /** A list of changes by path: what was added, removed or changed, with the old and new values. For structured data (JSON fields, headers, settings) where a line diff would be noise. Set `changes` as a property, or as a JSON attribute when rendering on the server. Values that aren't strings are shown as JSON. */
       "lit-material-change-list": ElementProps<LitMaterialChangeList, "changes" | "label">;
+      /** One conflict between two versions of a text (a sync conflict, a merge conflict in a YAML or JSON file), resolved by keeping yours, theirs or both. Three panes: yours and theirs, each with the lines only it has marked, and the result, which starts from the choice and can be edited. "Use result" fires `resolve`. The choice is a radio group; each pane is a labelled region, so screen reader users can move between them. `value` is the result text. */
+      "lit-material-conflict-resolver": ElementProps<LitMaterialConflictResolver, "choice" | "theirs" | "theirsLabel" | "theirsNote" | "value" | "yours" | "yoursLabel" | "yoursNote"> & {
+        "onchange"?: (event: CustomEvent) => void;
+        "onresolve"?: (event: CustomEvent) => void;
+      };
       /** Shows how one text changed into another, line by line: one column with `+` and `-` lines (`unified`), or the two texts side by side (`split`). `original` and `modified` are plain string attributes, so the diff renders on the server too. Unchanged runs fold down to `context` lines around each change; `context="-1"` shows everything. A screen reader hears each line as "added", "removed" or nothing, and the line numbers on both sides. The diff is computed without a DOM; `diffLines`, `sideBySide`, `hunks` and `stats` are exported from `@lit-material/diff/lines.js` too. */
       "lit-material-diff": ElementProps<LitMaterialDiff, "context" | "hideStats" | "label" | "mode" | "modified" | "modifiedLabel" | "original" | "originalLabel">;
       /** Two or more versions of one text side by side, each compared with a common base: lines a version added or changed are highlighted, and lines it dropped are counted. For sync conflicts and three-way merges ("mine", "theirs", "before both changes"). `sides` is a property, or a JSON attribute for server rendering; `base` is the index of the side the others are compared with. Put actions for a side (such as "Keep mine") in the slot named `side-<index>`. */

@@ -4,3 +4,5 @@ export { LitMaterialSparkline } from "./sparkline.js";
 export { LitMaterialBarChart } from "./bar-chart.js";
 export type { BarDatum } from "./bar-chart.js";
 export { formatNumber, niceTicks } from "./scale.js";
+export { LitMaterialStatusStrip } from "./status-strip.js";
+export type { RunStatus, StatusStripItem } from "./status-strip.js";

@@ -48,6 +48,20 @@ export class DocsChartPage extends LitElement {
         <h2>Sparkline</h2>
         <p>Errors <lit-material-sparkline label="Errors" show-last .values=${[4, 1, 7, 3, 5, 2, 3]}></lit-material-sparkline> 3 in the last minute</p>
       </section>
+      <section>
+        <h2>Status strip</h2>
+        <p>One bar per run, oldest first: passed, failed (also hatched), warned, no data. Hover a bar for its label; screen readers hear the counts and the latest result.</p>
+        <lit-material-status-strip
+          label="Checkout path, last 24 runs"
+          .items=${[
+            ...Array.from({ length: 17 }, () => ({ status: "pass", label: "200 · ok" })),
+            { status: "fail", label: "500 · 10:12" },
+            { status: "fail", label: "500 · 10:27" },
+            { status: "warn", label: "1.9 s · 10:42" },
+            ...Array.from({ length: 4 }, () => ({ status: "pass", label: "200 · ok" })),
+          ]}
+        ></lit-material-status-strip>
+      </section>
     `;
   }
 }

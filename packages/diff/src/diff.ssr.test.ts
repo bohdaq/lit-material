@@ -26,4 +26,11 @@ describe("lit-material-diff (SSR)", () => {
     assert.match(out, /Mine/);
     assert.match(out, /1 new or changed, 1 dropped/);
   });
+
+  it("renders the conflict resolver from attributes", async () => {
+    const out = await collectResult(render(html`<lit-material-conflict-resolver yours="a\nb" theirs="a\nc"></lit-material-conflict-resolver>`));
+    assert.match(out, /Keep both/);
+    assert.match(out, /Only here: (<!--[^>]*-->)*<\/span>(<!--[^>]*-->)*b/);
+    assert.match(out, /<textarea/);
+  });
 });

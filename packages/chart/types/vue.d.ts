@@ -5,6 +5,7 @@ import type { DefineComponent } from "vue";
 import type { LitMaterialBarChart } from "../dist/bar-chart.js";
 import type { LitMaterialLineChart } from "../dist/line-chart.js";
 import type { LitMaterialSparkline } from "../dist/sparkline.js";
+import type { LitMaterialStatusStrip } from "../dist/status-strip.js";
 
 declare module "vue" {
   interface GlobalComponents {
@@ -14,5 +15,7 @@ declare module "vue" {
     "lit-material-line-chart": DefineComponent<Partial<Pick<LitMaterialLineChart, "formatX" | "formatY" | "height" | "label" | "series" | "unit" | "yMin">>>;
     /** A sparkline: a word-sized line showing the shape of a series, beside the number it explains (a stat tile, a table cell). No axes, so it states its range for screen readers: "label: latest X, from MIN to MAX". */
     "lit-material-sparkline": DefineComponent<Partial<Pick<LitMaterialSparkline, "format" | "label" | "showLast" | "values">>>;
+    /** A row of thin bars, one per run, oldest first: the last 24 checks of a monitor, the recent CI runs of a branch. Green passed, red failed, amber warned (slow, flaky), grey no data. Failed bars are also hatched, so the difference doesn't rest on colour alone. The strip is one `role="img"` whose name says how many passed and how the latest run went; each bar's `label` is its tooltip. `items` is a property, or a JSON attribute for server rendering. */
+    "lit-material-status-strip": DefineComponent<Partial<Pick<LitMaterialStatusStrip, "items" | "label">>>;
   }
 }

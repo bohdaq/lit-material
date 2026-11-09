@@ -52,4 +52,14 @@ export const styles = css`
   .items.bottom {
     justify-content: flex-end;
   }
+
+  :host([compact]) .rail {
+    width: 56px;
+    padding-block: 8px;
+  }
+
+  /* Tooltips stick out of the rail: don't clip them. */
+  :host([compact]) .items {
+    overflow: visible;
+  }
 `;

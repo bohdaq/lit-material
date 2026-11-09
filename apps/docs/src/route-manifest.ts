@@ -64,6 +64,7 @@ import "./pages/components/chart-page.js";
 import "./pages/components/world-map-page.js";
 import "./pages/components/timing-waterfall-page.js";
 import "./pages/components/method-tag-page.js";
+import "./pages/components/status-bar-page.js";
 import "./pages/components/command-palette-page.js";
 import "./pages/components/kbd-page.js";
 import "./pages/components/adaptive-navigation-page.js";
@@ -692,6 +693,12 @@ export const navEntries: NavEntry[] = [
     label: "Kbd",
     group: "components",
     render: () => html`<docs-kbd-page></docs-kbd-page>`,
+  },
+  {
+    path: "/components/status-bar",
+    label: "Status Bar",
+    group: "components",
+    render: () => html`<docs-status-bar-page></docs-status-bar-page>`,
   },
 
   {
