@@ -1,5 +1,11 @@
 # @lit-material/vite
 
+## 1.5.0
+
+### Patch Changes
+
+- @lit-material/router@1.5.0
+
 ## 1.4.0
 
 ### Patch Changes

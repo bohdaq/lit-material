@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/data-list",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Material Design 3-styled data list web components (lit-material-data-list, lit-material-data-list-item, lit-material-data-list-cell) — flexible multi-cell rows, optionally expandable.",
   "license": "MIT",
   "author": {

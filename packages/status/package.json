@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/status",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Status indicator web component: an icon and a label coloured by state (ok, warning, error, info, neutral), never colour alone.",
   "license": "MIT",
   "author": {

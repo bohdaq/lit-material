@@ -1,5 +1,13 @@
 # @lit-material/chart
 
+## 1.5.0
+
+### Patch Changes
+
+- Updated dependencies [e055e69]
+  - @lit-material/tokens@1.5.0
+  - @lit-material/core@1.5.0
+
 ## 1.4.0
 
 ### Patch Changes

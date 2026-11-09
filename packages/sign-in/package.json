@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/sign-in",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "A sign-in screen for lit-material: password, a code by mail, creating an account and resetting a password, with single sign-on buttons.",
   "license": "MIT",
   "author": {

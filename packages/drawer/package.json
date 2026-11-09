@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/drawer",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Material Design 3-styled drawer web component (lit-material-drawer) — a non-modal, persistent overlay panel, e.g. for a notification drawer.",
   "license": "MIT",
   "author": {

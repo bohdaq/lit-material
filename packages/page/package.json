@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/page",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Material Design 3-styled page shell web component (lit-material-page) — a header/sidebar/main content grid.",
   "license": "MIT",
   "author": {
