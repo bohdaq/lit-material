@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/chart",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Line chart and sparkline web components: thin marks, recessive grid, crosshair tooltip, keyboard access and a text summary.",
   "license": "MIT",
   "author": {

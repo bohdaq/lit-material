@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/tree",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Material Design 3-styled hierarchical tree web components (lit-material-tree, lit-material-tree-item).",
   "license": "MIT",
   "author": {

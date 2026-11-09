@@ -1,5 +1,12 @@
 # @lit-material/menu
 
+## 1.4.0
+
+### Patch Changes
+
+- @lit-material/core@1.4.0
+- @lit-material/tokens@1.4.0
+
 ## 1.3.0
 
 ### Patch Changes

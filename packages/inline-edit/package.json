@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/inline-edit",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Inline edit for lit-material: click a value to edit it in place, Enter saves, Escape cancels, async save with errors.",
   "license": "MIT",
   "author": {
