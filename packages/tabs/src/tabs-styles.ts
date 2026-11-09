@@ -42,6 +42,32 @@ export const styles = css`
     scrollbar-width: thin;
     overscroll-behavior-x: contain;
   }
+  /* Fade the edges where tabs are scrolled out of view. */
+  :host([scrollable]) .scroller.fade-start {
+    mask-image: linear-gradient(to right, transparent, #000 24px);
+  }
+  :host([scrollable]) .scroller.fade-end {
+    mask-image: linear-gradient(to left, transparent, #000 24px);
+  }
+  :host([scrollable]) .scroller.fade-start.fade-end {
+    mask-image: linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 24px), transparent);
+  }
+  :host(:dir(rtl)[scrollable]) .scroller.fade-start {
+    mask-image: linear-gradient(to left, transparent, #000 24px);
+  }
+  :host(:dir(rtl)[scrollable]) .scroller.fade-end {
+    mask-image: linear-gradient(to right, transparent, #000 24px);
+  }
+
+  :host([reorderable]) ::slotted(lit-material-tab) {
+    touch-action: pan-y;
+  }
+  ::slotted(lit-material-tab[dragging]) {
+    z-index: 1;
+    opacity: 0.85;
+    cursor: grabbing;
+  }
+
   :host([scrollable]) ::slotted(lit-material-tab) {
     flex: none;
     max-width: var(--lit-material-tabs-tab-max-width, 16rem);

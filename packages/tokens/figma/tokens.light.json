@@ -139,6 +139,52 @@
           "$value": "#d0bcff"
         }
       },
+      "density": {
+        "button-height": {
+          "$type": "dimension",
+          "$value": "40px"
+        },
+        "icon-button-size": {
+          "$type": "dimension",
+          "$value": "40px"
+        },
+        "icon-button-padding": {
+          "$type": "dimension",
+          "$value": "8px"
+        },
+        "field-height": {
+          "$type": "dimension",
+          "$value": "56px"
+        },
+        "field-label-top": {
+          "$type": "dimension",
+          "$value": "8px"
+        },
+        "field-value-inset": {
+          "$type": "dimension",
+          "$value": "8px"
+        },
+        "tab-height": {
+          "$type": "dimension",
+          "$value": "48px"
+        },
+        "tab-padding": {
+          "$type": "dimension",
+          "$value": "16px"
+        },
+        "list-item-min-height": {
+          "$type": "dimension",
+          "$value": "56px"
+        },
+        "list-item-padding-block": {
+          "$type": "dimension",
+          "$value": "8px"
+        },
+        "tree-item-min-height": {
+          "$type": "dimension",
+          "$value": "40px"
+        }
+      },
       "elevation": {
         "level0": {
           "$type": "shadow",

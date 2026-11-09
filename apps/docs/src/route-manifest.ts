@@ -65,6 +65,7 @@ import "./pages/components/world-map-page.js";
 import "./pages/components/timing-waterfall-page.js";
 import "./pages/components/method-tag-page.js";
 import "./pages/components/command-palette-page.js";
+import "./pages/components/kbd-page.js";
 import "./pages/components/adaptive-navigation-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -685,6 +686,12 @@ export const navEntries: NavEntry[] = [
     label: "Command Palette",
     group: "components",
     render: () => html`<docs-command-palette-page></docs-command-palette-page>`,
+  },
+  {
+    path: "/components/kbd",
+    label: "Kbd",
+    group: "components",
+    render: () => html`<docs-kbd-page></docs-kbd-page>`,
   },
 
   {

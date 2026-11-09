@@ -32,8 +32,8 @@ export const styles = css`
     gap: 16px;
     box-sizing: border-box;
     width: 100%;
-    min-height: 56px;
-    padding: 8px 16px;
+    min-height: var(--md-sys-density-list-item-min-height, 56px);
+    padding: var(--md-sys-density-list-item-padding-block, 8px) 16px;
     border: none;
     margin: 0;
     background-color: transparent;

@@ -1,0 +1,18 @@
+/*
+ * Compact density, under `density="compact"` on any ancestor (imported by
+ * index.css): buttons, icon buttons 32 px, tabs 36 px, list rows 36 px, tree
+ * rows 28 px, text fields and selects 40 px (room for a floated label).
+ */
+[density="compact"] {
+  --md-sys-density-button-height: 32px;
+  --md-sys-density-icon-button-size: 32px;
+  --md-sys-density-icon-button-padding: 4px;
+  --md-sys-density-field-height: 40px;
+  --md-sys-density-field-label-top: 2px;
+  --md-sys-density-field-value-inset: 2px;
+  --md-sys-density-tab-height: 36px;
+  --md-sys-density-tab-padding: 12px;
+  --md-sys-density-list-item-min-height: 36px;
+  --md-sys-density-list-item-padding-block: 4px;
+  --md-sys-density-tree-item-min-height: 28px;
+}

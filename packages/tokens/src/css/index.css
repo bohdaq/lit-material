@@ -9,3 +9,5 @@
 @import "./elevation.css";
 @import "./state.css";
 @import "./motion.css";
+@import "./density.css";
+@import "./presets/density-compact.css";

@@ -15,13 +15,45 @@ export const styles = css`
     pointer-events: none;
   }
 
+  .trailing {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 6px;
+    margin-inline-start: auto;
+    color: var(--md-sys-color-on-surface-variant, #49454f);
+  }
+
+  .actions {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 2px;
+    opacity: 0;
+  }
+  .row:hover .actions,
+  .row:focus-within .actions,
+  :host(:focus-visible) .actions {
+    opacity: 1;
+  }
+  @media (hover: none) {
+    .actions {
+      opacity: 1;
+    }
+  }
+
+  :host([dragging]) > .row {
+    opacity: 0.85;
+    cursor: grabbing;
+  }
+
   .row {
     position: relative;
     display: flex;
     align-items: center;
     gap: 4px;
     box-sizing: border-box;
-    min-height: 40px;
+    min-height: var(--md-sys-density-tree-item-min-height, 40px);
     padding-inline-end: 12px;
     cursor: pointer;
     color: var(--md-sys-color-on-surface, #1c1b1f);

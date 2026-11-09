@@ -23,6 +23,27 @@ Dark mode follows `prefers-color-scheme` automatically (via CSS `light-dark()`).
 a scheme regardless of OS preference, set `color-scheme="light"` or `color-scheme="dark"`
 on `<html>` or any ancestor element.
 
+## Density
+
+Every control reads its height from `--md-sys-density-*` tokens (`css/density.css`). Put
+`density="compact"` on `<html>` or any container for dense tools: buttons and icon buttons 32 px,
+tabs and list rows 36 px, tree rows 28 px, text fields and selects 40 px. Override a single token
+to tune one control.
+
+```html
+<html density="compact">
+```
+
+## Graphite (opt-in dark palette)
+
+A near-black palette with one violet accent for developer tools. Import it after `index.css`; the
+light scheme stays the baseline's. It also applies under any element with `theme="graphite"`.
+
+```css
+@import "@lit-material/tokens/css/index.css";
+@import "@lit-material/tokens/css/presets/graphite.css";
+```
+
 ## Typography (opt-in)
 
 `css/typography.css` styles plain HTML on the M3 type scale. It's not part of `index.css`.

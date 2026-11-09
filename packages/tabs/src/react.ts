@@ -31,6 +31,7 @@ export const Tabs = createComponent({
   elementClass: LitMaterialTabs,
   react: React,
   events: {
+    onReorder: "reorder" as EventName<CustomEvent>,
     onChange: "change" as EventName<Event>,
   },
   displayName: "Tabs",

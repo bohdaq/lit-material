@@ -25,7 +25,7 @@ export const styles = css`
     justify-content: center;
     gap: 8px;
     box-sizing: border-box;
-    height: var(--lit-material-button-height, 40px);
+    height: var(--lit-material-button-height, var(--md-sys-density-button-height, 40px));
     min-width: 64px;
     padding: 0 var(--lit-material-button-padding-inline, 24px);
     border: none;

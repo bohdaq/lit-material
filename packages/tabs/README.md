@@ -42,6 +42,7 @@ document.querySelector("lit-material-tabs").addEventListener("change", (event) =
 | ---------- | ---------- | -------- | ------- |
 | `selected` | `selected` | `number` | `0`     |
 | `scrollable` | `scrollable` (reflected) | `boolean` | `false` |
+| `reorderable` | `reorderable` (reflected) | `boolean` | `false` |
 
 Fires `change` (bubbling) when the selected tab changes via user interaction (click or arrow
 keys), not when `selected` is set from code, as with a native control's `value`. Panels follow
@@ -87,6 +88,22 @@ and never removes itself or changes the selection: remove it from your data. `re
 same way and returns `false` when a listener cancelled it. The × is for the pointer and hidden from
 assistive technology (a button inside a tab isn't allowed); the tab's description says "Press Delete to
 close", and "Unsaved changes" when `dirty`, which also draws a dot.
+
+### Reordering
+
+`reorderable` lets people drag a tab to a new place, or move the focused tab with
+`Alt+Shift+ArrowLeft`/`ArrowRight` (or `Ctrl+Shift+PageUp`/`PageDown`). The tabs element fires a
+cancelable `reorder` event (`detail: {from, to}`, tab indexes) and moves nothing: reorder your data
+and render the tabs again, as with `close`. `requestReorder(from, to)` asks the same way. In a
+`scrollable` row the edges fade where tabs are scrolled out of view.
+
+```js
+tabs.addEventListener("reorder", (e) => {
+  const [moved] = openTabs.splice(e.detail.from, 1);
+  openTabs.splice(e.detail.to, 0, moved);
+  render();
+});
+```
 
 ## Behavior
 

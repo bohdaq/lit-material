@@ -20,7 +20,15 @@ import { styles } from "./tree-styles.js";
  *
  * @csspart tree - The container.
  *
+ * `reorderable` lets people drag a node among its siblings, or move the
+ * focused node with Alt+Shift+ArrowUp/ArrowDown. The tree fires a cancelable
+ * `reorder` event with `detail.item`, `detail.parent` (the parent tree item,
+ * or null at the top level), `detail.from` and `detail.to` (indexes among the
+ * siblings) and moves nothing itself: the app reorders its data and renders
+ * again, keeping focus on the moved node.
+ *
  * @fires change - Fires when the selection changes via user interaction.
+ * @fires reorder - A node was dragged or moved by keyboard; `detail: {item, parent, from, to}`, cancelable.
  */
 @customElement("lit-material-tree")
 export class LitMaterialTree extends LitElement {
@@ -28,10 +36,80 @@ export class LitMaterialTree extends LitElement {
 
   /** Allows more than one node to be selected at once (each click toggles that node). Default: single-select. */
   @property({ type: Boolean }) multiple = false;
+  /** Nodes can be dragged among their siblings, or moved with Alt+Shift+ArrowUp/Down; fires `reorder`. */
+  @property({ type: Boolean, reflect: true }) reorderable = false;
+
+  private drag?: { item: LitMaterialTreeItem; y: number; started: boolean; id: number };
+
+  /** The siblings of `item` (its parent's direct child nodes, or the top-level ones). */
+  private siblingsOf(item: LitMaterialTreeItem): LitMaterialTreeItem[] {
+    const parent = item.parentElement;
+    if (!parent) return [];
+    return Array.from(parent.querySelectorAll(":scope > lit-material-tree-item")) as LitMaterialTreeItem[];
+  }
+
+  /** Fires `reorder` for moving `item` to index `to` among its siblings; false when cancelled or out of range. */
+  requestReorder(item: LitMaterialTreeItem, to: number): boolean {
+    const siblings = this.siblingsOf(item);
+    const from = siblings.indexOf(item);
+    if (from === -1 || to === from || to < 0 || to >= siblings.length) return false;
+    return this.dispatchEvent(
+      new CustomEvent("reorder", { bubbles: true, composed: true, cancelable: true, detail: { item, parent: item.parentTreeItem, from, to } }),
+    );
+  }
+
+  private readonly handlePointerDown = (event: PointerEvent): void => {
+    if (!this.reorderable || event.button !== 0) return;
+    const item = event.composedPath().find((n) => (n as Element).localName === "lit-material-tree-item") as LitMaterialTreeItem | undefined;
+    if (!item || item.disabled) return;
+    this.drag = { item, y: event.clientY, started: false, id: event.pointerId };
+    window.addEventListener("pointermove", this.handlePointerMove);
+    window.addEventListener("pointerup", this.handlePointerUp);
+    window.addEventListener("pointercancel", this.endDrag);
+  };
+
+  private readonly handlePointerMove = (event: PointerEvent): void => {
+    const drag = this.drag;
+    if (!drag || event.pointerId !== drag.id) return;
+    if (!drag.started && Math.abs(event.clientY - drag.y) < 6) return;
+    drag.started = true;
+    drag.item.toggleAttribute("dragging", true);
+  };
+
+  private readonly handlePointerUp = (event: PointerEvent): void => {
+    const drag = this.drag;
+    if (!drag || event.pointerId !== drag.id) return;
+    const started = drag.started;
+    this.endDrag();
+    if (!started) return;
+    // The drop index among the other siblings: the first whose row middle is below the pointer.
+    const others = this.siblingsOf(drag.item).filter((s) => s !== drag.item);
+    let to = others.findIndex((s) => {
+      const row = s.shadowRoot?.querySelector(".row") ?? s;
+      const r = row.getBoundingClientRect();
+      return event.clientY < r.top + r.height / 2;
+    });
+    if (to === -1) to = others.length;
+    this.requestReorder(drag.item, to);
+  };
+
+  private readonly endDrag = (): void => {
+    this.drag?.item.removeAttribute("dragging");
+    this.drag = undefined;
+    window.removeEventListener("pointermove", this.handlePointerMove);
+    window.removeEventListener("pointerup", this.handlePointerUp);
+    window.removeEventListener("pointercancel", this.endDrag);
+  };
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.endDrag();
+  }
 
   constructor() {
     super();
     this.addEventListener("tree-item-select", this.handleSelectRequest as EventListener);
+    this.addEventListener("pointerdown", this.handlePointerDown);
     this.addEventListener("keydown", this.handleKeydown);
   }
 
@@ -142,6 +220,13 @@ export class LitMaterialTree extends LitElement {
     // Right to left, the tree is indented from the right: ArrowLeft expands (inwards) and ArrowRight collapses.
     const horizontal = event.key === "ArrowLeft" || event.key === "ArrowRight";
     const key = horizontal && isRtl(this) ? (event.key === "ArrowLeft" ? "ArrowRight" : "ArrowLeft") : event.key;
+
+    if (this.reorderable && current && event.altKey && event.shiftKey && (key === "ArrowUp" || key === "ArrowDown")) {
+      event.preventDefault();
+      const from = this.siblingsOf(current).indexOf(current);
+      this.requestReorder(current, key === "ArrowUp" ? from - 1 : from + 1);
+      return;
+    }
 
     switch (key) {
       case "ArrowDown": {

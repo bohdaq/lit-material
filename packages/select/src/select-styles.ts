@@ -28,7 +28,7 @@ export const styles = css`
     display: flex;
     align-items: center;
     box-sizing: border-box;
-    height: 56px;
+    height: var(--md-sys-density-field-height, 56px);
     width: 100%;
     margin: 0;
     padding-inline: 16px;
@@ -69,7 +69,7 @@ export const styles = css`
   }
 
   .trigger.floated .label {
-    top: 8px;
+    top: var(--md-sys-density-field-label-top, 8px);
     transform: translateY(0);
     font-size: var(--md-sys-typescale-label-medium-size, 0.75rem);
     line-height: var(--md-sys-typescale-label-medium-line-height, 1rem);
@@ -92,7 +92,7 @@ export const styles = css`
 
   .trigger.floated .value {
     align-self: flex-end;
-    padding-bottom: 8px;
+    padding-bottom: var(--md-sys-density-field-value-inset, 8px);
   }
 
   :host(:not([label])) .trigger .value,

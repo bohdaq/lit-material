@@ -24,6 +24,7 @@
       "@lit-material/color-picker",
       "@lit-material/color-scheme",
       "@lit-material/command-palette",
+      "@lit-material/kbd",
       "@lit-material/confirm",
       "@lit-material/core",
       "@lit-material/data-list",

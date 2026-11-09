@@ -22,9 +22,9 @@ export const styles = css`
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    width: 40px;
-    height: 40px;
-    padding: 8px;
+    width: var(--md-sys-density-icon-button-size, 40px);
+    height: var(--md-sys-density-icon-button-size, 40px);
+    padding: var(--md-sys-density-icon-button-padding, 8px);
     border: none;
     border-radius: var(--md-sys-shape-corner-full, 9999px);
     background-color: transparent;

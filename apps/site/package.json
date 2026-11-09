@@ -26,6 +26,7 @@
     "@lit-material/carousel": "workspace:*",
     "@lit-material/chart": "workspace:*",
     "@lit-material/command-palette": "workspace:*",
+    "@lit-material/kbd": "workspace:*",
     "@lit-material/method-tag": "workspace:*",
     "@lit-material/timing-waterfall": "workspace:*",
     "@lit-material/world-map": "workspace:*",

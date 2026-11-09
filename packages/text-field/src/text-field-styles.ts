@@ -29,7 +29,7 @@ export const styles = css`
     display: inline-flex;
     align-items: stretch;
     box-sizing: border-box;
-    height: 56px;
+    height: var(--md-sys-density-field-height, 56px);
     width: 100%;
     color: var(--md-sys-color-on-surface, #1c1b1f);
     cursor: text;
@@ -136,7 +136,7 @@ export const styles = css`
 
   /* Float the label when focused, holding a value, or when a placeholder is set. */
   .container.floated .label {
-    top: 8px;
+    top: var(--md-sys-density-field-label-top, 8px);
     transform: translateY(0);
     font-size: var(--md-sys-typescale-label-medium-size, 0.75rem);
     line-height: var(--md-sys-typescale-label-medium-line-height, 1rem);
@@ -153,7 +153,7 @@ export const styles = css`
   :host([variant="filled"]) .container.floated .field,
   :host(:not([variant])) .container.floated .field {
     align-items: flex-end;
-    padding-bottom: 8px;
+    padding-bottom: var(--md-sys-density-field-value-inset, 8px);
   }
 
   :host([variant="filled"]) .container.floated .input-wrapper,

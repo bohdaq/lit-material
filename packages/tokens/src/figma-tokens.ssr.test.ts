@@ -111,7 +111,21 @@ test("every --md-sys-* declared in src/css is in both files", () => {
 });
 
 test("the token lists in index.ts name tokens the CSS declares", async () => {
-  const { colorTokens, shapeTokens, stateTokens } = await import("./index.js");
+  const { colorTokens, shapeTokens, stateTokens, densityTokens } = await import("./index.js");
   const declared = readTokenCss(cssDir);
-  for (const name of [...colorTokens, ...shapeTokens, ...stateTokens]) assert.ok(declared.has(name), name);
+  for (const name of [...colorTokens, ...shapeTokens, ...stateTokens, ...densityTokens]) assert.ok(declared.has(name), name);
+});
+
+test("presets only override tokens the base CSS declares", () => {
+  const declared = readTokenCss(cssDir);
+  for (const file of readdirSync(join(cssDir, "presets")).filter((f) => f.endsWith(".css"))) {
+    const css = readFileSync(join(cssDir, "presets", file), "utf8");
+    const names = [...css.matchAll(/(--md-sys-[a-z0-9-]+)\s*:/g)].map((m) => m[1]!);
+    assert.ok(names.length > 0, file);
+    for (const name of names) assert.ok(declared.has(name), `${file}: ${name}`);
+  }
+  const compact = readFileSync(join(cssDir, "presets", "density-compact.css"), "utf8");
+  assert.match(compact, /--md-sys-density-tree-item-min-height: 28px/);
+  const graphite = readFileSync(join(cssDir, "presets", "graphite.css"), "utf8");
+  assert.match(graphite, /--md-sys-color-surface: light-dark\(#fffbfe, #0a0a0c\)/);
 });

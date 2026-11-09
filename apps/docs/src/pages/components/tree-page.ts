@@ -50,6 +50,25 @@ export class DocsTreePage extends LitElement {
       </p>
 
       <docs-playground .controls=${controls} .preview=${preview} .markup=${markup}></docs-playground>
+
+      <section style="display: block;">
+        <h2>Decorations, actions, compact</h2>
+        <p>The <code>trailing</code> slot holds decorations (a git status letter); the <code>actions</code> slot shows buttons on hover or focus. <code>density="compact"</code> on a container gives 28 px rows; <code>reorderable</code> fires <code>reorder</code> on drag or Alt+Shift+ArrowUp/Down.</p>
+        <div density="compact" style="max-width: 320px;">
+          <lit-material-tree reorderable>
+            <lit-material-tree-item expanded>
+              <span slot="label">orders</span>
+              ${["create-order.yaml", "get-order.yaml", "cancel-order.yaml"].map(
+                (name, i) => html`<lit-material-tree-item>
+                  <span slot="label">${name}</span>
+                  ${i === 0 ? html`<span slot="trailing" style="color: #b07a1a; font-family: monospace;">M</span>` : ""}
+                  <button slot="actions" aria-label=${`Rename ${name}`}>✎</button>
+                </lit-material-tree-item>`,
+              )}
+            </lit-material-tree-item>
+          </lit-material-tree>
+        </div>
+      </section>
     `;
   }
 }

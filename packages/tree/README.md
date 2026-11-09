@@ -50,6 +50,7 @@ npm install @lit-material/tree @lit-material/tokens
 | Property   | Attribute  | Type      | Default |
 | ---------- | ---------- | --------- | ------- |
 | `multiple` | `multiple` | `boolean` | `false` |
+| `reorderable` | `reorderable` (reflected) | `boolean` | `false` |
 
 Slot: default (top-level `lit-material-tree-item` elements — nest more inside each item for
 deeper levels). Fires `change` when the selection changes via user interaction. `multiple` allows
@@ -72,6 +73,27 @@ needs to be able to clear it from anywhere else in the tree. `lit-material-tree-
 to be used standalone the way `lit-material-accordion-panel` is: `role="treeitem"` requires a
 `tree` or `group` role ancestor per ARIA, which only a wrapping `lit-material-tree` (or another
 `lit-material-tree-item`) provides.
+
+## Decorations, actions and reordering
+
+A tree item's `trailing` slot holds decorations after the label (a git status letter, a method
+tag, a count); its `actions` slot holds buttons that show while the row is hovered or has focus
+inside (always on touch screens). Clicking an action doesn't select the row; give each an
+`aria-label`.
+
+```html
+<lit-material-tree-item>
+  <span slot="label">create-order.yaml</span>
+  <span slot="trailing">M</span>
+  <lit-material-icon-button slot="actions" aria-label="Rename">…</lit-material-icon-button>
+</lit-material-tree-item>
+```
+
+`reorderable` on the tree lets people drag a node among its siblings, or move the focused node
+with `Alt+Shift+ArrowUp`/`ArrowDown`. The tree fires a cancelable `reorder` event
+(`detail: {item, parent, from, to}`: the node, its parent item or `null` at the top, indexes among
+the siblings) and moves nothing: reorder your data and render again. Rows follow the
+`--md-sys-density-tree-item-min-height` token (28 px under `density="compact"`).
 
 ## Behavior
 

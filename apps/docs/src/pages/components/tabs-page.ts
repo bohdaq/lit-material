@@ -43,6 +43,14 @@ export class DocsTabsPage extends LitElement {
   @state() private current = 1;
   private added = 0;
 
+  private moveDoc(from: number, to: number): void {
+    const docs = [...this.docs];
+    const [moved] = docs.splice(from, 1);
+    docs.splice(to, 0, moved!);
+    if (this.current === from) this.current = to;
+    this.docs = docs;
+  }
+
   private closeDoc(index: number): void {
     this.docs = this.docs.filter((_, i) => i !== index);
     this.current = Math.min(this.current > index ? this.current - 1 : this.current, this.docs.length - 1);
@@ -64,8 +72,9 @@ export class DocsTabsPage extends LitElement {
 
       <section style="display: block;">
         <h2>Open documents</h2>
-        <p><code>scrollable</code> keeps tabs at their width and keeps the selected one in view; <code>closable</code> tabs close from the ×, Delete or a middle click; <code>dirty</code> marks unsaved changes.</p>
-        <lit-material-tabs scrollable .selected=${this.current}
+        <p><code>scrollable</code> keeps tabs at their width and keeps the selected one in view, fading the edges where tabs are hidden; <code>closable</code> tabs close from the ×, Delete or a middle click; <code>dirty</code> marks unsaved changes; <code>reorderable</code> tabs move by drag or Alt+Shift+Arrow keys.</p>
+        <lit-material-tabs scrollable reorderable .selected=${this.current}
+          @reorder=${(e: CustomEvent) => this.moveDoc(e.detail.from, e.detail.to)}
           @change=${(e: Event) => (this.current = (e.target as HTMLElement & { selected: number }).selected)}
           @close=${(e: Event) => this.closeDoc(Array.from((e.currentTarget as HTMLElement).querySelectorAll("lit-material-tab")).indexOf(e.target as never))}>
           ${this.docs.map((d) => html`<lit-material-tab closable ?dirty=${d.dirty}>${d.name}</lit-material-tab>`)}

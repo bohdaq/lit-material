@@ -27,8 +27,8 @@ export const styles = css`
     box-sizing: border-box;
     width: 100%;
     min-width: 90px;
-    height: 48px;
-    padding-inline: 16px;
+    height: var(--md-sys-density-tab-height, 48px);
+    padding-inline: var(--md-sys-density-tab-padding, 16px);
     border: none;
     margin: 0;
     background: transparent;

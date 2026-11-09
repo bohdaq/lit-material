@@ -11,6 +11,7 @@ export const Tree = createComponent({
   elementClass: LitMaterialTree,
   react: React,
   events: {
+    onReorder: "reorder" as EventName<CustomEvent>,
     onChange: "change" as EventName<Event>,
   },
   displayName: "Tree",

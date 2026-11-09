@@ -1,0 +1,20 @@
+/*
+ * Density: control heights every lit-material component reads. These are
+ * Material's comfortable defaults; `density="compact"` on <html> (or any
+ * ancestor) switches to presets/density-compact.css (imported by index.css)
+ * for dense tools: editors, API clients, admin consoles.
+ */
+:host,
+:root {
+  --md-sys-density-button-height: 40px;
+  --md-sys-density-icon-button-size: 40px;
+  --md-sys-density-icon-button-padding: 8px;
+  --md-sys-density-field-height: 56px;
+  --md-sys-density-field-label-top: 8px;
+  --md-sys-density-field-value-inset: 8px;
+  --md-sys-density-tab-height: 48px;
+  --md-sys-density-tab-padding: 16px;
+  --md-sys-density-list-item-min-height: 56px;
+  --md-sys-density-list-item-padding-block: 8px;
+  --md-sys-density-tree-item-min-height: 40px;
+}

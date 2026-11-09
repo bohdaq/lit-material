@@ -18,7 +18,8 @@ declare module "react" {
       /** Content for one tab. Place `lit-material-tab-panel` elements as siblings after a `lit-material-tabs` (same parent): the tabs pair them with their tabs by index, show the selected one, and wire `aria-labelledby` / `aria-controls` between them. Only a `selected` panel is shown, so put `selected` on the panel that matches the initial tab: server-rendered and pre-hydration markup then shows the right content with no flash. */
       "lit-material-tab-panel": ElementProps<LitMaterialTabPanel, "selected">;
       /** Material Design 3 tabs — a horizontal row of `lit-material-tab` elements with a sliding active indicator, following the WAI-ARIA tabs pattern with automatic activation (moving focus with the arrow keys immediately switches the selected tab, matching real Material Design tab behavior — the same roving-tabindex, wrap-on-arrow-keys, activate-immediately model `lit-material-radio` already uses for its group). Panels are opt-in: put `lit-material-tab-panel` elements after the tabs (same parent) and they're paired by index, shown/hidden, and wired with `aria-controls`/`aria-labelledby`. For anything else (a routed view, lazy-loaded content...) leave them out, listen for `change` and show your own content. */
-      "lit-material-tabs": ElementProps<LitMaterialTabs, "scrollable" | "selected"> & {
+      "lit-material-tabs": ElementProps<LitMaterialTabs, "reorderable" | "scrollable" | "selected"> & {
+        "onreorder"?: (event: CustomEvent) => void;
         "onchange"?: (event: Event) => void;
       };
     }

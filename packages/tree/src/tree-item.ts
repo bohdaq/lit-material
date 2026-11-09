@@ -43,6 +43,9 @@ const BASE_PADDING_PX = 12;
  *
  * @slot label - The node's label.
  * @slot leading - An optional icon before the label.
+ * @slot trailing - Decorations after the label, always shown (a git status letter, a method tag, a count).
+ * @slot actions - Buttons shown while the row is hovered or has focus inside (rename, delete…).
+ *   Clicking them doesn't select the row. Give each an `aria-label`.
  * @slot - Nested `lit-material-tree-item` children.
  *
  * @csspart row - The node's own row (background/padding).
@@ -50,6 +53,8 @@ const BASE_PADDING_PX = 12;
  * @csspart focus-ring - The focus indicator element.
  * @csspart chevron - The expand/collapse button.
  * @csspart group - The container for nested children.
+ * @csspart trailing - The trailing decorations' container.
+ * @csspart actions - The hover actions' container.
  *
  * @fires toggle - Fires when `expanded` changes via user interaction, with `detail: { expanded }`.
  */
@@ -152,6 +157,8 @@ export class LitMaterialTreeItem extends LitElement {
           : html`<span class="chevron spacer"></span>`}
         <slot name="leading" class="leading"></slot>
         <span class="label" part="label"><slot name="label"></slot></span>
+        <slot name="trailing" class="trailing" part="trailing"></slot>
+        <slot name="actions" class="actions" part="actions"></slot>
       </div>
       <div class="group" part="group" role="group" ?hidden=${!this.expanded}>
         <slot @slotchange=${() => (this.showChevron = this.hasChildren)}></slot>
@@ -168,8 +175,11 @@ export class LitMaterialTreeItem extends LitElement {
     );
   };
 
-  private readonly handleRowClick = (): void => {
+  private readonly handleRowClick = (event: MouseEvent): void => {
     if (this.disabled) return;
+    // A click on a hover action is the action's, not a selection.
+    const actions = this.shadowRoot?.querySelector("slot.actions");
+    if (actions && event.composedPath().includes(actions)) return;
     this.dispatchEvent(new CustomEvent("tree-item-select", { bubbles: true, composed: true }));
   };
 }

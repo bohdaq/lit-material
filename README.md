@@ -100,6 +100,7 @@ Every package is released at the same version number, so keep them on the same v
 | [`@lit-material/sheet`](packages/sheet) | Side sheet and bottom sheet; same native `<dialog>` foundation. |
 | [`@lit-material/menu`](packages/menu) | Built on the native Popover API; app launcher for a top bar. |
 | [`@lit-material/search`](packages/search) | Search bar and docked search view; view built on the native Popover API. |
+| [`@lit-material/kbd`](packages/kbd) | Keyboard shortcut as key caps: `Mod+K` is ⌘K on Apple platforms and Ctrl+K elsewhere, read out by name. |
 | [`@lit-material/command-palette`](packages/command-palette) | Modal ⌘K palette: fuzzy search over commands, sections and prefixes, full keyboard and combobox ARIA. |
 | [`@lit-material/snackbar`](packages/snackbar) | Built on the native Popover API. |
 | [`@lit-material/tabs`](packages/tabs) | `lit-material-tabs` + `lit-material-tab`. |

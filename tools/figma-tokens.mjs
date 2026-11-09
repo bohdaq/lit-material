@@ -73,6 +73,7 @@ export function tokenType(name) {
     case "color":
       return "color";
     case "shape":
+    case "density":
       return "dimension";
     case "elevation":
       return "shadow";

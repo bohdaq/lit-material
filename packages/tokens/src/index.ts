@@ -61,6 +61,22 @@ export const stateTokens = [
   "--md-sys-state-disabled-content-opacity",
 ] as const;
 
+/** Control sizes (`src/css/density.css`); `density="compact"` on an ancestor shrinks them. */
+export const densityTokens = [
+  "--md-sys-density-button-height",
+  "--md-sys-density-icon-button-size",
+  "--md-sys-density-icon-button-padding",
+  "--md-sys-density-field-height",
+  "--md-sys-density-field-label-top",
+  "--md-sys-density-field-value-inset",
+  "--md-sys-density-tab-height",
+  "--md-sys-density-tab-padding",
+  "--md-sys-density-list-item-min-height",
+  "--md-sys-density-list-item-padding-block",
+  "--md-sys-density-tree-item-min-height",
+] as const;
+
+export type DensityToken = (typeof densityTokens)[number];
 export type ColorToken = (typeof colorTokens)[number];
 export type ShapeToken = (typeof shapeTokens)[number];
 export type StateToken = (typeof stateTokens)[number];

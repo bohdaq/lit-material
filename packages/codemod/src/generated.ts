@@ -1352,6 +1352,28 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "title"
     ]
   },
+  "lit-material-kbd": {
+    "package": "@lit-material/kbd",
+    "className": "LitMaterialKbd",
+    "attributes": {
+      "keys": "string",
+      "platform": "\"auto\" | \"apple\" | \"other\"",
+      "size": "\"small\" | \"medium\""
+    },
+    "events": [],
+    "slots": [],
+    "cssProperties": [
+      "--lit-material-kbd-background",
+      "--lit-material-kbd-border",
+      "--lit-material-kbd-color",
+      "--lit-material-kbd-font"
+    ],
+    "cssParts": [
+      "key",
+      "keys",
+      "label"
+    ]
+  },
   "lit-material-key-value-editor": {
     "package": "@lit-material/key-value",
     "className": "LitMaterialKeyValueEditor",
@@ -2589,11 +2611,13 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "package": "@lit-material/tabs",
     "className": "LitMaterialTabs",
     "attributes": {
+      "reorderable": "boolean",
       "scrollable": "boolean",
       "selected": "number"
     },
     "events": [
-      "change"
+      "change",
+      "reorder"
     ],
     "slots": [
       "",
@@ -2829,10 +2853,12 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "package": "@lit-material/tree",
     "className": "LitMaterialTree",
     "attributes": {
-      "multiple": "boolean"
+      "multiple": "boolean",
+      "reorderable": "boolean"
     },
     "events": [
-      "change"
+      "change",
+      "reorder"
     ],
     "slots": [
       ""
@@ -2855,16 +2881,20 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     ],
     "slots": [
       "",
+      "actions",
       "label",
-      "leading"
+      "leading",
+      "trailing"
     ],
     "cssProperties": [],
     "cssParts": [
+      "actions",
       "chevron",
       "focus-ring",
       "group",
       "ripple",
-      "row"
+      "row",
+      "trailing"
     ]
   },
   "lit-material-truncate": {
@@ -2976,6 +3006,17 @@ export const SYS_TOKENS: readonly string[] = [
   "--md-sys-color-surface-variant",
   "--md-sys-color-tertiary",
   "--md-sys-color-tertiary-container",
+  "--md-sys-density-button-height",
+  "--md-sys-density-field-height",
+  "--md-sys-density-field-label-top",
+  "--md-sys-density-field-value-inset",
+  "--md-sys-density-icon-button-padding",
+  "--md-sys-density-icon-button-size",
+  "--md-sys-density-list-item-min-height",
+  "--md-sys-density-list-item-padding-block",
+  "--md-sys-density-tab-height",
+  "--md-sys-density-tab-padding",
+  "--md-sys-density-tree-item-min-height",
   "--md-sys-elevation-1",
   "--md-sys-elevation-level0",
   "--md-sys-elevation-level1",
