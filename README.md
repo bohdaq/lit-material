@@ -100,6 +100,7 @@ Every package is released at the same version number, so keep them on the same v
 | [`@lit-material/sheet`](packages/sheet) | Side sheet and bottom sheet; same native `<dialog>` foundation. |
 | [`@lit-material/menu`](packages/menu) | Built on the native Popover API; app launcher for a top bar. |
 | [`@lit-material/search`](packages/search) | Search bar and docked search view; view built on the native Popover API. |
+| [`@lit-material/command-palette`](packages/command-palette) | Modal ⌘K palette: fuzzy search over commands, sections and prefixes, full keyboard and combobox ARIA. |
 | [`@lit-material/snackbar`](packages/snackbar) | Built on the native Popover API. |
 | [`@lit-material/tabs`](packages/tabs) | `lit-material-tabs` + `lit-material-tab`. |
 | [`@lit-material/top-app-bar`](packages/top-app-bar) | Center-aligned, small, medium, large. |
@@ -155,6 +156,8 @@ Every package is released at the same version number, so keep them on the same v
 | [`@lit-material/log-viewer`](packages/log-viewer) | Monospace line stream that follows the newest line, with pause, highlighting and a line cap. |
 | [`@lit-material/table`](packages/table) | Data-driven semantic `<table>`: caption, headers, numeric and monospace columns. |
 | [`@lit-material/chart`](packages/chart) | Line chart, bar chart and sparkline: crosshair tooltip, keyboard access, screen-reader table. |
+| [`@lit-material/timing-waterfall`](packages/timing-waterfall) | Where a request's time went: DNS, connect, waiting, download as one stacked bar and legend. |
+| [`@lit-material/method-tag`](packages/method-tag) | HTTP/API method as a monospace label coloured by method (GET, POST, PUT, PATCH, DELETE, others). |
 | [`@lit-material/world-map`](packages/world-map) | Countries shaded by a value (choropleth): keyboard reading, selection, small countries listed, screen-reader table. |
 | [`@lit-material/tokens`](packages/tokens) | Color, type, shape, elevation, and motion design tokens; opt-in typography classes for plain HTML. |
 

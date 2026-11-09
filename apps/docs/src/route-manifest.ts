@@ -62,6 +62,9 @@ import "./pages/components/diff-page.js";
 import "./pages/components/table-page.js";
 import "./pages/components/chart-page.js";
 import "./pages/components/world-map-page.js";
+import "./pages/components/timing-waterfall-page.js";
+import "./pages/components/method-tag-page.js";
+import "./pages/components/command-palette-page.js";
 import "./pages/components/adaptive-navigation-page.js";
 import "./pages/components/icon-button-page.js";
 import "./pages/components/text-field-page.js";
@@ -665,7 +668,25 @@ export const navEntries: NavEntry[] = [
     label: "World Map",
     group: "components",
     render: () => html`<docs-world-map-page></docs-world-map-page>`,
+  },  {
+    path: "/components/timing-waterfall",
+    label: "Timing Waterfall",
+    group: "components",
+    render: () => html`<docs-timing-waterfall-page></docs-timing-waterfall-page>`,
   },
+  {
+    path: "/components/method-tag",
+    label: "Method Tag",
+    group: "components",
+    render: () => html`<docs-method-tag-page></docs-method-tag-page>`,
+  },
+  {
+    path: "/components/command-palette",
+    label: "Command Palette",
+    group: "components",
+    render: () => html`<docs-command-palette-page></docs-command-palette-page>`,
+  },
+
   {
     path: "/components/adaptive-navigation",
     label: "Adaptive Navigation",

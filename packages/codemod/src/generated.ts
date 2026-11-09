@@ -735,6 +735,35 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "cssProperties": [],
     "cssParts": []
   },
+  "lit-material-command-palette": {
+    "package": "@lit-material/command-palette",
+    "className": "LitMaterialCommandPalette",
+    "attributes": {
+      "items": "CommandPaletteItem[]",
+      "label": "string",
+      "open": "boolean",
+      "placeholder": "string",
+      "prefixes": "Record<string, string>"
+    },
+    "events": [
+      "close",
+      "select",
+      "tab"
+    ],
+    "slots": [],
+    "cssProperties": [
+      "--lit-material-command-palette-max-height",
+      "--lit-material-command-palette-top",
+      "--lit-material-command-palette-width"
+    ],
+    "cssParts": [
+      "dialog",
+      "footer",
+      "input",
+      "listbox",
+      "option"
+    ]
+  },
   "lit-material-confirm-dialog": {
     "package": "@lit-material/confirm",
     "className": "LitMaterialConfirmDialog",
@@ -1484,6 +1513,28 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "heading",
       "lines",
       "side"
+    ]
+  },
+  "lit-material-method-tag": {
+    "package": "@lit-material/method-tag",
+    "className": "LitMaterialMethodTag",
+    "attributes": {
+      "method": "string",
+      "size": "\"small\" | \"medium\""
+    },
+    "events": [],
+    "slots": [],
+    "cssProperties": [
+      "--lit-material-method-tag-delete",
+      "--lit-material-method-tag-font",
+      "--lit-material-method-tag-get",
+      "--lit-material-method-tag-other",
+      "--lit-material-method-tag-patch",
+      "--lit-material-method-tag-post",
+      "--lit-material-method-tag-put"
+    ],
+    "cssParts": [
+      "tag"
     ]
   },
   "lit-material-navigation-bar": {
@@ -2686,6 +2737,30 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "cssProperties": [],
     "cssParts": [
       "time"
+    ]
+  },
+  "lit-material-timing-waterfall": {
+    "package": "@lit-material/timing-waterfall",
+    "className": "LitMaterialTimingWaterfall",
+    "attributes": {
+      "hide-legend": "boolean",
+      "phases": "TimingPhase[]",
+      "timings": "RequestTimings | null"
+    },
+    "events": [],
+    "slots": [],
+    "cssProperties": [
+      "--lit-material-timing-waterfall-connect",
+      "--lit-material-timing-waterfall-dns",
+      "--lit-material-timing-waterfall-download",
+      "--lit-material-timing-waterfall-height",
+      "--lit-material-timing-waterfall-track",
+      "--lit-material-timing-waterfall-wait"
+    ],
+    "cssParts": [
+      "bar",
+      "legend",
+      "segment"
     ]
   },
   "lit-material-toolbar": {

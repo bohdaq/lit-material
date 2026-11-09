@@ -25,7 +25,7 @@ export const GROUPS = [
     id: "navigation",
     label: "Navigation",
     about: "Moving between views, sections and steps.",
-    items: ["navigation", "adaptive-navigation", "top-app-bar", "tabs", "breadcrumbs", "drawer", "sidebar", "search", "stepper", "jump-links", "back-to-top", "app-launcher"],
+    items: ["navigation", "adaptive-navigation", "top-app-bar", "tabs", "breadcrumbs", "drawer", "sidebar", "search", "command-palette", "stepper", "jump-links", "back-to-top", "app-launcher"],
   },
   {
     id: "selection",
@@ -43,7 +43,7 @@ export const GROUPS = [
     id: "data",
     label: "Data and consoles",
     about: "What admin UIs show all day: tables, logs, metrics, settings and code.",
-    items: ["data-table", "table", "data-list", "description-list", "tree", "log-viewer", "diff", "stat", "chart", "world-map", "key-value", "code-block", "timestamp", "truncate", "format", "sortable"],
+    items: ["data-table", "table", "data-list", "description-list", "tree", "log-viewer", "diff", "stat", "chart", "timing-waterfall", "method-tag", "world-map", "key-value", "code-block", "timestamp", "truncate", "format", "sortable"],
   },
   {
     id: "accounts",
