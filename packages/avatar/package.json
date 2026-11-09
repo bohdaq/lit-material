@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/avatar",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Material Design 3-styled avatar web component (lit-material-avatar): image, initials, or icon fallback.",
   "license": "MIT",
   "author": {

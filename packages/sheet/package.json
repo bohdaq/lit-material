@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/sheet",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Material Design 3 side sheet and bottom sheet web components (lit-material-side-sheet, lit-material-bottom-sheet).",
   "license": "MIT",
   "author": {

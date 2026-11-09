@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/command-palette",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Command palette web component: a modal ⌘K search over commands and items with fuzzy matching, sections, prefixes and full keyboard access.",
   "license": "MIT",
   "author": {

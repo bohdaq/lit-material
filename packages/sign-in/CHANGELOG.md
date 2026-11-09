@@ -1,5 +1,15 @@
 # @lit-material/sign-in
 
+## 1.6.0
+
+### Patch Changes
+
+- @lit-material/alert@1.6.0
+- @lit-material/button@1.6.0
+- @lit-material/core@1.6.0
+- @lit-material/text-field@1.6.0
+- @lit-material/tokens@1.6.0
+
 ## 1.5.0
 
 ### Patch Changes

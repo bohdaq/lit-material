@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/progress",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Material Design 3 linear and circular progress indicators and a usage meter, as web components.",
   "license": "MIT",
   "author": {

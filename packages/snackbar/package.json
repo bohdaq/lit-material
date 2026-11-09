@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/snackbar",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Material Design 3 snackbar web component, built on the native Popover API.",
   "license": "MIT",
   "author": {

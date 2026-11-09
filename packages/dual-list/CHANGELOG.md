@@ -1,5 +1,15 @@
 # @lit-material/dual-list
 
+## 1.6.0
+
+### Patch Changes
+
+- @lit-material/button@1.6.0
+- @lit-material/core@1.6.0
+- @lit-material/icon-button@1.6.0
+- @lit-material/text-field@1.6.0
+- @lit-material/tokens@1.6.0
+
 ## 1.5.0
 
 ### Patch Changes

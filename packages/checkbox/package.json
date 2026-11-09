@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/checkbox",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Material Design 3 checkbox web component (checked, indeterminate, error, and form participation).",
   "license": "MIT",
   "author": {
