@@ -1,5 +1,11 @@
 # @lit-material/table
 
+## 1.7.0
+
+### Patch Changes
+
+- @lit-material/tokens@1.7.0
+
 ## 1.6.0
 
 ### Patch Changes

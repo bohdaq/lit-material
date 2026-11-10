@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/site-kit",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Pieces for prerendered sites that work before JavaScript: FAQ on <details>, numbered steps, a terminal mockup, keys and shortcut lists, a search dialog, and theme, menu, search, terminal and reveal scripts.",
   "license": "MIT",
   "author": {

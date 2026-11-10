@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/tooltip",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Material Design 3 plain tooltip web component, built on the native Popover API.",
   "license": "MIT",
   "author": {

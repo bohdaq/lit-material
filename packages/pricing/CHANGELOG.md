@@ -1,5 +1,14 @@
 # @lit-material/pricing
 
+## 1.7.0
+
+### Patch Changes
+
+- @lit-material/button@1.7.0
+- @lit-material/core@1.7.0
+- @lit-material/segmented-button@1.7.0
+- @lit-material/tokens@1.7.0
+
 ## 1.6.0
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @lit-material/command-palette
 
+## 1.7.0
+
+### Minor Changes
+
+- 3d0ab75: Items take a `method`, shown as a coloured method tag before the label. A `preview` callback renders the active item in a pane beside the list (hidden below 720px), and `hints` adds key hints to the footer.
+
+### Patch Changes
+
+- @lit-material/core@1.7.0
+- @lit-material/method-tag@1.7.0
+- @lit-material/tokens@1.7.0
+
 ## 1.6.0
 
 ### Patch Changes

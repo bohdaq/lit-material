@@ -1,5 +1,12 @@
 # @lit-material/chart
 
+## 1.7.0
+
+### Patch Changes
+
+- @lit-material/core@1.7.0
+- @lit-material/tokens@1.7.0
+
 ## 1.6.0
 
 ### Minor Changes

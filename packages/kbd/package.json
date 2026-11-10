@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/kbd",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Keyboard shortcut web component: keys drawn as key caps (Mod+K is ⌘K on Apple platforms, Ctrl+K elsewhere), read out by name.",
   "license": "MIT",
   "author": {

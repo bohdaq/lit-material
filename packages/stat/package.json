@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/stat",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Stat tile web component: a label, a large tabular value, and an optional caption or trend.",
   "license": "MIT",
   "author": {
