@@ -3,6 +3,7 @@ import { customElement, property, query, state } from "lit/decorators.js";
 import { LocalizeController } from "@lit-material/core/localize.js";
 import { fuzzyMatch } from "./fuzzy.js";
 import { styles } from "./command-palette-styles.js";
+import "@lit-material/method-tag";
 
 /** One thing the palette can find and choose. */
 export interface CommandPaletteItem {
@@ -20,6 +21,14 @@ export interface CommandPaletteItem {
   shortcut?: string[];
   /** Listed but can't be chosen. */
   disabled?: boolean;
+  /** An HTTP or API method shown as a coloured tag before the label, e.g. `POST`, `WS`. */
+  method?: string;
+}
+
+/** An extra key hint in the footer, e.g. `{ keys: ["⇥"], label: "ask agent" }`. */
+export interface CommandPaletteHint {
+  keys: string[];
+  label: string;
 }
 
 export interface CommandPaletteSelectDetail {
@@ -75,12 +84,14 @@ function deepActiveElement(): HTMLElement | null {
  * @cssprop --lit-material-command-palette-width - The panel's width (default `min(640px, 100vw - 32px)`).
  * @cssprop --lit-material-command-palette-max-height - The list's height limit (default `min(60vh, 420px)`).
  * @cssprop --lit-material-command-palette-top - Distance from the top of the window (default `12vh`).
+ * @cssprop --lit-material-command-palette-preview-width - The panel's width while a preview shows (default `min(960px, 100vw - 32px)`).
  *
  * @csspart dialog - The native `<dialog>` panel.
  * @csspart input - The search field.
  * @csspart listbox - The list of results.
  * @csspart option - Each result row.
  * @csspart footer - The key hints.
+ * @csspart preview - The preview pane beside the list.
  */
 @customElement("lit-material-command-palette")
 export class LitMaterialCommandPalette extends LitElement {
@@ -100,6 +111,16 @@ export class LitMaterialCommandPalette extends LitElement {
 
   /** Prefixes that limit the list to one section, e.g. `{ ">": "Commands", "@": "Environments" }`. */
   @property({ type: Object }) prefixes: Record<string, string> = {};
+
+  /**
+   * Renders a preview of the active item in a pane beside the list (anything Lit can render: a template,
+   * a string, a node). Return `nothing`, `null` or `undefined` for no preview. Unset: no pane. The pane
+   * hides below 720px of width.
+   */
+  @property({ attribute: false }) preview?: (item: CommandPaletteItem) => unknown;
+
+  /** Extra key hints after the built-in ones in the footer. */
+  @property({ type: Array }) hints: CommandPaletteHint[] = [];
 
   @state() private query = "";
   @state() private active = 0;
@@ -280,10 +301,12 @@ export class LitMaterialCommandPalette extends LitElement {
     const rows = groups.flatMap((g) => g.rows);
     const active = rows[this.active];
     const listId = `${this.uid}-list`;
+    const shown = this.open && active && this.preview ? this.preview(active.item) : undefined;
+    const hasPreview = shown !== undefined && shown !== null && shown !== nothing;
     const name = this.label || this.localize.term("commandPalette.label", "Command palette");
     return html`
       <dialog part="dialog" aria-label=${name} @cancel=${this.onCancel} @click=${this.onDialogClick}>
-        <div class="panel">
+        <div class="panel ${hasPreview ? "with-preview" : ""}">
           <div class="field">
             <svg class="search" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
             <input
@@ -306,6 +329,7 @@ export class LitMaterialCommandPalette extends LitElement {
               @keydown=${this.onKeyDown}
             />
           </div>
+          <div class="body">
           <div class="list" id=${listId} role="listbox" part="listbox" aria-label=${this.localize.term("commandPalette.results", "Results")}>
             ${groups.map(
               (g) => html`<div role="group" class="group" aria-label=${g.section || nothing}>
@@ -324,6 +348,7 @@ export class LitMaterialCommandPalette extends LitElement {
                     }}
                     @click=${() => this.choose(row)}
                   >
+                    ${row.item.method ? html`<lit-material-method-tag class="method" part="method" method=${row.item.method}></lit-material-method-tag>` : nothing}
                     <span class="label">${this.highlight(row)}</span>
                     ${row.item.hint ? html`<span class="hint">${row.item.hint}</span>` : nothing}
                     ${row.item.shortcut?.length
@@ -335,10 +360,13 @@ export class LitMaterialCommandPalette extends LitElement {
             )}
             ${this.open && !rows.length ? html`<div class="empty" role="status">${this.localize.term("commandPalette.empty", "No results")}</div>` : nothing}
           </div>
+          ${hasPreview ? html`<div class="preview" part="preview">${shown}</div>` : nothing}
+          </div>
           <div class="footer" part="footer" aria-hidden="true">
             <span><kbd>↑</kbd><kbd>↓</kbd> ${this.localize.term("commandPalette.move", "move")}</span>
             <span><kbd>↵</kbd> ${this.localize.term("commandPalette.choose", "choose")}</span>
             <span><kbd>esc</kbd> ${this.localize.term("commandPalette.dismiss", "close")}</span>
+            ${this.hints.map((h) => html`<span>${h.keys.map((k) => html`<kbd>${k}</kbd>`)} ${h.label}</span>`)}
           </div>
         </div>
       </dialog>

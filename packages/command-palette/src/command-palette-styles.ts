@@ -21,6 +21,9 @@ export const styles = css`
     box-shadow: 0 24px 80px rgb(0 0 0 / 0.45);
     overflow: hidden;
   }
+  dialog:has(.with-preview) {
+    width: var(--lit-material-command-palette-preview-width, min(960px, 100vw - 32px));
+  }
   dialog::backdrop {
     background: rgb(0 0 0 / 0.5);
   }
@@ -57,10 +60,37 @@ export const styles = css`
     color: var(--md-sys-color-on-surface-variant, light-dark(#49454f, #cac4d0));
   }
 
+  .body {
+    display: flex;
+    min-height: 0;
+  }
   .list {
+    flex: 1;
+    min-width: 0;
     max-height: var(--lit-material-command-palette-max-height, min(60vh, 420px));
     overflow-y: auto;
     padding: 6px;
+  }
+  .preview {
+    flex: 0 0 52%;
+    min-width: 0;
+    max-height: var(--lit-material-command-palette-max-height, min(60vh, 420px));
+    overflow: auto;
+    padding: 12px 16px;
+    border-inline-start: 1px solid var(--md-sys-color-outline-variant, light-dark(#cac4d0, #49454f));
+    background: var(--md-sys-color-surface-container, light-dark(#f3edf7, #211f26));
+  }
+  @media (max-width: 719.98px) {
+    .preview {
+      display: none;
+    }
+    dialog:has(.with-preview) {
+      width: var(--lit-material-command-palette-width, min(640px, 100vw - 32px));
+    }
+  }
+  .method {
+    flex: none;
+    min-width: 3.25em;
   }
   .section {
     padding: 10px 10px 4px;

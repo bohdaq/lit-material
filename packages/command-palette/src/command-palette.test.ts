@@ -168,4 +168,34 @@ describe("fuzzyMatch", () => {
     expect(fuzzyMatch("", "anything")).to.deep.equal({ score: 0, at: [] });
     expect(fuzzyMatch("lo", "List orders")!.score).to.be.greaterThan(fuzzyMatch("lo", "hello")!.score);
   });
+
+  it("shows a method tag, a preview of the active item and extra hints", async () => {
+    const wrap = await fixture<HTMLDivElement>(html`<div>
+      <lit-material-command-palette
+        .items=${[
+          { id: "co", label: "Create order", method: "POST", section: "Requests" },
+          { id: "go", label: "Get order", method: "GET", section: "Requests" },
+          { id: "run", label: "Run folder", section: "Actions" },
+        ]}
+        .preview=${(item: CommandPaletteItem) => (item.method ? html`<p class="pv">${item.label}</p>` : null)}
+        .hints=${[{ keys: ["⇥"], label: "ask agent" }]}
+      ></lit-material-command-palette>
+    </div>`);
+    const el = wrap.querySelector<LitMaterialCommandPalette>("lit-material-command-palette")!;
+    el.show();
+    await settle(el);
+    const tags = root(el).querySelectorAll("lit-material-method-tag");
+    expect(tags).to.have.length(2);
+    expect(tags[0]!.getAttribute("method")).to.equal("POST");
+    expect(root(el).querySelector('[part="preview"] .pv')!.textContent).to.equal("Create order");
+    expect(root(el).querySelector(".panel")!.classList.contains("with-preview")).to.be.true;
+    await sendKeys({ press: "ArrowDown" });
+    await settle(el);
+    expect(root(el).querySelector('[part="preview"] .pv')!.textContent).to.equal("Get order");
+    await sendKeys({ press: "ArrowDown" });
+    await settle(el);
+    expect(root(el).querySelector('[part="preview"]')).to.equal(null);
+    expect(root(el).querySelector(".panel")!.classList.contains("with-preview")).to.be.false;
+    expect(root(el).querySelector('[part="footer"]')!.textContent).to.contain("ask agent");
+  });
 });

@@ -63,6 +63,7 @@
   },
   "dependencies": {
     "@lit-material/core": "workspace:*",
+    "@lit-material/method-tag": "workspace:*",
     "@lit-material/tokens": "workspace:*",
     "lit": "^3.2.0"
   },

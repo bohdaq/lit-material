@@ -52,14 +52,21 @@ It is built on the native `<dialog>` (top layer, the page behind is inert) with 
 | Property | Attribute | Type | Default |
 | --- | --- | --- | --- |
 | `open` | `open` | `boolean` | `false` |
-| `items` | `items` | `{id, label, section?, hint?, keywords?, shortcut?, disabled?}[]` | `[]` |
+| `items` | `items` | `{id, label, section?, hint?, keywords?, shortcut?, disabled?, method?}[]` | `[]` |
 | `prefixes` | `prefixes` | `Record<string, string>` | `{}` |
 | `placeholder` | `placeholder` | `string` | translated "Search or run a command…" |
 | `label` | `label` | `string` | translated "Command palette" |
+| `preview` | — | `(item) => unknown` | unset (no pane) |
+| `hints` | `hints` | `{keys, label}[]` | `[]` |
+
+An item's `method` (e.g. `POST`, `WS`) shows as a coloured `lit-material-method-tag` before its label.
+`preview` renders the active item in a pane beside the list (a Lit template, a string or a node; return
+`null` or `nothing` for none) and widens the panel; the pane hides below 720px. `hints` adds key hints to
+the footer, e.g. `[{ keys: ["⇥"], label: "ask agent" }]`.
 
 Methods: `show()`, `hide()` (no `close` event). Events: `select` (`{item, query}`, then closes), `close`
 (closed by Escape, a click outside or a choice), `tab` (`{query}`, cancelable). `fuzzyMatch(query, text)`
 is exported.
 
-CSS custom properties: `--lit-material-command-palette-width`, `-max-height`, `-top`. Parts: `dialog`,
-`input`, `listbox`, `option`, `footer`.
+CSS custom properties: `--lit-material-command-palette-width`, `-max-height`, `-top`, `-preview-width`. Parts: `dialog`,
+`input`, `listbox`, `option`, `method`, `preview`, `footer`.

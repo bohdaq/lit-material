@@ -1499,6 +1499,9 @@ importers:
       '@lit-material/core':
         specifier: workspace:*
         version: link:../core
+      '@lit-material/method-tag':
+        specifier: workspace:*
+        version: link:../method-tag
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
