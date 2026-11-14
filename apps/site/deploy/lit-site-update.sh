@@ -30,3 +30,5 @@ chown -R root:root "$root"
 chmod -R a+rX "$root"
 echo "$commit" > "$root/.release"
 echo "installed lit.rws8.tech from $commit"
+# The docs MCP server loads /var/www/lit/mcp once; a no-op until it is installed.
+systemctl try-restart lit-docs-mcp.service

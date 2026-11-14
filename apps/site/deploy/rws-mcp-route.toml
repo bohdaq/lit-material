@@ -1,0 +1,23 @@
+# Added to /etc/rws/rws.config.toml on bohdan-prod-donotdelete ABOVE the
+# "lit-site" route: that one matches every path on lit.rws8.tech, and the
+# first matching route wins. Mirrors rws8.tech's "docs-mcp" route.
+
+[[upstream]]
+name     = "lit-docs-mcp"
+backends = ["127.0.0.1:7891"]
+
+# The docs MCP server (lit-docs-mcp.service): exactly /mcp. Rate limited per
+# client IP here; the server itself only sees 127.0.0.1.
+[[route]]
+  name = "lit-docs-mcp"
+
+  [route.match]
+  host = "lit.rws8.tech"
+  path = "/mcp"
+
+  [route.action]
+  type     = "proxy"
+  upstream = "lit-docs-mcp"
+
+  [route.middleware]
+  rate_limit = { max_requests = 120, window_secs = 60 }

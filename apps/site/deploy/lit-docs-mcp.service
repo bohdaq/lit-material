@@ -1,0 +1,32 @@
+[Unit]
+Description=lit-docs-mcp: the docs MCP server behind https://lit.rws8.tech/mcp
+# The same rws-docs-mcp binary as rws-docs-mcp.service (rws8.tech/mcp, kept
+# current by rws-site-update), serving the index the lit site build writes to
+# /var/www/lit/mcp (apps/site/scripts/mcp-index.mjs). It loads the index once:
+# lit-site-update restarts it after installing a new build.
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=/var/www/lit/mcp/index.json
+
+[Service]
+Type=simple
+DynamicUser=yes
+Environment=RWS_DOCS_MCP_INDEX=/var/www/lit/mcp
+Environment=RWS_DOCS_MCP_ORIGINS=https://lit.rws8.tech
+Environment=RWS_CONFIG_IP=127.0.0.1
+Environment=RWS_CONFIG_PORT=7891
+Environment=RWS_CONFIG_LOG_FORMAT=off
+WorkingDirectory=/var/www/lit
+ExecStart=/usr/local/bin/rws-docs-mcp
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ReadOnlyPaths=/var/www/lit
+MemoryMax=512M
+
+[Install]
+WantedBy=multi-user.target

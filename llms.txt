@@ -128,6 +128,10 @@ Every component package also exports generated framework bindings: `@lit-materia
 - [Versioning and support](https://github.com/bohdaq/lit-material/blob/main/VERSIONING.md): every package shares one version (install them at the same version); semver, what counts as public API, deprecation (a minor ahead, 6 months), previous major supported 12 months; browsers and Node supported.
 - [Contributing](https://github.com/bohdaq/lit-material/blob/main/CONTRIBUTING.md): setup, every CI check and the command for it, component conventions (localize, RTL, CSP, SSR, a11y), changesets, the RFC process in `rfcs/`.
 
+## MCP server
+
+- [Docs MCP server](https://lit.rws8.tech/mcp): MCP Streamable HTTP endpoint (POST, read-only, no auth) over these docs: `versions` lists every page path, `search_docs` finds sections by topic, `get_page` returns a component or guide page as Markdown (API tables, usage, README sections), `changes` lists release notes after a version.
+
 ## Optional
 
 - [Docs site](https://lit.rws8.tech/): Every component's live demo, install line, size and API tables, plus guides and the theme builder. Source at [apps/site](https://github.com/bohdaq/lit-material/tree/main/apps/site).
