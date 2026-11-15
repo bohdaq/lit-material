@@ -26,6 +26,11 @@ export interface SearchOptions {
   limit?: number;
   /** Debounce in milliseconds. */
   delay?: number;
+  /**
+   * Other words for a page: a query equal to a key also searches the value,
+   * and those results come first (`{ toast: "snackbar" }`).
+   */
+  aliases?: Record<string, string>;
 }
 
 type HtmlPolicy = { createHTML(html: string): unknown };
@@ -58,7 +63,7 @@ const pagefind = (): Promise<SearchIndex> => {
   return import(/* @vite-ignore */ url);
 };
 
-export function initSearch({ load = pagefind, options, emptyHint = "", limit = 8, delay = 150 }: SearchOptions = {}): void {
+export function initSearch({ load = pagefind, options, emptyHint = "", limit = 8, delay = 150, aliases = {} }: SearchOptions = {}): void {
   const dialog = document.querySelector<HTMLDialogElement>(".search-dialog");
   const input = dialog?.querySelector("input");
   const results = dialog?.querySelector<HTMLElement>(".search-results");
@@ -66,6 +71,26 @@ export function initSearch({ load = pagefind, options, emptyHint = "", limit = 8
   let index: Promise<SearchIndex> | undefined;
   let token = 0;
   let timer: ReturnType<typeof setTimeout> | undefined;
+
+  // The input is a combobox over the results: focus stays in it, arrows move
+  // the active option, Enter opens it.
+  const listId = "lm-search-list";
+  input.setAttribute("role", "combobox");
+  input.setAttribute("aria-autocomplete", "list");
+  input.setAttribute("aria-controls", listId);
+  input.setAttribute("aria-expanded", "false");
+  const optionsOf = () => [...results.querySelectorAll<HTMLElement>('[role="option"]')];
+  const activate = (index: number) => {
+    const all = optionsOf();
+    for (const [i, o] of all.entries()) o.setAttribute("aria-selected", String(i === index));
+    const active = all[index];
+    input.setAttribute("aria-expanded", String(all.length > 0));
+    if (active) {
+      input.setAttribute("aria-activedescendant", active.id);
+      active.scrollIntoView({ block: "nearest" });
+    } else input.removeAttribute("aria-activedescendant");
+  };
+  const activeIndex = () => optionsOf().findIndex((o) => o.getAttribute("aria-selected") === "true");
 
   const open = () => {
     if (dialog.open) return;
@@ -86,7 +111,20 @@ export function initSearch({ load = pagefind, options, emptyHint = "", limit = 8
     if (e.key === "Escape") {
       e.preventDefault();
       dialog.close();
+      return;
     }
+    const all = optionsOf();
+    if (e.key === "Enter") {
+      // The form is method="dialog": without this, Enter only closes it.
+      e.preventDefault();
+      (all[activeIndex()] ?? all[0])?.querySelector("a")?.click();
+      return;
+    }
+    if (!all.length) return;
+    const step = e.key === "ArrowDown" ? 1 : e.key === "ArrowUp" ? -1 : 0;
+    if (!step) return;
+    e.preventDefault();
+    activate((activeIndex() + step + all.length) % all.length);
   });
 
   input.addEventListener("input", () => {
@@ -95,6 +133,7 @@ export function initSearch({ load = pagefind, options, emptyHint = "", limit = 8
     const mine = ++token;
     if (!query) {
       setHTML(results, "");
+      activate(-1);
       return;
     }
     setHTML(results, SKELETON);
@@ -103,20 +142,28 @@ export function initSearch({ load = pagefind, options, emptyHint = "", limit = 8
     timer = setTimeout(async () => {
       try {
         index ??= load();
-        const search = await (await index).search(query, options?.() ?? {});
+        const found = await index;
+        const alias = aliases[query.toLowerCase()];
+        const searches = await Promise.all((alias ? [alias, query] : [query]).map((q) => found.search(q, options?.() ?? {})));
         if (mine !== token) return;
-        const items = await Promise.all(search.results.slice(0, limit).map((r) => r.data()));
+        const loaded = await Promise.all(searches.flatMap((s) => s.results.slice(0, limit)).map((r) => r.data()));
         if (mine !== token) return;
+        const seen = new Set<string>();
+        const items = loaded.filter((d) => !seen.has(d.url) && seen.add(d.url)).slice(0, limit);
         // Pagefind's excerpt is HTML it escaped itself, with <mark> around matches.
         setHTML(
           results,
           items.length
-            ? `<ul>${items.map((d) => `<li><a href="${escape(d.url)}"><b>${escape(d.meta.title ?? d.url)}</b><span>${d.excerpt}</span></a></li>`).join("")}</ul>`
+            ? `<ul id="${listId}" role="listbox" aria-label="Results">${items.map((d, i) => `<li id="${listId}-${i}" role="option" aria-selected="false"><a href="${escape(d.url)}" tabindex="-1"><b>${escape(d.meta.title ?? d.url)}</b><span>${d.excerpt}</span></a></li>`).join("")}</ul>`
             : `<p class="search-empty">No pages match “${escape(query)}”.${emptyHint ? ` ${emptyHint}` : ""}</p>`,
         );
+        activate(items.length ? 0 : -1);
       } catch {
         index = undefined;
-        if (mine === token) setHTML(results, '<p class="search-empty">Search is unavailable right now. Use the navigation or reload the page.</p>');
+        if (mine === token) {
+          setHTML(results, '<p class="search-empty">Search is unavailable right now. Use the navigation or reload the page.</p>');
+          activate(-1);
+        }
       }
     }, delay);
   });

@@ -28,6 +28,36 @@ import { initTagline } from "./reveal.js";
 
 initThemeToggle({ key: "lit-theme" });
 initMenu();
-initSearch({ emptyHint: "Try a component name like <code>table</code> or <code>dialog</code>." });
+initSearch({
+  emptyHint: "Try a component name like <code>table</code> or <code>dialog</code>.",
+  // What people call these elsewhere.
+  aliases: {
+    toast: "snackbar",
+    notification: "snackbar",
+    dropdown: "select",
+    combobox: "autocomplete",
+    typeahead: "autocomplete",
+    modal: "dialog",
+    toggle: "switch",
+    "color picker": "color-picker",
+    colour: "color-picker",
+    datepicker: "date-picker",
+    "date picker": "date-picker",
+    "time picker": "time-picker",
+    spinner: "progress",
+    loader: "progress",
+    tag: "chip",
+    pill: "chip",
+    input: "text-field",
+    textarea: "text-field",
+    grid: "data-table",
+    popup: "popover",
+    "bottom sheet": "sheet",
+    range: "slider",
+    wizard: "stepper",
+    collapse: "accordion",
+    banner: "alert",
+  },
+});
 initReveal();
 initTagline();

@@ -61,6 +61,9 @@ export function header(path) {
           <span class="word"><b>lit-material</b><small>Web components</small></span>
         </a>
         <span class="nav-links">${links(path)}</span>
+        <button class="icon-button" type="button" data-search-open aria-label="Search" aria-keyshortcuts="/">
+          ${unsafeHTML(icon("magnifying-glass"))}
+        </button>
         <button class="icon-button" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch theme">
           <span class="sun">${unsafeHTML(icon("sun"))}</span>
           <span class="moon">${unsafeHTML(icon("moon"))}</span>
@@ -72,7 +75,15 @@ export function header(path) {
       <div id="mobile-menu" class="mobile-menu" hidden>
         <nav aria-label="Main">${links(path)}</nav>
       </div>
-    </header>`;
+    </header>
+    <dialog class="search-dialog" aria-label="Search the site">
+      <form method="dialog" class="search-form" role="search">
+        ${unsafeHTML(icon("magnifying-glass"))}
+        <input type="search" name="q" placeholder="Search components and guides" autocomplete="off" aria-label="Search components and guides" />
+        <button class="icon-button" value="close" aria-label="Close search">${unsafeHTML(icon("x"))}</button>
+      </form>
+      <div class="search-results" aria-live="polite"></div>
+    </dialog>`;
 }
 
 export function footer() {
@@ -137,14 +148,6 @@ export function docsLayout({ path, content, toc = [] }) {
           : nothing}
       </aside>
     </div>
-    <dialog class="search-dialog" aria-label="Search the site">
-      <form method="dialog" class="search-form" role="search">
-        ${unsafeHTML(icon("magnifying-glass"))}
-        <input type="search" name="q" placeholder="Search components and guides" autocomplete="off" aria-label="Search components and guides" />
-        <button class="icon-button" value="close" aria-label="Close search">${unsafeHTML(icon("x"))}</button>
-      </form>
-      <div class="search-results" aria-live="polite"></div>
-    </dialog>
     <lit-material-back-to-top target="main" threshold="800"></lit-material-back-to-top>
     ${footer()}`;
 }

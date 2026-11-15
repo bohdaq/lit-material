@@ -84,12 +84,50 @@ describe("site-kit search", () => {
     expect(link.getAttribute("href")).to.equal("/components/diff/");
     expect(link.querySelector("b")!.textContent).to.equal("Diff <b>");
     expect(link.querySelector("mark")!.textContent).to.equal("diff");
+    expect(input.getAttribute("role")).to.equal("combobox");
+    expect(input.getAttribute("aria-expanded")).to.equal("true");
+    const option = dialog.querySelector('[role="option"]')!;
+    expect(input.getAttribute("aria-activedescendant"), "the first result is active").to.equal(option.id);
+    let opened = "";
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      opened = link.getAttribute("href")!;
+    });
+    const enter = new KeyboardEvent("keydown", { key: "Enter", cancelable: true });
+    input.dispatchEvent(enter);
+    expect(opened, "Enter opens the active result").to.equal("/components/diff/");
+    expect(enter.defaultPrevented, "and does not just close the dialog").to.be.true;
     input.value = "none";
     input.dispatchEvent(new Event("input"));
     await wait(20);
     expect(dialog.querySelector(".search-empty")!.innerHTML).to.contain("<code>table</code>");
     input.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", cancelable: true }));
     expect(dialog.open, "Escape closes even with text in the field").to.be.false;
+  });
+
+  it("moves the active result with the arrows and searches aliases first", async () => {
+    const pages: SearchIndex = {
+      search: async (q: string) => ({
+        results: (q === "snackbar" ? ["/components/snackbar/"] : ["/components/alert/", "/components/snackbar/"]).map((url) => ({
+          data: async () => ({ url, excerpt: "", meta: { title: url } }),
+        })),
+      }),
+    };
+    const host = await mount(searchDialog());
+    initSearch({ load: async () => pages, delay: 0, aliases: { toast: "snackbar" } });
+    const input = host.querySelector("input")!;
+    input.value = "Toast";
+    input.dispatchEvent(new Event("input"));
+    await wait(20);
+    const options = [...host.querySelectorAll<HTMLElement>('[role="option"]')];
+    expect(options.map((o) => o.querySelector("a")!.getAttribute("href"))).to.deep.equal(["/components/snackbar/", "/components/alert/"]);
+    input.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", cancelable: true }));
+    expect(input.getAttribute("aria-activedescendant")).to.equal(options[1]!.id);
+    expect(options[1]!.getAttribute("aria-selected")).to.equal("true");
+    input.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", cancelable: true }));
+    expect(input.getAttribute("aria-activedescendant"), "wraps").to.equal(options[0]!.id);
+    input.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", cancelable: true }));
+    expect(input.getAttribute("aria-activedescendant")).to.equal(options[1]!.id);
   });
 
   it("says when the index can't load", async () => {

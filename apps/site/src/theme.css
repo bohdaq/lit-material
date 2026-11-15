@@ -151,11 +151,10 @@
   --lit-material-code-block-label-font: var(--font-mono);
   --lit-material-alert-shape: var(--md-sys-shape-corner-large);
 
-  /* Flat: no elevation shadows anywhere */
+  /* Flat surfaces; menus, popovers and dialogs keep their shadow (levels 2
+     and up) so they stand off the page. */
   --md-sys-elevation-level0: none;
   --md-sys-elevation-level1: none;
-  --md-sys-elevation-level2: none;
-  --md-sys-elevation-level3: none;
 
 }
 

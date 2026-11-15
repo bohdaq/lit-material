@@ -254,6 +254,7 @@
     text-decoration: none;
   }
   .lm-search .search-results a:hover,
+  .lm-search .search-results [aria-selected="true"] a,
   .lm-search .search-results a:focus-visible {
     background: var(--md-sys-color-surface-container, light-dark(#f3edf7, #211f26));
   }
