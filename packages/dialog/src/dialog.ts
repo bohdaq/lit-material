@@ -1,6 +1,7 @@
 import { html, LitElement } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { styles } from "./dialog-styles.js";
+import { showModalLocked } from "@lit-material/core/scroll-lock.js";
 
 /**
  * Material Design 3 (basic) dialog, built on the native `<dialog>` element —
@@ -54,7 +55,7 @@ export class LitMaterialDialog extends LitElement {
   protected override updated(changed: Map<string, unknown>): void {
     if (!changed.has("open") || !this.dialogElement) return;
     if (this.open && !this.dialogElement.open) {
-      this.dialogElement.showModal();
+      showModalLocked(this.dialogElement);
     } else if (!this.open && this.dialogElement.open) {
       this.dialogElement.close();
     }
@@ -105,7 +106,7 @@ export class LitMaterialDialog extends LitElement {
       // closes anyway — immediately reopening it makes `cancel` prevention
       // work regardless of that inconsistency.
       this.reopenOnClose = false;
-      this.dialogElement?.showModal();
+      if (this.dialogElement) showModalLocked(this.dialogElement);
       return;
     }
     this.open = false;

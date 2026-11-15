@@ -47,6 +47,10 @@
     "./hydration.js": {
       "types": "./dist/hydration.d.ts",
       "default": "./dist/hydration.js"
+    },
+    "./scroll-lock.js": {
+      "types": "./dist/scroll-lock.d.ts",
+      "default": "./dist/scroll-lock.js"
     }
   },
   "files": [

@@ -155,4 +155,16 @@ describe("lit-material-dialog", () => {
     await sendKeys({ press: "Enter" });
     expect(submitted).to.equal("Users");
   });
+
+  it("locks page scrolling while open and restores it on close", async () => {
+    const el = await fixture<LitMaterialDialog>(html`<lit-material-dialog><span slot="headline">Hi</span>Body</lit-material-dialog>`);
+    el.show();
+    await el.updateComplete;
+    expect(document.documentElement.style.overflow).to.equal("hidden");
+    const closed = oneEvent(el, "close");
+    el.close();
+    await closed;
+    await new Promise((r) => setTimeout(r)); // the lock's own "close" listener runs after the component's
+    expect(document.documentElement.style.overflow).to.equal("");
+  });
 });

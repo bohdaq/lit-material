@@ -4,6 +4,7 @@ import { LocalizeController } from "@lit-material/core/localize.js";
 import { fuzzyMatch } from "./fuzzy.js";
 import { styles } from "./command-palette-styles.js";
 import "@lit-material/method-tag";
+import { showModalLocked } from "@lit-material/core/scroll-lock.js";
 
 /** One thing the palette can find and choose. */
 export interface CommandPaletteItem {
@@ -200,7 +201,7 @@ export class LitMaterialCommandPalette extends LitElement {
     if (changed.has("open") && dialog) {
       if (this.open && !dialog.open) {
         this.returnFocus = deepActiveElement();
-        dialog.showModal();
+        showModalLocked(dialog);
         this.inputElement?.focus();
       } else if (!this.open && dialog.open) {
         dialog.close();

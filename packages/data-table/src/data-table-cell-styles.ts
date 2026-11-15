@@ -57,7 +57,8 @@ export const styles = css`
     vertical-align: middle;
   }
 
-  :host([numeric]) .content {
+  :host([numeric]) .content,
+  :host([numeric]) .sort-button {
     justify-content: flex-end;
   }
 
@@ -68,6 +69,9 @@ export const styles = css`
     display: inline-flex;
     align-items: center;
     gap: 4px;
+    /* The whole header is the target, not just the text and glyph. */
+    width: 100%;
+    min-block-size: 40px;
     box-sizing: border-box;
     border: none;
     margin: 0;
@@ -118,6 +122,17 @@ export const styles = css`
     background-color: var(--md-sys-color-outline-variant, #cac4d0);
     opacity: 0;
     transition: opacity 100ms var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  }
+
+  .resize-handle:focus-visible {
+    outline: none;
+  }
+
+  .resize-handle:focus-visible::after {
+    opacity: 1;
+    width: 4px;
+    inset-inline-start: 2px;
+    background-color: var(--lit-material-focus-ring-color, var(--md-sys-color-secondary, #625b71));
   }
 
   .resize-handle:hover::after {

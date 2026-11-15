@@ -18,3 +18,4 @@ export {
 } from "./localize.js";
 export { activeElementPath, deepActiveElement, focusedItem, containsFocus } from "./active-element.js";
 export { awaitingHydration, afterHydration } from "./hydration.js";
+export { lockScroll, unlockScroll, showModalLocked } from "./scroll-lock.js";

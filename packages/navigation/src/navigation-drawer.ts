@@ -2,6 +2,7 @@ import { html, LitElement, nothing } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import type { LitMaterialNavigationDrawerItem } from "./navigation-drawer-item.js";
 import { styles } from "./navigation-drawer-styles.js";
+import { showModalLocked } from "@lit-material/core/scroll-lock.js";
 
 export type NavigationDrawerVariant = "standard" | "modal";
 export type NavigationDrawerPosition = "start" | "end";
@@ -69,7 +70,7 @@ export class LitMaterialNavigationDrawer extends LitElement {
     if (changed.has("selected")) this.syncSelected();
     if (changed.has("open") && this.variant === "modal" && this.dialogElement) {
       if (this.open && !this.dialogElement.open) {
-        this.dialogElement.showModal();
+        showModalLocked(this.dialogElement);
       } else if (!this.open && this.dialogElement.open) {
         this.dialogElement.close();
       }
@@ -156,7 +157,7 @@ export class LitMaterialNavigationDrawer extends LitElement {
       // event despite documenting it as cancelable — see lit-material-dialog
       // for the same workaround.
       this.reopenOnClose = false;
-      this.dialogElement?.showModal();
+      if (this.dialogElement) showModalLocked(this.dialogElement);
       return;
     }
     this.open = false;

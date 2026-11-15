@@ -69,6 +69,33 @@ export class LitMaterialDataTableCell extends LitElement {
 
   private resizeStartX = 0;
   private resizeStartWidth = 0;
+  /** Last known rendered width, for the handle's aria-valuenow. */
+  private currentWidth = 0;
+
+  private readonly measure = (): void => {
+    const width = this.getBoundingClientRect().width;
+    if (Math.round(width) !== Math.round(this.currentWidth)) {
+      this.currentWidth = width;
+      this.requestUpdate();
+    }
+  };
+
+  /** Arrow keys resize by 10px (Shift: 50px), Home sets the minimum: the keyboard twin of dragging. */
+  private readonly handleResizeKeydown = (event: KeyboardEvent): void => {
+    const rtl = getComputedStyle(this).direction === "rtl";
+    const step = event.shiftKey ? 50 : 10;
+    const width = this.getBoundingClientRect().width;
+    let next: number;
+    if (event.key === "ArrowRight") next = width + (rtl ? -step : step);
+    else if (event.key === "ArrowLeft") next = width + (rtl ? step : -step);
+    else if (event.key === "Home") next = this.minWidth;
+    else return;
+    event.preventDefault();
+    next = Math.max(this.minWidth, Math.round(next));
+    this.currentWidth = next;
+    this.dispatchEvent(new CustomEvent("column-resize", { bubbles: true, composed: true, detail: { width: next } }));
+    this.requestUpdate();
+  };
 
   protected override willUpdate(changed: Map<string, unknown>): void {
     // An explicit role (the data grid's `gridcell`/`rowheader`) wins; only our own default follows `header`.
@@ -78,6 +105,12 @@ export class LitMaterialDataTableCell extends LitElement {
     }
     // @lit-labs/ssr's light-DOM shim doesn't implement `style` on the host — skip rather than
     // throw, there's no layout to compute server-side anyway.
+    // APG sortable table: aria-sort on the sorted column's header only. Left alone on cells without a
+    // sort-key (the data grid sets aria-sort on its own header cells).
+    if (this.isSortable && (changed.has("sortDirection") || changed.has("header") || changed.has("sortKey"))) {
+      if (this.sortDirection !== "none") this.setAttribute("aria-sort", this.sortDirection);
+      else this.removeAttribute("aria-sort");
+    }
     if ((changed.has("flex") || changed.has("width")) && this.style) {
       this.style.flex = this.flex ? `0 0 ${this.width ?? "auto"}` : "";
     }
@@ -92,7 +125,15 @@ export class LitMaterialDataTableCell extends LitElement {
       ? html`<span
           class="resize-handle"
           part="resize-handle"
+          role="separator"
+          aria-orientation="vertical"
+          aria-label="Resize column"
+          aria-valuemin=${this.minWidth}
+          aria-valuenow=${Math.round(this.currentWidth)}
+          tabindex="0"
           @pointerdown=${this.handleResizePointerDown}
+          @keydown=${this.handleResizeKeydown}
+          @focus=${this.measure}
         ></span>`
       : "";
     if (this.isSortable) {

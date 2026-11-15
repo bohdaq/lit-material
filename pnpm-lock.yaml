@@ -3337,6 +3337,9 @@ importers:
 
   packages/sheet:
     dependencies:
+      '@lit-material/core':
+        specifier: workspace:*
+        version: link:../core
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens

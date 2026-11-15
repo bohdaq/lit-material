@@ -1,6 +1,7 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { styles } from "./bottom-sheet-styles.js";
+import { showModalLocked } from "@lit-material/core/scroll-lock.js";
 
 export type BottomSheetVariant = "standard" | "modal";
 
@@ -65,7 +66,7 @@ export class LitMaterialBottomSheet extends LitElement {
   protected override updated(changed: Map<string, unknown>): void {
     if (!changed.has("open") || this.variant !== "modal" || !this.dialogElement) return;
     if (this.open && !this.dialogElement.open) {
-      this.dialogElement.showModal();
+      showModalLocked(this.dialogElement);
     } else if (!this.open && this.dialogElement.open) {
       this.dialogElement.close();
     }
@@ -110,7 +111,7 @@ export class LitMaterialBottomSheet extends LitElement {
       // event despite documenting it as cancelable — see lit-material-dialog
       // for the same workaround.
       this.reopenOnClose = false;
-      this.dialogElement?.showModal();
+      if (this.dialogElement) showModalLocked(this.dialogElement);
       return;
     }
     this.open = false;

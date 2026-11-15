@@ -49,6 +49,53 @@ export function addMonths(date: CalendarDate, delta: number): CalendarDate {
   return { year: d.getFullYear(), month: d.getMonth(), day: date.day };
 }
 
+/** `date` moved by `delta` months, its day clamped to the target month (Jan 31 + 1 → Feb 28/29). */
+export function shiftMonths(date: CalendarDate, delta: number): CalendarDate {
+  const first = new Date(date.year, date.month + delta, 1);
+  const year = first.getFullYear();
+  const month = first.getMonth();
+  return { year, month, day: Math.min(date.day, daysInMonth(year, month)) };
+}
+
+/**
+ * Where a key moves the focused day in a calendar grid (WAI-ARIA date picker dialog pattern): arrows by a day or
+ * a week, Home/End to the start/end of the week, Page Up/Down by a month, Shift+Page Up/Down by a year.
+ * `undefined` for any other key. `direction` is the way to search for an enabled day from there.
+ */
+export function gridKeyTarget(
+  key: string,
+  shiftKey: boolean,
+  focused: CalendarDate,
+  firstDayOfWeek: number,
+  rtl: boolean,
+): { date: CalendarDate; direction: 1 | -1 } | undefined {
+  const forward = rtl ? -1 : 1;
+  switch (key) {
+    case "ArrowLeft":
+      return { date: addDays(focused, -forward), direction: forward === 1 ? -1 : 1 };
+    case "ArrowRight":
+      return { date: addDays(focused, forward), direction: forward === 1 ? 1 : -1 };
+    case "ArrowUp":
+      return { date: addDays(focused, -7), direction: -1 };
+    case "ArrowDown":
+      return { date: addDays(focused, 7), direction: 1 };
+    case "Home": {
+      const column = (new Date(focused.year, focused.month, focused.day).getDay() - firstDayOfWeek + 7) % 7;
+      return { date: addDays(focused, -column), direction: 1 };
+    }
+    case "End": {
+      const column = (new Date(focused.year, focused.month, focused.day).getDay() - firstDayOfWeek + 7) % 7;
+      return { date: addDays(focused, 6 - column), direction: -1 };
+    }
+    case "PageUp":
+      return { date: shiftMonths(focused, shiftKey ? -12 : -1), direction: -1 };
+    case "PageDown":
+      return { date: shiftMonths(focused, shiftKey ? 12 : 1), direction: 1 };
+    default:
+      return undefined;
+  }
+}
+
 export function daysInMonth(year: number, month: number): number {
   return new Date(year, month + 1, 0).getDate();
 }

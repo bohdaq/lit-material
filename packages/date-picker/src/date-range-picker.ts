@@ -18,9 +18,11 @@ import {
   parseISODate,
   today,
   weekdayLabels,
+  gridKeyTarget,
 } from "./date-utils.js";
 import { LocalizeController, isRtl } from "@lit-material/core/localize.js";
 import { styles } from "./date-range-picker-styles.js";
+import { showModalLocked } from "@lit-material/core/scroll-lock.js";
 
 type PickerMode = "calendar" | "year";
 export type DateRangePickerVariant = "modal" | "docked";
@@ -141,7 +143,7 @@ export class LitMaterialDateRangePicker extends LitElement {
   protected override updated(changed: Map<string, unknown>): void {
     if (!changed.has("open") || this.variant !== "modal" || !this.dialogElement) return;
     if (this.open && !this.dialogElement.open) {
-      this.dialogElement.showModal();
+      showModalLocked(this.dialogElement);
     } else if (!this.open && this.dialogElement.open) {
       this.dialogElement.close();
     }
@@ -512,29 +514,10 @@ export class LitMaterialDateRangePicker extends LitElement {
   };
 
   private readonly handleGridKeydown = (event: KeyboardEvent): void => {
-    let step: number | undefined;
-    // Days run in reading order, so the horizontal arrows swap in right-to-left layouts.
-    const forward = isRtl(this) ? -1 : 1;
-    if (event.key === "ArrowLeft") step = -forward;
-    else if (event.key === "ArrowRight") step = forward;
-    else if (event.key === "ArrowUp") step = -7;
-    else if (event.key === "ArrowDown") step = 7;
-
-    if (step !== undefined) {
-      event.preventDefault();
-      const direction = step > 0 ? 1 : -1;
-      this.focusDate(this.nextEnabledFrom(addDays(this.focusedDate, step), direction));
-      return;
-    }
-
-    if (event.key === "Home") {
-      event.preventDefault();
-      this.focusDate(this.nextEnabledFrom({ year: this.viewYear, month: this.viewMonth, day: 1 }, 1));
-    } else if (event.key === "End") {
-      event.preventDefault();
-      const lastDay = daysInMonth(this.viewYear, this.viewMonth);
-      this.focusDate(this.nextEnabledFrom({ year: this.viewYear, month: this.viewMonth, day: lastDay }, -1));
-    }
+    const target = gridKeyTarget(event.key, event.shiftKey, this.focusedDate, this.effectiveFirstDayOfWeek, isRtl(this));
+    if (!target) return;
+    event.preventDefault();
+    this.focusDate(this.nextEnabledFrom(target.date, target.direction));
   };
 
   private readonly handleCancelClick = (): void => {
@@ -563,7 +546,7 @@ export class LitMaterialDateRangePicker extends LitElement {
       // event despite documenting it as cancelable — see lit-material-dialog
       // for the same workaround.
       this.reopenOnClose = false;
-      this.dialogElement?.showModal();
+      if (this.dialogElement) showModalLocked(this.dialogElement);
       return;
     }
     this.open = false;

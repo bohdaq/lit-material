@@ -171,26 +171,23 @@ describe("lit-material-date-picker", () => {
     expect(el.shadowRoot!.activeElement).to.equal(focused);
   });
 
-  it("Home/End move focus to the first/last day of the visible month", async () => {
+  it("Home/End move to the start/end of the week, Page Up/Down by a month, Shift+Page by a year", async () => {
     const el = await fixture<LitMaterialDatePicker>(
-      html`<lit-material-date-picker value="2026-06-15"></lit-material-date-picker>`,
+      html`<lit-material-date-picker value="2026-06-17" first-day-of-week="1"></lit-material-date-picker>`,
     );
     el.show();
     await el.updateComplete;
-    const startDay = el.shadowRoot!.querySelector<HTMLButtonElement>('.day[data-iso="2026-06-15"]')!;
-    startDay.focus();
-
-    await sendKeys({ press: "End" });
-    await el.updateComplete;
-    expect(el.shadowRoot!.activeElement).to.equal(
-      el.shadowRoot!.querySelector('.day[data-iso="2026-06-30"]'),
-    );
-
-    await sendKeys({ press: "Home" });
-    await el.updateComplete;
-    expect(el.shadowRoot!.activeElement).to.equal(
-      el.shadowRoot!.querySelector('.day[data-iso="2026-06-01"]'),
-    );
+    el.shadowRoot!.querySelector<HTMLButtonElement>('.day[data-iso="2026-06-17"]')!.focus();
+    const at = async (key: string, iso: string) => {
+      await sendKeys({ press: key });
+      await el.updateComplete;
+      expect(el.shadowRoot!.activeElement?.getAttribute("data-iso"), key).to.equal(iso);
+    };
+    await at("End", "2026-06-21");
+    await at("Home", "2026-06-15");
+    await at("PageDown", "2026-07-15");
+    await at("PageUp", "2026-06-15");
+    await at("Shift+PageUp", "2025-06-15");
   });
 
   it("re-dispatches a composed, bubbling close event", async () => {

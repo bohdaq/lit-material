@@ -13,6 +13,7 @@ import {
 } from "./time-utils.js";
 import { styles } from "./time-picker-styles.js";
 import { cssProps } from "@lit-material/core/css-props.js";
+import { showModalLocked } from "@lit-material/core/scroll-lock.js";
 
 export type TimePickerHourCycle = "12" | "24";
 type PickerMode = "hour" | "minute";
@@ -122,7 +123,7 @@ export class LitMaterialTimePicker extends LitElement {
   protected override updated(changed: Map<string, unknown>): void {
     if (!changed.has("open") || !this.dialogElement) return;
     if (this.open && !this.dialogElement.open) {
-      this.dialogElement.showModal();
+      showModalLocked(this.dialogElement);
     } else if (!this.open && this.dialogElement.open) {
       this.dialogElement.close();
     }
@@ -501,7 +502,7 @@ export class LitMaterialTimePicker extends LitElement {
       // event despite documenting it as cancelable — see lit-material-dialog
       // for the same workaround.
       this.reopenOnClose = false;
-      this.dialogElement?.showModal();
+      if (this.dialogElement) showModalLocked(this.dialogElement);
       return;
     }
     this.open = false;

@@ -1,4 +1,5 @@
-import { expect, fixture, html } from "@open-wc/testing";
+import { expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { sendKeys } from "@web/test-runner-commands";
 import "./data-table.js";
 import "./data-table-row.js";
 import "./data-table-cell.js";
@@ -171,5 +172,27 @@ describe("lit-material-data-table", () => {
     expect(el.getAttribute("density")).to.equal("compact");
     expect(getComputedStyle(cell).paddingTop).to.equal("6px");
     expect(getComputedStyle(cell).paddingLeft).to.equal("12px");
+  });
+
+  it("sets aria-sort on the sorted column's header only", async () => {
+    const { headerCells } = await tableFixture();
+    headerCells[0]!.shadowRoot!.querySelector<HTMLButtonElement>(".sort-button")!.click();
+    await headerCells[0]!.updateComplete;
+    await headerCells[1]!.updateComplete;
+    expect(headerCells[0]!.getAttribute("aria-sort")).to.equal("ascending");
+    expect(headerCells[1]!.hasAttribute("aria-sort")).to.be.false;
+  });
+
+  it("resizes a column from the keyboard with the separator handle", async () => {
+    const cell = await fixture<LitMaterialDataTableCell>(
+      html`<lit-material-data-table-cell header resizable style="display: inline-block; width: 120px">Name</lit-material-data-table-cell>`,
+    );
+    const handle = cell.shadowRoot!.querySelector<HTMLElement>(".resize-handle")!;
+    expect(handle.getAttribute("role")).to.equal("separator");
+    handle.focus();
+    const resized = oneEvent(cell, "column-resize");
+    await sendKeys({ press: "ArrowRight" });
+    const { detail } = await resized;
+    expect(detail.width).to.equal(130);
   });
 });
