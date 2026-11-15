@@ -156,4 +156,9 @@ export const styles = css`
   :where(button, a, input, [tabindex]):focus-visible {
     outline: none;
   }
+
+  /* Touch: at least a 48px (44px for calendar days) target, the visual size unchanged where possible. */
+  @media (pointer: coarse) {
+    .native-control { inset: -4px; width: auto; height: auto; }
+  }
 `;

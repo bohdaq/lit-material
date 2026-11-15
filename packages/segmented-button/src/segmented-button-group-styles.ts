@@ -25,4 +25,11 @@ export const styles = css`
   ::slotted(lit-material-segmented-button + lit-material-segmented-button) {
     border-inline-start: 1px solid var(--md-sys-color-outline, #79747e);
   }
+
+  /* Touch: a 48px target (the group clips its children, so they can't reach outside it). */
+  @media (pointer: coarse) {
+    :host {
+      height: 48px;
+    }
+  }
 `;

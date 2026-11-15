@@ -11,6 +11,8 @@
   --md-sys-state-dragged-state-layer-opacity: 0.16;
   --md-sys-state-disabled-container-opacity: 0.12;
   --md-sys-state-disabled-content-opacity: 0.38;
+  /* Disabled text: on-surface mixed this strongly (Material says 38%, about 2.3:1; 50% reads at about 3.4:1). */
+  --lit-material-disabled-text-mix: 50%;
   /* The keyboard focus ring every component draws (Material 3: 3px, secondary). */
   --lit-material-focus-ring-width: 3px;
   --lit-material-focus-ring-color: var(--md-sys-color-secondary, #625b71);

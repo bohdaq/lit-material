@@ -181,7 +181,7 @@ export const styles = css`
 
   .day:disabled {
     cursor: default;
-    color: color-mix(in srgb, var(--md-sys-color-on-surface, #1c1b1f) 38%, transparent);
+    color: color-mix(in srgb, var(--md-sys-color-on-surface, #1c1b1f) var(--lit-material-disabled-text-mix, 50%), transparent);
   }
 
   .day.today {
@@ -222,7 +222,7 @@ export const styles = css`
 
   .year:disabled {
     cursor: default;
-    color: color-mix(in srgb, var(--md-sys-color-on-surface, #1c1b1f) 38%, transparent);
+    color: color-mix(in srgb, var(--md-sys-color-on-surface, #1c1b1f) var(--lit-material-disabled-text-mix, 50%), transparent);
   }
 
   .year.selected {
@@ -256,5 +256,10 @@ export const styles = css`
 
   .text-button:hover {
     background-color: color-mix(in srgb, var(--md-sys-color-primary, #6750a4) 8%, transparent);
+  }
+
+  /* Touch: at least a 48px (44px for calendar days) target, the visual size unchanged where possible. */
+  @media (pointer: coarse) {
+    .day { width: 44px; height: 44px; }
   }
 `;

@@ -88,7 +88,7 @@ export const styles = css`
   }
 
   :host([disabled]) .option {
-    color: color-mix(in srgb, var(--md-sys-color-on-surface, #1c1b1f) 38%, transparent);
+    color: color-mix(in srgb, var(--md-sys-color-on-surface, #1c1b1f) var(--lit-material-disabled-text-mix, 50%), transparent);
   }
 
   @media (prefers-reduced-motion: reduce) {

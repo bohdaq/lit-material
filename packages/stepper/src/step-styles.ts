@@ -179,11 +179,11 @@ export const styles = css`
 
   :host([disabled]) .circle {
     background-color: color-mix(in srgb, var(--md-sys-color-on-surface, #1c1b1f) 12%, transparent);
-    color: color-mix(in srgb, var(--md-sys-color-on-surface, #1c1b1f) 38%, transparent);
+    color: color-mix(in srgb, var(--md-sys-color-on-surface, #1c1b1f) var(--lit-material-disabled-text-mix, 50%), transparent);
   }
 
   :host([disabled]) .label {
-    color: color-mix(in srgb, var(--md-sys-color-on-surface, #1c1b1f) 38%, transparent);
+    color: color-mix(in srgb, var(--md-sys-color-on-surface, #1c1b1f) var(--lit-material-disabled-text-mix, 50%), transparent);
   }
 
   /* Horizontal (default): steps in a row, circle+connector above the text. */

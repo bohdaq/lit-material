@@ -159,7 +159,7 @@ export const styles = css`
   /* Disabled treatment is identical across variants: on-surface at fixed opacities. */
   :host([disabled]) .button {
     background-color: color-mix(in srgb, var(--md-sys-color-on-surface, #1c1b1f) 12%, transparent);
-    color: color-mix(in srgb, var(--md-sys-color-on-surface, #1c1b1f) 38%, transparent);
+    color: color-mix(in srgb, var(--md-sys-color-on-surface, #1c1b1f) var(--lit-material-disabled-text-mix, 50%), transparent);
     box-shadow: none;
   }
 
@@ -171,5 +171,10 @@ export const styles = css`
   /* The .focus-ring element is the one focus indicator: no second, browser-drawn ring on the inner control. */
   :where(button, a, input, [tabindex]):focus-visible {
     outline: none;
+  }
+
+  /* Touch: at least a 48px (44px for calendar days) target, the visual size unchanged where possible. */
+  @media (pointer: coarse) {
+    .button::after { content: ""; position: absolute; inset: -4px 0; }
   }
 `;
