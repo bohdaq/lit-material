@@ -63,6 +63,11 @@ export class LitMaterialTextField extends LitElement {
   @property() pattern = "";
   @property() autocomplete = "";
   @property() inputmode = "";
+  /**
+   * ARIA for the native input when a wrapper turns it into another widget, e.g. `lit-material-number-field`'s
+   * spinbutton: `{ role: "spinbutton", valuenow: 3, valuemin: 1, valuemax: 9 }`.
+   */
+  @property({ attribute: false }) inputAria?: { role?: string; valuenow?: number; valuemin?: number; valuemax?: number; valuetext?: string };
   @property() name = "";
   @property({ reflect: true }) form?: string;
 
@@ -179,6 +184,11 @@ export class LitMaterialTextField extends LitElement {
                 aria-labelledby=${this.label ? this.labelId : nothing}
                 aria-describedby=${this.supportingMessage ? this.supportingId : nothing}
                 aria-invalid=${isError ? "true" : nothing}
+                role=${this.inputAria?.role ?? nothing}
+                aria-valuenow=${this.inputAria?.valuenow ?? nothing}
+                aria-valuemin=${this.inputAria?.valuemin ?? nothing}
+                aria-valuemax=${this.inputAria?.valuemax ?? nothing}
+                aria-valuetext=${this.inputAria?.valuetext ?? nothing}
                 @input=${this.handleInput}
                 @change=${this.handleChange}
                 @focus=${this.handleFocus}

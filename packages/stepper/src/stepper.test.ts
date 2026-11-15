@@ -148,4 +148,10 @@ describe("lit-material-stepper", () => {
     const { el } = await stepperFixture();
     await expect(el).to.be.accessible();
   });
+
+  it("is a labelled group", async () => {
+    const el = await fixture<HTMLElement>(html`<lit-material-stepper label="Checkout steps"><lit-material-step>One</lit-material-step></lit-material-stepper>`);
+    expect(el.getAttribute("role")).to.equal("group");
+    expect(el.getAttribute("aria-label")).to.equal("Checkout steps");
+  });
 });

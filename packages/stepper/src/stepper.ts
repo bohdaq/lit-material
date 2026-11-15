@@ -34,6 +34,8 @@ export class LitMaterialStepper extends LitElement {
   @property({ reflect: true }) orientation: StepOrientation = "horizontal";
   /** When set, a step is only reachable once every step before it is `completed` (going back is always allowed). */
   @property({ type: Boolean }) linear = false;
+  /** The stepper's accessible name (the host is a labelled `group`), e.g. "Checkout steps". */
+  @property() label = "";
 
   constructor() {
     super();
@@ -44,6 +46,11 @@ export class LitMaterialStepper extends LitElement {
   override connectedCallback(): void {
     super.connectedCallback();
     this.syncSteps();
+  }
+
+  protected override willUpdate(): void {
+    if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+    if (this.label) this.setAttribute("aria-label", this.label);
   }
 
   protected override updated(changed: Map<string, unknown>): void {

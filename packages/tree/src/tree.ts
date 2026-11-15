@@ -178,6 +178,8 @@ export class LitMaterialTree extends LitElement {
 
   private readonly handleSlotChange = (): void => {
     this.syncTabIndex();
+    // Positions shift when top-level nodes come and go (nested ones re-sync in their own update).
+    for (const item of this.allItems) item.syncPosition?.();
   };
 
   private setExpanded(item: LitMaterialTreeItem, expanded: boolean): void {
@@ -283,9 +285,35 @@ export class LitMaterialTree extends LitElement {
         break;
       }
       default:
+        if (event.key.length === 1 && event.key !== " " && !event.ctrlKey && !event.metaKey && !event.altKey) {
+          this.typeahead(event, items, index);
+        }
         break;
     }
   };
+
+  private typed = "";
+  private typedAt = 0;
+
+  /** Typing moves to the next visible node whose label starts with what was typed (APG tree typeahead). */
+  private typeahead(event: KeyboardEvent, items: LitMaterialTreeItem[], index: number): void {
+    event.preventDefault();
+    const now = Date.now();
+    this.typed = now - this.typedAt > 500 ? event.key.toLowerCase() : this.typed + event.key.toLowerCase();
+    this.typedAt = now;
+    const repeat = [...this.typed].every((c) => c === this.typed[0]);
+    const query = repeat ? this.typed[0]! : this.typed;
+    const from = repeat ? index + 1 : Math.max(index, 0);
+    const labelOf = (item: LitMaterialTreeItem) =>
+      (item.querySelector(':scope > [slot="label"]')?.textContent ?? "").trim().toLowerCase();
+    for (let i = 0; i < items.length; i++) {
+      const item = items[(from + i) % items.length]!;
+      if (labelOf(item).startsWith(query)) {
+        this.moveFocus(item);
+        return;
+      }
+    }
+  }
 }
 
 declare global {

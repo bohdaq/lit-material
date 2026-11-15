@@ -41,13 +41,25 @@ describe("lit-material-autocomplete", () => {
     expect(input.value).to.equal("Banana");
   });
 
-  it("opens the popover with the full option list on focus", async () => {
+  it("stays closed on focus alone (Tab through a form), opens with the full list on Arrow Down", async () => {
     const { el, input } = await autocompleteFixture();
     input.focus();
+    await el.updateComplete;
+    expect(el.open).to.be.false;
+    await sendKeys({ press: "ArrowDown" });
     await el.updateComplete;
     expect(el.open).to.be.true;
     const rendered = el.shadowRoot!.querySelectorAll(".option");
     expect(rendered.length).to.equal(fruitOptions.length);
+  });
+
+  it("opens on focus with open-on-focus", async () => {
+    const el = await fixture<HTMLElement & { open: boolean; updateComplete: Promise<unknown> }>(
+      html`<lit-material-autocomplete label="Fruit" open-on-focus .options=${fruitOptions}></lit-material-autocomplete>`,
+    );
+    el.shadowRoot!.querySelector("input")!.focus();
+    await el.updateComplete;
+    expect(el.open).to.be.true;
   });
 
   it("filters options as the user types", async () => {
@@ -277,7 +289,7 @@ describe("lit-material-autocomplete", () => {
       <lit-material-autocomplete label="Fruit" .options=${fruitOptions} style="width: 300px"></lit-material-autocomplete>
     </div>`);
     const el = wrap.querySelector("lit-material-autocomplete")!;
-    el.shadowRoot!.querySelector("input")!.focus();
+    el.shadowRoot!.querySelector("input")!.click();
     await el.updateComplete;
     await new Promise((r) => requestAnimationFrame(r));
     const field = el.getBoundingClientRect();

@@ -231,4 +231,19 @@ describe("lit-material-tree", () => {
     await docs.updateComplete;
     expect(chevron().getAttribute("aria-label")).to.equal("Replier");
   });
+
+  it("gives each node aria-level, aria-setsize and aria-posinset", async () => {
+    const { docs, resume, coverLetter, photos } = await treeFixture();
+    expect([docs.getAttribute("aria-level"), docs.getAttribute("aria-posinset"), docs.getAttribute("aria-setsize")]).to.deep.equal(["1", "1", "2"]);
+    expect([photos.getAttribute("aria-posinset")]).to.deep.equal(["2"]);
+    expect([resume.getAttribute("aria-level"), resume.getAttribute("aria-setsize")]).to.deep.equal(["2", "2"]);
+    expect(coverLetter.getAttribute("aria-posinset")).to.equal("2");
+  });
+
+  it("moves to a node by its first letter (typeahead)", async () => {
+    const { docs, photos } = await treeFixture();
+    docs.focus();
+    await sendKeys({ press: "p" });
+    expect(document.activeElement).to.equal(photos);
+  });
 });

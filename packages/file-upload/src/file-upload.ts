@@ -69,6 +69,8 @@ export class LitMaterialFileUpload extends LitElement {
 
   @state() private fileList: File[] = [];
   @state() private dragging = false;
+  /** What a screen reader hears after files are added or removed (a polite live region). */
+  @state() private announcement = "";
 
   private readonly internals: ElementInternals;
   private readonly localize = new LocalizeController(this);
@@ -90,7 +92,9 @@ export class LitMaterialFileUpload extends LitElement {
 
   /** Removes one file by index. */
   removeFile(index: number): void {
+    const removed = this.fileList[index];
     this.setFiles(this.fileList.filter((_, i) => i !== index));
+    if (removed) this.announcement = this.localize.term("fileUpload.removed", "{name} removed", { name: removed.name });
   }
 
   /** Form-associated: clear the selection on form reset. */
@@ -108,11 +112,12 @@ export class LitMaterialFileUpload extends LitElement {
   private addFiles(incoming: FileList | File[]): void {
     const incomingArray = Array.from(incoming);
     if (incomingArray.length === 0) return;
-    if (!this.multiple) {
-      this.setFiles([incomingArray[0]!]);
-      return;
-    }
-    this.setFiles([...this.fileList, ...incomingArray]);
+    const added = this.multiple ? incomingArray : [incomingArray[0]!];
+    this.setFiles(this.multiple ? [...this.fileList, ...added] : added);
+    this.announcement =
+      added.length === 1
+        ? this.localize.term("fileUpload.added", "{name} added", { name: added[0]!.name })
+        : this.localize.term("fileUpload.addedMany", "{count} files added", { count: added.length });
   }
 
   private syncFormValue(): void {
@@ -209,6 +214,7 @@ export class LitMaterialFileUpload extends LitElement {
               </ul>
             `
           : nothing}
+        <div class="announcer" role="status" aria-live="polite">${this.announcement}</div>
       </div>
     `;
   }

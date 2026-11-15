@@ -146,4 +146,13 @@ export const styles = css`
     width: 16px;
     height: 16px;
   }
+
+  .announcer {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 `;

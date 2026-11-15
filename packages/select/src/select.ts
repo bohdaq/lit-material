@@ -296,8 +296,50 @@ export class LitMaterialSelect extends LitElement {
     this.openAndHighlightSelection();
   };
 
+  /** Focuses the trigger (the host itself has nothing to focus). */
+  override focus(options?: FocusOptions): void {
+    this.triggerElement?.focus(options);
+  }
+
+  private typed = "";
+  private typedAt = 0;
+
+  /** The option a typed letter points to: the next one starting with what was typed in the last half second. */
+  private typeaheadTarget(key: string): LitMaterialSelectOption | undefined {
+    const options = this.navigableOptions;
+    if (options.length === 0) return undefined;
+    const now = Date.now();
+    this.typed = now - this.typedAt > 500 ? key.toLowerCase() : this.typed + key.toLowerCase();
+    this.typedAt = now;
+    const current = this.open ? this.focusedOption : this.selectedOption;
+    const start = current ? options.indexOf(current) : -1;
+    const repeat = [...this.typed].every((c) => c === this.typed[0]);
+    const query = repeat ? this.typed[0]! : this.typed;
+    const from = repeat ? start + 1 : Math.max(start, 0);
+    for (let i = 0; i < options.length; i++) {
+      const option = options[(from + i) % options.length]!;
+      if ((option.textContent ?? "").trim().toLowerCase().startsWith(query)) return option;
+    }
+    return undefined;
+  }
+
+  private isTypeaheadKey(event: KeyboardEvent): boolean {
+    return event.key.length === 1 && event.key !== " " && !event.ctrlKey && !event.metaKey && !event.altKey;
+  }
+
   private readonly handleTriggerKeydown = (event: KeyboardEvent): void => {
     if (this.disabled || this.open) return;
+    if (this.isTypeaheadKey(event)) {
+      // Closed: typing picks the matching option directly, like a native <select>.
+      const target = this.typeaheadTarget(event.key);
+      event.preventDefault();
+      event.stopPropagation();
+      if (target && target.value !== this.value) {
+        this.value = target.value;
+        this.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+      return;
+    }
     const opensFromEnd = event.key === "ArrowUp" || event.key === "End";
     const opensForward = event.key === "ArrowDown" || event.key === "Enter" || event.key === " " || event.key === "Home";
     if (!opensFromEnd && !opensForward) return;
@@ -317,6 +359,13 @@ export class LitMaterialSelect extends LitElement {
     const options = this.navigableOptions;
     const current = this.focusedOption;
     const index = current ? options.indexOf(current) : -1;
+
+    if (this.isTypeaheadKey(event)) {
+      event.preventDefault();
+      const target = this.typeaheadTarget(event.key);
+      if (target) this.moveHighlight(target);
+      return;
+    }
 
     switch (event.key) {
       case "ArrowDown": {

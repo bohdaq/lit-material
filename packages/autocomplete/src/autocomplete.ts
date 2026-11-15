@@ -54,6 +54,8 @@ export class LitMaterialAutocomplete extends LitElement {
   /** Form-associated custom element: participates in ancestor `<form>` + validation. */
   static formAssociated = true;
 
+  /** Opens the suggestions as soon as the field gets focus (default: on click, typing or Arrow Down). */
+  @property({ type: Boolean, attribute: "open-on-focus" }) openOnFocus = false;
   @property({ type: Array }) options: AutocompleteOption[] = [];
   @property() variant: AutocompleteVariant = "filled";
   @property() label = "";
@@ -375,7 +377,9 @@ export class LitMaterialAutocomplete extends LitElement {
 
   private readonly handleFocus = (): void => {
     this.focused = true;
-    if (this.disabled || this.open) return;
+    // Tabbing through a form shouldn't drop a list over the next fields: the list opens on click, typing or
+    // Arrow Down, unless `open-on-focus` asks for the old behaviour.
+    if (this.disabled || this.open || !this.openOnFocus) return;
     this.query = "";
     this.open = true;
   };

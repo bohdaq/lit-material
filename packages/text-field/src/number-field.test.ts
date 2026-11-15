@@ -113,4 +113,14 @@ describe("lit-material-number-field", () => {
     await labelled!.updateComplete;
     expect(textField(labelled!).errorText).to.equal("At least 5");
   });
+
+  it("exposes its input as a spinbutton with the current value and bounds", async () => {
+    const el = await numberField();
+    await (textField(el) as unknown as { updateComplete: Promise<unknown> }).updateComplete;
+    const i = input(el);
+    expect(i.getAttribute("role")).to.equal("spinbutton");
+    expect(i.getAttribute("aria-valuenow")).to.equal("2");
+    expect(i.getAttribute("aria-valuemin")).to.equal("1");
+    expect(i.getAttribute("aria-valuemax")).to.equal("5");
+  });
 });

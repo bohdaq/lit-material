@@ -203,6 +203,13 @@ export class LitMaterialNumberField extends LitElement {
         label=${this.label}
         inputmode=${this.step % 1 === 0 && (this.min ?? 0) >= 0 ? "numeric" : "decimal"}
         autocomplete="off"
+        .inputAria=${{
+          role: "spinbutton",
+          valuenow: this.value ?? undefined,
+          valuemin: this.min,
+          valuemax: this.max,
+          valuetext: this.value === null ? undefined : this.unit ? `${this.value} ${this.unit}` : undefined,
+        }}
         .value=${text}
         suffix=${this.unit || nothing}
         name=${this.name || nothing}

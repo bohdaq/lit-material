@@ -278,4 +278,23 @@ describe("lit-material-select", () => {
     expect(Math.abs(listbox.right - trigger.right)).to.be.lessThan(1);
     el.open = false;
   });
+
+  it("picks options by typed letters, closed (like a native select) and open", async () => {
+    const { el, trigger } = await selectFixture();
+    trigger.focus();
+    await sendKeys({ press: "m" });
+    await el.updateComplete;
+    expect(el.value).to.equal("m");
+    await new Promise((r) => setTimeout(r, 600));
+    await sendKeys({ press: "ArrowDown" });
+    await el.updateComplete;
+    await sendKeys({ press: "e" });
+    expect(el.querySelector<HTMLElement>('[value="xl"]')).to.equal(document.activeElement);
+  });
+
+  it("focus() on the host focuses the trigger", async () => {
+    const { el, trigger } = await selectFixture();
+    el.focus();
+    expect(el.shadowRoot!.activeElement).to.equal(trigger);
+  });
 });

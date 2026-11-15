@@ -96,6 +96,17 @@ export class LitMaterialTreeItem extends LitElement {
     else this.removeAttribute("aria-disabled");
     if (this.hasChildren) this.setAttribute("aria-expanded", this.expanded ? "true" : "false");
     else this.removeAttribute("aria-expanded");
+    this.syncPosition();
+  }
+
+  /** aria-level / aria-setsize / aria-posinset: the items live in slots, so assistive tech can't count them. */
+  syncPosition(): void {
+    const parent = this.parentElement;
+    if (!parent || typeof parent.children === "undefined") return; // SSR shim
+    const siblings = Array.from(parent.children).filter((el) => el.localName === "lit-material-tree-item" && !(el as HTMLElement).hidden);
+    this.setAttribute("aria-level", String(this.depth + 1));
+    this.setAttribute("aria-setsize", String(siblings.length));
+    this.setAttribute("aria-posinset", String(siblings.indexOf(this) + 1));
   }
 
   protected override firstUpdated(): void {
