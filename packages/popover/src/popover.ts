@@ -96,6 +96,7 @@ export class LitMaterialPopover extends LitElement {
     if (!changed.has("open")) return;
     if (this.open) {
       if (!this.matches(":popover-open")) {
+        this.ensureName();
         this.showPopover();
         this.updatePosition();
         this.focus();
@@ -138,12 +139,32 @@ export class LitMaterialPopover extends LitElement {
     }
   };
 
+  /** Whether aria-labelledby points at the anchor (our fallback name), not at a header or the author's choice. */
+  private namedByAnchor = false;
+
+  /**
+   * A dialog needs an accessible name. Without a header or the author's own
+   * aria-label/aria-labelledby, name it after the anchor that opened it.
+   */
+  private ensureName(): void {
+    if (this.hasAttribute("aria-label") || (this.hasAttribute("aria-labelledby") && !this.namedByAnchor)) return;
+    const anchor = this.anchorElement;
+    if (!anchor) return;
+    if (!anchor.id) anchor.id = `lit-material-popover-anchor-${++instanceCount}`;
+    if (anchor.getRootNode() !== this.getRootNode()) return;
+    this.setAttribute("aria-labelledby", anchor.id);
+    this.namedByAnchor = true;
+  }
+
   private readonly handleHeaderSlotChange = (event: Event): void => {
     const assigned = (event.target as HTMLSlotElement).assignedElements()[0] as HTMLElement | undefined;
     if (!assigned) {
       this.removeAttribute("aria-labelledby");
+      this.namedByAnchor = false;
+      this.ensureName();
       return;
     }
+    this.namedByAnchor = false;
     if (!assigned.id) assigned.id = `lit-material-popover-header-${++instanceCount}`;
     this.setAttribute("aria-labelledby", assigned.id);
   };

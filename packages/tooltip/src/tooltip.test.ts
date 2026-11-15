@@ -151,4 +151,24 @@ describe("lit-material-tooltip", () => {
     await tooltip.updateComplete;
     await expect(tooltip).to.be.accessible();
   });
+
+  it("stays open while the pointer moves onto it (hoverable) and hides on Escape from anywhere", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`<div style="padding: 80px">
+      <button id="a">Save</button>
+      <lit-material-tooltip anchor="a" show-delay="0" hide-delay="100">Saves a draft</lit-material-tooltip>
+    </div>`);
+    const anchor = wrapper.querySelector<HTMLButtonElement>("#a")!;
+    const tip = wrapper.querySelector<LitMaterialTooltip>("lit-material-tooltip")!;
+    anchor.dispatchEvent(new MouseEvent("mouseenter"));
+    await wait(20);
+    await tip.updateComplete;
+    expect(tip.open).to.be.true;
+    anchor.dispatchEvent(new MouseEvent("mouseleave"));
+    tip.dispatchEvent(new MouseEvent("mouseenter"));
+    await wait(200);
+    expect(tip.open).to.be.true;
+    document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    await tip.updateComplete;
+    expect(tip.open).to.be.false;
+  });
 });

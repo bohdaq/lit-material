@@ -71,6 +71,7 @@ export class LitMaterialTooltip extends LitElement {
     this.unbindAnchor();
     clearTimeout(this.showTimer);
     clearTimeout(this.hideTimer);
+    document.removeEventListener("keydown", this.handleDocumentKeydown);
   }
 
   protected override willUpdate(): void {
@@ -86,6 +87,10 @@ export class LitMaterialTooltip extends LitElement {
 
   protected override firstUpdated(): void {
     this.bindAnchor();
+    // Hoverable (WCAG 1.4.13): moving the pointer from the anchor onto the
+    // tooltip keeps it open, so it can be read and its text selected.
+    this.addEventListener("mouseenter", this.handleTooltipEnter);
+    this.addEventListener("mouseleave", this.handleAnchorHide);
   }
 
   protected override updated(changed: Map<string, unknown>): void {
@@ -124,6 +129,9 @@ export class LitMaterialTooltip extends LitElement {
 
   private syncOpenState(): void {
     if (typeof this.showPopover !== "function") return; // SSR guard
+    // Dismissable (WCAG 1.4.13): Escape hides it wherever focus is.
+    if (this.open) document.addEventListener("keydown", this.handleDocumentKeydown);
+    else document.removeEventListener("keydown", this.handleDocumentKeydown);
     if (this.open) {
       if (!this.matches(":popover-open")) {
         this.showPopover();
@@ -194,6 +202,14 @@ export class LitMaterialTooltip extends LitElement {
     clearTimeout(this.showTimer);
     clearTimeout(this.hideTimer);
     this.hideTimer = setTimeout(() => this.hide(), this.hideDelay);
+  };
+
+  private readonly handleTooltipEnter = (): void => {
+    clearTimeout(this.hideTimer);
+  };
+
+  private readonly handleDocumentKeydown = (event: KeyboardEvent): void => {
+    if (event.key === "Escape" && this.open) this.hide();
   };
 
   private readonly handleAnchorKeydown = (event: KeyboardEvent): void => {

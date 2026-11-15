@@ -14,7 +14,6 @@ export const styles = css`
     font-size: var(--md-sys-typescale-body-medium-size, 0.875rem);
     line-height: var(--md-sys-typescale-body-medium-line-height, 1.25rem);
     text-align: center;
-    pointer-events: none;
     opacity: 0;
     transition: opacity 100ms var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   }

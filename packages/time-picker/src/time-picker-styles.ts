@@ -66,6 +66,10 @@ export const styles = css`
   }
 
   .field {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
     box-sizing: border-box;
     width: 96px;
     height: 72px;
@@ -88,7 +92,7 @@ export const styles = css`
   }
 
   .field:focus-visible {
-    outline: 3px solid var(--md-sys-color-secondary, #625b71);
+    outline: var(--lit-material-focus-ring-width, 3px) solid var(--lit-material-focus-ring-color, var(--md-sys-color-secondary, #625b71));
     outline-offset: 2px;
   }
 
@@ -146,7 +150,7 @@ export const styles = css`
   }
 
   .period:focus-visible {
-    outline: 3px solid var(--md-sys-color-secondary, #625b71);
+    outline: var(--lit-material-focus-ring-width, 3px) solid var(--lit-material-focus-ring-color, var(--md-sys-color-secondary, #625b71));
     outline-offset: -3px;
   }
 
@@ -225,7 +229,7 @@ export const styles = css`
   }
 
   .dial-number:focus-visible {
-    outline: 3px solid var(--md-sys-color-secondary, #625b71);
+    outline: var(--lit-material-focus-ring-width, 3px) solid var(--lit-material-focus-ring-color, var(--md-sys-color-secondary, #625b71));
     outline-offset: 1px;
   }
 

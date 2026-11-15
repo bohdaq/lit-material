@@ -49,7 +49,7 @@ export const diffColors = css`
   ins { background: var(--diff-added-bg); color: var(--diff-added-fg); }
   del { background: var(--diff-removed-bg); color: var(--diff-removed-fg); }
   .region:focus-visible {
-    outline: 3px solid var(--md-sys-color-secondary, #625b71);
+    outline: var(--lit-material-focus-ring-width, 3px) solid var(--lit-material-focus-ring-color, var(--md-sys-color-secondary, #625b71));
     outline-offset: 2px;
   }
   @media (forced-colors: active) {

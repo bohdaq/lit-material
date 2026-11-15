@@ -67,7 +67,7 @@ export const styles = css`
   }
 
   .nav-button:focus-visible {
-    outline: 3px solid var(--md-sys-color-secondary, #625b71);
+    outline: var(--lit-material-focus-ring-width, 3px) solid var(--lit-material-focus-ring-color, var(--md-sys-color-secondary, #625b71));
     outline-offset: 2px;
   }
 

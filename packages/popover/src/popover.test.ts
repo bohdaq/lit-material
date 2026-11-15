@@ -151,4 +151,16 @@ describe("lit-material-popover", () => {
     expect(Math.abs(popoverRect.right - anchorRect.right)).to.be.lessThan(1);
     popover.close();
   });
+
+  it("is named after its anchor when it has no header or label", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`<div>
+      <button id="filters">Filters</button>
+      <lit-material-popover anchor="filters">Pick some.</lit-material-popover>
+    </div>`);
+    const popover = wrapper.querySelector<LitMaterialPopover>("lit-material-popover")!;
+    popover.show();
+    await popover.updateComplete;
+    expect(popover.getAttribute("aria-labelledby")).to.equal("filters");
+    popover.close();
+  });
 });

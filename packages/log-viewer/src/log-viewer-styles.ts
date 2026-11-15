@@ -25,7 +25,7 @@ export const styles = css`
     line-height: 1.6;
   }
   .viewport:focus-visible {
-    outline: 2px solid var(--md-sys-color-primary, light-dark(#6750a4, #d0bcff));
+    outline: var(--lit-material-focus-ring-width, 3px) solid var(--lit-material-focus-ring-color, var(--md-sys-color-secondary, #625b71));
     outline-offset: 2px;
   }
   .line {
@@ -73,7 +73,7 @@ export const styles = css`
     cursor: pointer;
   }
   .jump:focus-visible {
-    outline: 2px solid var(--md-sys-color-primary, light-dark(#6750a4, #d0bcff));
+    outline: var(--lit-material-focus-ring-width, 3px) solid var(--lit-material-focus-ring-color, var(--md-sys-color-secondary, #625b71));
     outline-offset: 2px;
   }
   .held {

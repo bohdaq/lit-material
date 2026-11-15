@@ -1,4 +1,5 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { sendKeys } from "@web/test-runner-commands";
 import { registerTranslation } from "@lit-material/core/localize.js";
 import "./time-picker.js";
 import type { LitMaterialTimePicker } from "./time-picker.js";
@@ -274,5 +275,40 @@ describe("lit-material-time-picker", () => {
     expect(hour.right).to.be.at.most(minute.left);
     expect(toggle.right).to.be.at.most(hour.left);
     el.close();
+  });
+
+  it("is operable from the keyboard: spinbutton fields, arrows, typed digits, A/P, Enter", async () => {
+    const el = await fixture<LitMaterialTimePicker>(html`<lit-material-time-picker value="09:30"></lit-material-time-picker>`);
+    el.show();
+    await el.updateComplete;
+    const hour = hourField(el);
+    expect(hour.getAttribute("role")).to.equal("spinbutton");
+    expect(hour.getAttribute("aria-valuetext")).to.equal("9 AM");
+    hour.focus();
+    await sendKeys({ press: "ArrowUp" });
+    await el.updateComplete;
+    expect(hour.getAttribute("aria-valuenow")).to.equal("10");
+    await sendKeys({ press: "p" });
+    await el.updateComplete;
+    expect(hour.getAttribute("aria-valuetext")).to.equal("10 PM");
+    await sendKeys({ press: "Tab" });
+    await sendKeys({ type: "45" });
+    await el.updateComplete;
+    expect(minuteField(el).getAttribute("aria-valuenow")).to.equal("45");
+    await sendKeys({ press: "PageUp" });
+    await el.updateComplete;
+    expect(minuteField(el).getAttribute("aria-valuenow")).to.equal("50");
+    const changed = oneEvent(el, "change");
+    await sendKeys({ press: "Enter" });
+    await changed;
+    expect(el.value).to.equal("22:50");
+  });
+
+  it("keeps the dial numbers out of the Tab order", async () => {
+    const el = await fixture<LitMaterialTimePicker>(html`<lit-material-time-picker value="09:30"></lit-material-time-picker>`);
+    el.show();
+    await el.updateComplete;
+    const numbers = Array.from(el.shadowRoot!.querySelectorAll<HTMLButtonElement>(".dial-number"));
+    expect(numbers.every((n) => n.tabIndex === -1)).to.be.true;
   });
 });

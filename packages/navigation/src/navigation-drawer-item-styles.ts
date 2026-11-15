@@ -90,7 +90,7 @@ export const styles = css`
     position: absolute;
     inset: -2px;
     border-radius: inherit;
-    outline: 3px solid var(--md-sys-color-secondary, #625b71);
+    outline: var(--lit-material-focus-ring-width, 3px) solid var(--lit-material-focus-ring-color, var(--md-sys-color-secondary, #625b71));
     outline-offset: 2px;
     pointer-events: none;
   }
@@ -108,5 +108,10 @@ export const styles = css`
     .state-layer {
       transition: none;
     }
+  }
+
+  /* The .focus-ring element is the one focus indicator: no second, browser-drawn ring on the inner control. */
+  :where(button, a, input, [tabindex]):focus-visible {
+    outline: none;
   }
 `;

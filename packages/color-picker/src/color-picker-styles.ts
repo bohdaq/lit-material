@@ -44,7 +44,7 @@ export const styles = css`
   }
 
   .trigger:focus-visible {
-    outline: 2px solid var(--md-sys-color-primary, #6750a4);
+    outline: var(--lit-material-focus-ring-width, 3px) solid var(--lit-material-focus-ring-color, var(--md-sys-color-secondary, #625b71));
     outline-offset: 2px;
   }
 
@@ -117,7 +117,7 @@ export const styles = css`
   }
 
   .preset:focus-visible {
-    outline: 2px solid var(--md-sys-color-primary, #6750a4);
+    outline: var(--lit-material-focus-ring-width, 3px) solid var(--lit-material-focus-ring-color, var(--md-sys-color-secondary, #625b71));
     outline-offset: 2px;
   }
 
@@ -175,7 +175,7 @@ export const styles = css`
   }
 
   .custom-input:focus-visible {
-    outline: 2px solid var(--md-sys-color-primary, #6750a4);
+    outline: var(--lit-material-focus-ring-width, 3px) solid var(--lit-material-focus-ring-color, var(--md-sys-color-secondary, #625b71));
     outline-offset: 2px;
   }
 
@@ -194,7 +194,7 @@ export const styles = css`
   }
 
   .hex-input:focus-visible {
-    outline: 2px solid var(--md-sys-color-primary, #6750a4);
+    outline: var(--lit-material-focus-ring-width, 3px) solid var(--lit-material-focus-ring-color, var(--md-sys-color-secondary, #625b71));
     outline-offset: 1px;
   }
 `;

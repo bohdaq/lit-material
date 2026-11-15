@@ -1,4 +1,5 @@
-import { expect, fixture, html } from "@open-wc/testing";
+import { expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { sendKeys } from "@web/test-runner-commands";
 import "./drawer.js";
 import type { LitMaterialDrawer } from "./drawer.js";
 
@@ -64,5 +65,31 @@ describe("lit-material-drawer", () => {
       </lit-material-drawer>
     `);
     await expect(el).to.be.accessible();
+  });
+
+  it("moves focus in on open, closes on Escape and returns focus", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`<div>
+      <button id="opener">Open</button>
+      <lit-material-drawer label="Notifications"><button id="inside">Mark all read</button></lit-material-drawer>
+    </div>`);
+    const opener = wrapper.querySelector<HTMLButtonElement>("#opener")!;
+    const drawer = wrapper.querySelector<LitMaterialDrawer>("lit-material-drawer")!;
+    opener.focus();
+    drawer.show();
+    await drawer.updateComplete;
+    expect(document.activeElement!.id).to.equal("inside");
+    expect(drawer.getAttribute("aria-label")).to.equal("Notifications");
+    const closed = oneEvent(drawer, "close");
+    await sendKeys({ press: "Escape" });
+    await closed;
+    expect(drawer.open).to.be.false;
+    expect(document.activeElement).to.equal(opener);
+  });
+
+  it("is named by its header heading", async () => {
+    const drawer = await fixture<LitMaterialDrawer>(html`<lit-material-drawer><h2 slot="header">Activity</h2>x</lit-material-drawer>`);
+    await drawer.updateComplete;
+    const id = drawer.getAttribute("aria-labelledby")!;
+    expect(drawer.querySelector(`#${id}`)!.textContent).to.equal("Activity");
   });
 });

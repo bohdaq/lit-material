@@ -46,9 +46,10 @@ export const styles = css`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
-    margin: 0;
+    /* 40px to tap (the icon stays 24px); pulled into the corner by the negative margin. */
+    width: 40px;
+    height: 40px;
+    margin: -8px;
     padding: 0;
     border: none;
     border-radius: 50%;
@@ -62,7 +63,7 @@ export const styles = css`
   }
 
   .close:focus-visible {
-    outline: 2px solid var(--md-sys-color-primary, #6750a4);
+    outline: var(--lit-material-focus-ring-width, 3px) solid var(--lit-material-focus-ring-color, var(--md-sys-color-secondary, #625b71));
     outline-offset: 1px;
   }
 

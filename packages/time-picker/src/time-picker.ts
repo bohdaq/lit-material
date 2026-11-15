@@ -184,25 +184,41 @@ export class LitMaterialTimePicker extends LitElement {
         <div class="container" part="container" tabindex="-1" autofocus>
           <div class="label" part="label" id="time-headline">${this.label ?? this.localize.term("timePicker.selectTime", "Select time")}</div>
           <div class="time-display" part="time-display">
-            <button
+            <div
               class="field hour ${this.mode === "hour" ? "active" : ""}"
               part="hour-field"
-              type="button"
+              role="spinbutton"
+              tabindex="0"
               aria-label=${this.localize.term("timePicker.hour", "Hour")}
+              aria-valuenow=${this.hourCycle === "24" ? this.pendingHour : hour24To12(this.pendingHour).hour12}
+              aria-valuemin=${this.hourCycle === "24" ? 0 : 1}
+              aria-valuemax=${this.hourCycle === "24" ? 23 : 12}
+              aria-valuetext=${this.hourCycle === "24"
+                ? this.displayHour
+                : `${this.displayHour} ${hour24To12(this.pendingHour).isPM ? this.localize.term("timePicker.pm", "PM") : this.localize.term("timePicker.am", "AM")}`}
               @click=${this.handleHourFieldClick}
+              @focus=${this.handleHourFieldClick}
+              @keydown=${this.handleHourKeydown}
             >
               ${this.displayHour}
-            </button>
+            </div>
             <span class="colon" aria-hidden="true">:</span>
-            <button
+            <div
               class="field minute ${this.mode === "minute" ? "active" : ""}"
               part="minute-field"
-              type="button"
+              role="spinbutton"
+              tabindex="0"
               aria-label=${this.localize.term("timePicker.minutes", "Minutes")}
+              aria-valuenow=${this.pendingMinute}
+              aria-valuemin="0"
+              aria-valuemax="59"
+              aria-valuetext=${this.digits(this.pendingMinute, true)}
               @click=${this.handleMinuteFieldClick}
+              @focus=${this.handleMinuteFieldClick}
+              @keydown=${this.handleMinuteKeydown}
             >
               ${this.digits(this.pendingMinute, true)}
-            </button>
+            </div>
             ${this.hourCycle === "12" ? this.renderPeriodToggle() : nothing}
           </div>
           <div class="dial-wrapper" part="dial-wrapper">
@@ -310,6 +326,7 @@ export class LitMaterialTimePicker extends LitElement {
         class="dial-number ${selected ? "selected" : ""}"
         part="dial-number"
         type="button"
+        tabindex="-1"
         style=${cssProps({ transform: `translate(${x}px, ${y}px)` })}
         @click=${() => this.handleNumberClick(value)}
       >
@@ -348,6 +365,77 @@ export class LitMaterialTimePicker extends LitElement {
     const isInner = radius < RING_THRESHOLD;
     this.pendingHour = isInner ? (index === 0 ? 0 : index + 12) : index === 0 ? 12 : index;
   }
+
+  /** Digits typed into a field, for two-digit entry ("1", "4" → 14). */
+  private typed = "";
+  private typedAt = 0;
+
+  private typedNumber(event: KeyboardEvent): number | undefined {
+    if (!/^[0-9]$/.test(event.key)) return undefined;
+    const now = Date.now();
+    this.typed = now - this.typedAt > 1000 || this.typed.length >= 2 ? event.key : this.typed + event.key;
+    this.typedAt = now;
+    return Number(this.typed);
+  }
+
+  /**
+   * Hour field keys: Arrow Up/Down step by one (wrapping), Page Up/Down by three, Home/End jump to the ends,
+   * digits type the hour, A/P pick the half of the day, Enter confirms.
+   */
+  private readonly handleHourKeydown = (event: KeyboardEvent): void => {
+    const twelve = this.hourCycle !== "24";
+    const { hour12, isPM } = hour24To12(this.pendingHour);
+    const step = (delta: number) => {
+      if (twelve) {
+        const next = ((((hour12 % 12) + delta) % 12) + 12) % 12;
+        this.pendingHour = hour12To24(next === 0 ? 12 : next, isPM);
+      } else {
+        this.pendingHour = (((this.pendingHour + delta) % 24) + 24) % 24;
+      }
+    };
+    const typed = this.typedNumber(event);
+    if (typed !== undefined) {
+      event.preventDefault();
+      if (twelve && typed >= 1 && typed <= 12) this.pendingHour = hour12To24(typed, isPM);
+      else if (!twelve && typed <= 23) this.pendingHour = typed;
+      return;
+    }
+    switch (event.key) {
+      case "ArrowUp": step(1); break;
+      case "ArrowDown": step(-1); break;
+      case "PageUp": step(3); break;
+      case "PageDown": step(-3); break;
+      case "Home": this.pendingHour = twelve ? hour12To24(1, isPM) : 0; break;
+      case "End": this.pendingHour = twelve ? hour12To24(12, isPM) : 23; break;
+      case "a": case "A": if (twelve) this.setPeriod(false); break;
+      case "p": case "P": if (twelve) this.setPeriod(true); break;
+      case "Enter": this.handleOkClick(); break;
+      default: return;
+    }
+    event.preventDefault();
+  };
+
+  /** Minute field keys: Arrow Up/Down by one, Page Up/Down by five (wrapping), Home/End, digits, Enter. */
+  private readonly handleMinuteKeydown = (event: KeyboardEvent): void => {
+    const step = (delta: number) => (this.pendingMinute = (((this.pendingMinute + delta) % 60) + 60) % 60);
+    const typed = this.typedNumber(event);
+    if (typed !== undefined) {
+      event.preventDefault();
+      if (typed <= 59) this.pendingMinute = typed;
+      return;
+    }
+    switch (event.key) {
+      case "ArrowUp": step(1); break;
+      case "ArrowDown": step(-1); break;
+      case "PageUp": step(5); break;
+      case "PageDown": step(-5); break;
+      case "Home": this.pendingMinute = 0; break;
+      case "End": this.pendingMinute = 59; break;
+      case "Enter": this.handleOkClick(); break;
+      default: return;
+    }
+    event.preventDefault();
+  };
 
   private readonly handleHourFieldClick = (): void => {
     this.mode = "hour";

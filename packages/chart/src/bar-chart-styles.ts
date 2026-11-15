@@ -30,7 +30,7 @@ export const styles = [
       border-radius: 4px;
     }
     .chart:focus-visible {
-      outline: 2px solid var(--md-sys-color-primary, light-dark(#6750a4, #d0bcff));
+      outline: var(--lit-material-focus-ring-width, 3px) solid var(--lit-material-focus-ring-color, var(--md-sys-color-secondary, #625b71));
       outline-offset: 4px;
     }
     .row {
