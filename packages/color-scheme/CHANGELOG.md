@@ -1,5 +1,14 @@
 # @lit-material/color-scheme
 
+## 1.8.0
+
+### Patch Changes
+
+- Updated dependencies [d1334a2]
+  - @lit-material/core@1.8.0
+  - @lit-material/icon-button@1.8.0
+  - @lit-material/tokens@1.8.0
+
 ## 1.7.0
 
 ### Patch Changes
