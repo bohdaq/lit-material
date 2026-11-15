@@ -168,6 +168,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "label": "string",
       "name": "string",
       "open": "boolean",
+      "open-on-focus": "boolean",
       "options": "AutocompleteOption[]",
       "placeholder": "string",
       "required": "boolean",
@@ -740,6 +741,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "package": "@lit-material/command-palette",
     "className": "LitMaterialCommandPalette",
     "attributes": {
+      "hints": "CommandPaletteHint[]",
       "items": "CommandPaletteItem[]",
       "label": "string",
       "open": "boolean",
@@ -754,6 +756,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "slots": [],
     "cssProperties": [
       "--lit-material-command-palette-max-height",
+      "--lit-material-command-palette-preview-width",
       "--lit-material-command-palette-top",
       "--lit-material-command-palette-width"
     ],
@@ -762,7 +765,8 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "footer",
       "input",
       "listbox",
-      "option"
+      "option",
+      "preview"
     ]
   },
   "lit-material-confirm-dialog": {
@@ -1174,10 +1178,13 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "package": "@lit-material/drawer",
     "className": "LitMaterialDrawer",
     "attributes": {
+      "label": "string | undefined",
       "open": "boolean",
       "position": "\"start\" | \"end\""
     },
-    "events": [],
+    "events": [
+      "close"
+    ],
     "slots": [
       "",
       "header"
@@ -1493,6 +1500,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "form": "string | undefined",
       "href": "string",
       "interactive": "boolean",
+      "menu-item": "boolean",
       "name": "string",
       "selected": "boolean",
       "target": "string",
@@ -1971,6 +1979,23 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "icon",
       "radio",
       "ripple"
+    ]
+  },
+  "lit-material-radio-group": {
+    "package": "@lit-material/radio",
+    "className": "LitMaterialRadioGroup",
+    "attributes": {
+      "label": "string",
+      "orientation": "\"vertical\" | \"horizontal\""
+    },
+    "events": [],
+    "slots": [
+      ""
+    ],
+    "cssProperties": [],
+    "cssParts": [
+      "label",
+      "options"
     ]
   },
   "lit-material-rating": {
@@ -2606,6 +2631,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "package": "@lit-material/stepper",
     "className": "LitMaterialStepper",
     "attributes": {
+      "label": "string",
       "linear": "boolean",
       "orientation": "\"horizontal\" | \"vertical\"",
       "selected": "number"

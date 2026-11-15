@@ -11,6 +11,7 @@
 "@lit-material/checkbox": minor
 "@lit-material/chip": minor
 "@lit-material/code-block": minor
+"@lit-material/codemod": minor
 "@lit-material/color-picker": minor
 "@lit-material/command-palette": minor
 "@lit-material/core": minor
