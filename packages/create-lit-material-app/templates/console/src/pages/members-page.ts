@@ -161,7 +161,7 @@ export class MembersPage extends LitElement {
   private async changeRole(member: Member, role: Role): Promise<void> {
     if (role === member.role) return;
     await setRole(member.id, role);
-    notify(`${member.name} is now ${role === "admin" ? "an" : "a"} ${role}`);
+    notify(`${member.name} is now ${/^[aeio]/.test(role) ? "an" : "a"} ${role}`);
     this.members.refresh();
   }
 

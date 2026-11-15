@@ -45,6 +45,10 @@ export class SettingsPage extends LitElement {
       .card.danger {
         border-color: var(--md-sys-color-error);
       }
+      .card.danger lit-material-button {
+        --md-sys-color-primary: var(--md-sys-color-error);
+        --md-sys-color-on-primary: var(--md-sys-color-on-error);
+      }
       .row {
         display: flex;
         align-items: center;
