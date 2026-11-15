@@ -39,6 +39,10 @@
     "./css-props.js": {
       "types": "./dist/css-props.d.ts",
       "default": "./dist/css-props.js"
+    },
+    "./active-element.js": {
+      "types": "./dist/active-element.d.ts",
+      "default": "./dist/active-element.js"
     }
   },
   "files": [

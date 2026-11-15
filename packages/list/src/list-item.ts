@@ -45,6 +45,12 @@ export class LitMaterialListItem extends LitElement {
   @property({ type: Boolean, reflect: true }) selected = false;
   /** Renders a hairline divider below the row. */
   @property({ type: Boolean, reflect: true }) divider = false;
+  /**
+   * Set by `lit-material-menu` on its items: the row is then exposed as an
+   * ARIA `menuitem` (a non-interactive row as presentation) instead of a
+   * `listitem`, so the menu reads as a real menu to assistive technology.
+   */
+  @property({ type: Boolean, reflect: true, attribute: "menu-item" }) menuItem = false;
   @property() type: ListItemType = "button";
   @property() name = "";
   @property() value = "";
@@ -89,7 +95,7 @@ export class LitMaterialListItem extends LitElement {
     const itemClasses = ["item", this.selected ? "selected" : ""].filter(Boolean).join(" ");
 
     if (!this.isInteractive) {
-      return html`<div class=${itemClasses} part="item" role="listitem">${inner}</div>`;
+      return html`<div class=${itemClasses} part="item" role=${this.menuItem ? "none" : "listitem"}>${inner}</div>`;
     }
 
     const content = html`
@@ -104,7 +110,7 @@ export class LitMaterialListItem extends LitElement {
     // shell instead of carrying that role itself.
     if (this.href) {
       return html`
-        <div class="item-shell" role="listitem">
+        <div class="item-shell" role=${this.menuItem ? "none" : "listitem"}>
           <a
             class="${itemClasses} interactive"
             part="item"
@@ -112,6 +118,7 @@ export class LitMaterialListItem extends LitElement {
             target=${this.target || nothing}
             rel=${this.target === "_blank" ? "noopener noreferrer" : nothing}
             aria-disabled=${this.disabled ? "true" : nothing}
+            role=${this.menuItem ? "menuitem" : nothing}
             tabindex=${this.disabled ? "-1" : "0"}
             @click=${this.handleLinkClick}
           >
@@ -122,11 +129,12 @@ export class LitMaterialListItem extends LitElement {
     }
 
     return html`
-      <div class="item-shell" role="listitem">
+      <div class="item-shell" role=${this.menuItem ? "none" : "listitem"}>
         <button
           class="${itemClasses} interactive"
           part="item"
           type="button"
+          role=${this.menuItem ? "menuitem" : nothing}
           ?disabled=${this.disabled}
           name=${this.name || nothing}
           value=${this.value || nothing}

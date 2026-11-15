@@ -1,5 +1,6 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import { shadowFixture } from "@lit-material/testing";
 import "./segmented-button-group.js";
 import "./segmented-button.js";
 import type { LitMaterialSegmentedButtonGroup } from "./segmented-button-group.js";
@@ -150,5 +151,25 @@ describe("lit-material-segmented-button-group", () => {
   it("passes axe accessibility checks", async () => {
     const { el } = await groupFixture();
     await expect(el).to.be.accessible();
+  });
+});
+
+describe("lit-material-segmented-button-group inside another component's shadow root", () => {
+  it("moves focus with the arrow keys", async () => {
+    const { element: el, root } = await shadowFixture<LitMaterialSegmentedButtonGroup>(html`
+      <lit-material-segmented-button-group>
+        <lit-material-segmented-button>Day</lit-material-segmented-button>
+        <lit-material-segmented-button>Week</lit-material-segmented-button>
+        <lit-material-segmented-button>Month</lit-material-segmented-button>
+      </lit-material-segmented-button-group>
+    `);
+    const buttons = Array.from(el.querySelectorAll("lit-material-segmented-button"));
+    buttons[0]!.shadowRoot!.querySelector("button")!.focus();
+    await sendKeys({ press: "ArrowRight" });
+    expect(root.activeElement).to.equal(buttons[1]);
+    await sendKeys({ press: "ArrowRight" });
+    expect(root.activeElement).to.equal(buttons[2]);
+    await sendKeys({ press: "ArrowLeft" });
+    expect(root.activeElement).to.equal(buttons[1]);
   });
 });

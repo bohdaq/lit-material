@@ -1,6 +1,19 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
 import { registerTranslation } from "@lit-material/core/localize.js";
+import { render, type TemplateResult } from "lit";
+
+// @lit-material/testing's shadowFixture, inlined: that package depends on tabs for its own tests.
+async function shadowFixture<E extends Element>(content: TemplateResult) {
+  const host = document.createElement("div");
+  document.body.append(host);
+  const root = host.attachShadow({ mode: "open" });
+  render(content, root);
+  const element = root.firstElementChild as E & { updateComplete?: Promise<unknown> };
+  await element.updateComplete;
+  for (const child of element.querySelectorAll("*")) await (child as { updateComplete?: Promise<unknown> }).updateComplete;
+  return { element: element as E, root, host };
+}
 import "./tabs.js";
 import "./tab.js";
 import type { LitMaterialTabs } from "./tabs.js";
@@ -270,5 +283,26 @@ describe("lit-material-tabs", () => {
     expect(last.right).to.be.at.most(row.right + 1);
     expect(Math.abs(indicatorRect().left - last.left)).to.be.below(2);
     expect(Math.abs(indicatorRect().width - last.width)).to.be.below(2);
+  });
+});
+
+describe("lit-material-tabs inside another component's shadow root", () => {
+  it("still moves selection with the arrow keys (document.activeElement is the outer host)", async () => {
+    const { element: el, host } = await shadowFixture<LitMaterialTabs>(html`
+      <lit-material-tabs>
+        <lit-material-tab>One</lit-material-tab>
+        <lit-material-tab>Two</lit-material-tab>
+        <lit-material-tab>Three</lit-material-tab>
+      </lit-material-tabs>
+    `);
+    const tabs = Array.from(el.querySelectorAll("lit-material-tab"));
+    tabs[0]!.shadowRoot!.querySelector("button")!.focus();
+    expect(document.activeElement).to.equal(host);
+    await sendKeys({ press: "ArrowRight" });
+    expect(el.selected).to.equal(1);
+    await sendKeys({ press: "ArrowRight" });
+    expect(el.selected).to.equal(2);
+    await sendKeys({ press: "ArrowLeft" });
+    expect(el.selected).to.equal(1);
   });
 });

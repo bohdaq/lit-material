@@ -1,5 +1,6 @@
 import { expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys, sendMouse } from "@web/test-runner-commands";
+import { shadowFixture } from "@lit-material/testing";
 import "@lit-material/list";
 import "./menu.js";
 import type { LitMaterialMenu } from "./menu.js";
@@ -224,5 +225,80 @@ describe("lit-material-menu", () => {
     expect(menu.open).to.be.true;
     expect(Math.abs(menu.getBoundingClientRect().right - x)).to.be.below(2);
     menu.close();
+  });
+});
+
+describe("lit-material-menu inside another component's shadow root", () => {
+  async function shadowMenu() {
+    const { root } = await shadowFixture<HTMLDivElement>(html`
+      <div>
+        <button id="trigger">Open</button>
+        <lit-material-menu id="menu" anchor="trigger">
+          <lit-material-list-item interactive id="one">Apple</lit-material-list-item>
+          <lit-material-list-item interactive id="two">Banana</lit-material-list-item>
+          <lit-material-list-item interactive id="three">Blueberry</lit-material-list-item>
+          <lit-material-list-item interactive id="four">Cherry</lit-material-list-item>
+        </lit-material-menu>
+      </div>
+    `);
+    const menu = root.querySelector<LitMaterialMenu>("#menu")!;
+    const trigger = root.querySelector<HTMLButtonElement>("#trigger")!;
+    const item = (id: string) => root.querySelector<HTMLElement>(`#${id}`)!;
+    return { root, menu, trigger, item };
+  }
+
+  it("walks every item with ArrowDown/ArrowUp", async () => {
+    const { root, menu, trigger, item } = await shadowMenu();
+    menu.show(trigger);
+    await menu.updateComplete;
+    await sendKeys({ press: "ArrowDown" });
+    expect(root.activeElement).to.equal(item("one"));
+    await sendKeys({ press: "ArrowDown" });
+    expect(root.activeElement).to.equal(item("two"));
+    await sendKeys({ press: "ArrowDown" });
+    expect(root.activeElement).to.equal(item("three"));
+    await sendKeys({ press: "ArrowUp" });
+    expect(root.activeElement).to.equal(item("two"));
+    menu.close();
+  });
+
+  it("exposes menu semantics and keeps the anchor's aria-expanded in sync", async () => {
+    const { menu, trigger, item } = await shadowMenu();
+    expect(menu.getAttribute("role")).to.equal("menu");
+    menu.show(trigger);
+    await menu.updateComplete;
+    await item("one").updateComplete;
+    expect(trigger.getAttribute("aria-haspopup")).to.equal("menu");
+    expect(trigger.getAttribute("aria-expanded")).to.equal("true");
+    expect(trigger.getAttribute("aria-controls")).to.equal("menu");
+    expect(item("one").shadowRoot!.querySelector("button")!.getAttribute("role")).to.equal("menuitem");
+    menu.close();
+    await menu.updateComplete;
+    expect(trigger.getAttribute("aria-expanded")).to.equal("false");
+  });
+
+  it("moves to items by typed letters (typeahead) and cycles on a repeated letter", async () => {
+    const { root, menu, trigger, item } = await shadowMenu();
+    menu.show(trigger);
+    await menu.updateComplete;
+    await sendKeys({ press: "c" });
+    expect(root.activeElement).to.equal(item("four"));
+    await new Promise((r) => setTimeout(r, 600));
+    await sendKeys({ press: "b" });
+    expect(root.activeElement).to.equal(item("two"));
+    await sendKeys({ press: "b" });
+    expect(root.activeElement).to.equal(item("three"));
+    menu.close();
+  });
+
+  it("closes on Tab and returns focus to the anchor", async () => {
+    const { root, menu, trigger } = await shadowMenu();
+    menu.show(trigger);
+    await menu.updateComplete;
+    await sendKeys({ press: "ArrowDown" });
+    await sendKeys({ press: "Tab" });
+    await menu.updateComplete;
+    expect(menu.open).to.be.false;
+    expect(root.activeElement).to.equal(trigger);
   });
 });

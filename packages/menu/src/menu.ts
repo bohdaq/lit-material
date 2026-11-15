@@ -1,6 +1,7 @@
 import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { isRtl } from "@lit-material/core/localize.js";
+import { focusedItem } from "@lit-material/core/active-element.js";
 import { styles } from "./menu-styles.js";
 
 /**
@@ -20,9 +21,14 @@ import { styles } from "./menu-styles.js";
  * its own). Arrow Down/Up from that neutral state still correctly land on
  * the first/last item respectively, so navigation isn't affected.
  *
- * Because items carry `role="listitem"` (not `menuitem`), this host takes
- * `role="list"` rather than the ARIA `menu` role — a floating, keyboard-
- * navigable list rather than a strict ARIA menu/menuitem widget.
+ * The host takes the ARIA `menu` role and marks its slotted list items with
+ * `menu-item`, which exposes each interactive item as a `menuitem`. The
+ * anchor gets `aria-haspopup="menu"`, `aria-controls` (when the menu has an
+ * id) and `aria-expanded`, kept in sync with `open`.
+ *
+ * Keyboard: Arrow Up/Down move (wrapping), Home/End jump, typing a letter
+ * moves to the next item starting with what was typed, Escape closes, and
+ * Tab closes the menu and returns focus to the anchor.
  *
  * @element lit-material-menu
  *
@@ -56,9 +62,7 @@ export class LitMaterialMenu extends LitElement {
   override connectedCallback(): void {
     super.connectedCallback();
     this.setAttribute("popover", "auto");
-    // Slotted lit-material-list-item children carry role="listitem", which
-    // requires a role="list" ancestor — same as lit-material-list itself.
-    this.setAttribute("role", "list");
+    this.setAttribute("role", "menu");
     // Not in the tab order, but a valid `focus()` target: see `updated()`.
     this.tabIndex = -1;
   }
@@ -114,6 +118,8 @@ export class LitMaterialMenu extends LitElement {
 
   protected override updated(changed: Map<string, unknown>): void {
     if (!changed.has("open")) return;
+    this.markItems();
+    this.syncAnchor();
     if (this.open) {
       if (!this.matches(":popover-open")) {
         this.showPopover();
@@ -126,8 +132,33 @@ export class LitMaterialMenu extends LitElement {
   }
 
   override render() {
-    return html`<slot part="menu"></slot>`;
+    return html`<slot part="menu" @slotchange=${this.markItems}></slot>`;
   }
+
+  /** Every list item in the menu (interactive or not), through nested slots. */
+  private get allItems(): HTMLElement[] {
+    const slot = this.shadowRoot?.querySelector("slot");
+    const roots = slot ? slot.assignedElements({ flatten: true }) : Array.from(this.children);
+    return roots.flatMap((el) =>
+      el.localName === "lit-material-list-item" ? [el] : Array.from(el.querySelectorAll("lit-material-list-item")),
+    ) as HTMLElement[];
+  }
+
+  private readonly markItems = (): void => {
+    for (const item of this.allItems) (item as HTMLElement & { menuItem: boolean }).menuItem = true;
+  };
+
+  private syncAnchor(): void {
+    const anchor = this.anchorElement;
+    if (!anchor) return;
+    anchor.setAttribute("aria-haspopup", "menu");
+    anchor.setAttribute("aria-expanded", String(this.open));
+    if (this.id && (anchor.getRootNode() === this.getRootNode())) anchor.setAttribute("aria-controls", this.id);
+  }
+
+  /** Typeahead: what was typed in the last half second. */
+  private typed = "";
+  private typedAt = 0;
 
   /**
    * Interactive, non-disabled, shown `lit-material-list-item`s, in document
@@ -180,6 +211,20 @@ export class LitMaterialMenu extends LitElement {
   }
 
   private readonly handleKeydown = (event: KeyboardEvent): void => {
+    // A text field inside the menu (a filter) keeps its own letters and Tab.
+    const origin = event.composedPath()[0] as HTMLElement | undefined;
+    const typing = !!origin && (origin.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(origin.tagName));
+    if (event.key === "Tab" && !typing) {
+      // Tab leaves the menu: close it, focus goes back to the anchor.
+      event.preventDefault();
+      this.close();
+      this.anchorElement?.focus();
+      return;
+    }
+    if (!typing && event.key.length === 1 && event.key !== " " && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      this.typeahead(event);
+      return;
+    }
     const forward = event.key === "ArrowDown";
     const backward = event.key === "ArrowUp";
     const home = event.key === "Home";
@@ -190,7 +235,8 @@ export class LitMaterialMenu extends LitElement {
     if (items.length === 0) return;
     event.preventDefault();
 
-    const currentIndex = items.indexOf(document.activeElement as HTMLElement);
+    const current = focusedItem(items);
+    const currentIndex = current ? items.indexOf(current) : -1;
     let nextIndex: number;
     if (home) nextIndex = 0;
     else if (end) nextIndex = items.length - 1;
@@ -199,6 +245,28 @@ export class LitMaterialMenu extends LitElement {
 
     items[nextIndex]?.focus();
   };
+
+  private typeahead(event: KeyboardEvent): void {
+    const items = this.items;
+    if (items.length === 0) return;
+    event.preventDefault();
+    const now = Date.now();
+    this.typed = now - this.typedAt > 500 ? event.key.toLowerCase() : this.typed + event.key.toLowerCase();
+    this.typedAt = now;
+    const current = focusedItem(items);
+    const start = current ? items.indexOf(current) : -1;
+    // A repeated single letter cycles through the items starting with it.
+    const repeat = this.typed.length > 1 && [...this.typed].every((c) => c === this.typed[0]);
+    const query = repeat ? this.typed[0]! : this.typed;
+    const from = this.typed.length === 1 || repeat ? start + 1 : Math.max(start, 0);
+    for (let i = 0; i < items.length; i++) {
+      const item = items[(from + i) % items.length]!;
+      if ((item.textContent ?? "").trim().toLowerCase().startsWith(query)) {
+        item.focus();
+        return;
+      }
+    }
+  }
 
   private readonly handleItemClick = (event: MouseEvent): void => {
     const path = event.composedPath();

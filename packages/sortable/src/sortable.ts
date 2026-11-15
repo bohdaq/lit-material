@@ -2,6 +2,7 @@ import { css, html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
 import { cssProps } from "@lit-material/core/css-props.js";
+import { containsFocus } from "@lit-material/core/active-element.js";
 
 /**
  * One live region for every sortable, in <body>: inside the list it would be
@@ -502,8 +503,7 @@ export class LitMaterialSortable extends LitElement {
     requestAnimationFrame(() =>
       requestAnimationFrame(() => {
         if (this.grabbed !== grabbed) return;
-        const active = document.activeElement;
-        if (active && this.contains(active)) return;
+        if (containsFocus(this)) return;
         if (event.relatedTarget && this.contains(event.relatedTarget as Node)) return;
         this.drop(
           this.localize.term("sortable.droppedAtPosition", "{name} dropped at position {position}.", {

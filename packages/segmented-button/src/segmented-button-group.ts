@@ -1,6 +1,7 @@
 import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { isRtl } from "@lit-material/core/localize.js";
+import { focusedItem } from "@lit-material/core/active-element.js";
 import type { LitMaterialSegmentedButton } from "./segmented-button.js";
 import { styles } from "./segmented-button-group-styles.js";
 
@@ -115,7 +116,7 @@ export class LitMaterialSegmentedButtonGroup extends LitElement {
   private readonly handleKeydown = (event: KeyboardEvent): void => {
     const buttons = this.enabledButtons;
     if (buttons.length === 0) return;
-    const current = document.activeElement as LitMaterialSegmentedButton | null;
+    const current = focusedItem(this.buttons) ?? null;
     const index = current ? buttons.indexOf(current) : -1;
 
     // Left/Right follow reading order: in RTL, ArrowLeft moves to the next segment.

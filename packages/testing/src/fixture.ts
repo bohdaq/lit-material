@@ -32,6 +32,31 @@ export async function fixture<E extends Element = HTMLElement>(content: Template
   return first as E;
 }
 
+/**
+ * Like `fixture()`, but renders the template inside the open shadow root of a
+ * plain host element — the way components are really used in an app, inside
+ * another component. `document.activeElement` then reports the host, not the
+ * focused item, which is exactly what roving-focus components must cope with.
+ * Returns the first rendered element and the shadow root it lives in.
+ */
+export async function shadowFixture<E extends Element = HTMLElement>(
+  content: TemplateResult,
+): Promise<{ element: E; root: ShadowRoot; host: HTMLElement }> {
+  const container = document.createElement("div");
+  container.dataset.litMaterialFixture = "";
+  document.body.append(container);
+  mounted.add(container);
+  const host = document.createElement("div");
+  host.dataset.litMaterialShadowHost = "";
+  container.append(host);
+  const root = host.attachShadow({ mode: "open" });
+  render(content, root);
+  await waitForUpdate(host);
+  const first = root.firstElementChild;
+  if (!first) throw new Error("shadowFixture: the template rendered no element");
+  return { element: first as E, root, host };
+}
+
 /** Removes everything `fixture()` added (and clears containers it was given). */
 export function cleanup(): void {
   for (const container of mounted) {

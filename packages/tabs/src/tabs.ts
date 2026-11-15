@@ -1,6 +1,7 @@
 import { html, LitElement } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { isRtl } from "@lit-material/core/localize.js";
+import { focusedItem } from "@lit-material/core/active-element.js";
 import type { LitMaterialTab } from "./tab.js";
 import type { LitMaterialTabPanel } from "./tab-panel.js";
 import { styles } from "./tabs-styles.js";
@@ -295,7 +296,7 @@ export class LitMaterialTabs extends LitElement {
   private readonly handleKeydown = (event: KeyboardEvent): void => {
     const tabs = this.enabledTabs;
     if (tabs.length === 0) return;
-    const current = document.activeElement as LitMaterialTab | null;
+    const current = focusedItem(this.tabs) ?? null;
     const index = current ? tabs.indexOf(current) : -1;
     // Arrows follow reading order: right to left, ArrowLeft is "next".
     const rtl = (event.key === "ArrowLeft" || event.key === "ArrowRight") && isRtl(this);

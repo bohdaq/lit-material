@@ -3,6 +3,7 @@ import { render } from "lit";
 import { repeat } from "lit/directives/repeat.js";
 import { sendKeys } from "@web/test-runner-commands";
 import { registerTranslation } from "@lit-material/core/localize.js";
+import { shadowFixture } from "@lit-material/testing";
 import "./sortable.js";
 import type { LitMaterialSortable, SortDetail } from "./sortable.js";
 
@@ -289,5 +290,37 @@ describe("lit-material-sortable localization", () => {
     expect(el.announcement).to.equal("⋮Alpha déplacé en position 2 sur 4.");
     await sendKeys({ press: "Space" });
     expect(el.announcement).to.equal("⋮Alpha déposé en position 2 sur 4.");
+  });
+});
+
+describe("lit-material-sortable inside another component's shadow root", () => {
+  it("keeps the grabbed item through a keyboard move (focus is inside, document.activeElement is the host)", async () => {
+    const { root } = await shadowFixture<HTMLDivElement>(html`<div style="width: 240px"></div>`);
+    const box = root.firstElementChild as HTMLElement;
+    const data = ["Alpha", "Beta", "Gamma"];
+    const draw = () =>
+      render(
+        html`<lit-material-sortable label="Things" @sort=${(e: CustomEvent<SortDetail>) => {
+          const [moved] = data.splice(e.detail.from, 1);
+          data.splice(e.detail.to, 0, moved!);
+          draw();
+        }}>
+          ${repeat(data, (n) => n, (n) => html`<div data-sort-id=${n} style="height: 32px; display: flex"><button data-sort-handle aria-label=${`Reorder ${n}`}>⋮</button>${n}</div>`)}
+        </lit-material-sortable>`,
+        box,
+      );
+    draw();
+    const el = box.querySelector("lit-material-sortable") as LitMaterialSortable;
+    await el.updateComplete;
+    handle(el, "Alpha").focus();
+    await sendKeys({ press: "Space" });
+    await sendKeys({ press: "ArrowDown" });
+    await frames();
+    await frames();
+    expect(el.querySelector('[data-sort-id="Alpha"]')!.hasAttribute("data-sort-grabbed")).to.be.true;
+    await sendKeys({ press: "ArrowDown" });
+    await frames();
+    await sendKeys({ press: "Space" });
+    expect(data).to.deep.equal(["Beta", "Gamma", "Alpha"]);
   });
 });

@@ -16,3 +16,4 @@ export {
   type PluralMessage,
   type MessageArgs,
 } from "./localize.js";
+export { activeElementPath, deepActiveElement, focusedItem, containsFocus } from "./active-element.js";

@@ -1,4 +1,4 @@
-export { fixture, cleanup, type FixtureOptions } from "./fixture.js";
+export { fixture, shadowFixture, cleanup, type FixtureOptions } from "./fixture.js";
 export { waitForUpdate, waitFor, nextFrame } from "./wait.js";
 export {
   getByRole,
