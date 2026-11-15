@@ -26,7 +26,7 @@ declare module "react" {
         "oninput"?: (event: Event) => void;
       };
       /** Material Design 3 text field. */
-      "lit-material-text-field": ElementProps<LitMaterialTextField, "autocomplete" | "disabled" | "error" | "errorText" | "form" | "inputmode" | "label" | "max" | "maxlength" | "min" | "minlength" | "name" | "pattern" | "placeholder" | "prefix" | "readonly" | "required" | "step" | "suffix" | "supportingText" | "type" | "value" | "variant"> & {
+      "lit-material-text-field": ElementProps<LitMaterialTextField, "autocomplete" | "disabled" | "error" | "errorText" | "form" | "inputAria" | "inputmode" | "label" | "max" | "maxlength" | "min" | "minlength" | "name" | "pattern" | "placeholder" | "prefix" | "readonly" | "required" | "step" | "suffix" | "supportingText" | "type" | "value" | "variant"> & {
         "onchange"?: (event: Event) => void;
         "oninput"?: (event: Event) => void;
       };

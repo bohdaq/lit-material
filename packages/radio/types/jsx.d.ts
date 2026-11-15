@@ -3,6 +3,7 @@
 // `import type {} from "<package>/jsx";`. React 19 adds a listener for `on<event>` props as written.
 import type { DetailedHTMLProps, HTMLAttributes } from "react";
 import type { LitMaterialRadio } from "../dist/radio.js";
+import type { LitMaterialRadioGroup } from "../dist/radio-group.js";
 
 type ElementProps<E, K extends keyof E> = Omit<DetailedHTMLProps<HTMLAttributes<E>, E>, K> & Partial<Pick<E, K>>;
 
@@ -13,6 +14,8 @@ declare module "react" {
       "lit-material-radio": ElementProps<LitMaterialRadio, "ariaLabel" | "ariaLabelledBy" | "checked" | "disabled" | "error" | "form" | "label" | "name" | "required" | "supportingText" | "value"> & {
         "onchange"?: (event: Event) => void;
       };
+      /** A labelled group of `lit-material-radio`s: gives them the ARIA `radiogroup` role and an accessible name, and shows the label above them. Grouping, arrow keys and the single tab stop still come from the radios' shared `name`; this element only adds the semantics and the layout. ```html <lit-material-radio-group label="Plan"> <label><lit-material-radio name="plan" value="free" checked></lit-material-radio> Free</label> <label><lit-material-radio name="plan" value="team"></lit-material-radio> Team</label> </lit-material-radio-group> ``` */
+      "lit-material-radio-group": ElementProps<LitMaterialRadioGroup, "label" | "orientation">;
     }
   }
 }

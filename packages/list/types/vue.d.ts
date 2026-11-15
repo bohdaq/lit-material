@@ -10,6 +10,6 @@ declare module "vue" {
     /** Material Design 3 list — a surface container for `lit-material-list-item` children. */
     "lit-material-list": DefineComponent<Partial<Pick<LitMaterialList, never>>>;
     /** Material Design 3 list item. By default a list item is a plain, non-interactive row (`role="listitem"`): no hover/press feedback, no keyboard focus. Set `interactive` (or `href`) to make the *whole row* a single clickable/tappable surface instead — it then renders as a real `<button>` or `<a>` with the same ripple/focus-ring treatment as `lit-material-card`. */
-    "lit-material-list-item": DefineComponent<Partial<Pick<LitMaterialListItem, "disabled" | "divider" | "form" | "href" | "interactive" | "name" | "selected" | "target" | "type" | "value">>>;
+    "lit-material-list-item": DefineComponent<Partial<Pick<LitMaterialListItem, "disabled" | "divider" | "form" | "href" | "interactive" | "menuItem" | "name" | "selected" | "target" | "type" | "value">>>;
   }
 }

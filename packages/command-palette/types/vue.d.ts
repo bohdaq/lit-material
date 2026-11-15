@@ -7,7 +7,7 @@ import type { LitMaterialCommandPalette } from "../dist/command-palette.js";
 declare module "vue" {
   interface GlobalComponents {
     /** A modal command palette: one search field over commands and items, fuzzy matched, grouped by section, fully usable from the keyboard. Open it from your own shortcut (⌘K, Ctrl+K…) with `show()` or `open` — the palette binds no global keys. Typing a prefix from `prefixes` (e.g. `>` for "Commands") limits the list to that section. Arrow keys, Home and End move, Enter chooses (`select`), Escape or a click outside closes (`close`). Tab fires a cancelable `tab` with the query, for handing it to something else such as an assistant; focus stays in the palette while it is open and goes back where it was when it closes. Built on the native `<dialog>` (top layer, inert page behind) with the ARIA combobox pattern: the field is a combobox controlling a listbox, and the active row is its `aria-activedescendant`. */
-    "lit-material-command-palette": DefineComponent<Partial<Pick<LitMaterialCommandPalette, "items" | "label" | "open" | "placeholder" | "prefixes">> & {
+    "lit-material-command-palette": DefineComponent<Partial<Pick<LitMaterialCommandPalette, "hints" | "items" | "label" | "open" | "placeholder" | "prefixes" | "preview">> & {
         onClose?: (event: Event) => void;
         onSelect?: (event: CustomEvent) => void;
         onTab?: (event: CustomEvent) => void;

@@ -3,6 +3,7 @@
 // tell the compiler they're custom elements: compilerOptions.isCustomElement = (tag) => tag.startsWith("lit-material-").
 import type { DefineComponent } from "vue";
 import type { LitMaterialRadio } from "../dist/radio.js";
+import type { LitMaterialRadioGroup } from "../dist/radio-group.js";
 
 declare module "vue" {
   interface GlobalComponents {
@@ -10,5 +11,7 @@ declare module "vue" {
     "lit-material-radio": DefineComponent<Partial<Pick<LitMaterialRadio, "ariaLabel" | "ariaLabelledBy" | "checked" | "disabled" | "error" | "form" | "label" | "name" | "required" | "supportingText" | "value">> & {
         onChange?: (event: Event) => void;
       }>;
+    /** A labelled group of `lit-material-radio`s: gives them the ARIA `radiogroup` role and an accessible name, and shows the label above them. Grouping, arrow keys and the single tab stop still come from the radios' shared `name`; this element only adds the semantics and the layout. ```html <lit-material-radio-group label="Plan"> <label><lit-material-radio name="plan" value="free" checked></lit-material-radio> Free</label> <label><lit-material-radio name="plan" value="team"></lit-material-radio> Team</label> </lit-material-radio-group> ``` */
+    "lit-material-radio-group": DefineComponent<Partial<Pick<LitMaterialRadioGroup, "label" | "orientation">>>;
   }
 }

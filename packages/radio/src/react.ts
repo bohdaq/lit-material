@@ -3,6 +3,7 @@
 import * as React from "react";
 import { createComponent, type EventName } from "@lit/react";
 import { LitMaterialRadio } from "./radio.js";
+import { LitMaterialRadioGroup } from "./radio-group.js";
 
 /** React wrapper for `<lit-material-radio>`. */
 export const Radio = createComponent({
@@ -13,4 +14,12 @@ export const Radio = createComponent({
     onChange: "change" as EventName<Event>,
   },
   displayName: "Radio",
+});
+
+/** React wrapper for `<lit-material-radio-group>`. */
+export const RadioGroup = createComponent({
+  tagName: "lit-material-radio-group",
+  elementClass: LitMaterialRadioGroup,
+  react: React,
+  displayName: "RadioGroup",
 });

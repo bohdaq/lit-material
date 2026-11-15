@@ -23,7 +23,7 @@ declare module "vue" {
         onInput?: (event: Event) => void;
       }>;
     /** Material Design 3 text field. */
-    "lit-material-text-field": DefineComponent<Partial<Pick<LitMaterialTextField, "autocomplete" | "disabled" | "error" | "errorText" | "form" | "inputmode" | "label" | "max" | "maxlength" | "min" | "minlength" | "name" | "pattern" | "placeholder" | "prefix" | "readonly" | "required" | "step" | "suffix" | "supportingText" | "type" | "value" | "variant">> & {
+    "lit-material-text-field": DefineComponent<Partial<Pick<LitMaterialTextField, "autocomplete" | "disabled" | "error" | "errorText" | "form" | "inputAria" | "inputmode" | "label" | "max" | "maxlength" | "min" | "minlength" | "name" | "pattern" | "placeholder" | "prefix" | "readonly" | "required" | "step" | "suffix" | "supportingText" | "type" | "value" | "variant">> & {
         onChange?: (event: Event) => void;
         onInput?: (event: Event) => void;
       }>;

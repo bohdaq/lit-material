@@ -7,7 +7,7 @@ import type { LitMaterialAutocomplete } from "../dist/autocomplete.js";
 declare module "vue" {
   interface GlobalComponents {
     /** Material Design 3-styled autocomplete — a text field that filters a data-driven `options` list as the user types, following the WAI-ARIA "Editable Combobox With List Autocomplete" pattern (https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-autocomplete-list/). Unlike `lit-material-select` (whose options are slotted elements, each in their own shadow root, navigated via real roving focus because `aria-activedescendant` ID references don't cross shadow boundaries), this component keeps the input and its rendered option rows in the *same* shadow root. That makes `aria-activedescendant` actually work — necessary here since focus must stay on the `<input>` the whole time so typing keeps working, unlike Select's button trigger which has nothing to type into. */
-    "lit-material-autocomplete": DefineComponent<Partial<Pick<LitMaterialAutocomplete, "disabled" | "error" | "errorText" | "form" | "freeText" | "label" | "name" | "open" | "options" | "placeholder" | "required" | "supportingText" | "value" | "variant">> & {
+    "lit-material-autocomplete": DefineComponent<Partial<Pick<LitMaterialAutocomplete, "disabled" | "error" | "errorText" | "form" | "freeText" | "label" | "name" | "open" | "openOnFocus" | "options" | "placeholder" | "required" | "supportingText" | "value" | "variant">> & {
         onChange?: (event: Event) => void;
       }>;
   }
