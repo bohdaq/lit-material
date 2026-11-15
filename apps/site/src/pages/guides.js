@@ -2,7 +2,7 @@
 // rendering, frameworks) and the existing docs guides, embedded.
 import { html } from "lit";
 import { unsafeStatic, html as staticHtml } from "lit/static-html.js";
-import { allGuides } from "../catalog.js";
+import { allGuides, GUIDE_GROUPS } from "../catalog.js";
 import { docsLayout, articleLd } from "../shell.js";
 import { faq, kbd, shortcuts, steps, terminal } from "@lit-material/site-kit/templates.js";
 import { ELEMENTS, targetLabel } from "@lit-material/codemod/mappings";
@@ -382,12 +382,13 @@ export class PeopleComponent {}</code></pre>`],
 
 // Facts about the other libraries checked against their docs and repositories on 2026-11-06 (sources in the guide).
 WRITTEN.compare = {
-  title: "lit-material vs Material Web, Web Awesome and Vaadin",
+  title: "lit-material vs Material Web, Web Awesome, Vaadin, MUI, Angular Material, Vuetify and Ionic",
   lead: "lit-material is for consoles and admin UIs: Material 3 components plus the parts those apps need that Material Web leaves out (data tables, log viewers, charts, navigation shells, forms), each its own npm package, all rendering on the server.",
   sections: [
     ["short-answer", "Short answer", html`
       <p>Use <strong>lit-material</strong> for a Material 3 console or admin UI. Use <strong>Material Web</strong> for a few plain Material 3 controls, knowing it has been in maintenance mode since June 2024. Use <strong>Web Awesome</strong> (formerly Shoelace) for a framework-agnostic design system that isn't Material. Use <strong>Vaadin</strong> for business apps with a Java backend, or its web components on their own.</p>
-      <p>Facts about the other libraries were checked on 2026-11-06 (<a href="#sources">sources</a>). Tell us on <a href="https://github.com/bohdaq/lit-material/issues">GitHub</a> if something has changed.</p>`],
+      <p>If you already chose a framework: <strong>MUI</strong>, <strong>Angular Material</strong> and <strong>Vuetify</strong> are the natural picks inside React, Angular and Vue, and <strong>Ionic</strong> is built for mobile apps. lit-material works in all three frameworks and without one, so a team with several stacks can share one set of components (<a href="#frameworks">compared below</a>).</p>
+      <p>Facts about the other libraries were checked on 2026-11-06, and for MUI, Angular Material, Vuetify and Ionic on 2026-11-15 (<a href="#sources">sources</a>). Tell us on <a href="https://github.com/bohdaq/lit-material/issues">GitHub</a> if something has changed.</p>`],
     ["at-a-glance", "At a glance", cells(
       ["", "lit-material", "Material Web (@material/web)", "Web Awesome / Shoelace", "Vaadin"],
       [
@@ -399,6 +400,26 @@ WRITTEN.compare = {
         ["License", "MIT", "Apache-2.0", "MIT core; Pro commercial", "Apache-2.0 core; commercial Pro components and tools"],
       ],
     )],
+    ["frameworks", "Compared with framework component libraries", cells(
+      ["", "lit-material", "MUI (React)", "Angular Material", "Vuetify (Vue)", "Ionic"],
+      [
+        ["Works with", "Any framework or none (custom elements; React wrappers ship)", "React only", "Angular only", "Vue only", "Angular, React, Vue or plain JavaScript"],
+        ["Design", "Material 3", "Material Design 2 (Material 3 is tracked upstream)", "Material 3 themes (Material 2 themes still offered)", "Material Design 2 and 3 blueprints", "iOS and Material Design modes, per platform"],
+        ["Data table", "Free: sort, select, page, virtualized rows; a data grid with grouping and inline edit", "Data Grid free; multi-filter, multi-sort and pinning in paid Pro/Premium", "Table free, built on the CDK", "Data table free", "None built in: aimed at mobile screens"],
+        ["Charts, log viewer, app shell", "Included, free", "Charts in MUI X (advanced features paid); no log viewer", "No charts or log viewer", "No charts or log viewer", "No charts or log viewer"],
+        ["Rendered on the server", "Lit SSR, tested for every element", "With your React framework (e.g. Next.js)", "With Angular SSR", "With Nuxt", "With your framework"],
+        ["License", "MIT", "MIT core; MUI X Pro/Premium commercial", "MIT", "MIT", "MIT"],
+      ],
+    )],
+    ["when-not", "When not to use lit-material", html`
+      <ul>
+        <li>Your app is already built on MUI, Angular Material or Vuetify and leans on their ecosystem (themes, templates, plugins): switching gives you little.</li>
+        <li>You need a company behind the library, with paid support or a support contract: lit-material has one maintainer today.</li>
+        <li>You want a look that isn't Material (Web Awesome, your own design system) or an iOS feel on phones (Ionic).</li>
+        <li>You depend on your framework's own server rendering of every component (Next.js, Nuxt): lit-material is tested with Lit SSR, and inside other frameworks it renders on the client.</li>
+        <li>You need a Figma kit or an accessibility conformance report (VPAT): both are on the roadmap, not done.</li>
+        <li>You need a spreadsheet-like grid with column filters and multi-column sort today.</li>
+      </ul>`],
     ["when", "When to choose which", html`
       <ul>
         <li><strong>lit-material</strong>: a console, dashboard or admin UI that should look Material 3, render on the server and ship only the components it uses.</li>
@@ -410,7 +431,11 @@ WRITTEN.compare = {
     ["sources", "Sources", html`
       <ul>
         <li>Material Web: <a href="https://github.com/material-components/material-web">repository</a>, <a href="https://github.com/material-components/material-web/discussions/5642">maintenance mode announcement</a>, <a href="https://github.com/material-components/material-web/issues/4245">server rendering</a>, <a href="https://www.npmjs.com/package/@material/web">npm</a></li>
-        <li>Web Awesome and Shoelace: <a href="https://webawesome.com/docs/">docs</a>, <a href="https://webawesome.com/docs/components/">components</a>, <a href="https://webawesome.com/docs/ssr/">server rendering</a>, <a href="https://webawesome.com/pro/">Pro</a>, <a href="https://github.com/shoelace-style/shoelace">Shoelace repository</a></li>
+        <li>Web Awesome and Shoelace: <a href="https://webawesome.com/docs/">docs</a>, <a href="https://webawesome.com/docs/components/">components</a>, <a href="https://webawesome.com/docs/ssr">server rendering</a>, <a href="https://webawesome.com/pro">Pro</a>, <a href="https://github.com/shoelace-style/shoelace">Shoelace repository</a></li>
+        <li>MUI: <a href="https://mui.com/material-ui/getting-started/">Material UI overview</a> (Material Design 2), <a href="https://mui.com/x/introduction/licensing/">MUI X licensing</a></li>
+        <li>Angular Material: <a href="https://github.com/angular/components/blob/main/guides/theming.md">theming guide</a> (Material 3 and Material 2 themes)</li>
+        <li>Vuetify: <a href="https://github.com/vuetifyjs/vuetify/blob/master/packages/docs/src/pages/en/features/blueprints.md">blueprints</a> (Material Design 2 and 3)</li>
+        <li>Ionic: <a href="https://github.com/ionic-team/ionic-framework">repository</a> (ios and md modes)</li>
         <li>Vaadin: <a href="https://github.com/vaadin/web-components">web components</a>, <a href="https://vaadin.com/docs/latest/upgrading">upgrading to 25</a>, <a href="https://vaadin.com/pricing">pricing</a></li>
       </ul>`],
   ],
@@ -565,7 +590,7 @@ export function guidePage(slug, entry) {
           toc: written.sections.map(([id, text]) => ({ id, text })),
           content: html`
             <article class="docs-article prose-page" data-pagefind-body>
-              <p class="breadcrumb"><a href="/guides/install/">Guides</a></p>
+              <p class="breadcrumb"><a href="/guides/">Guides</a></p>
               <h1>${written.title}</h1>
               <p class="docs-lead">${written.lead}</p>
               <div class="prose">${written.sections.map(([id, text, body]) => html`<h2 id=${id}>${text}</h2>${body}`)}</div>
@@ -575,7 +600,7 @@ export function guidePage(slug, entry) {
   }
   const result = entry.render({});
   const tag = /<(docs-[a-z0-9-]+)/.exec(result.strings.join(""))?.[1];
-  const meta = { path, title: `${guide.label} · lit-material`, description: `${guide.label}: a lit-material guide.` };
+  const meta = { path, title: `${guide.label} · lit-material`, description: guide.description || `${guide.label}: a lit-material guide.` };
   meta.jsonLd = articleLd({ title: guide.label, description: meta.description, path, crumbs: [{ name: "Guides", item: "https://lit.rws8.tech/guides/install/" }] });
   return {
     meta,
@@ -584,10 +609,44 @@ export function guidePage(slug, entry) {
         path,
         content: html`
           <article class="docs-article" data-search-embed>
-            <p class="breadcrumb"><a href="/guides/install/">Guides</a></p>
+            <p class="breadcrumb"><a href="/guides/">Guides</a></p>
             <h1>${guide.label}</h1>
             <div class="demo guide-embed">${tag ? staticHtml`<${unsafeStatic(tag)} embedded></${unsafeStatic(tag)}>` : result}</div>
           </article>`,
       }),
   };
 }
+
+// /guides/ — every guide, by group, with what it is about.
+const GROUP_ABOUT = {
+  Start: "Install lit-material, render it on the server, use it from a framework, and see how it compares.",
+  "Build an app": "Scaffold an app and build it out: routing, state, data, forms, testing.",
+  Theming: "Match your brand: colour tokens from a seed colour, and the type scale.",
+};
+export const guidesIndex = {
+  meta: {
+    path: "/guides/",
+    title: "Guides · lit-material",
+    description: "lit-material guides: install, server rendering, frameworks, building a whole app (router, store, forms, data), theming, and comparisons with other libraries.",
+  },
+  render: () =>
+    docsLayout({
+      path: "/guides/",
+      toc: GUIDE_GROUPS.map((g) => ({ id: g.label.toLowerCase().replace(/[^a-z]+/g, "-"), text: g.label })),
+      content: html`
+        <article class="docs-article" data-pagefind-body>
+          <h1>Guides</h1>
+          <p class="docs-lead">From the first component to a whole app: start here, build an app, then make it yours.</p>
+          ${GUIDE_GROUPS.map(
+            (g) => html`
+              <section aria-labelledby=${g.label.toLowerCase().replace(/[^a-z]+/g, "-")}>
+                <h2 id=${g.label.toLowerCase().replace(/[^a-z]+/g, "-")}>${g.label}</h2>
+                ${GROUP_ABOUT[g.label] ? html`<p>${GROUP_ABOUT[g.label]}</p>` : ""}
+                <ul>
+                  ${g.items.map((item) => html`<li><a href=${`/guides/${item.slug}/`}><b>${item.label}</b></a>${WRITTEN[item.slug]?.lead || item.description ? html`: ${WRITTEN[item.slug]?.lead || item.description}` : ""}</li>`)}
+                </ul>
+              </section>`,
+          )}
+        </article>`,
+    }),
+};

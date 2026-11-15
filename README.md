@@ -4,7 +4,7 @@ A [Material Design 3](https://m3.material.io/) web component collection built wi
 one package per component, no shared mega-bundle, no required adapter layer. Framework-agnostic, SSR-ready,
 and small enough to actually read the source of.
 
-- **64 components**, each its own npm package — install only what you use.
+- **90 components**, each its own npm package — install only what you use.
 - **Zero runtime dependencies beyond Lit.** No icon font, no CSS-in-JS runtime, no framework required.
 - **SSR-ready.** Every component is tested against [`@lit-labs/ssr`](https://www.npmjs.com/package/@lit-labs/ssr)
   as well as in a real browser.

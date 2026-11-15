@@ -20,7 +20,18 @@ const TILES = [
   ["hard-drives", "Rendered on the server", "Every element renders with Lit SSR and hydrates without changing what it shows. CI checks it on each change.", "/guides/server-rendering/"],
   ["table", "Built for consoles", "Tables with paging, a live log viewer, usage meters, key value editors, code fields and charts, next to the usual buttons and fields.", "/components/#data"],
   ["person-arms-spread", "Accessible from the start", "Keyboard paths, labels that reach across shadow roots, and an axe check in the tests of every component.", "/components/"],
+  ["app-window", "Enough for a whole app", "A router, a store, forms, an HTTP client and an app shell come with the components, and one command scaffolds a working console to start from.", "#whole-app"],
   ["palette", "Themed with tokens", "Material 3 colour, type and shape tokens as CSS custom properties, light and dark mode, and a theme builder for your brand colour.", "/guides/theming/"],
+];
+
+// The whole-app section: what a console needs, and the packages that cover it.
+const APP_PARTS = [
+  ["Frame", "Top app bar, adaptive navigation (drawer, rail or bottom bar by screen size), sidebar, page layout, command palette and a light/dark switch.", "/components/navigation/"],
+  ["Routing and state", "@lit-material/router for nested routes, guards, redirects, lazy pages and loaders; @lit-material/store with devtools; theme and locale context from core.", "/guides/router/"],
+  ["Data", "An HTTP client, cached tasks, a data table with sorting, selection, paging and virtualized rows, a data grid that groups, edits and exports CSV, charts, stats and a log viewer.", "/components/data-table/"],
+  ["Forms and feedback", "A form controller over fields that join native forms, dialogs, confirmations, snackbars, alerts, skeletons and empty states.", "/guides/form/"],
+  ["Accounts and billing", "Sign-in, one-time codes, pricing tables and onboarding checklists.", "/components/sign-in/"],
+  ["Shipping", "Server rendering through the Vite plugin, test helpers, a strict CSP checked in CI, and translations in 8 languages with right-to-left layout.", "/guides/building-apps/"],
 ];
 
 const STEPS = [
@@ -30,20 +41,22 @@ const STEPS = [
 ];
 
 const USED_BY = [
-  ["The rws admin UI", "Live traffic, upstreams, certificates and logs for the rws web server.", "https://rws8.tech/docs/features/admin/"],
+  ["The rws admin UI", "Live traffic, upstreams, certificates and logs for the rws web server.", "https://rws8.tech/docs/deployment/admin/"],
   ["HITOP", "A web app for sending HTTP requests, keeping collections and running tests.", "https://hitop.rws8.tech/app/"],
   ["rws8.tech", "The rws website and its 2,000 docs pages, rendered on the server.", "https://rws8.tech/"],
 ];
 
 export const FAQ = [
   ["Do I need a build step or to know Lit?", "No. The packages are standard ES modules that load in the browser as they are, and you use them as HTML elements. Lit comes along as their shared dependency; you only write Lit if you want to."],
-  ["Does it work with React, Vue or Angular?", "Yes. They are custom elements, so there is no wrapper package. The frameworks guide shows the one setting each framework needs."],
+  ["Does it work with React, Vue or Angular?", "Yes. They are custom elements, so you don't need a wrapper; React wrappers ship anyway, for typed props and events. The frameworks guide shows the one setting each framework needs."],
   ["Can I render it on the server?", "Yes, with Lit SSR. Every element is rendered and hydrated in CI on each change, and this site is rendered the same way."],
-  ["How big is it?", "Most packages are 2 to 5 KB gzipped on their own, plus Lit, which they share. Each package has a size limit that CI enforces."],
+  ["How big is it?", "Half of the packages are under 4 KB gzipped on their own, plus Lit, which they share; the largest (the rich text editor, the calendar) are 15 to 20 KB. Each package has a size limit that CI enforces."],
   ["Which browsers does it support?", "Current Chrome, Edge, Firefox and Safari. Every test runs in Chromium, Firefox and WebKit."],
   ["Does it ship icons?", "No icon set is bundled. Register the SVGs you already use (Phosphor, Material Symbols, Lucide or your own) once, then refer to them by name."],
   ["How do I match my brand?", "Set the Material 3 tokens, or pick a seed colour in the theme builder and copy the CSS it generates. Light and dark mode follow the system or a toggle."],
-  ["Is it ready for production?", "It runs the rws admin UI, the HITOP web app and this site. Versions are below 1.0, so a minor release can change an API; every change is in the changelog."],
+  ["Is it ready for production?", "It runs the rws admin UI, the HITOP web app and this site. Versions follow semantic versioning: breaking changes only in a major release, with a migration note, and the previous major gets security fixes for 12 months. Every change is in the changelog."],
+  ["Can I build a whole app with it, not just add a few controls?", "Yes. Routing, state, forms, data fetching and the app shell are packages of their own, and npm create lit-material-app my-console -- --template console scaffolds a console with sign-in, an organization switcher, a members table and settings pages."],
+  ["How does it compare to MUI, Angular Material or Vuetify?", "Those are tied to one framework; lit-material works in React, Vue, Angular or none, and includes the data grid, charts and log viewer for free. The comparison guide also lists when another library is the better choice."],
   ["What does it cost?", "Nothing. lit-material is MIT licensed."],
 ];
 
@@ -127,6 +140,22 @@ export function render() {
         <ol class="steps">
           ${STEPS.map(([title, body], i) => html`<li><span class="step-number">${i + 1}</span><h3>${title}</h3><p>${body}</p></li>`)}
         </ol>
+      </section>
+
+      <section class="section container reveal" id="whole-app" aria-labelledby="app-title">
+        <h2 id="app-title" class="section-title">Build a whole app, not just a form</h2>
+        <p class="section-lead">The components come with what an app needs around them, so a console, a dashboard or a SaaS back office can be lit-material from the first screen to the settings page.</p>
+        <div class="tiles">
+          ${APP_PARTS.map(
+            ([title, body, href]) => html`
+              <a class="tile" href=${href}>
+                <h3>${title}</h3>
+                <p>${body}</p>
+              </a>`,
+          )}
+        </div>
+        <pre class="app-command" tabindex="0"><code>npm create lit-material-app my-console -- --template console</code></pre>
+        <p class="section-lead">The console template has sign-in, an organization switcher, adaptive navigation, a members table with an invite dialog, settings tabs and plans. <a class="text-link" href="/app-shell-demo/">Try the app shell demo</a> · <a class="text-link" href="/guides/building-apps/">Building apps guide</a> · <a class="text-link" href="/guides/compare/">Compared with MUI, Angular Material and others</a></p>
       </section>
 
       <section class="section container reveal" aria-labelledby="size-title">

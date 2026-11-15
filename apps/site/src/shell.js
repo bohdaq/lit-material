@@ -42,7 +42,7 @@ export function articleLd({ title, description, path, crumbs }) {
 
 const NAV = [
   ["/components/", "Components"],
-  ["/guides/install/", "Guides", "/guides/"],
+  ["/guides/", "Guides", "/guides/"],
   ["/showcase/", "Showcase"],
 ];
 

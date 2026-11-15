@@ -5,7 +5,7 @@ import { navEntries } from "../../../docs/src/route-manifest.ts";
 import { allComponents, allGuides } from "../catalog.js";
 import { setLabels, setSizes } from "../packages.js";
 import { componentPage } from "../pages/component.js";
-import { guidePage } from "../pages/guides.js";
+import { guidePage, guidesIndex } from "../pages/guides.js";
 import * as home from "../pages/home.js";
 import { changelog, componentsIndex, notFound, privacy, showcase } from "../pages/other.js";
 
@@ -24,6 +24,7 @@ export function pages() {
     home,
     componentsIndex,
     ...allComponents().map((slug) => componentPage(slug, bySlug.get(slug))),
+    guidesIndex,
     ...allGuides().map((g) => guidePage(g.slug, g.from ? byPath.get(g.from) : null)),
     showcase,
     changelog,

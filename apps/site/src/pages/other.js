@@ -46,7 +46,7 @@ const SHOWCASE = [
     image: "/brand/showcase-admin.png",
     alt: "The rws admin UI overview: uptime, request counters, a low disk warning and a requests per second chart.",
     text: "The admin console built into the rws web server: live traffic, upstreams, certificates, controls and the access log. Navigation, stats, charts, tables, switches and the log viewer are lit-material.",
-    href: "https://rws8.tech/docs/features/admin/",
+    href: "https://rws8.tech/docs/deployment/admin/",
     link: "About the admin UI",
   },
   {

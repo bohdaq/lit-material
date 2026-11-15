@@ -2,7 +2,7 @@
 
 A small demo app showing `@lit-material/router`, `@lit-material/store`, and `@lit-material/core`'s
 `themeContext` working together — the router/context/store trio from the
-[Building apps guide](https://bohdaq.github.io/lit-material/guide/building-apps), as a running app instead of
+[Building apps guide](https://lit.rws8.tech/guides/building-apps/), as a running app instead of
 just a code sample. **Not published to npm** — a `private` workspace app, same as `apps/docs`.
 
 ## Run
@@ -11,7 +11,7 @@ just a code sample. **Not published to npm** — a `private` workspace app, same
 pnpm --filter @lit-material/app-shell-demo dev
 ```
 
-Then open the printed local URL. Three routes (`/`, `/counter`, `/about`), all rendered by one
+Then open the printed local URL. Five routes (`/`, `/counter`, `/about`, `/data`, `/settings`), all rendered by one
 `<lit-material-router-outlet>`:
 
 - Click the nav links — the page never does a full reload (check the Network tab).

@@ -92,7 +92,7 @@ export class DocsCorePage extends LitElement {
           components have fixed strings to translate, so the translation runtime is your app's own concern.
           Combine <code>localeContext</code> with
           <a href="https://www.npmjs.com/package/@lit/localize" target="_blank"><code>@lit/localize</code></a> for the
-          translated strings themselves. See the <a href=${withBase("/guide/building-apps")}>Building apps guide</a> for a
+          translated strings themselves. See the <a href=${withBase("/guides/building-apps/")}>Building apps guide</a> for a
           worked example wiring both together.
         </p>
       </section>

@@ -26,8 +26,8 @@ export class DocsCliPage extends LitElement {
       <div class="eyebrow">App shell · <code>create-lit-material-app</code></div>
       <h1>CLI starter</h1>
       <p class="lede">
-        Scaffolds a new app with <code>lit-material</code>, <a href=${withBase("/packages/router")}>the router</a>,
-        <a href=${withBase("/packages/store")}>the store</a>, and <a href=${withBase("/packages/core")}>core</a>'s
+        Scaffolds a new app with <code>lit-material</code>, <a href=${withBase("/guides/router/")}>the router</a>,
+        <a href=${withBase("/guides/store/")}>the store</a>, and <a href=${withBase("/guides/core/")}>core</a>'s
         theme context already wired together: a starting point that runs, not just a components library.
       </p>
 
@@ -35,6 +35,7 @@ export class DocsCliPage extends LitElement {
         <h2>Usage</h2>
         <pre tabindex="0"><code>npm create lit-material-app my-app                    # the spa template
 npm create lit-material-app my-blog -- --template ssr  # the ssr template
+npm create lit-material-app my-console -- --template console  # a SaaS console
 cd my-app
 npm install
 npm run dev</code></pre>
@@ -44,6 +45,11 @@ npm run dev</code></pre>
           context wired together. <strong><code>ssr</code></strong> is a server-rendered app on
           <code>@lit-material/vite</code>: routes with loaders, a redirect and a 404, prerendered pages on
           <code>npm run build</code>, and a Node server for <code>npm start</code>.
+          <strong><code>console</code></strong> is the frame most dashboards rebuild by hand: a top bar with an
+          organization switcher and an account menu, navigation that is a drawer, a rail or a bottom bar depending on
+          the window, a sign-in page, a home page with a getting-started checklist, a members page (loading skeleton,
+          empty state, invite dialog, role change, confirm before removing) and settings as tabs, with plans and a
+          danger zone.
         </p>
       </section>
 
@@ -56,7 +62,7 @@ npm run dev</code></pre>
           standalone app). Add more routes to <code>app-shell.ts</code>'s <code>routes</code> array, more
           reducer cases to <code>store.ts</code>, and more components with
           <code>npm install @lit-material/&lt;component&gt;</code> as you grow it. See the
-          <a href=${withBase("/guide/building-apps")}>Building apps guide</a> for <code>@lit-material/task</code> (data
+          <a href=${withBase("/guides/building-apps/")}>Building apps guide</a> for <code>@lit-material/task</code> (data
           fetching) and <code>@lit-material/form</code> (validation) wired into the same shape once you need
           them.
         </p>

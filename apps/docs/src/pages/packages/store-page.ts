@@ -119,7 +119,7 @@ export class DocsStorePage extends LitElement {
         <p>
           Subscribes in <code>hostConnected()</code> and unsubscribes in <code>hostDisconnected()</code>, the
           same reactive controller lifecycle that <code>RippleController</code>/<code>FocusRingController</code> in
-          <a href=${withBase("/packages/core")}><code>@lit-material/core</code></a> use.
+          <a href=${withBase("/guides/core/")}><code>@lit-material/core</code></a> use.
         </p>
       </section>
     `;
