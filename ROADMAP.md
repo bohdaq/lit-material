@@ -3,13 +3,6 @@
 What's planned, roughly in order. Nothing here is a promise of a date. Big items get an [RFC](rfcs/README.md)
 before work starts. The detailed working list is [TODO.md](TODO.md).
 
-## Now: 1.0
-
-- **One version for every package, and 1.0.** Semver, deprecation and support windows are in
-  [VERSIONING.md](VERSIONING.md).
-- **Governance.** [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md), the
-  [code of conduct](CODE_OF_CONDUCT.md), this roadmap and the [RFC process](rfcs/README.md).
-
 ## Next
 
 - **A second maintainer** ([MAINTAINERS.md](MAINTAINERS.md)).
@@ -30,6 +23,10 @@ before work starts. The detailed working list is [TODO.md](TODO.md).
 
 ## Done recently
 
+- 1.0 and one version for every package (now 1.7), with semver, deprecation and support windows in
+  [VERSIONING.md](VERSIONING.md).
+- Governance: [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md), the
+  [code of conduct](CODE_OF_CONDUCT.md), this roadmap and the [RFC process](rfcs/README.md).
 - Router v2 (guards, redirects, lazy routes, loaders, server matching), `@lit-material/vite` server
   rendering, and app templates.
 - React, Vue and Angular typings and wrappers generated from `custom-elements.json`.
