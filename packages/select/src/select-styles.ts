@@ -3,6 +3,9 @@ import { css } from "lit";
 export const styles = css`
   :host {
     display: inline-flex;
+    /* min-width 0 too: as a grid or flex item it would otherwise grow to its label's full width. */
+    min-width: 0;
+    max-width: 100%;
     outline: none;
     vertical-align: top;
     -webkit-tap-highlight-color: transparent;
@@ -20,7 +23,7 @@ export const styles = css`
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-width: var(--lit-material-select-min-width, 210px);
+    min-width: min(var(--lit-material-select-min-width, 210px), 100%);
   }
 
   .trigger {
@@ -41,6 +44,7 @@ export const styles = css`
     transition:
       border-color 100ms linear,
       background-color 100ms linear;
+    min-width: 0;
   }
 
   .trigger:disabled {
@@ -88,6 +92,7 @@ export const styles = css`
     font-family: var(--md-sys-typescale-label-large-font, Roboto, system-ui, sans-serif);
     font-size: var(--md-sys-typescale-label-large-size, 1rem);
     line-height: var(--md-sys-typescale-label-large-line-height, 1.25rem);
+    flex: 1 1 0;
   }
 
   .trigger.floated .value {
@@ -199,6 +204,7 @@ export const styles = css`
     border: none;
     box-sizing: border-box;
     max-height: min(400px, calc(100vh - 32px));
+    max-width: calc(100vw - 16px);
     overflow-y: auto;
     display: none;
     flex-direction: column;

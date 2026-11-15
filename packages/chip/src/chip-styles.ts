@@ -3,6 +3,9 @@ import { css } from "lit";
 export const styles = css`
   :host {
     display: inline-flex;
+    /* min-width 0 too: as a grid or flex item it would otherwise grow to its label's full width. */
+    min-width: 0;
+    max-width: 100%;
     vertical-align: top;
     -webkit-tap-highlight-color: transparent;
   }
@@ -20,6 +23,7 @@ export const styles = css`
     display: inline-flex;
     align-items: stretch;
     box-sizing: border-box;
+    max-width: 100%;
     height: 32px;
     border-radius: var(--md-sys-shape-corner-small, 8px);
     background-color: transparent;
@@ -66,6 +70,7 @@ export const styles = css`
     border-radius: inherit;
     -webkit-appearance: none;
     appearance: none;
+    min-width: 0;
   }
 
   .action:disabled,
@@ -122,6 +127,10 @@ export const styles = css`
     display: inline-flex;
     align-items: center;
     white-space: nowrap;
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .remove {

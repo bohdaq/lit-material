@@ -3,6 +3,9 @@ import { css } from "lit";
 export const styles = css`
   :host {
     display: block;
+    /* As a flex or grid item, don't grow to an unbreakable label's width. */
+    min-width: 0;
+    max-width: 100%;
     outline: none;
     -webkit-tap-highlight-color: transparent;
   }
@@ -127,6 +130,8 @@ export const styles = css`
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    /* A slot is display: contents by default, which would ignore the ellipsis. */
+    display: block;
   }
 
   .supporting-text {

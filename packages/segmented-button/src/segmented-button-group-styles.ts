@@ -2,6 +2,8 @@ import { css } from "lit";
 
 export const styles = css`
   :host {
+    min-width: 0;
+    max-width: 100%;
     display: inline-flex;
     align-items: stretch;
     box-sizing: border-box;

@@ -3,6 +3,8 @@ import { css } from "lit";
 export const styles = css`
   :host {
     display: inline-flex;
+    min-width: 0;
+    max-width: 100%;
     outline: none;
     vertical-align: top;
     -webkit-tap-highlight-color: transparent;
@@ -255,6 +257,7 @@ export const styles = css`
     gap: 8px;
     padding: 4px 16px 0;
     min-height: 1rem;
+    overflow-wrap: anywhere;
     color: var(--md-sys-color-on-surface-variant, #49454f);
     font-family: var(--md-sys-typescale-label-medium-font, Roboto, system-ui, sans-serif);
     font-size: var(--md-sys-typescale-label-medium-size, 0.75rem);

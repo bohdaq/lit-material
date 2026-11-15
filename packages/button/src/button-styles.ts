@@ -3,6 +3,9 @@ import { css } from "lit";
 export const styles = css`
   :host {
     display: inline-flex;
+    /* min-width 0 too: as a grid or flex item it would otherwise grow to its label's full width. */
+    min-width: 0;
+    max-width: 100%;
     outline: none;
     vertical-align: top;
     -webkit-tap-highlight-color: transparent;
@@ -26,7 +29,8 @@ export const styles = css`
     gap: 8px;
     box-sizing: border-box;
     height: var(--lit-material-button-height, var(--md-sys-density-button-height, 40px));
-    min-width: 64px;
+    min-width: min(64px, 100%);
+    max-width: 100%;
     padding: 0 var(--lit-material-button-padding-inline, 24px);
     border: none;
     border-start-start-radius: var(--lit-material-button-shape-start, var(--lit-material-button-shape, var(--md-sys-shape-corner-full, 9999px)));
@@ -100,8 +104,14 @@ export const styles = css`
     height: 18px;
   }
 
+  /* A label longer than the space it gets is cut with an ellipsis, not spilled out of the pill. */
   .label {
     position: relative;
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   /* Filled (default): solid primary container. */

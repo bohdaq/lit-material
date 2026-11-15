@@ -3,6 +3,9 @@ import { css } from "lit";
 export const styles = css`
   :host {
     display: block;
+    min-width: 0;
+    /* An unbreakable token (an id, a URL) wraps instead of widening the page. */
+    overflow-wrap: anywhere;
     /* MD3 doesn't define standard color roles for "success"/"warning"/"info"
        the way it does for "error", so these are this component's own tokens
        (--lit-material-alert-{info,success,warning}-{color,container} and

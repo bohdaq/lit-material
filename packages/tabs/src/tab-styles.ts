@@ -4,6 +4,7 @@ export const styles = css`
   :host {
     display: inline-flex;
     flex: 1;
+    min-width: 0;
     outline: none;
     vertical-align: top;
     -webkit-tap-highlight-color: transparent;
@@ -100,6 +101,8 @@ export const styles = css`
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    display: block;
+    min-width: 0;
   }
 
   :host([disabled]) .tab {

@@ -4,6 +4,7 @@ export const styles = css`
   :host {
     display: inline-flex;
     flex: 1;
+    min-width: 0;
     height: 100%;
     outline: none;
     vertical-align: top;
@@ -109,6 +110,8 @@ export const styles = css`
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    display: block;
+    min-width: 0;
   }
 
   @media (prefers-reduced-motion: reduce) {

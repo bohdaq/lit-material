@@ -3,6 +3,8 @@ import { css } from "lit";
 export const styles = css`
   :host {
     display: inline-flex;
+    min-width: 0;
+    max-width: 100%;
     vertical-align: top;
   }
 
