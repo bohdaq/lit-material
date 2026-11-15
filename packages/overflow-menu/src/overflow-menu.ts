@@ -124,6 +124,9 @@ export class LitMaterialOverflowMenu extends LitElement {
 
     this.menuElement.style.top = `${top}px`;
     this.menuElement.style.left = `${left}px`;
+    // The popover UA style is `inset: 0`: with `right` left at 0 a right-to-left page ignores `left`.
+    this.menuElement.style.right = "auto";
+    this.menuElement.style.bottom = "auto";
   }
 
   private readonly handleMenuToggle = (event: Event): void => {

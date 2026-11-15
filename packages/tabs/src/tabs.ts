@@ -1,6 +1,6 @@
 import { html, LitElement } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { isRtl } from "@lit-material/core/localize.js";
+import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
 import { focusedItem } from "@lit-material/core/active-element.js";
 import type { LitMaterialTab } from "./tab.js";
 import type { LitMaterialTabPanel } from "./tab-panel.js";
@@ -62,6 +62,8 @@ export class LitMaterialTabs extends LitElement {
   private drag?: { tab: LitMaterialTab; from: number; x: number; started: boolean; id: number };
 
   private tabsReady = false;
+  /** Re-renders on a document direction change, which moves the tabs without resizing anything. */
+  private readonly localize = new LocalizeController(this);
 
   @query(".indicator") private readonly indicatorElement?: HTMLElement;
   @query(".scroller") private readonly scroller?: HTMLElement;
@@ -180,12 +182,19 @@ export class LitMaterialTabs extends LitElement {
     if (typeof ResizeObserver !== "undefined") {
       this.resizeObserver = new ResizeObserver(() => this.updateIndicator());
       this.resizeObserver.observe(this);
+      // A tab growing (a web font arriving, a label change) moves the selected one too.
+      for (const tab of this.tabs) this.resizeObserver.observe(tab);
     }
+    // Fonts that finish loading after the first layout shift every tab.
+    void document.fonts?.ready.then(() => this.updateIndicator());
   }
 
   protected override updated(changed: Map<string, unknown>): void {
     if (this.tabsReady && changed.has("selected")) {
       this.syncSelected();
+      this.updateIndicator();
+    } else if (this.tabsReady && changed.size === 0) {
+      // A requestUpdate() with no property change: the direction or language changed.
       this.updateIndicator();
     }
   }

@@ -306,3 +306,22 @@ describe("lit-material-tabs inside another component's shadow root", () => {
     expect(el.selected).to.equal(1);
   });
 });
+
+describe("lit-material-tabs indicator", () => {
+  it("follows the selected tab when the document direction changes", async () => {
+    const { el, tabs } = await tabsFixture();
+    el.selected = 1;
+    await el.updateComplete;
+    document.documentElement.dir = "rtl";
+    try {
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      await el.updateComplete;
+      await new Promise((r) => setTimeout(r, 400)); // the indicator slides (200ms)
+      const indicator = el.shadowRoot!.querySelector<HTMLElement>(".indicator")!.getBoundingClientRect();
+      const tab = tabs[1]!.getBoundingClientRect();
+      expect(Math.abs(indicator.left - tab.left)).to.be.lessThan(1);
+    } finally {
+      document.documentElement.removeAttribute("dir");
+    }
+  });
+});

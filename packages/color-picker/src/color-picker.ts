@@ -147,6 +147,9 @@ export class LitMaterialColorPicker extends LitElement {
 
     this.panelElement.style.top = `${top}px`;
     this.panelElement.style.left = `${left}px`;
+    // The popover UA style is `inset: 0`: with `right` left at 0 a right-to-left page ignores `left`.
+    this.panelElement.style.right = "auto";
+    this.panelElement.style.bottom = "auto";
   }
 
   private get presetButtons(): HTMLButtonElement[] {

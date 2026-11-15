@@ -263,4 +263,19 @@ describe("lit-material-select", () => {
     el.open = false;
     await el.updateComplete;
   });
+
+  it("opens its listbox under the trigger in a right-to-left page", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`<div dir="rtl" style="padding-inline-start: 200px">
+      <lit-material-select label="Size" style="width: 200px">
+        <lit-material-select-option value="s">Small</lit-material-select-option>
+      </lit-material-select>
+    </div>`);
+    const el = wrapper.querySelector<LitMaterialSelect>("lit-material-select")!;
+    el.open = true;
+    await el.updateComplete;
+    const trigger = el.shadowRoot!.querySelector(".trigger")!.getBoundingClientRect();
+    const listbox = el.shadowRoot!.querySelector(".listbox")!.getBoundingClientRect();
+    expect(Math.abs(listbox.right - trigger.right)).to.be.lessThan(1);
+    el.open = false;
+  });
 });

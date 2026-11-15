@@ -205,6 +205,9 @@ export class LitMaterialSelect extends LitElement {
 
     this.listboxElement.style.top = `${top}px`;
     this.listboxElement.style.left = `${left}px`;
+    // The popover UA style is `inset: 0`: with `right` left at 0 a right-to-left page ignores `left`.
+    this.listboxElement.style.right = "auto";
+    this.listboxElement.style.bottom = "auto";
     this.listboxElement.style.width = `${width}px`;
   }
 

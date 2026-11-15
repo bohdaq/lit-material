@@ -124,6 +124,9 @@ export class LitMaterialPopover extends LitElement {
 
     this.style.top = `${top}px`;
     this.style.left = `${left}px`;
+    // The popover UA style is `inset: 0`: with `right` left at 0 a right-to-left page ignores `left`.
+    this.style.right = "auto";
+    this.style.bottom = "auto";
   }
 
   private readonly handleToggle = (event: ToggleEvent): void => {
