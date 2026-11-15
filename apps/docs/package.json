@@ -73,6 +73,7 @@
     "@lit-material/simple-list": "workspace:*",
     "@lit-material/skeleton": "workspace:*",
     "@lit-material/slider": "workspace:*",
+    "@lit-material/color-picker": "workspace:*",
     "@lit-material/snackbar": "workspace:*",
     "@lit-material/sortable": "workspace:*",
     "@lit-material/status-bar": "workspace:*",

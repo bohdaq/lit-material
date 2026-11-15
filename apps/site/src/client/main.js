@@ -10,8 +10,15 @@ import "../landing.css";
 import "../lit.css";
 
 import "../components.js";
-// Every docs demo page, so the ones on this page hydrate.
-import "../../../docs/src/route-manifest.ts";
+
+// Each docs demo page is its own chunk, loaded only on the page that shows it (one bundle with all of them
+// was 1.25 MB on every page). The element's tag is the file name: pages/components/button-page.ts defines
+// <docs-button-page>. Loading it defines the element, which hydrates its server-rendered shadow root.
+const demoPages = import.meta.glob("../../../docs/src/pages/**/*-page.ts");
+const demoByTag = new Map(Object.entries(demoPages).map(([path, load]) => [`docs-${path.split("/").pop().replace(/\.ts$/, "")}`, load]));
+const used = new Set();
+for (const el of document.querySelectorAll("*")) if (demoByTag.has(el.localName)) used.add(el.localName);
+for (const tag of used) demoByTag.get(tag)();
 import "@lit-material/site-kit/css/site-kit.css";
 import { initThemeToggle } from "@lit-material/site-kit/client/theme.js";
 import { initMenu } from "@lit-material/site-kit/client/menu.js";

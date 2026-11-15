@@ -83,6 +83,7 @@ import "./pages/components/fab-page.js";
 import "./pages/components/divider-page.js";
 import "./pages/components/select-page.js";
 import "./pages/components/slider-page.js";
+import "./pages/components/color-picker-page.js";
 import "./pages/components/segmented-button-page.js";
 import "./pages/components/tabs-page.js";
 import "./pages/components/tooltip-page.js";
@@ -256,6 +257,12 @@ export const navEntries: NavEntry[] = [
     label: "Select",
     group: "components",
     render: () => html`<docs-select-page></docs-select-page>`,
+  },
+  {
+    path: "/components/color-picker",
+    label: "Color Picker",
+    group: "components",
+    render: () => html`<docs-color-picker-page></docs-color-picker-page>`,
   },
   {
     path: "/components/slider",

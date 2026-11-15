@@ -31,7 +31,7 @@ export const GROUPS = [
     id: "selection",
     label: "Selection",
     about: "Choosing values: on and off, one of many, dates, times and schedules.",
-    items: ["checkbox", "radio", "switch", "chip", "select", "autocomplete", "menu", "slider", "rating", "date-picker", "date-range-picker", "time-picker", "calendar", "dual-list"],
+    items: ["checkbox", "radio", "switch", "chip", "select", "autocomplete", "menu", "slider", "color-picker", "rating", "date-picker", "date-range-picker", "time-picker", "calendar", "dual-list"],
   },
   {
     id: "text-inputs",

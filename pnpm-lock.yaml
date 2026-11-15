@@ -188,6 +188,9 @@ importers:
       '@lit-material/code-block':
         specifier: workspace:*
         version: link:../../packages/code-block
+      '@lit-material/color-picker':
+        specifier: workspace:*
+        version: link:../../packages/color-picker
       '@lit-material/color-scheme':
         specifier: workspace:*
         version: link:../../packages/color-scheme
@@ -468,6 +471,9 @@ importers:
       '@lit-material/codemod':
         specifier: workspace:*
         version: link:../../packages/codemod
+      '@lit-material/color-picker':
+        specifier: workspace:*
+        version: link:../../packages/color-picker
       '@lit-material/color-scheme':
         specifier: workspace:*
         version: link:../../packages/color-scheme
