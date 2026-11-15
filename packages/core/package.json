@@ -43,6 +43,10 @@
     "./active-element.js": {
       "types": "./dist/active-element.d.ts",
       "default": "./dist/active-element.js"
+    },
+    "./hydration.js": {
+      "types": "./dist/hydration.d.ts",
+      "default": "./dist/hydration.js"
     }
   },
   "files": [

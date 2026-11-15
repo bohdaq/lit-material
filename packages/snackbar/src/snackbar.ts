@@ -13,9 +13,12 @@ import { styles } from "./snackbar-styles.js";
  * steals focus — it's a passive notification, not something the user is
  * expected to interact with immediately.
  *
- * Only one snackbar instance is meant to be visible at a time; for a queue of
- * messages, reuse a single instance and update its slotted content before
- * each `show()` rather than stacking multiple instances.
+ * Only one snackbar is visible at a time: showing a second instance while
+ * one is open queues it until the open one closes. A snackbar with
+ * `duration` 0 always gets its dismiss button, so it can never get stuck.
+ *
+ * It sits 24px above the bottom edge, centred; set
+ * `--lit-material-snackbar-offset` to lift it over a bottom navigation bar.
  *
  * @element lit-material-snackbar
  *
@@ -40,6 +43,8 @@ export class LitMaterialSnackbar extends LitElement {
   @property({ type: Boolean }) closable = false;
 
   private timeoutId?: number;
+  private static visible?: LitMaterialSnackbar;
+  private static readonly queue: LitMaterialSnackbar[] = [];
   private readonly localize = new LocalizeController(this);
 
   constructor() {
@@ -76,11 +81,18 @@ export class LitMaterialSnackbar extends LitElement {
       }
       this.prepend(document.createTextNode(message));
     }
+    const visible = LitMaterialSnackbar.visible;
+    if (visible && visible !== this && visible.open && visible.isConnected) {
+      if (!LitMaterialSnackbar.queue.includes(this)) LitMaterialSnackbar.queue.push(this);
+      return;
+    }
     this.open = true;
   }
 
   /** Closes the snackbar and cancels its auto-dismiss timer. */
   close(): void {
+    const queued = LitMaterialSnackbar.queue.indexOf(this);
+    if (queued !== -1) LitMaterialSnackbar.queue.splice(queued, 1);
     this.open = false;
   }
 
@@ -90,11 +102,17 @@ export class LitMaterialSnackbar extends LitElement {
       if (!this.matches(":popover-open")) {
         this.showPopover();
       }
+      LitMaterialSnackbar.visible = this;
       this.startTimer();
     } else if (this.matches(":popover-open")) {
       this.clearTimer();
       this.hidePopover();
       this.dispatchEvent(new Event("close", { bubbles: true, composed: true }));
+      if (LitMaterialSnackbar.visible === this) {
+        LitMaterialSnackbar.visible = undefined;
+        const next = LitMaterialSnackbar.queue.shift();
+        if (next?.isConnected) next.show();
+      }
     }
   }
 
@@ -104,7 +122,7 @@ export class LitMaterialSnackbar extends LitElement {
         <slot></slot>
       </div>
       <slot name="action" class="action"></slot>
-      ${this.closable
+      ${this.closable || this.duration <= 0
         ? html`
             <button class="close" part="close-button" type="button" aria-label=${this.localize.term("snackbar.dismiss", "Dismiss")} @click=${this.close}>
               <svg viewBox="0 0 18 18" aria-hidden="true">

@@ -3,6 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { isRtl } from "@lit-material/core/localize.js";
 import type { LitMaterialStep, StepOrientation } from "./step.js";
 import { styles } from "./stepper-styles.js";
+import { afterHydration } from "@lit-material/core/hydration.js";
 
 /**
  * Groups `lit-material-step` elements into a wizard-progress indicator,
@@ -66,9 +67,13 @@ export class LitMaterialStepper extends LitElement {
 
   private syncSteps(): void {
     this.steps.forEach((step, index) => {
-      step.active = index === this.selected;
-      step.stepNumber = index + 1;
-      step.orientation = this.orientation;
+      // A server-rendered step shows the server's guess (SSR can't see siblings):
+      // set its state once it has hydrated, so a real update writes it.
+      afterHydration(step, () => {
+        step.active = index === this.selected;
+        step.stepNumber = index + 1;
+        step.orientation = this.orientation;
+      });
     });
   }
 

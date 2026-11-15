@@ -80,8 +80,31 @@ cases.push(
   ["tree nested items", html`<lit-material-tree><lit-material-tree-item expanded><span slot="label">src</span><lit-material-tree-item><span slot="label">main.ts</span></lit-material-tree-item></lit-material-tree-item></lit-material-tree>`],
 );
 
+// Composite elements whose children's state comes from the parent at runtime (SSR can't see
+// siblings): the server's guess may differ, but after hydration the browser must show the right state.
+// [name, template, function run in the page on the case's first element → error string or null].
+const settled = [
+  [
+    "stepper step numbers",
+    html`<lit-material-stepper selected="1"><lit-material-step>Account</lit-material-step><lit-material-step>Plan</lit-material-step><lit-material-step>Pay</lit-material-step></lit-material-stepper>`,
+    `(el) => { const s = [...el.querySelectorAll("lit-material-step")]; const n = s.map((x) => x.shadowRoot.querySelector(".circle").textContent.trim()); return JSON.stringify(n) === '["1","2","3"]' && s[1].active ? null : "steps show " + JSON.stringify(n) + ", active " + s.findIndex((x) => x.active); }`,
+  ],
+  [
+    "select chosen option text",
+    html`<lit-material-select label="Scheme" value="http"><lit-material-select-option value="https">https://</lit-material-select-option><lit-material-select-option value="http">http://</lit-material-select-option></lit-material-select>`,
+    `(el) => { const t = el.shadowRoot.querySelector(".value").textContent.trim(); return t === "http://" ? null : "value shows " + JSON.stringify(t); }`,
+  ],
+];
+
 const failures = [];
 const parts = [];
+for (const [name, template] of settled) {
+  try {
+    parts.push(`<div class="settled" data-name="${name}">${await collectResult(render(template))}</div>`);
+  } catch (e) {
+    failures.push(`${name}: server render threw: ${e.message.split("\n")[0]}`);
+  }
+}
 for (const [name, template] of cases) {
   try {
     parts.push(`<div class="case" data-name="${name}">${await collectResult(render(template))}</div>`);
@@ -148,7 +171,14 @@ try {
     else if (b.tags !== a.tags) failures.push(`${b.name}: hydration changed the structure\n    server:  ${b.tags.slice(0, 200)}\n    browser: ${a.tags.slice(0, 200)}`);
     else if (b.text !== a.text) failures.push(`${b.name}: hydration changed the text\n    server:  ${j(b.text).slice(0, 200)}\n    browser: ${j(a.text).slice(0, 200)}`);
   });
-  console.log(`${before.length} cases server-rendered and hydrated.`);
+  for (const [name, , check] of settled) {
+    const error = await page.evaluate(
+      ([n, fn]) => (0, eval)(fn)(document.querySelector(`.settled[data-name="${n}"]`).firstElementChild),
+      [name, check],
+    );
+    if (error) failures.push(`${name}: wrong state after hydration: ${error}`);
+  }
+  console.log(`${before.length} cases server-rendered and hydrated; ${settled.length} composite cases settled.`);
 } finally {
   await browser.close();
   server.close();

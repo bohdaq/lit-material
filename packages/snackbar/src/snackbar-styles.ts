@@ -3,10 +3,14 @@ import { css } from "lit";
 export const styles = css`
   :host {
     position: fixed;
-    left: 50%;
-    bottom: 24px;
-    transform: translateX(-50%);
-    margin: 0;
+    /* Reset the popover's UA \`inset: 0\` (it pinned the snackbar to the top
+       edge), then centre it at the bottom in either writing direction. */
+    inset: auto;
+    inset-block-end: var(--lit-material-snackbar-offset, 24px);
+    inset-inline: 0;
+    margin: 0 auto;
+    width: fit-content;
+    height: fit-content;
     padding-block: 6px;
     padding-inline: 16px 8px;
     border: none;

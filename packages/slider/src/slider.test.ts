@@ -4,6 +4,14 @@ import "./slider.js";
 import type { LitMaterialSlider } from "./slider.js";
 
 describe("lit-material-slider", () => {
+  it("draws the filled track as the same 4px line as the empty track", async () => {
+    const el = await fixture<LitMaterialSlider>(html`<lit-material-slider value="50"></lit-material-slider>`);
+    const track = el.shadowRoot!.querySelector(".track")!.getBoundingClientRect();
+    const active = el.shadowRoot!.querySelector(".track-active")!.getBoundingClientRect();
+    expect(active.height).to.equal(4);
+    expect(active.top).to.equal(track.top);
+  });
+
   it("renders a native range input", async () => {
     const el = await fixture<LitMaterialSlider>(html`<lit-material-slider></lit-material-slider>`);
     const input = el.shadowRoot!.querySelector("input")!;

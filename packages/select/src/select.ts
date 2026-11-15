@@ -3,6 +3,7 @@ import { customElement, property, query, state } from "lit/decorators.js";
 import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
 import type { LitMaterialSelectOption } from "./select-option.js";
 import { styles } from "./select-styles.js";
+import { awaitingHydration } from "@lit-material/core/hydration.js";
 
 export type SelectVariant = "filled" | "outlined";
 
@@ -60,6 +61,8 @@ export class LitMaterialSelect extends LitElement {
   @query(".listbox") private readonly listboxElement?: HTMLDivElement;
 
   @state() private touched = false;
+  /** The chosen option's text, kept as state so a hydrated select writes it (SSR can't see options). */
+  @state() private selectedText = "";
 
   private readonly internals: ElementInternals;
   private readonly localize = new LocalizeController(this);
@@ -86,6 +89,16 @@ export class LitMaterialSelect extends LitElement {
     this.listboxElement?.addEventListener("toggle", this.handleListboxToggle as EventListener);
     this.syncSelection();
     this.syncInternals();
+    // Options may upgrade after the select (server-rendered pages): their
+    // `value` is only readable then.
+    if (typeof customElements !== "undefined") {
+      void customElements.whenDefined("lit-material-select-option").then(() => this.syncSelection());
+    }
+  }
+
+  protected override willUpdate(changed: Map<string, unknown>): void {
+    // In the same render as the new value (updated() would need a second one).
+    if (changed.has("value") && !awaitingHydration(this)) this.selectedText = this.selectedOption?.textContent?.trim() ?? "";
   }
 
   protected override updated(changed: Map<string, unknown>): void {
@@ -158,6 +171,9 @@ export class LitMaterialSelect extends LitElement {
     for (const option of this.options) {
       option.selected = this.value !== "" && option.value === this.value;
     }
+    // Before hydration, leave the server's text alone: setting it now would be
+    // recorded as rendered without being written (see awaitingHydration).
+    if (!awaitingHydration(this)) this.selectedText = this.selectedOption?.textContent?.trim() ?? "";
   }
 
   private syncInternals(): void {
@@ -242,7 +258,11 @@ export class LitMaterialSelect extends LitElement {
           @keydown=${this.handleTriggerKeydown}
         >
           ${this.label ? html`<span class="label" part="label" id=${this.labelId}>${this.label}</span>` : nothing}
-          <span class="value">${this.selectedOption?.textContent?.trim() ?? ""}</span>
+          <span class="value">${
+            // \`nothing\`, not "": hydrating an empty text binding leaves no text node, and Lit then writes the
+            // next value into its closing marker comment (invisible).
+            this.selectedText || nothing
+          }</span>
           <svg class="arrow ${this.open ? "open" : ""}" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M7 10l5 5 5-5"></path>
           </svg>

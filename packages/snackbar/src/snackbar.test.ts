@@ -149,4 +149,48 @@ describe("lit-material-snackbar", () => {
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector(".close")!.getAttribute("aria-label")).to.equal("Fermer");
   });
+
+  it("sits at the bottom, centred, not at the top edge (popover inset reset)", async () => {
+    const el = await fixture<LitMaterialSnackbar>(html`<lit-material-snackbar duration="0">Saved</lit-material-snackbar>`);
+    el.show();
+    await el.updateComplete;
+    const box = el.getBoundingClientRect();
+    expect(Math.round(window.innerHeight - box.bottom)).to.equal(24);
+    expect(Math.abs(box.left + box.width / 2 - window.innerWidth / 2)).to.be.lessThan(1.5);
+    el.close();
+  });
+
+  it("is centred in a right-to-left page too", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`<div dir="rtl"><lit-material-snackbar duration="0">حفظ</lit-material-snackbar></div>`);
+    const el = wrapper.querySelector<LitMaterialSnackbar>("lit-material-snackbar")!;
+    el.show();
+    await el.updateComplete;
+    const box = el.getBoundingClientRect();
+    expect(Math.abs(box.left + box.width / 2 - window.innerWidth / 2)).to.be.lessThan(1.5);
+    el.close();
+  });
+
+  it("queues a second snackbar until the first one closes", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`<div>
+      <lit-material-snackbar id="a" duration="0">First</lit-material-snackbar>
+      <lit-material-snackbar id="b" duration="0">Second</lit-material-snackbar>
+    </div>`);
+    const a = wrapper.querySelector<LitMaterialSnackbar>("#a")!;
+    const b = wrapper.querySelector<LitMaterialSnackbar>("#b")!;
+    a.show();
+    await a.updateComplete;
+    b.show();
+    await b.updateComplete;
+    expect(b.matches(":popover-open")).to.be.false;
+    a.close();
+    await a.updateComplete;
+    await b.updateComplete;
+    expect(b.matches(":popover-open")).to.be.true;
+    b.close();
+  });
+
+  it("always offers a dismiss button when it never auto-dismisses", async () => {
+    const el = await fixture<LitMaterialSnackbar>(html`<lit-material-snackbar duration="0">Saved</lit-material-snackbar>`);
+    expect(el.shadowRoot!.querySelector(".close")).to.exist;
+  });
 });

@@ -31,14 +31,27 @@ export const styles = css`
     width: 100%;
     height: 4px;
     border-radius: var(--md-sys-shape-corner-full, 9999px);
-    background-color: var(--md-sys-color-surface-container-highest, #e6e0e9);
+    /* Mostly the outline colour, so the empty track reaches 3:1 against the
+       surface (WCAG 1.4.11) in light and dark. */
+    background-color: var(
+      --lit-material-slider-inactive-track-color,
+      color-mix(
+        in srgb,
+        var(--md-sys-color-outline, #79747e) 80%,
+        var(--md-sys-color-surface-container-highest, #e6e0e9)
+      )
+    );
   }
 
+  /* A sibling of .track inside the 40px-tall .slider: centre it on the
+     track's 4px line rather than stretching it to the container. */
   .track-active {
     position: absolute;
-    inset-block: 0;
+    top: 50%;
+    height: 4px;
+    margin-top: -2px;
     inset-inline-start: 0;
-    border-radius: inherit;
+    border-radius: var(--md-sys-shape-corner-full, 9999px);
     background-color: var(--md-sys-color-primary, #6750a4);
   }
 
