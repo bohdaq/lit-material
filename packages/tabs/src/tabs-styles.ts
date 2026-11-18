@@ -64,6 +64,9 @@ export const styles = css`
   :host([reorderable]) ::slotted(lit-material-tab) {
     touch-action: pan-y;
   }
+  ::slotted(lit-material-tab[dragging][dragging-out]) {
+    opacity: 0.4;
+  }
   ::slotted(lit-material-tab[dragging]) {
     z-index: 1;
     opacity: 0.85;

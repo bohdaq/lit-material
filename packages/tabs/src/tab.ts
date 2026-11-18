@@ -24,12 +24,21 @@ import { styles } from "./tab-styles.js";
  * keyboard users press Delete, which `aria-description` mentions.
  * `dirty` marks unsaved changes with a dot (and in the description).
  *
+ * `pinned` keeps a tab at the start of the row (it shows before every
+ * unpinned tab, and a drag keeps pinned and unpinned tabs apart), with a pin
+ * mark, a compact width and no close button; Delete and a middle click don't
+ * close it. Keep pinned tabs first in your data too, so `selected` and the
+ * `reorder` indexes match what people see.
+ *
  * @fires close - The close button, Delete or a middle click; cancelable.
  *
  * @csspart tab - The button (background/padding).
  * @csspart ripple - The state-layer element the hover/press feedback is drawn on.
  * @csspart focus-ring - The focus indicator element.
  * @csspart close - The close button.
+ * @csspart pin - The pin mark of a pinned tab.
+ *
+ * @cssprop --lit-material-tab-pinned-label-max-width - The widest a pinned tab's label gets before it's cut (default `8rem`).
  */
 @customElement("lit-material-tab")
 export class LitMaterialTab extends LitElement {
@@ -46,6 +55,8 @@ export class LitMaterialTab extends LitElement {
   @property({ type: Boolean, reflect: true }) closable = false;
   /** Marks unsaved changes. */
   @property({ type: Boolean, reflect: true }) dirty = false;
+  /** Keeps the tab first, compact, with a pin mark and no close button. */
+  @property({ type: Boolean, reflect: true }) pinned = false;
   /**
    * Id of the panel this tab shows. The button lives in this element's shadow
    * root, where an id can't reach the page, so the panel is linked through
@@ -74,19 +85,19 @@ export class LitMaterialTab extends LitElement {
 
   /** Asks to close the tab: fires `close`; returns false when a listener cancelled it. */
   requestClose(): boolean {
-    if (!this.closable || this.disabled) return false;
+    if (!this.closable || this.disabled || this.pinned) return false;
     return this.dispatchEvent(new Event("close", { bubbles: true, composed: true, cancelable: true }));
   }
 
   private readonly handleKeydown = (event: KeyboardEvent): void => {
-    if (event.key === "Delete" && this.closable) {
+    if (event.key === "Delete" && this.closable && !this.pinned) {
       event.preventDefault();
       this.requestClose();
     }
   };
 
   private readonly handleAuxClick = (event: MouseEvent): void => {
-    if (event.button === 1 && this.closable) {
+    if (event.button === 1 && this.closable && !this.pinned) {
       event.preventDefault();
       this.requestClose();
     }
@@ -99,6 +110,8 @@ export class LitMaterialTab extends LitElement {
   };
 
   private description(): string {
+    if (this.pinned && this.dirty) return this.localize.term("tabs.pinnedUnsavedChanges", "Pinned. Unsaved changes");
+    if (this.pinned) return this.localize.term("tabs.pinned", "Pinned");
     if (this.dirty && this.closable) return this.localize.term("tabs.unsavedChangesPressDeleteToClose", "Unsaved changes. Press Delete to close");
     if (this.dirty) return this.localize.term("tabs.unsavedChanges", "Unsaved changes");
     if (this.closable) return this.localize.term("tabs.pressDeleteToClose", "Press Delete to close");
@@ -123,10 +136,13 @@ export class LitMaterialTab extends LitElement {
       >
         <div class="state-layer" part="ripple"></div>
         <div class="focus-ring" part="focus-ring" ?hidden=${!this.focusRing.visible}></div>
+        ${this.pinned
+          ? html`<svg class="pin" part="pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 9V4h1V2H7v2h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3" /></svg>`
+          : nothing}
         <slot name="icon" class="icon"></slot>
         <span class="label"><slot></slot></span>
         ${this.dirty ? html`<span class="dirty" part="dirty" aria-hidden="true"></span>` : nothing}
-        ${this.closable
+        ${this.closable && !this.pinned
           ? html`<span class="close" part="close" aria-hidden="true" @click=${this.handleCloseClick} @pointerdown=${(e: Event) => e.stopPropagation()}
               ><svg viewBox="0 0 24 24"><path d="M6.4 19 5 17.6 10.6 12 5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6z" /></svg
             ></span>`

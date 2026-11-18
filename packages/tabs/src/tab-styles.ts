@@ -119,6 +119,26 @@ export const styles = css`
   :host([closable]) .tab {
     padding-inline-end: 8px;
   }
+  /* Pinned: first in the row (the tabs element sorts its keyboard and drag order the same way), compact. */
+  :host([pinned]) {
+    order: -1;
+    flex: none;
+  }
+  :host([pinned]) .tab {
+    min-width: 0;
+    padding-inline: 12px;
+    gap: 6px;
+  }
+  :host([pinned]) .label {
+    max-width: var(--lit-material-tab-pinned-label-max-width, 8rem);
+  }
+  .pin {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    rotate: 45deg;
+  }
   .dirty {
     flex: none;
     width: 8px;

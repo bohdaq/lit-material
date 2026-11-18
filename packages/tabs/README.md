@@ -57,6 +57,7 @@ either way, so there's no need to dispatch a `change` yourself.
 | `ariaControls` | `aria-controls` | `string`  | `null`  |
 | `closable`     | `closable` (reflected) | `boolean` | `false` |
 | `dirty`        | `dirty` (reflected)    | `boolean` | `false` |
+| `pinned`       | `pinned` (reflected)   | `boolean` | `false` |
 
 `selected` is managed by the parent `lit-material-tabs` — don't set it directly on a tab you
 mount inside one. An optional `icon` slot renders above the label (Material's icon+label tab
@@ -102,6 +103,43 @@ tabs.addEventListener("reorder", (e) => {
   const [moved] = openTabs.splice(e.detail.from, 1);
   openTabs.splice(e.detail.to, 0, moved);
   render();
+});
+```
+
+While a tab is dragged in a `scrollable` row, holding it near either end scrolls the row.
+
+### Pinned tabs
+
+A `pinned` tab stays at the start of the row: it shows before every unpinned tab (CSS `order`),
+is compact (its label is cut at `--lit-material-tab-pinned-label-max-width`, 8rem) with a pin
+mark, and has no close button: Delete and a middle click don't close it, and its description says
+"Pinned". Arrow keys, Home/End and drags follow the order people see, and a drag or Alt+Shift+Arrow
+keeps pinned and unpinned tabs apart. Keep pinned tabs first in your data as well (pinning a tab =
+moving it to the end of the pinned ones), so `selected` and the `reorder` indexes, which count
+tabs in document order, match the row.
+
+```html
+<lit-material-tabs scrollable reorderable>
+  <lit-material-tab pinned>Overview</lit-material-tab>
+  <lit-material-tab closable>GET /v1/invoices</lit-material-tab>
+</lit-material-tabs>
+```
+
+### Dragging a tab out
+
+A drag that leaves the strip (the pointer more than 16 px past its box) fires a cancelable
+`tabdragout` on the tabs element; `preventDefault()` keeps the tab in the strip. Released out
+there, the element under the pointer gets a bubbling, cancelable `tabdrop` event: call
+`preventDefault()` to take the tab (open it in a side panel or a new window, save it into a tree)
+and the strip doesn't reorder; a drop nobody takes reorders as usual. Both events carry
+`detail: {tab, index, clientX, clientY, source}` (`TabDragDetail`). While the tab is out it has a
+`dragging-out` attribute (and `dragging`, as during any drag); `endDrag()` stops a drag.
+
+```js
+tabs.addEventListener("tabdragout", () => sidebar.classList.add("accepting"));
+sidebar.addEventListener("tabdrop", (e) => {
+  e.preventDefault();
+  saveRequest(openTabs[e.detail.index], sidebarTree.dropPlaceAt(null, e.detail.clientY));
 });
 ```
 

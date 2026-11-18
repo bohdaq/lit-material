@@ -8,6 +8,35 @@ import { styles } from "./tabs-styles.js";
 
 let nextId = 0;
 
+/** `detail` of `tabdragout` and `tabdrop`. */
+export interface TabDragDetail {
+  /** The dragged tab. */
+  tab: LitMaterialTab;
+  /** Its index among the tabs (document order). */
+  index: number;
+  /** The pointer, in viewport coordinates. */
+  clientX: number;
+  clientY: number;
+  /** The tabs element the tab is dragged from. */
+  source: LitMaterialTabs;
+}
+
+/** Distance from the scrolling row's ends where dragging scrolls it. */
+const EDGE_PX = 40;
+/** How far past the row's box the pointer goes before the drag leaves the strip. */
+const OUT_PX = 16;
+
+/** The innermost element at a viewport point, through open shadow roots. */
+function deepElementFromPoint(x: number, y: number): Element | null {
+  let el = document.elementFromPoint(x, y);
+  while (el?.shadowRoot) {
+    const inner = el.shadowRoot.elementFromPoint(x, y);
+    if (!inner || inner === el) break;
+    el = inner;
+  }
+  return el;
+}
+
 /**
  * Material Design 3 tabs — a horizontal row of `lit-material-tab` elements
  * with a sliding active indicator, following the WAI-ARIA tabs pattern with
@@ -41,7 +70,21 @@ let nextId = 0;
  * `detail.to` (indexes) and moves nothing itself: the app reorders its data
  * and renders the tabs again (as with `close`).
  *
+ * In a `scrollable` row a drag near either end scrolls it. Pinned tabs
+ * (`lit-material-tab[pinned]`) come first: arrow keys and drags follow that
+ * order, and a drag keeps pinned and unpinned tabs apart.
+ *
+ * A drag that leaves the strip (more than 16 px past its box) fires a
+ * cancelable `tabdragout` with the pointer's position (cancel it to keep the
+ * tab in the strip). Released there, the element under the pointer gets a
+ * bubbling, cancelable `tabdrop` event: call `preventDefault()` to accept the
+ * tab (open it in another window, drop it in a tree…). A drop nobody accepts
+ * reorders as usual. Both share `detail: {tab, index, clientX, clientY,
+ * source}` (`TabDragDetail`).
+ *
  * @fires reorder - A tab was dragged or moved by keyboard; `detail: {from, to}`, cancelable.
+ * @fires tabdragout - A dragged tab left the strip; `detail: TabDragDetail`, cancelable (keeps it in the strip).
+ * @fires tabdrop - Fired on the element under the pointer when a tab is released outside the strip; `detail: TabDragDetail`; `preventDefault()` accepts it.
  *
  * @csspart tablist - The container (the tabs' row plus the divider beneath it).
  * @csspart indicator - The sliding active-tab indicator.
@@ -59,7 +102,22 @@ export class LitMaterialTabs extends LitElement {
   /** Tabs can be dragged, or moved with Alt+Shift+Arrow keys; fires `reorder`. */
   @property({ type: Boolean, reflect: true }) reorderable = false;
 
-  private drag?: { tab: LitMaterialTab; from: number; x: number; started: boolean; id: number };
+  private drag?: {
+    tab: LitMaterialTab;
+    from: number;
+    x: number;
+    y: number;
+    started: boolean;
+    id: number;
+    lastX: number;
+    lastY: number;
+    scrollStart: number;
+    /** Out of the strip, and `tabdragout` wasn't cancelled. */
+    out: boolean;
+    /** Out of the strip with `tabdragout` cancelled: no new event until it comes back. */
+    held: boolean;
+  };
+  private scrollFrame = 0;
 
   private tabsReady = false;
   /** Re-renders on a document direction change, which moves the tabs without resizing anything. */
@@ -84,50 +142,151 @@ export class LitMaterialTabs extends LitElement {
     return this.dispatchEvent(new CustomEvent("reorder", { bubbles: true, composed: true, cancelable: true, detail: { from, to } }));
   }
 
+  /** Tabs in the order people see them: pinned ones first, then the rest (each in document order). */
+  private get ordered(): LitMaterialTab[] {
+    const tabs = this.tabs;
+    return [...tabs.filter((t) => t.pinned), ...tabs.filter((t) => !t.pinned)];
+  }
+
+  /**
+   * Fires `reorder` for putting `tab` at position `k` among the other tabs in the order people see them, kept
+   * among the tabs of its own kind (pinned or not).
+   */
+  private reorderTo(tab: LitMaterialTab, k: number): boolean {
+    const others = this.ordered.filter((t) => t !== tab);
+    const pinned = others.filter((t) => t.pinned).length;
+    const at = tab.pinned ? Math.min(Math.max(k, 0), pinned) : Math.min(Math.max(k, pinned), others.length);
+    // Where it already is, as people see it.
+    if (at === this.ordered.indexOf(tab)) return false;
+    const inDom = this.tabs.filter((t) => t !== tab);
+    const to = at < others.length ? inDom.indexOf(others[at]!) : at === 0 ? 0 : inDom.indexOf(others[at - 1]!) + 1;
+    return this.requestReorder(this.tabs.indexOf(tab), to);
+  }
+
   private readonly handlePointerDown = (event: PointerEvent): void => {
-    if (!this.reorderable || event.button !== 0) return;
+    if (!this.reorderable || event.button !== 0 || this.drag) return;
     const path = event.composedPath();
     const tab = this.tabs.find((candidate) => path.includes(candidate));
     if (!tab || tab.disabled) return;
-    this.drag = { tab, from: this.tabs.indexOf(tab), x: event.clientX, started: false, id: event.pointerId };
+    this.drag = {
+      tab,
+      from: this.tabs.indexOf(tab),
+      x: event.clientX,
+      y: event.clientY,
+      started: false,
+      id: event.pointerId,
+      lastX: event.clientX,
+      lastY: event.clientY,
+      scrollStart: this.scroller?.scrollLeft ?? 0,
+      out: false,
+      held: false,
+    };
     window.addEventListener("pointermove", this.handlePointerMove);
     window.addEventListener("pointerup", this.handlePointerUp);
     window.addEventListener("pointercancel", this.endDrag);
   };
 
+  private detailOf(clientX: number, clientY: number): TabDragDetail {
+    const drag = this.drag!;
+    return { tab: drag.tab, index: this.tabs.indexOf(drag.tab), clientX, clientY, source: this };
+  }
+
+  private outside(x: number, y: number): boolean {
+    const r = this.getBoundingClientRect();
+    return x < r.left - OUT_PX || x > r.right + OUT_PX || y < r.top - OUT_PX || y > r.bottom + OUT_PX;
+  }
+
   private readonly handlePointerMove = (event: PointerEvent): void => {
     const drag = this.drag;
     if (!drag || event.pointerId !== drag.id) return;
-    if (!drag.started && Math.abs(event.clientX - drag.x) < 6) return;
+    if (!drag.started && Math.abs(event.clientX - drag.x) < 6 && Math.abs(event.clientY - drag.y) < 6) return;
     drag.started = true;
+    drag.lastX = event.clientX;
+    drag.lastY = event.clientY;
     drag.tab.toggleAttribute("dragging", true);
-    drag.tab.style.transform = `translateX(${event.clientX - drag.x}px)`;
+    const outside = this.outside(event.clientX, event.clientY);
+    if (outside && !drag.out && !drag.held) {
+      const detail = this.detailOf(event.clientX, event.clientY);
+      const ok = this.dispatchEvent(new CustomEvent("tabdragout", { bubbles: true, composed: true, cancelable: true, detail }));
+      if (this.drag !== drag) return; // a listener ended the drag
+      if (ok) drag.out = true;
+      else drag.held = true;
+    } else if (!outside) {
+      drag.out = false;
+      drag.held = false;
+    }
+    drag.tab.toggleAttribute("dragging-out", drag.out);
+    this.placeDragged();
+    this.autoScroll();
   };
+
+  /** Keeps the dragged tab under the pointer along the row (scrolling included). */
+  private placeDragged(): void {
+    const drag = this.drag;
+    if (!drag) return;
+    const scrolled = (this.scroller?.scrollLeft ?? 0) - drag.scrollStart;
+    drag.tab.style.transform = `translateX(${drag.lastX - drag.x + scrolled}px)`;
+  }
+
+  private autoScroll(): void {
+    if (this.scrollFrame || !this.scrollable) return;
+    const step = () => {
+      this.scrollFrame = 0;
+      const drag = this.drag;
+      const row = this.scroller;
+      if (!drag?.started || drag.out || !row) return;
+      const r = row.getBoundingClientRect();
+      let dx = 0;
+      if (drag.lastX < r.left + EDGE_PX) dx = -Math.ceil((r.left + EDGE_PX - drag.lastX) / 3);
+      else if (drag.lastX > r.right - EDGE_PX) dx = Math.ceil((drag.lastX - (r.right - EDGE_PX)) / 3);
+      if (dx === 0) return;
+      const before = row.scrollLeft;
+      row.scrollLeft = before + dx;
+      if (row.scrollLeft === before) return;
+      this.placeDragged();
+      this.scrollFrame = requestAnimationFrame(step);
+    };
+    this.scrollFrame = requestAnimationFrame(step);
+  }
 
   private readonly handlePointerUp = (event: PointerEvent): void => {
     const drag = this.drag;
     if (!drag || event.pointerId !== drag.id) return;
     const started = drag.started;
+    const out = started && (drag.out || (!drag.held && this.outside(event.clientX, event.clientY)));
+    const detail = started ? this.detailOf(event.clientX, event.clientY) : null;
     this.endDrag();
     if (!started) return;
-    // The drop index: the tab whose middle is past the pointer, among the others.
-    const others = this.tabs.filter((t) => t !== drag.tab);
+    if (out && detail) {
+      const target = deepElementFromPoint(event.clientX, event.clientY);
+      if (target && !this.contains(target) && !this.shadowRoot!.contains(target)) {
+        const accepted = !target.dispatchEvent(new CustomEvent("tabdrop", { bubbles: true, composed: true, cancelable: true, detail }));
+        if (accepted) return;
+      }
+    }
+    // The drop index: the first other tab (in the order people see) whose middle is past the pointer.
+    const others = this.ordered.filter((t) => t !== drag.tab);
     const rtl = isRtl(this);
-    let to = others.findIndex((t) => {
+    let k = others.findIndex((t) => {
       const r = t.getBoundingClientRect();
       const mid = r.left + r.width / 2;
       return rtl ? event.clientX > mid : event.clientX < mid;
     });
-    if (to === -1) to = others.length;
-    this.requestReorder(drag.from, to);
+    if (k === -1) k = others.length;
+    this.reorderTo(drag.tab, k);
   };
 
-  private readonly endDrag = (): void => {
+  /** Stops a tab drag without dropping it. */
+  readonly endDrag = (): void => {
     if (this.drag) {
       this.drag.tab.removeAttribute("dragging");
+      this.drag.tab.removeAttribute("dragging-out");
       this.drag.tab.style.transform = "";
     }
     this.drag = undefined;
+    if (this.scrollFrame) cancelAnimationFrame(this.scrollFrame);
+    this.scrollFrame = 0;
+    if (typeof window === "undefined") return;
     window.removeEventListener("pointermove", this.handlePointerMove);
     window.removeEventListener("pointerup", this.handlePointerUp);
     window.removeEventListener("pointercancel", this.endDrag);
@@ -206,10 +365,6 @@ export class LitMaterialTabs extends LitElement {
     // anyway).
     if (typeof this.querySelectorAll !== "function") return [];
     return Array.from(this.querySelectorAll("lit-material-tab"));
-  }
-
-  private get enabledTabs(): LitMaterialTab[] {
-    return this.tabs.filter((tab) => !tab.disabled);
   }
 
   /**
@@ -303,7 +458,8 @@ export class LitMaterialTabs extends LitElement {
   };
 
   private readonly handleKeydown = (event: KeyboardEvent): void => {
-    const tabs = this.enabledTabs;
+    // Arrow keys follow the order people see: pinned tabs first.
+    const tabs = this.ordered.filter((tab) => !tab.disabled);
     if (tabs.length === 0) return;
     const current = focusedItem(this.tabs) ?? null;
     const index = current ? tabs.indexOf(current) : -1;
@@ -312,16 +468,15 @@ export class LitMaterialTabs extends LitElement {
     const key = rtl ? (event.key === "ArrowLeft" ? "ArrowRight" : "ArrowLeft") : event.key;
 
     if (this.reorderable && current && index !== -1) {
-      const all = this.tabs;
-      const at = all.indexOf(current);
-      let to = -1;
+      const at = this.ordered.indexOf(current);
+      let to: number | null = null;
       if (event.altKey && event.shiftKey && key === "ArrowRight") to = at + 1;
       else if (event.altKey && event.shiftKey && key === "ArrowLeft") to = at - 1;
       else if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === "PageDown") to = at + 1;
       else if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === "PageUp") to = at - 1;
-      if (to !== -1 || (event.altKey && event.shiftKey && (key === "ArrowLeft" || key === "ArrowRight"))) {
+      if (to !== null) {
         event.preventDefault();
-        this.requestReorder(at, to);
+        if (to >= 0) this.reorderTo(current, to);
         return;
       }
     }

@@ -12,7 +12,7 @@ declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
       /** A single tab within `lit-material-tabs`. Purely presentational — it has no click handler of its own; the parent listens for the bubbling click (via `event.composedPath()`, the same delegation pattern `lit-material-select` and `lit-material-menu` use) and drives `selected`/roving `tabindex` from there, the same way `lit-material-select-option`'s `selected` is entirely managed by its parent. */
-      "lit-material-tab": ElementProps<LitMaterialTab, "ariaControls" | "closable" | "dirty" | "disabled" | "selected"> & {
+      "lit-material-tab": ElementProps<LitMaterialTab, "ariaControls" | "closable" | "dirty" | "disabled" | "pinned" | "selected"> & {
         "onclose"?: (event: Event) => void;
       };
       /** Content for one tab. Place `lit-material-tab-panel` elements as siblings after a `lit-material-tabs` (same parent): the tabs pair them with their tabs by index, show the selected one, and wire `aria-labelledby` / `aria-controls` between them. Only a `selected` panel is shown, so put `selected` on the panel that matches the initial tab: server-rendered and pre-hydration markup then shows the right content with no flash. */
@@ -21,6 +21,8 @@ declare module "react" {
       "lit-material-tabs": ElementProps<LitMaterialTabs, "reorderable" | "scrollable" | "selected"> & {
         "onreorder"?: (event: CustomEvent) => void;
         "onchange"?: (event: Event) => void;
+        "ontabdragout"?: (event: Event) => void;
+        "ontabdrop"?: (event: Event) => void;
       };
     }
   }

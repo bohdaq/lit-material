@@ -27,4 +27,11 @@ describe("lit-material-tab (SSR)", () => {
     assert.match(out, /<lit-material-tab[^>]*\bdisabled\b/);
     assert.match(out, /<button[^>]*\bdisabled\b/);
   });
+
+  it("renders a pinned tab with a pin and without a close button", async () => {
+    const out = await renderToString(html`<lit-material-tab pinned closable>One</lit-material-tab>`);
+    assert.match(out, /class="pin"/);
+    assert.doesNotMatch(out, /class="close"/);
+    assert.match(out, /aria-description="Pinned"/);
+  });
 });
