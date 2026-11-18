@@ -27,8 +27,10 @@ const DOWNLOAD_ICON = svg`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M
  * content type:
  *
  * - an image as an `<img>`, with its pixel size;
- * - a PDF in a sandboxed frame (the browser's own viewer, no scripts of
- *   the page's), with a link that opens it on its own;
+ * - a PDF in the browser's own PDF viewer (an `<object>` typed
+ *   `application/pdf` on a blob URL of that type, so the bytes can only be
+ *   shown as a PDF; Chromium refuses PDFs in a sandboxed iframe), with a
+ *   link that opens it on its own;
  * - anything else as its size and type, a Download button, and a hex dump
  *   (offset, hex and ASCII columns) of the first `max-bytes` bytes.
  *
@@ -46,7 +48,7 @@ const DOWNLOAD_ICON = svg`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M
  *
  * @csspart facts - The line saying what the content is, with the Download button.
  * @csspart image - The `<img>`.
- * @csspart frame - The PDF frame.
+ * @csspart frame - The PDF viewer (`<object>`).
  * @csspart dump - The hex dump's scrolling box.
  *
  * @cssprop --lit-material-binary-viewer-max-height - The tallest the image, frame or hex dump gets (default `480px`).
@@ -219,14 +221,9 @@ export class LitMaterialBinaryViewer extends LitElement {
       </div>`;
     }
     if (view === "pdf" && this.url) {
-      return html`<iframe
-          part="frame"
-          class="pdf"
-          title=${this.name()}
-          sandbox="allow-same-origin"
-          referrerpolicy="no-referrer"
-          src=${this.url}
-        ></iframe>
+      return html`<object part="frame" class="pdf" type="application/pdf" title=${this.name()} data=${this.url}>
+          <p class="note">${this.localize.term("binaryViewer.noPdfViewer", "This browser can't show PDFs here.")}</p>
+        </object>
         <a class="open" href=${this.url} target="_blank" rel="noopener noreferrer">${this.localize.term("binaryViewer.openPdf", "Open the PDF on its own")}</a>`;
     }
     if (view === "binary" && this.head) {

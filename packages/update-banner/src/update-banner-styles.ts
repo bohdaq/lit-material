@@ -75,14 +75,14 @@ export const styles = css`
     height: 4px;
     border: none;
     border-radius: 2px;
-    background: var(--md-sys-color-secondary-container, light-dark(#e8def8, #4a4458));
+    background: var(--md-sys-color-outline-variant, light-dark(#cac4d0, #49454f));
     accent-color: var(--md-sys-color-primary, light-dark(#6750a4, #d0bcff));
     appearance: none;
   }
 
   progress::-webkit-progress-bar {
     border-radius: 2px;
-    background: var(--md-sys-color-secondary-container, light-dark(#e8def8, #4a4458));
+    background: var(--md-sys-color-outline-variant, light-dark(#cac4d0, #49454f));
   }
 
   progress::-webkit-progress-value {
@@ -93,6 +93,48 @@ export const styles = css`
   progress::-moz-progress-bar {
     border-radius: 2px;
     background: var(--md-sys-color-primary, light-dark(#6750a4, #d0bcff));
+  }
+
+  /* No size known: a segment sliding along the track. */
+  progress:indeterminate {
+    background:
+      linear-gradient(
+          to right,
+          transparent 0 35%,
+          var(--md-sys-color-primary, light-dark(#6750a4, #d0bcff)) 35% 65%,
+          transparent 65%
+        )
+        0 0 / 300% 100% no-repeat,
+      var(--md-sys-color-outline-variant, light-dark(#cac4d0, #49454f));
+    animation: lit-material-update-banner-slide 1.4s linear infinite;
+  }
+
+  progress:indeterminate::-webkit-progress-bar {
+    background: transparent;
+  }
+
+  progress:indeterminate::-moz-progress-bar {
+    background: transparent;
+  }
+
+  :host(:dir(rtl)) progress:indeterminate {
+    animation-direction: reverse;
+  }
+
+  @keyframes lit-material-update-banner-slide {
+    from {
+      background-position: 100% 0, 0 0;
+    }
+    to {
+      background-position: 0% 0, 0 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    progress:indeterminate {
+      animation: none;
+      background-position: 50% 0, 0 0;
+    }
   }
 
   .percent {

@@ -7,6 +7,12 @@ export const styles = css`
     outline: none;
   }
 
+  :host([dragging]) {
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: grabbing;
+  }
+
   :host([hidden]) {
     display: none;
   }

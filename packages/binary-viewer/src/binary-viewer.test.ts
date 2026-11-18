@@ -54,13 +54,13 @@ describe("lit-material-binary-viewer", () => {
     expect(img.alt).to.equal("file.bin (image/png)");
   });
 
-  it("shows a PDF in a sandboxed frame from a blob URL, with a link to open it", async () => {
+  it("shows a PDF in an object typed application/pdf from a blob URL, with a link to open it", async () => {
     const el = await viewer(new Blob(["%PDF-1.4\n%%EOF"], { type: "application/pdf" }), "");
-    const frame = $(el, "iframe") as HTMLIFrameElement;
-    expect(frame.getAttribute("sandbox")).to.equal("allow-same-origin");
-    expect(frame.src).to.match(/^blob:/);
+    const frame = $(el, "object") as HTMLObjectElement;
+    expect(frame.type).to.equal("application/pdf");
+    expect(frame.data).to.match(/^blob:/);
     expect(frame.title).to.equal("file.bin");
-    expect(($(el, "a.open") as HTMLAnchorElement).href).to.equal(frame.src);
+    expect(($(el, "a.open") as HTMLAnchorElement).href).to.equal(frame.data);
     expect(el.view).to.equal("pdf", "a Blob's own type when content-type is empty");
   });
 

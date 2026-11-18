@@ -152,7 +152,7 @@ export class LitMaterialErrorCard extends LitElement {
                       ? this.localize.term("errorCard.copied", "Copied")
                       : this.copied === "failed"
                         ? this.localize.term("errorCard.copyFailed", "Couldn't copy")
-                        : ""}</span
+                        : nothing}</span
                   >
                 </div>
                 <pre class="details" part="details" id=${this.detailsId} ?hidden=${!this.open}>${this.details}</pre>

@@ -16,6 +16,7 @@ const pl = {
   "binaryViewer.hexLabel": "Zrzut szesnastkowy {name}",
   "binaryViewer.image": "Obraz",
   "binaryViewer.imageAlt": "{name} ({type})",
+  "binaryViewer.noPdfViewer": "Ta przeglądarka nie może tu wyświetlić plików PDF.",
   "binaryViewer.openPdf": "Otwórz PDF osobno",
   "binaryViewer.pdf": "PDF",
   "binaryViewer.untitled": "Bez nazwy",

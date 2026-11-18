@@ -20,7 +20,7 @@ describe("lit-material-binary-viewer (SSR)", () => {
     assert.match(out, /PDF/);
     assert.match(out, /application\/pdf/);
     assert.doesNotMatch(out, /blob:/);
-    assert.doesNotMatch(out, /<iframe/);
+    assert.doesNotMatch(out, /<object/);
   });
 
   it("dumps bytes in Node", () => {

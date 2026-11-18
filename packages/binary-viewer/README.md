@@ -1,7 +1,7 @@
 # @lit-material/binary-viewer
 
 Shows binary content, like a response body or an uploaded file, by its content type: an image with
-its pixel size, a PDF in a sandboxed frame, and a hex dump with a Download button for anything else.
+its pixel size, a PDF in the browser's PDF viewer, and a hex dump with a Download button for anything else.
 Built with [Lit](https://lit.dev/). Part of [lit-material](https://github.com/bohdaq/lit-material).
 
 ## Install
@@ -28,7 +28,7 @@ npm install @lit-material/binary-viewer @lit-material/tokens
 | Content type | View |
 | ------------ | ---- |
 | `image/*` | `<img>` on a checkerboard; the facts line adds its pixel size once it loads |
-| `application/pdf` | the browser's own PDF viewer in an `<iframe sandbox="allow-same-origin">`, plus a link that opens it on its own |
+| `application/pdf` | the browser's own PDF viewer in an `<object type="application/pdf">` on a blob URL typed `application/pdf` (so the bytes can only be shown as a PDF, never run as a page), plus a link that opens it on its own. Chromium refuses PDFs in a sandboxed `<iframe>`, so it isn't one. |
 | anything else | a hex dump (offset, hex and ASCII columns) of the first `max-bytes` bytes, saying how much it shows |
 
 Every view starts with a line saying what the content is (Image · 12.4 KiB · image/png · 640 ×
@@ -68,7 +68,7 @@ Helpers, also from `@lit-material/binary-viewer/binary.js` (no element): `viewOf
 
 The dump is a focusable, labelled region ("Hex dump of collection.zip") so keyboard users can
 scroll it; it stays left to right on right-to-left pages, while the facts line follows the page.
-The image's `alt` is its file name and type; the PDF frame's title is the file name.
+The image's `alt` is its file name and type; the PDF viewer's title is the file name, and where a browser can't show PDFs inline the object says so (the open link and Download still work).
 
 ## Scope
 

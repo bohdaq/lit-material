@@ -16,6 +16,7 @@ const es = {
   "binaryViewer.hexLabel": "Volcado hexadecimal de {name}",
   "binaryViewer.image": "Imagen",
   "binaryViewer.imageAlt": "{name} ({type})",
+  "binaryViewer.noPdfViewer": "Este navegador no puede mostrar PDF aquí.",
   "binaryViewer.openPdf": "Abrir el PDF por separado",
   "binaryViewer.pdf": "PDF",
   "binaryViewer.untitled": "Sin título",

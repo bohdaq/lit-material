@@ -155,7 +155,7 @@ Every package is released at the same version number, so keep them on the same v
 | [`@lit-material/empty-state`](packages/empty-state) | Headline, guidance and actions in place of a blank view. |
 | [`@lit-material/error-card`](packages/error-card) | A failure explained: headline, next step, actions, and the raw error under Details with a copy button. |
 | [`@lit-material/update-banner`](packages/update-banner) | "Version X is available · Restart to update · Later", with download progress, ready and error states. |
-| [`@lit-material/binary-viewer`](packages/binary-viewer) | Images with their size, PDFs in a sandboxed frame, and a hex dump with Download for other bytes. |
+| [`@lit-material/binary-viewer`](packages/binary-viewer) | Images with their size, PDFs in the browser's PDF viewer, and a hex dump with Download for other bytes. |
 | [`@lit-material/diff`](packages/diff) | Line diff (unified or side by side) with folded context, changes by path, and a three-way merge view. |
 | [`@lit-material/log-viewer`](packages/log-viewer) | Monospace line stream that follows the newest line, with pause, highlighting and a line cap. |
 | [`@lit-material/table`](packages/table) | Data-driven semantic `<table>`: caption, headers, numeric and monospace columns. |

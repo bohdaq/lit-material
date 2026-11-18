@@ -18,6 +18,7 @@ const en = {
   "binaryViewer.hexLabel": "Hex dump of {name}",
   "binaryViewer.image": "Image",
   "binaryViewer.imageAlt": "{name} ({type})",
+  "binaryViewer.noPdfViewer": "This browser can't show PDFs here.",
   "binaryViewer.openPdf": "Open the PDF on its own",
   "binaryViewer.pdf": "PDF",
   "binaryViewer.untitled": "Untitled",

@@ -16,6 +16,7 @@ const fr = {
   "binaryViewer.hexLabel": "Vidage hexadécimal de {name}",
   "binaryViewer.image": "Image",
   "binaryViewer.imageAlt": "{name} ({type})",
+  "binaryViewer.noPdfViewer": "Ce navigateur ne peut pas afficher les PDF ici.",
   "binaryViewer.openPdf": "Ouvrir le PDF seul",
   "binaryViewer.pdf": "PDF",
   "binaryViewer.untitled": "Sans titre",

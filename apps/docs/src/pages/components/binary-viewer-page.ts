@@ -70,7 +70,7 @@ export class DocsBinaryViewerPage extends LitElement {
     return html`
       <h1>Binary viewer</h1>
       <p>
-        Shows bytes by content type: an image with its pixel size, a PDF in a sandboxed frame, and anything else as a hex dump
+        Shows bytes by content type: an image with its pixel size, a PDF in the browser's own PDF viewer, and anything else as a hex dump
         of its first bytes (<code>max-bytes</code>, 4 KiB by default). Every view offers Download. <code>data</code> takes a
         <code>Uint8Array</code>, an <code>ArrayBuffer</code> or a <code>Blob</code>.
       </p>

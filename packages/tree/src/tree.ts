@@ -1,4 +1,4 @@
-import { html, LitElement } from "lit";
+import { html, LitElement, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { isRtl, LocalizeController } from "@lit-material/core/localize.js";
 import { cssProps } from "@lit-material/core/css-props.js";
@@ -246,6 +246,10 @@ export class LitMaterialTree extends LitElement {
       drag.started = true;
       drag.item.toggleAttribute("dragging", true);
       drag.scroller = scrollParent(this);
+      // No text selection while dragging (the press that started it may have begun one).
+      this.toggleAttribute("dragging", true);
+      window.getSelection?.()?.removeAllRanges();
+      window.addEventListener("selectstart", this.preventSelect, true);
       window.addEventListener("keydown", this.handleDragKeydown, true);
     }
     event.preventDefault();
@@ -377,9 +381,12 @@ export class LitMaterialTree extends LitElement {
     if (drop) this.requestMove(drag.item, drop.target, drop.place);
   };
 
+  private readonly preventSelect = (event: Event): void => event.preventDefault();
+
   /** Stops a pointer drag without dropping (also what Escape does). */
   readonly endDrag = (): void => {
     this.drag?.item.removeAttribute("dragging");
+    if (this.drag) this.removeAttribute("dragging");
     this.drag = undefined;
     clearTimeout(this.holdTimer);
     if (this.scrollFrame) cancelAnimationFrame(this.scrollFrame);
@@ -393,6 +400,7 @@ export class LitMaterialTree extends LitElement {
     window.removeEventListener("pointerup", this.handlePointerUp);
     window.removeEventListener("pointercancel", this.endDrag);
     window.removeEventListener("keydown", this.handleDragKeydown, true);
+    window.removeEventListener("selectstart", this.preventSelect, true);
   };
 
   override disconnectedCallback(): void {
@@ -480,7 +488,7 @@ export class LitMaterialTree extends LitElement {
         aria-hidden="true"
         ?hidden=${!this.ghost}
         style=${cssProps({ left: this.ghost ? `${this.ghost.x + (rtl ? -12 : 12)}px` : null, top: this.ghost ? `${this.ghost.y + 8}px` : null })}
-      >${this.ghost?.label ?? ""}</div>`;
+      >${this.ghost ? this.ghost.label : nothing}</div>`;
   }
 
   /** Exactly one node is `tabindex="0"` at a time (roving tabindex) — everything else is -1. */

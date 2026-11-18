@@ -16,6 +16,7 @@ const ar = {
   "binaryViewer.hexLabel": "تفريغ سداسي عشري لـ {name}",
   "binaryViewer.image": "صورة",
   "binaryViewer.imageAlt": "{name} ({type})",
+  "binaryViewer.noPdfViewer": "لا يستطيع هذا المتصفح عرض ملفات PDF هنا.",
   "binaryViewer.openPdf": "فتح ملف PDF وحده",
   "binaryViewer.pdf": "PDF",
   "binaryViewer.untitled": "بلا عنوان",

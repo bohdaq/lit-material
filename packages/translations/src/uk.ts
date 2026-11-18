@@ -16,6 +16,7 @@ const uk = {
   "binaryViewer.hexLabel": "Шістнадцятковий дамп {name}",
   "binaryViewer.image": "Зображення",
   "binaryViewer.imageAlt": "{name} ({type})",
+  "binaryViewer.noPdfViewer": "Цей браузер не може показати PDF тут.",
   "binaryViewer.openPdf": "Відкрити PDF окремо",
   "binaryViewer.pdf": "PDF",
   "binaryViewer.untitled": "Без назви",

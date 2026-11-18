@@ -16,6 +16,7 @@ const de = {
   "binaryViewer.hexLabel": "Hex-Dump von {name}",
   "binaryViewer.image": "Bild",
   "binaryViewer.imageAlt": "{name} ({type})",
+  "binaryViewer.noPdfViewer": "Dieser Browser kann PDFs hier nicht anzeigen.",
   "binaryViewer.openPdf": "PDF separat öffnen",
   "binaryViewer.pdf": "PDF",
   "binaryViewer.untitled": "Unbenannt",

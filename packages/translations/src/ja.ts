@@ -16,6 +16,7 @@ const ja = {
   "binaryViewer.hexLabel": "{name} の16進ダンプ",
   "binaryViewer.image": "画像",
   "binaryViewer.imageAlt": "{name}（{type}）",
+  "binaryViewer.noPdfViewer": "このブラウザーではここに PDF を表示できません。",
   "binaryViewer.openPdf": "PDF を単独で開く",
   "binaryViewer.pdf": "PDF",
   "binaryViewer.untitled": "無題",
