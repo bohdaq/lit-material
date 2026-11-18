@@ -12,6 +12,7 @@ export const Tree = createComponent({
   react: React,
   events: {
     onReorder: "reorder" as EventName<CustomEvent>,
+    onMove: "move" as EventName<CustomEvent>,
     onChange: "change" as EventName<Event>,
   },
   displayName: "Tree",

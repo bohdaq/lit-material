@@ -56,6 +56,8 @@ const BASE_PADDING_PX = 12;
  * @csspart trailing - The trailing decorations' container.
  * @csspart actions - The hover actions' container.
  *
+ * @cssprop --lit-material-tree-drop-indicator-color - The drop line and the drop-inside outline (default `--md-sys-color-primary`).
+ *
  * @fires toggle - Fires when `expanded` changes via user interaction, with `detail: { expanded }`.
  */
 @customElement("lit-material-tree-item")
@@ -66,6 +68,8 @@ export class LitMaterialTreeItem extends LitElement {
   /** Managed by the parent tree — never set by this element on itself. */
   @property({ type: Boolean, reflect: true }) selected = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
+  /** In a `reorderable` tree, other nodes can be dropped inside this one (a folder). */
+  @property({ type: Boolean, reflect: true }) droppable = false;
 
   /**
    * Whether to draw the chevron. Starts false and follows the default slot,
@@ -107,6 +111,12 @@ export class LitMaterialTreeItem extends LitElement {
     this.setAttribute("aria-level", String(this.depth + 1));
     this.setAttribute("aria-setsize", String(siblings.length));
     this.setAttribute("aria-posinset", String(siblings.indexOf(this) + 1));
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    // Moved to another place in the tree (an app handling `move`): the indentation and ARIA position follow.
+    if (this.hasUpdated) this.requestUpdate();
   }
 
   protected override firstUpdated(): void {

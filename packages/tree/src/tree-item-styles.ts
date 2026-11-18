@@ -43,8 +43,16 @@ export const styles = css`
   }
 
   :host([dragging]) > .row {
-    opacity: 0.85;
+    opacity: 0.5;
     cursor: grabbing;
+  }
+
+  :host([drop-target]) > .row {
+    background-color: var(--md-sys-color-primary-container, #eaddff);
+    color: var(--md-sys-color-on-primary-container, #21005d);
+    outline: 2px solid var(--lit-material-tree-drop-indicator-color, var(--md-sys-color-primary, #6750a4));
+    outline-offset: -2px;
+    border-radius: var(--md-sys-shape-corner-extra-small, 4px);
   }
 
   .row {

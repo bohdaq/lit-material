@@ -1,7 +1,9 @@
 import "@lit-material/tree";
 import { LitElement, html } from "lit";
 import { pageStyles } from "../../styles/page-styles.js";
-import { customElement } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
+import { repeat } from "lit/directives/repeat.js";
+import type { TreeMoveDetail } from "@lit-material/tree";
 import "../../playground/docs-playground.js";
 import type { PlaygroundControl, PlaygroundState } from "../../playground/controls.js";
 
@@ -37,9 +39,75 @@ function markup(state: PlaygroundState): string {
   return `<lit-material-tree${attrs}>\n  <lit-material-tree-item expanded>\n    <span slot="label">Documents</span>\n    <lit-material-tree-item selected>\n      <span slot="label">Resume.pdf</span>\n    </lit-material-tree-item>\n    ...\n  </lit-material-tree-item>\n  ...\n</lit-material-tree>`;
 }
 
+interface Node {
+  id: string;
+  name: string;
+  folder?: boolean;
+  children?: Node[];
+}
+
+const startFiles: Node[] = [
+  {
+    id: "orders",
+    name: "orders",
+    folder: true,
+    children: [
+      { id: "create", name: "create-order.yaml" },
+      { id: "get", name: "get-order.yaml" },
+      { id: "cancel", name: "cancel-order.yaml" },
+    ],
+  },
+  { id: "payments", name: "payments", folder: true, children: [{ id: "refund", name: "refund.yaml" }] },
+  { id: "health", name: "health.yaml" },
+  { id: "login", name: "login.yaml" },
+];
+
+/** `nodes` with `id` taken out and put `place` relative to `target` (what an app does on `move`). */
+function moveNode(nodes: Node[], id: string, target: string, place: TreeMoveDetail["place"]): Node[] {
+  let moved: Node | undefined;
+  const without = (list: Node[]): Node[] =>
+    list.flatMap((n) => {
+      if (n.id === id) {
+        moved = n;
+        return [];
+      }
+      return [n.children ? { ...n, children: without(n.children) } : n];
+    });
+  const put = (list: Node[]): Node[] =>
+    list.flatMap((n) => {
+      if (n.id === target) {
+        if (place === "inside") return [{ ...n, children: [...(n.children ?? []), moved!] }];
+        return place === "before" ? [moved!, n] : [n, moved!];
+      }
+      return [n.children ? { ...n, children: put(n.children) } : n];
+    });
+  const rest = without(nodes);
+  return moved ? put(rest) : nodes;
+}
+
 @customElement("docs-tree-page")
 export class DocsTreePage extends LitElement {
   static override styles = [pageStyles];
+
+  @state() private files = startFiles;
+  @state() private lastMove = "";
+
+  private onMove(event: CustomEvent<TreeMoveDetail>): void {
+    const { item, target, place } = event.detail;
+    this.files = moveNode(this.files, item.dataset.id!, target.dataset.id!, place);
+    this.lastMove = `${item.dataset.id} ${place} ${target.dataset.id}`;
+  }
+
+  private renderNodes(nodes: Node[]): unknown {
+    return repeat(
+      nodes,
+      (n) => n.id,
+      (n) => html`<lit-material-tree-item data-id=${n.id} ?droppable=${n.folder} ?expanded=${n.folder}>
+        <span slot="label">${n.name}</span>
+        ${n.children ? this.renderNodes(n.children) : ""}
+      </lit-material-tree-item>`,
+    );
+  }
 
   override render() {
     return html`
@@ -50,6 +118,20 @@ export class DocsTreePage extends LitElement {
       </p>
 
       <docs-playground .controls=${controls} .preview=${preview} .markup=${markup}></docs-playground>
+
+      <section style="display: block;">
+        <h2>Drag and drop</h2>
+        <p>
+          With <code>reorderable</code>, drag a node before or after another, or into a folder marked <code>droppable</code>
+          (a line or a highlighted row shows where it lands; Escape cancels). From the keyboard, Alt+ArrowUp/Down move the
+          focused node past its neighbour, Alt+ArrowLeft moves it out of its folder and Alt+ArrowRight into the folder above.
+          The tree fires <code>move</code> with <code>{item, target, place}</code>; this page moves its data and renders again.
+        </p>
+        <div style="max-width: 320px; max-height: 280px; overflow: auto;">
+          <lit-material-tree reorderable aria-label="Collection files" @move=${this.onMove}>${this.renderNodes(this.files)}</lit-material-tree>
+        </div>
+        <p>Last move: <output>${this.lastMove || "none yet"}</output></p>
+      </section>
 
       <section style="display: block;">
         <h2>Decorations, actions, compact</h2>

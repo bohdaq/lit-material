@@ -26,6 +26,17 @@ describe("lit-material-tree (SSR)", () => {
     assert.match(out, /<lit-material-tree[^-][^>]*role="tree"/);
   });
 
+  it("describes the move keys when reorderable and renders a hidden drop line", async () => {
+    const out = await renderToString(html`
+      <lit-material-tree reorderable>
+        <lit-material-tree-item droppable><span slot="label">src</span></lit-material-tree-item>
+      </lit-material-tree>
+    `);
+    assert.match(out, /aria-description="Alt\+arrow keys move the focused item"/);
+    assert.match(out, /class="drop-line"[^>]*hidden/);
+    assert.match(out, /<lit-material-tree-item[^>]*\bdroppable\b/);
+  });
+
   it("reflects aria-multiselectable only when multiple", async () => {
     const out = await renderToString(html`<lit-material-tree multiple></lit-material-tree>`);
     assert.match(out, /aria-multiselectable="true"/);
