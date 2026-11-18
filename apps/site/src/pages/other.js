@@ -44,8 +44,8 @@ const SHOWCASE = [
   {
     name: "The rws admin UI",
     image: "/brand/showcase-admin.png",
-    alt: "The rws admin UI overview: uptime, request counters, a low disk warning and a requests per second chart.",
-    text: "The admin console built into the rws web server: live traffic, upstreams, certificates, controls and the access log. Navigation, stats, charts, tables, switches and the log viewer are lit-material.",
+    alt: "The rws admin UI overview in its dark theme: requests per second with a live chart, error, connection and request counters, response time percentiles, a Needs attention panel and the live requests table.",
+    text: "The admin console built into the rws web server: a live overview, traffic, logs, upstreams, certificates, controls, config and the audit log, grouped into Observe, Route and Operate with keyboard shortcuts and a command search. Navigation, stats, charts, tables, switches and the log viewer are lit-material.",
     href: "https://rws8.tech/docs/deployment/admin/",
     link: "About the admin UI",
   },
@@ -60,7 +60,7 @@ const SHOWCASE = [
   {
     name: "rws8.tech",
     image: "/brand/showcase-rws.png",
-    alt: "An rws8.tech docs page with its sidebar, version switch and an On this page list.",
+    alt: "The Config File page of the rws docs on rws8.tech: the docs sidebar, the version switch on 18.38 (latest), rws --check examples in code blocks with Copy buttons, and a long On this page list.",
     text: "The rws website and its versioned docs, rendered on the server with Lit SSR. Tabs, code blocks, alerts, jump links and the back to top button are lit-material.",
     href: "https://rws8.tech/",
     link: "Visit rws8.tech",
