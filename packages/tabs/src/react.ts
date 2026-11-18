@@ -34,7 +34,6 @@ export const Tabs = createComponent({
     onReorder: "reorder" as EventName<CustomEvent>,
     onChange: "change" as EventName<Event>,
     onTabdragout: "tabdragout" as EventName<Event>,
-    onTabdrop: "tabdrop" as EventName<Event>,
   },
   displayName: "Tabs",
 });

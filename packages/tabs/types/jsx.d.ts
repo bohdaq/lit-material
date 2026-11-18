@@ -22,7 +22,6 @@ declare module "react" {
         "onreorder"?: (event: CustomEvent) => void;
         "onchange"?: (event: Event) => void;
         "ontabdragout"?: (event: Event) => void;
-        "ontabdrop"?: (event: Event) => void;
       };
     }
   }

@@ -260,7 +260,11 @@ export class LitMaterialTree extends LitElement {
     this.autoScroll();
   };
 
-  /** The drop place at `y` (viewport) for `item`, or null. */
+  /**
+   * The drop place at `y` (viewport) for `item` (`null` for something that isn't a node), or null. Above the
+   * first row means before it, below the last one the end of the top level; check the pointer is over the
+   * tree first.
+   */
   dropPlaceAt(item: LitMaterialTreeItem | null, y: number): { target: LitMaterialTreeItem; place: TreeDropPlace } | null {
     const rows = this.visibleItems;
     if (rows.length === 0) return null;
@@ -313,10 +317,27 @@ export class LitMaterialTree extends LitElement {
     this.line = { top, start: BASE_PADDING_PX + drop.target.depth * INDENT_PX + CHEVRON_PX };
   }
 
+  /** Whether a viewport point is over the part of the tree that can be seen (not scrolled out of its container). */
+  private overTree(x: number, y: number, scroller: Element | null): boolean {
+    const r = this.getBoundingClientRect();
+    let top = r.top;
+    let bottom = r.bottom;
+    let left = r.left;
+    let right = r.right;
+    if (scroller && scroller !== document.scrollingElement) {
+      const s = scroller.getBoundingClientRect();
+      top = Math.max(top, s.top);
+      bottom = Math.min(bottom, s.bottom);
+      left = Math.max(left, s.left);
+      right = Math.min(right, s.right);
+    }
+    return x >= left && x <= right && y >= top && y <= bottom;
+  }
+
   private aim(): void {
     const drag = this.drag;
     if (!drag) return;
-    const drop = this.dropPlaceAt(drag.item, drag.lastY);
+    const drop = this.overTree(drag.lastX, drag.lastY, drag.scroller) ? this.dropPlaceAt(drag.item, drag.lastY) : null;
     const changed = drop?.target !== drag.target?.target || drop?.place !== drag.target?.place;
     drag.target = drop;
     this.showDropIndicator(drop);
@@ -365,6 +386,7 @@ export class LitMaterialTree extends LitElement {
     if (!drag || event.pointerId !== drag.id) return;
     const started = drag.started;
     if (started) {
+      drag.lastX = event.clientX;
       drag.lastY = event.clientY;
       this.aim();
     }

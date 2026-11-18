@@ -2,7 +2,7 @@ import "@lit-material/tabs";
 import "@lit-material/tree";
 import type { TabDragDetail } from "@lit-material/tabs";
 import type { LitMaterialTree } from "@lit-material/tree";
-import { LitElement, html } from "lit";
+import { LitElement, html, nothing } from "lit";
 import { pageStyles } from "../../styles/page-styles.js";
 import { customElement, state } from "lit/decorators.js";
 import "../../playground/docs-playground.js";
@@ -138,7 +138,7 @@ export class DocsTabsPage extends LitElement {
             ${this.saved.map((n) => html`<lit-material-tree-item data-name=${n}><span slot="label">${n}</span></lit-material-tree-item>`)}
           </lit-material-tree>
         </div>
-        <p><output>${this.savedNote}</output></p>
+        <p><output>${this.savedNote || nothing}</output></p>
       </section>
     `;
   }

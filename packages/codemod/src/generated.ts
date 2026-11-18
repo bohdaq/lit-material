@@ -2806,8 +2806,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "events": [
       "change",
       "reorder",
-      "tabdragout",
-      "tabdrop"
+      "tabdragout"
     ],
     "slots": [
       "",

@@ -61,6 +61,8 @@ Helpers, also from `@lit-material/binary-viewer/binary.js` (no element): `viewOf
   line without content), replaced when `data` or the content type changes, and revoked when the
   element leaves the page; it makes a new one if it comes back.
 - From a Blob, only the bytes the dump shows are read.
+- Under a strict Content Security Policy, allow blob URLs for the views: `img-src blob:` for
+  images and `object-src blob:` for PDFs (Download needs neither).
 - The dump is capped at `max-bytes` (rounded up to rows of 16) rather than virtualised; raise it
   for more.
 

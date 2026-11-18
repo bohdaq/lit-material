@@ -32,6 +32,11 @@ export const styles = css`
     flex: 1;
   }
 
+  /* A pinned tab keeps its compact width (the tab's own :host rule loses to this element's ::slotted one). */
+  ::slotted(lit-material-tab[pinned]) {
+    flex: none;
+  }
+
   .end {
     display: flex;
     flex: none;

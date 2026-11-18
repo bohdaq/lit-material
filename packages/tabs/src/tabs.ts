@@ -84,7 +84,6 @@ function deepElementFromPoint(x: number, y: number): Element | null {
  *
  * @fires reorder - A tab was dragged or moved by keyboard; `detail: {from, to}`, cancelable.
  * @fires tabdragout - A dragged tab left the strip; `detail: TabDragDetail`, cancelable (keeps it in the strip).
- * @fires tabdrop - Fired on the element under the pointer when a tab is released outside the strip; `detail: TabDragDetail`; `preventDefault()` accepts it.
  *
  * @csspart tablist - The container (the tabs' row plus the divider beneath it).
  * @csspart indicator - The sliding active-tab indicator.

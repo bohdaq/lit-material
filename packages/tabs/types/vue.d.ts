@@ -19,7 +19,6 @@ declare module "vue" {
         onReorder?: (event: CustomEvent) => void;
         onChange?: (event: Event) => void;
         onTabdragout?: (event: Event) => void;
-        onTabdrop?: (event: Event) => void;
       }>;
   }
 }

@@ -124,7 +124,7 @@ export class LitMaterialErrorCard extends LitElement {
       <div class="card" part="card">
         <span class="icon" part="icon">${warning ? ICONS.warning : ICONS.error}</span>
         <div class="main">
-          <div class="headline" part="headline"><span class="visually-hidden">${kind}: </span>${this.headline}</div>
+          <div class="headline" part="headline"><span class="visually-hidden">${kind}: </span>${this.headline || nothing}</div>
           <div class="body ${this.emptyBody ? "empty" : ""}"><slot @slotchange=${this.onSlotChange}></slot></div>
           <div class="actions ${this.emptyActions ? "empty" : ""}"><slot name="actions" @slotchange=${this.onSlotChange}></slot></div>
           ${this.details

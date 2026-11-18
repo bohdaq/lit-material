@@ -82,6 +82,19 @@ describe("lit-material-tree move (drag and drop)", () => {
     expect(order).to.deep.equal(["move"]);
   });
 
+  it("drops nowhere when released beside or far below the tree", async () => {
+    const { el, byId, moves } = await folders();
+    el.style.width = "300px";
+    const docs = rowOf(byId("docs"));
+    const r = rowOf(byId("readme"));
+    const x = r.left + 40;
+    byId("readme").dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, composed: true, button: 0, pointerId: 6, clientX: x, clientY: r.top + 5 }));
+    window.dispatchEvent(new PointerEvent("pointermove", { pointerId: 6, clientX: x, clientY: r.top + 40 }));
+    window.dispatchEvent(new PointerEvent("pointerup", { pointerId: 6, clientX: 600, clientY: docs.top + docs.height / 2 }));
+    drag(byId("readme"), el.getBoundingClientRect().bottom + 200);
+    expect(moves).to.deep.equal([]);
+  });
+
   it("won't drop a node into itself or its own children", async () => {
     const { byId, moves } = await folders();
     const b = rowOf(byId("b"));

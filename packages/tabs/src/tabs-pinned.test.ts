@@ -60,6 +60,11 @@ describe("lit-material-tab pinned", () => {
     expect(two!.shadowRoot!.querySelector("button")!.getAttribute("aria-description")).to.equal("Pinned");
   });
 
+  it("stays compact in a strip whose tabs share the width", async () => {
+    const { tabs } = await strip();
+    expect(tabs[1]!.getBoundingClientRect().width).to.be.below(tabs[0]!.getBoundingClientRect().width - 20);
+  });
+
   it("shows first right to left too", async () => {
     const { tabs } = await strip("rtl");
     expect(tabs[1]!.getBoundingClientRect().right).to.be.above(tabs[0]!.getBoundingClientRect().right);
