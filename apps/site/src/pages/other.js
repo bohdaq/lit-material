@@ -52,8 +52,8 @@ const SHOWCASE = [
   {
     name: "HITOP web app",
     image: "/brand/showcase-hitop.png",
-    alt: "The HITOP web app: a sidebar of request collections and a request editor with its response.",
-    text: "An HTTP client in the browser: collections, environments, auth and tests. Dialogs, tabs, menus, key value editors, sortable lists and the theme toggle are lit-material.",
+    alt: "The HITOP web app in its dark theme: a collection tree with folders, a POST request with a JSON body, and a 201 response with a timing bar and four passing tests.",
+    text: "An API client in the browser, the desktop app and the browser extensions: collections with folders, environments, scripts, tests and HITOP Cloud sync. The tree, tabs, menus, command palette, method tags, timing waterfall, key value editors and dialogs are lit-material.",
     href: "https://hitop.rws8.tech/app/",
     link: "Open HITOP",
   },
