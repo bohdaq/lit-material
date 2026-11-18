@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/error-card",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Error card web component: a headline, what to try next, actions, and the raw error under a collapsible Details block with a copy button.",
   "license": "MIT",
   "author": {

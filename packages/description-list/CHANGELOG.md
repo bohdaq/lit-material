@@ -1,5 +1,11 @@
 # @lit-material/description-list
 
+## 1.9.0
+
+### Patch Changes
+
+- @lit-material/tokens@1.9.0
+
 ## 1.8.0
 
 ### Patch Changes

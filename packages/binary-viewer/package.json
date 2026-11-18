@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/binary-viewer",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Binary content viewer web component: images with their size, PDFs in the browser's PDF viewer, and a hex dump with a Download button for anything else.",
   "license": "MIT",
   "author": {

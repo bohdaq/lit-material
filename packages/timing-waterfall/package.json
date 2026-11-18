@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/timing-waterfall",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Request timing waterfall web component: one stacked bar and a legend showing where a request's time went (DNS, connect, waiting, download).",
   "license": "MIT",
   "author": {

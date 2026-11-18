@@ -1,6 +1,6 @@
 {
   "name": "@lit-material/update-banner",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Update banner web component: \"Version X is available · Restart to update · Later\", with download progress, ready and error states.",
   "license": "MIT",
   "author": {

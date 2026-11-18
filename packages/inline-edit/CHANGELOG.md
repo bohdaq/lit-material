@@ -1,5 +1,14 @@
 # @lit-material/inline-edit
 
+## 1.9.0
+
+### Patch Changes
+
+- @lit-material/core@1.9.0
+- @lit-material/icon-button@1.9.0
+- @lit-material/text-field@1.9.0
+- @lit-material/tokens@1.9.0
+
 ## 1.8.0
 
 ### Patch Changes
