@@ -103,7 +103,7 @@ Every package is released at the same version number, so keep them on the same v
 | [`@lit-material/kbd`](packages/kbd) | Keyboard shortcut as key caps: `Mod+K` is ⌘K on Apple platforms and Ctrl+K elsewhere, read out by name. |
 | [`@lit-material/command-palette`](packages/command-palette) | Modal ⌘K palette: fuzzy search over commands, sections and prefixes, full keyboard and combobox ARIA. |
 | [`@lit-material/snackbar`](packages/snackbar) | Built on the native Popover API. |
-| [`@lit-material/tabs`](packages/tabs) | `lit-material-tabs` + `lit-material-tab`. |
+| [`@lit-material/tabs`](packages/tabs) | `lit-material-tabs` + `lit-material-tab`: closable, pinned and reorderable tabs, dragging a tab out to another element. |
 | [`@lit-material/top-app-bar`](packages/top-app-bar) | Center-aligned, small, medium, large. |
 | [`@lit-material/navigation`](packages/navigation) | Navigation drawer, rail, and bottom bar — and adaptive navigation that picks one by window width. |
 | [`@lit-material/progress`](packages/progress) | Linear and circular progress indicators, usage meter for quotas. |
@@ -113,7 +113,7 @@ Every package is released at the same version number, so keep them on the same v
 | [`@lit-material/autocomplete`](packages/autocomplete) | Text field with a filtered, data-driven option list. |
 | [`@lit-material/accordion`](packages/accordion) | Expansion panels, single- or multi-expand. |
 | [`@lit-material/stepper`](packages/stepper) | Wizard-progress indicator, horizontal or vertical, linear or free; getting-started checklist. |
-| [`@lit-material/tree`](packages/tree) | Hierarchical expand-collapse list, single- or multi-select. |
+| [`@lit-material/tree`](packages/tree) | Hierarchical expand-collapse list, single- or multi-select, with drag and drop and keyboard moves. |
 | [`@lit-material/avatar`](packages/avatar) | Image, initials, or icon fallback. |
 | [`@lit-material/skeleton`](packages/skeleton) | Loading placeholder — text, circular, rectangular, rounded. |
 | [`@lit-material/rating`](packages/rating) | Star rating, native range input foundation, hover preview. |
@@ -153,6 +153,9 @@ Every package is released at the same version number, so keep them on the same v
 | [`@lit-material/status`](packages/status) | Icon + label coloured by state (ok, warning, error, info, neutral) — never colour alone. |
 | [`@lit-material/stat`](packages/stat) | Dashboard tile: label, large tabular value, caption or trend. |
 | [`@lit-material/empty-state`](packages/empty-state) | Headline, guidance and actions in place of a blank view. |
+| [`@lit-material/error-card`](packages/error-card) | A failure explained: headline, next step, actions, and the raw error under Details with a copy button. |
+| [`@lit-material/update-banner`](packages/update-banner) | "Version X is available · Restart to update · Later", with download progress, ready and error states. |
+| [`@lit-material/binary-viewer`](packages/binary-viewer) | Images with their size, PDFs in a sandboxed frame, and a hex dump with Download for other bytes. |
 | [`@lit-material/diff`](packages/diff) | Line diff (unified or side by side) with folded context, changes by path, and a three-way merge view. |
 | [`@lit-material/log-viewer`](packages/log-viewer) | Monospace line stream that follows the newest line, with pause, highlighting and a line cap. |
 | [`@lit-material/table`](packages/table) | Data-driven semantic `<table>`: caption, headers, numeric and monospace columns. |

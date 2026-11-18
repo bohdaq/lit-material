@@ -10,6 +10,7 @@
       "@lit-material/avatar",
       "@lit-material/back-to-top",
       "@lit-material/badge",
+      "@lit-material/binary-viewer",
       "@lit-material/breadcrumbs",
       "@lit-material/button",
       "@lit-material/calendar",
@@ -38,6 +39,7 @@
       "@lit-material/drawer",
       "@lit-material/dual-list",
       "@lit-material/empty-state",
+      "@lit-material/error-card",
       "@lit-material/fab",
       "@lit-material/file-upload",
       "@lit-material/form",
@@ -98,6 +100,7 @@
       "@lit-material/translations",
       "@lit-material/tree",
       "@lit-material/truncate",
+      "@lit-material/update-banner",
       "@lit-material/vite",
       "@lit-material/world-map",
       "create-lit-material-app"

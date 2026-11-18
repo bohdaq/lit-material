@@ -158,6 +158,9 @@ importers:
       '@lit-material/badge':
         specifier: workspace:*
         version: link:../../packages/badge
+      '@lit-material/binary-viewer':
+        specifier: workspace:*
+        version: link:../../packages/binary-viewer
       '@lit-material/breadcrumbs':
         specifier: workspace:*
         version: link:../../packages/breadcrumbs
@@ -230,6 +233,9 @@ importers:
       '@lit-material/empty-state':
         specifier: workspace:*
         version: link:../../packages/empty-state
+      '@lit-material/error-card':
+        specifier: workspace:*
+        version: link:../../packages/error-card
       '@lit-material/fab':
         specifier: workspace:*
         version: link:../../packages/fab
@@ -392,6 +398,9 @@ importers:
       '@lit-material/truncate':
         specifier: workspace:*
         version: link:../../packages/truncate
+      '@lit-material/update-banner':
+        specifier: workspace:*
+        version: link:../../packages/update-banner
       '@lit-material/world-map':
         specifier: workspace:*
         version: link:../../packages/world-map
@@ -438,6 +447,9 @@ importers:
       '@lit-material/badge':
         specifier: workspace:*
         version: link:../../packages/badge
+      '@lit-material/binary-viewer':
+        specifier: workspace:*
+        version: link:../../packages/binary-viewer
       '@lit-material/breadcrumbs':
         specifier: workspace:*
         version: link:../../packages/breadcrumbs
@@ -513,6 +525,9 @@ importers:
       '@lit-material/empty-state':
         specifier: workspace:*
         version: link:../../packages/empty-state
+      '@lit-material/error-card':
+        specifier: workspace:*
+        version: link:../../packages/error-card
       '@lit-material/fab':
         specifier: workspace:*
         version: link:../../packages/fab
@@ -678,6 +693,9 @@ importers:
       '@lit-material/truncate':
         specifier: workspace:*
         version: link:../../packages/truncate
+      '@lit-material/update-banner':
+        specifier: workspace:*
+        version: link:../../packages/update-banner
       '@lit-material/world-map':
         specifier: workspace:*
         version: link:../../packages/world-map
@@ -918,6 +936,55 @@ importers:
 
   packages/badge:
     dependencies:
+      '@lit-material/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
+    devDependencies:
+      '@lit-labs/ssr':
+        specifier: ^3.3.1
+        version: 3.3.1
+      '@open-wc/testing':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@web/dev-server-esbuild':
+        specifier: ^2.0.0
+        version: 2.0.0
+      '@web/test-runner':
+        specifier: ^1.0.0
+        version: 1.0.0(yauzl@2.10.0)
+      '@web/test-runner-commands':
+        specifier: ^1.0.1
+        version: 1.0.1
+      '@web/test-runner-playwright':
+        specifier: ^1.0.0
+        version: 1.0.0
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.0
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
+  packages/binary-viewer:
+    dependencies:
+      '@lit-material/button':
+        specifier: workspace:*
+        version: link:../button
+      '@lit-material/core':
+        specifier: workspace:*
+        version: link:../core
+      '@lit-material/format':
+        specifier: workspace:*
+        version: link:../format
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
@@ -2097,6 +2164,52 @@ importers:
 
   packages/empty-state:
     dependencies:
+      '@lit-material/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
+    devDependencies:
+      '@lit-labs/ssr':
+        specifier: ^3.3.1
+        version: 3.3.1
+      '@open-wc/testing':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@web/dev-server-esbuild':
+        specifier: ^2.0.0
+        version: 2.0.0
+      '@web/test-runner':
+        specifier: ^1.0.0
+        version: 1.0.0(yauzl@2.10.0)
+      '@web/test-runner-commands':
+        specifier: ^1.0.1
+        version: 1.0.1
+      '@web/test-runner-playwright':
+        specifier: ^1.0.0
+        version: 1.0.0
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.0
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
+  packages/error-card:
+    dependencies:
+      '@lit-material/clipboard':
+        specifier: workspace:*
+        version: link:../clipboard
+      '@lit-material/core':
+        specifier: workspace:*
+        version: link:../core
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens
@@ -4573,6 +4686,52 @@ importers:
 
   packages/truncate:
     dependencies:
+      '@lit-material/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+      '@lit/react':
+        specifier: ^1.0.0
+        version: 1.0.8(@types/react@19.3.0)
+      lit:
+        specifier: ^3.2.0
+        version: 3.3.3
+      react:
+        specifier: '>=18'
+        version: 19.3.1
+    devDependencies:
+      '@lit-labs/ssr':
+        specifier: ^3.3.1
+        version: 3.3.1
+      '@open-wc/testing':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@web/dev-server-esbuild':
+        specifier: ^2.0.0
+        version: 2.0.0
+      '@web/test-runner':
+        specifier: ^1.0.0
+        version: 1.0.0(yauzl@2.10.0)
+      '@web/test-runner-commands':
+        specifier: ^1.0.1
+        version: 1.0.1
+      '@web/test-runner-playwright':
+        specifier: ^1.0.0
+        version: 1.0.0
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.0
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
+  packages/update-banner:
+    dependencies:
+      '@lit-material/button':
+        specifier: workspace:*
+        version: link:../button
+      '@lit-material/core':
+        specifier: workspace:*
+        version: link:../core
       '@lit-material/tokens':
         specifier: workspace:*
         version: link:../tokens

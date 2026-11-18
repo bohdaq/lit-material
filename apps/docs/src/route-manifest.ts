@@ -57,6 +57,9 @@ import "./pages/typography-page.js";
 import "./pages/components/clipboard-page.js";
 import "./pages/components/stat-page.js";
 import "./pages/components/empty-state-page.js";
+import "./pages/components/error-card-page.js";
+import "./pages/components/binary-viewer-page.js";
+import "./pages/components/update-banner-page.js";
 import "./pages/components/log-viewer-page.js";
 import "./pages/components/diff-page.js";
 import "./pages/components/table-page.js";
@@ -647,6 +650,24 @@ export const navEntries: NavEntry[] = [
     label: "Empty State",
     group: "components",
     render: () => html`<docs-empty-state-page></docs-empty-state-page>`,
+  },
+  {
+    path: "/components/error-card",
+    label: "Error Card",
+    group: "components",
+    render: () => html`<docs-error-card-page></docs-error-card-page>`,
+  },
+  {
+    path: "/components/binary-viewer",
+    label: "Binary Viewer",
+    group: "components",
+    render: () => html`<docs-binary-viewer-page></docs-binary-viewer-page>`,
+  },
+  {
+    path: "/components/update-banner",
+    label: "Update Banner",
+    group: "components",
+    render: () => html`<docs-update-banner-page></docs-update-banner-page>`,
   },
   {
     path: "/components/log-viewer",

@@ -13,7 +13,7 @@ export const GROUPS = [
     id: "communication",
     label: "Communication",
     about: "Status, progress and messages: what happened, and what to do next.",
-    items: ["alert", "snackbar", "confirm", "badge", "status", "progress", "skeleton", "empty-state", "tooltip", "avatar"],
+    items: ["alert", "snackbar", "confirm", "badge", "status", "progress", "skeleton", "empty-state", "error-card", "update-banner", "tooltip", "avatar"],
   },
   {
     id: "containment",
@@ -43,7 +43,7 @@ export const GROUPS = [
     id: "data",
     label: "Data and consoles",
     about: "What admin UIs show all day: tables, logs, metrics, settings and code.",
-    items: ["data-table", "table", "data-list", "description-list", "tree", "log-viewer", "diff", "stat", "chart", "timing-waterfall", "method-tag", "world-map", "key-value", "code-block", "timestamp", "truncate", "format", "sortable"],
+    items: ["data-table", "table", "data-list", "description-list", "tree", "log-viewer", "diff", "binary-viewer", "stat", "chart", "timing-waterfall", "method-tag", "world-map", "key-value", "code-block", "timestamp", "truncate", "format", "sortable"],
   },
   {
     id: "accounts",

@@ -268,6 +268,28 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "tooltip"
     ]
   },
+  "lit-material-binary-viewer": {
+    "package": "@lit-material/binary-viewer",
+    "className": "LitMaterialBinaryViewer",
+    "attributes": {
+      "content-type": "string",
+      "filename": "string",
+      "max-bytes": "number"
+    },
+    "events": [
+      "download"
+    ],
+    "slots": [],
+    "cssProperties": [
+      "--lit-material-binary-viewer-max-height"
+    ],
+    "cssParts": [
+      "dump",
+      "facts",
+      "frame",
+      "image"
+    ]
+  },
   "lit-material-bottom-sheet": {
     "package": "@lit-material/sheet",
     "className": "LitMaterialBottomSheet",
@@ -1237,6 +1259,37 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "cssParts": [
       "empty-state",
       "headline"
+    ]
+  },
+  "lit-material-error-card": {
+    "package": "@lit-material/error-card",
+    "className": "LitMaterialErrorCard",
+    "attributes": {
+      "alert": "boolean",
+      "details": "string",
+      "headline": "string",
+      "open": "boolean",
+      "variant": "\"error\" | \"warning\""
+    },
+    "events": [
+      "toggle"
+    ],
+    "slots": [
+      "",
+      "actions"
+    ],
+    "cssProperties": [
+      "--lit-material-error-card-details-max-height",
+      "--lit-material-error-card-warning-color",
+      "--lit-material-error-card-warning-container"
+    ],
+    "cssParts": [
+      "card",
+      "copy",
+      "details",
+      "headline",
+      "icon",
+      "toggle"
     ]
   },
   "lit-material-fab": {
@@ -2687,6 +2740,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "closable": "boolean",
       "dirty": "boolean",
       "disabled": "boolean",
+      "pinned": "boolean",
       "selected": "boolean"
     },
     "events": [
@@ -2696,10 +2750,13 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "",
       "icon"
     ],
-    "cssProperties": [],
+    "cssProperties": [
+      "--lit-material-tab-pinned-label-max-width"
+    ],
     "cssParts": [
       "close",
       "focus-ring",
+      "pin",
       "ripple",
       "tab"
     ]
@@ -2748,7 +2805,9 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     },
     "events": [
       "change",
-      "reorder"
+      "reorder",
+      "tabdragout",
+      "tabdrop"
     ],
     "slots": [
       "",
@@ -2989,6 +3048,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     },
     "events": [
       "change",
+      "move",
       "reorder"
     ],
     "slots": [
@@ -2996,6 +3056,8 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     ],
     "cssProperties": [],
     "cssParts": [
+      "drag-ghost",
+      "drop-line",
       "tree"
     ]
   },
@@ -3004,6 +3066,7 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "className": "LitMaterialTreeItem",
     "attributes": {
       "disabled": "boolean",
+      "droppable": "boolean",
       "expanded": "boolean",
       "selected": "boolean"
     },
@@ -3017,7 +3080,9 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
       "leading",
       "trailing"
     ],
-    "cssProperties": [],
+    "cssProperties": [
+      "--lit-material-tree-drop-indicator-color"
+    ],
     "cssParts": [
       "actions",
       "chevron",
@@ -3043,6 +3108,34 @@ export const LIT_ELEMENTS: Record<string, LitElementFacts> = {
     "cssParts": [
       "start",
       "tail"
+    ]
+  },
+  "lit-material-update-banner": {
+    "package": "@lit-material/update-banner",
+    "className": "LitMaterialUpdateBanner",
+    "attributes": {
+      "app-name": "string",
+      "error": "string",
+      "floating": "boolean",
+      "progress": "number",
+      "state": "\"available\" | \"downloading\" | \"ready\" | \"error\"",
+      "version": "string"
+    },
+    "events": [
+      "later",
+      "update"
+    ],
+    "slots": [
+      ""
+    ],
+    "cssProperties": [
+      "--lit-material-update-banner-inset"
+    ],
+    "cssParts": [
+      "actions",
+      "banner",
+      "message",
+      "progress"
     ]
   },
   "lit-material-usage-meter": {
